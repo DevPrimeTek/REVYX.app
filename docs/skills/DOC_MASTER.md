@@ -1,5 +1,5 @@
 # DOC_MASTER — Orchestrator Documentație REVYX
-<!-- docs/skills/DOC_MASTER.md · v1.0.0 · 2026-05 -->
+<!-- docs/skills/DOC_MASTER.md · v1.0.1 · 2026-05 -->
 <!-- CONFIDENȚIAL · Uz Intern · © 2026 REVYX · ITPRO SYSTEM SRL -->
 
 ## Changelog
@@ -7,6 +7,7 @@
 | Versiune | Data | Autor | Note |
 |---|---|---|---|
 | 1.0.0 | 2026-05 | Senior PM | Definiție inițială orchestrator |
+| 1.0.1 | 2026-05 | Senior PM | §3.4 Impact propagation (CLAUDE.md §13) — orchestrator forțează Impact Assessment |
 
 ---
 
@@ -69,8 +70,30 @@ Pe baza modificării cerută:
 - ❌ Nu introduce CRM-isme — REVYX = AOS
 - ❌ Nu folosește culori/fonturi în afara paletei `revyx.md`
 - ❌ Nu omite changelog-ul la nicio modificare
+- ❌ ★ Nu finalizează un PR fără **Impact Assessment** completat (`CLAUDE.md` §13)
 - ✅ Marchează cu `★` orice element nou față de versiunea anterioară
 - ✅ La orice contradicție între documente: BRD prevalează asupra PRD/Tech Spec
+
+### 3.4 ★ Impact Propagation (v1.0.1)
+
+DOC_MASTER **forțează** propagarea modificărilor între documente conform matricei din `CLAUDE.md` §13.2:
+
+| Modificare în | Propagă obligatoriu către | Test obligatoriu |
+|---|---|---|
+| BRD §4-§6 (cerințe) | PRD afectat + Tech Spec impl + Workflow MD | AC re-validate |
+| BRD §7 (scoring) | Tech Spec algorithm | Regression T01-T07 |
+| BRD §8 (entitate) | Tech Spec schema + PRD UI + Workflow MD | Migration up+down |
+| BRD §10 (RBAC) | Tech Spec catalog + PRD UI | Permission resolution + RLS |
+| BRD §4.3 (tenancy) | Tech Spec behavior + PRD per-tenancy + Workflow MD | E2E per tenant_type |
+| `revyx.md` (brand) | Toate documentele care referențiază paleta/tipografia | Visual regression |
+| Skill `SKILL_*` | Toate documentele generate cu acel skill | Doc lint |
+
+**Comportament orchestrator la modificare:**
+
+1. Detectează tipul modificării (vezi tabel)
+2. Identifică TOATE documentele afectate prin grep referințe
+3. Generează update propus pentru fiecare document afectat
+4. Refuză merge dacă vreun document afectat nu e actualizat SAU justificat în Impact Assessment
 
 ---
 
@@ -113,5 +136,5 @@ Niciun document nu poate introduce cerințe noi care nu sunt în BRD. Dacă apar
 
 ---
 
-*docs/skills/DOC_MASTER.md · v1.0.0 · 2026-05 · CONFIDENȚIAL · Uz Intern*
+*docs/skills/DOC_MASTER.md · v1.0.1 · 2026-05 · CONFIDENȚIAL · Uz Intern*
 *REVYX — Real Estate Execution Intelligence · © 2026 REVYX · ITPRO SYSTEM SRL*

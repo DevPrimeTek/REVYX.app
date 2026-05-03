@@ -1,5 +1,5 @@
 # SKILL_WORKFLOW — Workflow & Process Maps Generator
-<!-- docs/skills/SKILL_WORKFLOW.md · v1.0.0 · 2026-05 -->
+<!-- docs/skills/SKILL_WORKFLOW.md · v1.0.1 · 2026-05 -->
 <!-- CONFIDENȚIAL · Uz Intern · © 2026 REVYX · ITPRO SYSTEM SRL -->
 
 ## Changelog
@@ -7,6 +7,7 @@
 | Versiune | Data | Autor | Note |
 |---|---|---|---|
 | 1.0.0 | 2026-05 | Senior PM | Definiție inițială sub-skill |
+| 1.0.1 | 2026-05 | Senior PM | Output checklist extins cu Impact Assessment (CLAUDE.md §13) |
 
 ---
 
@@ -140,6 +141,9 @@ Orice etapă cu SLA (15 min HOT, 2h calificat, 24h warm) trebuie evidențiată c
 - [ ] Error paths documentate
 - [ ] AC din BRD/PRD validate
 - [ ] Footer brandat
+- [ ] **★ Impact Assessment** completat în PR description (`docs/templates/IMPACT_ASSESSMENT.md`)
+- [ ] **★ E2E test specificat pentru happy path al workflow-ului**
+- [ ] **★ AUDIT_LOG events listate explicit** (pentru fiecare etapă cu impact business)
 
 ---
 
@@ -154,5 +158,5 @@ Orice etapă cu SLA (15 min HOT, 2h calificat, 24h warm) trebuie evidențiată c
 
 ---
 
-*docs/skills/SKILL_WORKFLOW.md · v1.0.0 · 2026-05 · CONFIDENȚIAL · Uz Intern*
+*docs/skills/SKILL_WORKFLOW.md · v1.0.1 · 2026-05 · CONFIDENȚIAL · Uz Intern*
 *REVYX — Real Estate Execution Intelligence · © 2026 REVYX · ITPRO SYSTEM SRL*

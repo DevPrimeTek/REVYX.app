@@ -1,10 +1,11 @@
 # CLAUDE.md — REVYX Agent Operating System
-<!-- CLAUDE.md · v1.0.1 · 2026-05 -->
+<!-- CLAUDE.md · v1.1.0 · 2026-05 -->
 <!-- CONFIDENȚIAL · Uz Intern · © 2026 REVYX · ITPRO SYSTEM SRL -->
 
 > Acest fișier este citit de Claude Code la **fiecare sesiune** din acest repo.
 > Conține contextul minim necesar pentru a lucra corect pe REVYX fără brief repetat.
 
+> **v1.1.0 (MINOR)** — ★ regulă nouă obligatorie: §13 Protocol Impact & Testare după orice modificare.
 > **v1.0.1 (PATCH)** — actualizat referința BRD la `v1.1.0` (modele de tenancy + custom roles).
 
 ---
@@ -244,5 +245,89 @@ Orice skill care generează un document **trebuie**:
 
 ---
 
-*CLAUDE.md · v1.0.1 · 2026-05 · CONFIDENȚIAL · Uz Intern*
+## 13. Protocol Impact & Testare ★ (v1.1.0) — OBLIGATORIU
+
+> După **orice** modificare de document sau cod, este **obligatorie** evaluarea impactului și rularea (sau specificarea) testelor relevante. Nu există modificare "izolată" — REVYX e un framework cu dependențe transversale.
+
+### 13.1 Workflow obligatoriu post-modificare
+
+1. **Identifică tipul modificării** (vezi matricea §13.2)
+2. **Completează `IMPACT_ASSESSMENT`** (un mini-bloc în PR description sau commit body — template: `docs/templates/IMPACT_ASSESSMENT.md`)
+3. **Propagă în documente afectate** (BRD ↔ PRD ↔ Tech Spec ↔ Workflow MD)
+4. **Rulează testele specificate** (pentru cod) SAU **listează testele lipsă** (pentru documente, fără cod încă)
+5. **Inclusi rezultatul în PR** — fără rezultat = PR în review block
+
+### 13.2 Matrice impact → propagare → teste
+
+| Tip modificare | Documente afectate | Cod afectat | Teste obligatorii |
+|---|---|---|---|
+| **BRD — cerință business (BR-XX)** | PRD (US-XX), Tech Spec (impl), Workflow MD, AC re-validate | Endpoint handlers, validări | Unit business logic + AC re-run |
+| **Formulă scoring (§7)** | Tech Spec (algoritm) | `scoring/*.ts`, recalc job | Regression T01-T07 (BRD §12) + recalc rolling 90 zile pentru APS/DHI |
+| **Entitate nouă în data model (§8)** | Tech Spec (schema), PRD (UI), Workflow MD (states) | Migration SQL, RLS policy, FK pe entități asociate, AUDIT_LOG events | Migration up+down test, RLS bypass test, FK cascade test |
+| **Permisiune nouă / RBAC change (§10)** | Tech Spec (catalog), PRD (UI) | Seed migration, `@requirePermission` decorators, RLS policies, JWT `perms_hash` rotation | Permission resolution test (cu lanț moștenire), custom role validation, RLS test |
+| **Tenancy model nou (§4.3)** | BRD §4.3 + PRD onboarding + Workflow tenant-provisioning | `TENANT_BEHAVIOR` table, Lead Firewall logic, distribuție leads, UI conditional, Subscription tier | E2E pentru fiecare tenant_type, behavior switch test |
+| **API contract change** | Tech Spec OpenAPI, PRD integrări | Frontend, mobile, integrări externe, versioning (`/v1/` → `/v2/`) | Integration tests, contract tests (Pact), backwards-compat check |
+| **UI/UX change** | PRD (wireframes, AC), brand-config dacă atinge paletă | Frontend components, mobile parity, i18n RO/RU | E2E (Playwright), accessibility (axe-core, WCAG 2.1 AA), visual regression |
+| **Schema migration** | Tech Spec migration plan | `migrations/NNNN_*.sql`, ORM types, queries afectate | Migration up+down, backfill plan, rollback test, downtime estimation |
+| **Performance budget change** | BRD §6.2 NFR, Tech Spec budget | Alert thresholds, monitoring | k6 load test, p50/p99 verificate vs. NFR, dashboard SLO |
+| **Security / GDPR change (§9)** | BRD §9, PRD consent flow, Privacy Policy, Cookie Policy | AUDIT_LOG events, retention jobs, encryption | Penetration test, DPIA dacă PII processing change, audit log integrity test |
+| **Brand-config change (`revyx.md`)** | Toate documentele care referențiază paleta/tipografia | Frontend tokens, mobile tokens | Visual regression, contrast WCAG AA |
+| **Skill definition change (`SKILL_*`)** | Toate documentele generate ulterior cu acel skill | — | Doc lint: header structure, version increment, changelog row, footer |
+
+### 13.3 Tipuri de teste recunoscute
+
+| Tip | Scop | Unelte (când există cod) |
+|---|---|---|
+| **Doc lint** | Header standard, versiune incrementată, changelog row, footer, anchor TOC | `markdownlint`, custom script |
+| **Unit** | Logica izolată (formule, validări) | `vitest`, `jest` |
+| **Integration** | DB + Redis + API end-to-end intern | `testcontainers` |
+| **E2E** | Flow user complet | `Playwright` |
+| **Load** | NFR-uri performanță | `k6` |
+| **Security** | RLS bypass, SQL injection, JWT tampering | `OWASP ZAP`, manual |
+| **Regression scoring** | Edge cases T01-T07 din BRD §12 | Suite dedicat în `tests/regression/scoring.spec.ts` |
+| **Contract** | API contract între servicii / consumatori | `Pact`, OpenAPI diff |
+| **Visual regression** | UI nu se rupe la modificări CSS/component | `Percy`, `Chromatic` |
+| **Accessibility** | WCAG 2.1 AA | `axe-core`, manual screen reader |
+| **Cross-doc consistency** | BRD ↔ PRD ↔ Tech Spec referențiază aceleași BR-XX, AC-XX, entități | Custom script (planificat) |
+
+### 13.4 Reguli inflexibile
+
+- ❌ **NU comita** modificări fără rularea testelor existente (sau, dacă codul nu există încă, fără listarea testelor necesare)
+- ❌ **NU închide** un PR fără secțiunea Impact Assessment completată
+- ❌ **NU modifica** o formulă scoring fără re-run regression T01-T07
+- ❌ **NU adăuga** o entitate fără migration up+down testat
+- ❌ **NU adăuga** o permisiune fără update seed + roluri custom validate
+- ✅ **DA** — la modificări doar de documentație, listează explicit "Code tests: N/A (docs-only)" + cross-doc lint
+- ✅ **DA** — pentru modificări mari, deschide întâi un Impact Assessment ca PR separat (review-uiat) ÎNAINTE de implementare
+
+### 13.5 Format Impact Assessment în PR description
+
+Vezi template complet: `docs/templates/IMPACT_ASSESSMENT.md`. Minim obligatoriu:
+
+```markdown
+## Impact Assessment
+
+**Tip modificare:** [BRD cerință | Formulă scoring | Entitate | RBAC | Tenancy | API | UI | Schema | Performance | Security | Brand | Skill]
+
+**Documente actualizate:** [listă]
+
+**Cod afectat:** [listă fișiere SAU "N/A (docs-only)"]
+
+**Teste rulate:**
+- [ ] Doc lint
+- [ ] Unit
+- [ ] Integration
+- [ ] E2E
+- [ ] Regression T01-T07 (dacă scoring)
+- [ ] Migration up+down (dacă schema)
+- [ ] Cross-doc consistency
+
+**Riscuri identificate & mitigări:** [text]
+
+**Backwards compatibility:** [păstrată | break documented în Tech Spec §17]
+```
+
+---
+
+*CLAUDE.md · v1.1.0 · 2026-05 · CONFIDENȚIAL · Uz Intern*
 *REVYX — Real Estate Execution Intelligence · © 2026 REVYX · ITPRO SYSTEM SRL*

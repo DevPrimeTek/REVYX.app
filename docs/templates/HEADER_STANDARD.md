@@ -1,5 +1,5 @@
 # Template — Header Standard REVYX
-<!-- docs/templates/HEADER_STANDARD.md · v1.0.0 · 2026-05 -->
+<!-- docs/templates/HEADER_STANDARD.md · v1.0.1 · 2026-05 -->
 <!-- CONFIDENȚIAL · Uz Intern · © 2026 REVYX · ITPRO SYSTEM SRL -->
 
 > Template-ul oficial pentru orice document Markdown din proiectul REVYX.
@@ -9,6 +9,7 @@
 | Versiune | Data | Autor | Note |
 |---|---|---|---|
 | 1.0.0 | 2026-05 | Senior PM | Template inițial |
+| 1.0.1 | 2026-05 | Senior PM | Checklist pre-commit extins cu Impact Assessment (CLAUDE.md §13) |
 
 ---
 
@@ -125,10 +126,13 @@ Ultimul bloc al oricărui document:
 - [ ] Footer prezent
 - [ ] Filename respectă convenția: `[TIP]_REVYX_v[X.Y.Z].md`
 - [ ] Validate cu `docs/brand-configs/revyx.md` (paletă, ton)
-- [ ] Validate cu `docs/BRD_REVYX_v1.0.0.md` (cerințe business)
+- [ ] Validate cu `docs/BRD_REVYX_v1.1.0.md` (cerințe business)
 - [ ] Niciun secret / date reale clienți în exemple
+- [ ] **★ Impact Assessment completat în PR description** (template: `docs/templates/IMPACT_ASSESSMENT.md` · regulă: `CLAUDE.md` §13)
+- [ ] **★ Documente afectate identificate și actualizate** (BRD ↔ PRD ↔ Tech Spec ↔ Workflow MD)
+- [ ] **★ Cross-doc consistency verificat** — referințe BR-XX, AC-XX, entități aliniate
 
 ---
 
-*docs/templates/HEADER_STANDARD.md · v1.0.0 · 2026-05 · CONFIDENȚIAL · Uz Intern*
+*docs/templates/HEADER_STANDARD.md · v1.0.1 · 2026-05 · CONFIDENȚIAL · Uz Intern*
 *REVYX — Real Estate Execution Intelligence · © 2026 REVYX · ITPRO SYSTEM SRL*

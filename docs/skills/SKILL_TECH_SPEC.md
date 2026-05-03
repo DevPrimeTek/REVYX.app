@@ -1,5 +1,5 @@
 # SKILL_TECH_SPEC — Technical Specification Generator
-<!-- docs/skills/SKILL_TECH_SPEC.md · v1.0.0 · 2026-05 -->
+<!-- docs/skills/SKILL_TECH_SPEC.md · v1.0.1 · 2026-05 -->
 <!-- CONFIDENȚIAL · Uz Intern · © 2026 REVYX · ITPRO SYSTEM SRL -->
 
 ## Changelog
@@ -7,6 +7,7 @@
 | Versiune | Data | Autor | Note |
 |---|---|---|---|
 | 1.0.0 | 2026-05 | Senior PM | Definiție inițială sub-skill |
+| 1.0.1 | 2026-05 | Senior PM | Output checklist extins cu Impact Assessment (CLAUDE.md §13) |
 
 ---
 
@@ -130,6 +131,12 @@ function calculateLeadScore(lead: Lead): number {
 - [ ] Migration strategy
 - [ ] Risk table
 - [ ] Footer brandat
+- [ ] **★ Impact Assessment** completat în PR description (`docs/templates/IMPACT_ASSESSMENT.md`)
+- [ ] **★ Migration up+down test specificat ca obligatoriu** (dacă atinge schema)
+- [ ] **★ RLS bypass test specificat** (dacă atinge tenant_id sau RBAC)
+- [ ] **★ Regression scoring T01-T07 specificat** (dacă atinge formulă scoring)
+- [ ] **★ Load test (k6) specificat** (dacă atinge NFR performanță)
+- [ ] **★ Security scan specificat** (dacă atinge auth / GDPR)
 
 ---
 
@@ -144,5 +151,5 @@ function calculateLeadScore(lead: Lead): number {
 
 ---
 
-*docs/skills/SKILL_TECH_SPEC.md · v1.0.0 · 2026-05 · CONFIDENȚIAL · Uz Intern*
+*docs/skills/SKILL_TECH_SPEC.md · v1.0.1 · 2026-05 · CONFIDENȚIAL · Uz Intern*
 *REVYX — Real Estate Execution Intelligence · © 2026 REVYX · ITPRO SYSTEM SRL*

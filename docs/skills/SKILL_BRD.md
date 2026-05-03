@@ -1,5 +1,5 @@
 # SKILL_BRD — Business Requirements Document Generator
-<!-- docs/skills/SKILL_BRD.md · v1.0.1 · 2026-05 -->
+<!-- docs/skills/SKILL_BRD.md · v1.0.2 · 2026-05 -->
 <!-- CONFIDENȚIAL · Uz Intern · © 2026 REVYX · ITPRO SYSTEM SRL -->
 
 ## Changelog
@@ -8,6 +8,7 @@
 |---|---|---|---|
 | 1.0.0 | 2026-05 | Senior PM | Definiție inițială sub-skill |
 | 1.0.1 | 2026-05 | Senior PM | Aliniat cu BRD v1.1.0: 13 entități · 6 modele tenancy · custom roles |
+| 1.0.2 | 2026-05 | Senior PM | Output checklist extins cu Impact Assessment (CLAUDE.md §13) |
 
 ---
 
@@ -99,6 +100,9 @@ Phase 0 Security este **BLOCANTĂ**. Niciun alt cod nu se scrie fără ea.
 - [ ] Min 20 Acceptance Criteria + 7 Edge Cases (T01-T07)
 - [ ] Glosar min 25 termeni
 - [ ] Footer brandat
+- [ ] **★ Impact Assessment** completat în PR description (`docs/templates/IMPACT_ASSESSMENT.md`)
+- [ ] **★ Documente afectate identificate**: PRD, Tech Spec, Workflow MD, brand-config (dacă atinge UI)
+- [ ] **★ Dacă atinge formulă scoring**: regression T01-T07 listat ca obligatoriu
 
 ---
 
@@ -113,5 +117,5 @@ Phase 0 Security este **BLOCANTĂ**. Niciun alt cod nu se scrie fără ea.
 
 ---
 
-*docs/skills/SKILL_BRD.md · v1.0.1 · 2026-05 · CONFIDENȚIAL · Uz Intern*
+*docs/skills/SKILL_BRD.md · v1.0.2 · 2026-05 · CONFIDENȚIAL · Uz Intern*
 *REVYX — Real Estate Execution Intelligence · © 2026 REVYX · ITPRO SYSTEM SRL*

@@ -1,5 +1,5 @@
 # SKILL_PRD — Product Requirements Document Generator
-<!-- docs/skills/SKILL_PRD.md · v1.0.0 · 2026-05 -->
+<!-- docs/skills/SKILL_PRD.md · v1.0.1 · 2026-05 -->
 <!-- CONFIDENȚIAL · Uz Intern · © 2026 REVYX · ITPRO SYSTEM SRL -->
 
 ## Changelog
@@ -7,6 +7,7 @@
 | Versiune | Data | Autor | Note |
 |---|---|---|---|
 | 1.0.0 | 2026-05 | Senior PM | Definiție inițială sub-skill |
+| 1.0.1 | 2026-05 | Senior PM | Output checklist extins cu Impact Assessment (CLAUDE.md §13) |
 
 ---
 
@@ -109,6 +110,10 @@ so that I can respond within SLA.
 - [ ] Toate culorile și font-urile referențiate sunt în `revyx.md`
 - [ ] Out of Scope completat (nu lăsa gol)
 - [ ] Footer brandat
+- [ ] **★ Impact Assessment** completat în PR description (`docs/templates/IMPACT_ASSESSMENT.md`)
+- [ ] **★ Cross-link cu BRD verificat**: fiecare US-XX referențiază BR-XX existent
+- [ ] **★ E2E + Accessibility (WCAG 2.1 AA) listate ca obligatorii** (chiar dacă cod încă nu există)
+- [ ] **★ Visual regression listat dacă atinge brand-config**
 
 ---
 
@@ -122,5 +127,5 @@ so that I can respond within SLA.
 
 ---
 
-*docs/skills/SKILL_PRD.md · v1.0.0 · 2026-05 · CONFIDENȚIAL · Uz Intern*
+*docs/skills/SKILL_PRD.md · v1.0.1 · 2026-05 · CONFIDENȚIAL · Uz Intern*
 *REVYX — Real Estate Execution Intelligence · © 2026 REVYX · ITPRO SYSTEM SRL*
