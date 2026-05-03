@@ -1,5 +1,5 @@
 # SKILL_BRD — Business Requirements Document Generator
-<!-- docs/skills/SKILL_BRD.md · v1.0.0 · 2026-05 -->
+<!-- docs/skills/SKILL_BRD.md · v1.0.1 · 2026-05 -->
 <!-- CONFIDENȚIAL · Uz Intern · © 2026 REVYX · ITPRO SYSTEM SRL -->
 
 ## Changelog
@@ -7,6 +7,7 @@
 | Versiune | Data | Autor | Note |
 |---|---|---|---|
 | 1.0.0 | 2026-05 | Senior PM | Definiție inițială sub-skill |
+| 1.0.1 | 2026-05 | Senior PM | Aliniat cu BRD v1.1.0: 13 entități · 6 modele tenancy · custom roles |
 
 ---
 
@@ -34,9 +35,9 @@ Orice BRD generat trebuie să conțină **toate** secțiunile, în ordine:
 | 5 | Perimetrul Soluției — 7 Piloni | 1 pilon = 1 sub-secțiune cu scop, funcționalități, output |
 | 6 | Cerințe de Business | Funcționale (BR-XX) + Non-Funcționale (NFR-XX) |
 | 7 | Sistemul de Scoring — 8 Formule | LS, PS, IS, DP, NBA, TS, APS, DHI cu formula completă |
-| 8 | Data Model — 9 Entități | Câmpuri obligatorii per entitate |
+| 8 | Data Model — 13 Entități | Câmpuri obligatorii per entitate (9 core + 4 tenancy) |
 | 9 | Securitate & Conformitate | Auth · Rate limit · Webhook · GDPR · Concurență · Multi-tenant |
-| 10 | RBAC — 5 Roluri | Matrice permisiuni aditive |
+| 10 | RBAC — System Roles + Custom Roles | 5 system roles · roluri suplimentare per tenancy · custom role builder |
 | 11 | Roadmap — 4 Faze | Phase 0 (blocant) → Phase 3 |
 | 12 | Acceptance Criteria | AC-XX-XX per pilon + Edge Cases T01-T0N |
 | 13 | KPI & Metrici | Baseline · țintă · fază |
@@ -59,8 +60,18 @@ Orice BRD generat trebuie să conțină **toate** secțiunile, în ordine:
 
 ### Entități (BRD §8)
 
-Cele 4 entități noi sunt **obligatorii**: `SHOWING`, `OFFER`, `ACTIVITY`, `AUDIT_LOG`.
+Cele 4 entități core noi (v1.1) sunt **obligatorii**: `SHOWING`, `OFFER`, `ACTIVITY`, `AUDIT_LOG`.
 `AUDIT_LOG` este APPEND-ONLY la nivel de BD.
+
+Cele 4 entități tenancy (v1.1.0) sunt **obligatorii**: `TENANT`, `ROLE`, `PERMISSION`, `ROLE_PERMISSION`.
+Toate entitățile core primesc `tenant_id` FK → TENANT.
+
+### Modele de Tenancy (BRD §4.3)
+
+REVYX suportă **6 modele**: `SOLO`, `NETWORK_FLAT`, `NETWORK_LED`, `AGENCY`, `AGENCY_CUSTOM`, `FRANCHISE`.
+- `SOLO` + `AGENCY` → Phase 1
+- `NETWORK_FLAT` + `NETWORK_LED` + `AGENCY_CUSTOM` → Phase 2
+- `FRANCHISE` → Phase 3
 
 ### Securitate (BRD §9)
 
@@ -80,8 +91,10 @@ Phase 0 Security este **BLOCANTĂ**. Niciun alt cod nu se scrie fără ea.
 - [ ] Header standard conform `HEADER_STANDARD.md`
 - [ ] Cuprins cu toate cele 16 secțiuni
 - [ ] Toate cele 8 formule scoring prezente
-- [ ] Toate cele 9 entități documentate
-- [ ] Tabelul RBAC cu 5 roluri × ≥7 permisiuni
+- [ ] Toate cele 13 entități documentate (9 core + 4 tenancy)
+- [ ] Cele 6 modele de tenancy documentate cu reguli per-model
+- [ ] Tabelul RBAC cu 5 system roles × ≥7 permisiuni
+- [ ] Custom Roles documentate (Agency Pro tier)
 - [ ] Min 12 BR-uri + Min 10 NFR-uri
 - [ ] Min 20 Acceptance Criteria + 7 Edge Cases (T01-T07)
 - [ ] Glosar min 25 termeni
@@ -100,5 +113,5 @@ Phase 0 Security este **BLOCANTĂ**. Niciun alt cod nu se scrie fără ea.
 
 ---
 
-*docs/skills/SKILL_BRD.md · v1.0.0 · 2026-05 · CONFIDENȚIAL · Uz Intern*
+*docs/skills/SKILL_BRD.md · v1.0.1 · 2026-05 · CONFIDENȚIAL · Uz Intern*
 *REVYX — Real Estate Execution Intelligence · © 2026 REVYX · ITPRO SYSTEM SRL*

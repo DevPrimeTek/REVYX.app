@@ -1,9 +1,11 @@
 # CLAUDE.md — REVYX Agent Operating System
-<!-- CLAUDE.md · v1.0.0 · 2026-05 -->
+<!-- CLAUDE.md · v1.0.1 · 2026-05 -->
 <!-- CONFIDENȚIAL · Uz Intern · © 2026 REVYX · ITPRO SYSTEM SRL -->
 
 > Acest fișier este citit de Claude Code la **fiecare sesiune** din acest repo.
 > Conține contextul minim necesar pentru a lucra corect pe REVYX fără brief repetat.
+
+> **v1.0.1 (PATCH)** — actualizat referința BRD la `v1.1.0` (modele de tenancy + custom roles).
 
 ---
 
@@ -30,7 +32,7 @@
 | Prioritate | Document | Scop |
 |---|---|---|
 | 1 | `docs/brand-configs/revyx.md` | Brand system (culori, font, componente, ton) |
-| 2 | `docs/BRD_REVYX_v1.0.0.md` | Business Requirements (piloni, scoring, RBAC, roadmap) |
+| 2 | `docs/BRD_REVYX_v1.1.0.md` | Business Requirements (piloni, scoring, RBAC, roadmap) |
 | 3 | `docs/PRD_REVYX_*.md` | Product Requirements (când există) |
 | 4 | `docs/TECH_SPEC_REVYX_*.md` | Technical Specification (când există) |
 | 5 | `docs/WORKFLOW_REVYX_*.md` | Workflow & Process Maps (când există) |
@@ -98,6 +100,26 @@ Marcaj modificări în text: `★` = element nou sau actualizat față de versiu
 
 **Excepție de scală:** toate scorurile ∈ [0,1] **cu o singură excepție**: `NBA ∈ [0, 2.0]`.
 
+### 4.1 Modele de Tenancy (BRD §4.3) ★ v1.1.0
+
+REVYX suportă **6 modele organizaționale**. Modelul ales determină Lead Firewall, Override, RBAC și distribuție lead-uri.
+
+| Cod | Descriere | Roluri | Fază |
+|---|---|---|---|
+| `SOLO` | Agent independent (1 user) | `owner` | Phase 1 |
+| `NETWORK_FLAT` | Grup peer-to-peer, lead pool partajat | toți `agent` | Phase 2 |
+| `NETWORK_LED` | Grup cu coordonator | `network_lead` + N `agent` | Phase 2 |
+| `AGENCY` | Companie ierarhică standard | 5 system roles | Phase 1 |
+| `AGENCY_CUSTOM` | Companie cu custom roles (Agency Pro) | system + custom moștenite | Phase 2 |
+| `FRANCHISE` | Multi-agency sub același brand | parent + child tenants · white-label | Phase 3 |
+
+**Reguli inflexibile:**
+- Toate entitățile core (LEAD, PROPERTY, DEAL, AGENT etc.) au `tenant_id` FK → TENANT
+- 5 system roles (`agent`, `senior_agent`, `team_lead`, `manager`, `admin`) sunt imutabile (`is_system=true`, seed la deploy)
+- Custom roles există DOAR pe tier `Agency Pro` (`AGENCY_CUSTOM`)
+- Custom role moștenește OBLIGATORIU dintr-un system role (`parent_role_id` NOT NULL)
+- Permisiunile cu `risk_level=critical` sunt acordabile DOAR rolurilor cu `parent_role_id=admin`
+
 ---
 
 ## 5. SLA (răspuns lead)
@@ -116,7 +138,9 @@ Marcaj modificări în text: `★` = element nou sau actualizat față de versiu
 **Niciun cod de aplicație nu poate fi scris fără completarea Phase 0.**
 
 Checklist:
-- [ ] JWT RS256 + RBAC 5 roluri
+- [ ] JWT RS256 + RBAC system roles (5 default)
+- [ ] ★ Entități TENANT + ROLE + PERMISSION + ROLE_PERMISSION
+- [ ] ★ Multi-tenant izolare: `tenant_id` pe toate entitățile core
 - [ ] GDPR câmpuri pe LEAD + consent management
 - [ ] AUDIT_LOG + middleware logging WRITE
 - [ ] Webhook HMAC-SHA256 verification
@@ -214,8 +238,11 @@ Orice skill care generează un document **trebuie**:
 | **UF** | Urgency Factor (NBA) |
 | **RF** | Risk Factor (DHI) |
 | **SLA** | 15 min (HOT) / 2h (calificat) / 24h (warm) |
+| **TENANT** ★ | Container root al unei instanțe REVYX |
+| **System Role** ★ | Unul din 5 roluri default imutabile |
+| **Custom Role** ★ | Rol definit în-app (Agency Pro), moștenește system role |
 
 ---
 
-*CLAUDE.md · v1.0.0 · 2026-05 · CONFIDENȚIAL · Uz Intern*
+*CLAUDE.md · v1.0.1 · 2026-05 · CONFIDENȚIAL · Uz Intern*
 *REVYX — Real Estate Execution Intelligence · © 2026 REVYX · ITPRO SYSTEM SRL*

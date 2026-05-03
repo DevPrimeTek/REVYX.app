@@ -1,12 +1,13 @@
 # BRD — REVYX Agent Operating System
-<!-- BRD_REVYX_v1.0.0.md · v1.0.0 · 2025-04 -->
-<!-- CONFIDENȚIAL · Uz Intern · © 2025 REVYX · ITPRO SYSTEM SRL -->
+<!-- BRD_REVYX_v1.1.0.md · v1.1.0 · 2026-05 -->
+<!-- CONFIDENȚIAL · Uz Intern · © 2026 REVYX · ITPRO SYSTEM SRL -->
 
 ## Changelog
 
 | Versiune | Data | Autor | Note |
 |---|---|---|---|
 | 1.0.0 | 2025-04 | Senior PM | Document inițial — sinteză din Spec v1.1 + BrandBook v2.2 + Workflow v3 |
+| 1.1.0 | 2026-05 | Senior PM | ★ Modele de Tenancy (6 tipuri: SOLO, NETWORK_FLAT, NETWORK_LED, AGENCY, AGENCY_CUSTOM, FRANCHISE) · ★ Entități noi: TENANT, ROLE, PERMISSION, ROLE_PERMISSION · ★ Custom Roles definibile în-app · ★ glosar extins |
 
 ---
 
@@ -19,9 +20,9 @@
 5. [Perimetrul Soluției — 7 Piloni Funcționali](#5-perimetrul-soluției--7-piloni-funcționali)
 6. [Cerințe de Business Cheie](#6-cerințe-de-business-cheie)
 7. [Sistemul de Scoring AI — 8 Formule](#7-sistemul-de-scoring-ai--8-formule)
-8. [Data Model — 9 Entități](#8-data-model--9-entități)
+8. [Data Model — 13 Entități](#8-data-model--13-entități)
 9. [Securitate & Conformitate](#9-securitate--conformitate)
-10. [RBAC — 5 Roluri](#10-rbac--5-roluri)
+10. [RBAC — System Roles + Custom Roles](#10-rbac--system-roles--custom-roles)
 11. [Roadmap — 4 Faze](#11-roadmap--4-faze)
 12. [Acceptance Criteria Esențiale](#12-acceptance-criteria-esențiale)
 13. [KPI & Metrici de Succes](#13-kpi--metrici-de-succes)
@@ -141,6 +142,41 @@ Property Intake → Pricing AI → Market Fit Score → Go Live → Demand Signa
 | ⚖️ **Notar** | Autentifică actul de vânzare-cumpărare |
 | 📱 **Platforme & Rețele Sociale** | Meta / Google / OLX — surse lead intake |
 | 🤖 **Sistem REVYX AI** | Orchestrator automat al tuturor scorurilor și task-urilor |
+
+### 4.3 Modele de Tenancy ★ (v1.1.0)
+
+REVYX suportă **6 modele organizaționale** distincte. Modelul ales determină comportamentul Lead Firewall, Manager Override, RBAC și algoritmul de distribuție al lead-urilor.
+
+| Cod | Model | Descriere | Roluri active | Lead Firewall | Override | Fază |
+|---|---|---|---|---|---|---|
+| `SOLO` | Agent independent | 1 persoană deține tenant-ul | `owner` (combine agent+admin) | Soft (doar reject lead-uri spam) | N/A | Phase 1 |
+| `NETWORK_FLAT` | Grup egal de agenți | Toți peers, lead pool partajat, fără ierarhie | toți `agent` | Da · distribuție prin scoring + round-robin | Consens (3/5 agenți) sau Skip | Phase 2 |
+| `NETWORK_LED` | Grup cu coordonator | 1 lider + N agenți independenți (ne-angajați) | 1 `network_lead` + N `agent` | Da · standard | `network_lead` | Phase 2 |
+| `AGENCY` | Companie ierarhică standard | 5 roluri implicite, angajați | `agent` → `senior_agent` → `team_lead` → `manager` → `admin` | Da · standard | `manager` / `admin` | Phase 1 |
+| `AGENCY_CUSTOM` | Companie cu roluri custom | Roluri definite din app, moștenire din 5 sistem | Definibile per-tenant (vezi §8 ROLE) | Da · standard | Permisiune `LEAD_FIREWALL_OVERRIDE` | Phase 2 |
+| `FRANCHISE` | Multi-agency sub același brand | Tenant părinte (brand) + tenanți copil (agenții) | Per-agency identic cu AGENCY | Da · cu routing teritorial | Per-agency · brand-level read-only | Phase 3 |
+
+#### 4.3.1 Reguli de comportament per tenancy
+
+| Comportament | SOLO | NETWORK_FLAT | NETWORK_LED | AGENCY | AGENCY_CUSTOM | FRANCHISE |
+|---|---|---|---|---|---|---|
+| Lead Firewall (LS≥0.60 + contact valid) | Aplicat | Aplicat | Aplicat | Aplicat | Aplicat | Aplicat |
+| Manager Override Firewall | N/A | Consens 3/5 | `network_lead` | `manager` | Custom permission | Per-agency |
+| Max 3 task-uri active per agent | Da | Da | Da | Da | Da | Da |
+| Distribuție lead la agent | Owner | Round-robin + LS-weighted | `network_lead` decide sau auto | NBA + APS | NBA + APS + custom rules | NBA + APS + teritoriu |
+| Pipeline view "echipă" | Ascuns | Vizibil tuturor | `network_lead` only | `team_lead+` | Custom permission | Per-agency |
+| Comisioane split (referral) | N/A | Da · auto-calculat | Da · cu fee `network_lead` | N/A (intern) | N/A (intern) | Da · cross-agency |
+| Brand white-label | Nu | Nu | Nu | Nu | Nu | Da · per-agency |
+
+#### 4.3.2 Mapare subscription tier → tenancy
+
+| Tier comercial | Tenancy permise | Limite |
+|---|---|---|
+| **Solo** | `SOLO` | 1 user · 100 leads/lună |
+| **Team** | `NETWORK_FLAT` · `NETWORK_LED` | ≤10 users · 1.000 leads/lună |
+| **Agency** | `AGENCY` | ≤50 users · 10.000 leads/lună |
+| **Agency Pro** | `AGENCY` · `AGENCY_CUSTOM` | ≤200 users · custom roles · scoring weights tunabile |
+| **Enterprise / Franchise** | `FRANCHISE` (+ orice de mai sus) | Nelimitat · multi-tenant ierarhic · white-label |
 
 ---
 
@@ -417,7 +453,7 @@ RF = Risk Factor:
 
 ---
 
-## 8. Data Model — 9 Entități
+## 8. Data Model — 13 Entități
 
 > Entitățile marcate ★ sunt noi în v1.1 și sunt **obligatorii** înainte de dev.
 
@@ -493,6 +529,73 @@ Toate acțiunile WRITE → AUDIT_LOG. **Niciun UPDATE sau DELETE permis la nivel
 | ip_address | INET | Adresa IP utilizator |
 | timestamp | Timestamp TZ IMMUTABLE | Nu poate fi modificat sub nicio condiție |
 
+### Entități tenancy (4) ★ — multi-org support (v1.1.0)
+
+> Entitățile de mai jos suportă cele 6 modele de tenancy din §4.3. **AGENT primește câmp nou `tenant_id` FK → TENANT** (toate entitățile core sunt scopate per tenant).
+
+#### TENANT ★
+
+Container root pentru orice instanță REVYX. Toate entitățile (LEAD, PROPERTY, DEAL, AGENT etc.) se asociază cu un TENANT prin `tenant_id`.
+
+| Câmp | Tip | Specificație |
+|---|---|---|
+| tenant_id | UUID PK | Primary key |
+| tenant_type | Enum | `SOLO` / `NETWORK_FLAT` / `NETWORK_LED` / `AGENCY` / `AGENCY_CUSTOM` / `FRANCHISE` |
+| tenant_parent_id | FK → TENANT nullable | NU NULL doar pentru FRANCHISE (agency copil al brandului) |
+| display_name | String | Numele afișat al tenantului (agenție, network sau persoană SOLO) |
+| legal_name | String nullable | Denumire juridică (IDNO/CUI pentru companie) |
+| subscription_plan | Enum | `solo` / `team` / `agency` / `agency_pro` / `enterprise` |
+| subscription_active | Boolean | Tenant suspendat → blocaj WRITE, păstrare READ |
+| max_users | Int | Limită utilizatori conform tier |
+| max_leads_per_month | Int | Limită lead-uri/lună conform tier |
+| billing_email | String | Email facturare |
+| timezone | String | Default UTC+2 (Chișinău) |
+| currency_default | Enum | EUR (default) / MDL / USD |
+| white_label_config | JSONB nullable | Per-FRANCHISE: brand override (logo, paletă) |
+| created_at / updated_at | Timestamp TZ | Audit temporal |
+
+#### ROLE ★
+
+Definește un rol în cadrul unui tenant. Cele 5 roluri sistem (`agent`, `senior_agent`, `team_lead`, `manager`, `admin`) există ca rânduri sistem (`is_system=true`, `tenant_id=NULL`). Tenanții `AGENCY_CUSTOM` pot defini roluri proprii care moștenesc dintr-un sistem role.
+
+| Câmp | Tip | Specificație |
+|---|---|---|
+| role_id | UUID PK | Primary key |
+| tenant_id | FK → TENANT nullable | NULL pentru sistem roles · NOT NULL pentru custom |
+| role_code | String | Slug unic per tenant (ex: `senior_agent`, `lead_qualifier`) |
+| role_name | String | Numele afișat |
+| parent_role_id | FK → ROLE nullable | Moștenire permisiuni din rol părinte (ex: `lead_qualifier` extinde `senior_agent`) |
+| is_system | Boolean | `true` pentru cele 5 roluri default · imutabile |
+| description | Text nullable | Descriere business |
+| created_at / updated_at | Timestamp TZ | Audit |
+
+#### PERMISSION ★
+
+Listă atomică de permisiuni. Read-only (gestionată de sistem la deploy). Tenanții nu pot crea permisiuni noi — doar le compun în roluri custom.
+
+| Câmp | Tip | Specificație |
+|---|---|---|
+| permission_id | UUID PK | Primary key |
+| code | String unique | Ex: `LEAD_FIREWALL_OVERRIDE` · `AUDIT_LOG_READ` · `SCORING_WEIGHTS_TUNE` |
+| description | Text | Descriere permisiune |
+| risk_level | Enum | `low` / `medium` / `high` / `critical` (pentru audit) |
+| applies_to_tenancy | Array<Enum> | Modele de tenancy unde permisiunea este aplicabilă |
+
+#### ROLE_PERMISSION ★ — junction
+
+| Câmp | Tip | Specificație |
+|---|---|---|
+| role_id | FK → ROLE | Compoziție |
+| permission_id | FK → PERMISSION | Compoziție |
+| granted_at | Timestamp TZ | Audit |
+| granted_by | FK → AGENT nullable | NULL = sistem · NOT NULL = admin tenant |
+
+PK compus: `(role_id, permission_id)`.
+
+> **Modificări entități existente (v1.1.0):**
+> - `AGENT` primește `tenant_id` FK → TENANT (NOT NULL) și `role_id` FK → ROLE (înlocuiește enum-ul fix de rol)
+> - `LEAD`, `PROPERTY`, `DEAL`, `SHOWING`, `OFFER`, `ACTIVITY`, `AUDIT_LOG` primesc `tenant_id` FK → TENANT (NOT NULL) pentru izolare multi-tenant
+
 ---
 
 ## 9. Securitate & Conformitate
@@ -544,9 +647,11 @@ Model per agenție SAU feature isolation cu `tenant_id` în training data.
 
 ---
 
-## 10. RBAC — 5 Roluri
+## 10. RBAC — System Roles + Custom Roles
 
-Permisiuni aditive (fiecare rol include permisiunile rolului precedent).
+### 10.1 System Roles (5 default)
+
+Permisiuni aditive (fiecare rol include permisiunile rolului precedent). Roluri imutabile la nivel de sistem (`is_system=true`).
 
 | Permisiune | agent | senior_agent | team_lead | manager | admin |
 |---|:---:|:---:|:---:|:---:|:---:|
@@ -557,6 +662,50 @@ Permisiuni aditive (fiecare rol include permisiunile rolului precedent).
 | AUDIT_LOG access | ❌ | ❌ | ❌ | Read-only | Full |
 | GDPR Tools & Export | ❌ | ❌ | ❌ | Export | Full |
 | Config sistem & Scoring weights | ❌ | ❌ | ❌ | ❌ | ✅ |
+| Tenant management (users, billing) | ❌ | ❌ | ❌ | ❌ | ✅ |
+
+### 10.2 Roluri suplimentare per Tenancy ★ (v1.1.0)
+
+| Rol | Tenancy | Notă |
+|---|---|---|
+| `owner` | `SOLO` | Combine toate permisiunile (agent + admin) într-un singur user |
+| `network_lead` | `NETWORK_LED` | Are `LEAD_FIREWALL_OVERRIDE` + vizibilitate pool · NU are `SCORING_WEIGHTS_TUNE` |
+| `network_member` | `NETWORK_FLAT` · `NETWORK_LED` | Echivalent `agent`, dar cu lead pool partajat |
+| `franchise_admin` | `FRANCHISE` | Admin la nivel de brand (tenant părinte) · read-only pe agenții copii |
+
+### 10.3 Custom Roles ★ (AGENCY_CUSTOM)
+
+Tenanții pe planul `Agency Pro` pot crea roluri custom:
+
+- Fiecare custom role moștenește dintr-un **system role** (`parent_role_id` obligatoriu)
+- Custom role poate **adăuga** permisiuni atomice din `PERMISSION`, **nu poate scădea** sub setul rolului părinte
+- Permisiuni cu `risk_level=critical` (ex: `SCORING_WEIGHTS_TUNE`, `AUDIT_LOG_FULL`) sunt acordabile **doar** dacă `parent_role_id = admin`
+- Modificările la roluri custom sunt logate în AUDIT_LOG cu `action=ROLE_DEFINITION_CHANGED`
+
+**Exemple roluri custom valide:**
+
+| Custom Role | Parent | Permisiuni adiționale |
+|---|---|---|
+| `lead_qualifier` | `senior_agent` | `LEAD_BULK_REASSIGN` |
+| `compliance_officer` | `manager` | `GDPR_FULL_EXPORT` · `AUDIT_LOG_FULL` (read) |
+| `regional_manager` | `manager` | `MULTI_TEAM_VIEW` |
+
+### 10.4 Permisiuni atomice (extras — listă completă în Tech Spec)
+
+| Code | Risk | Descriere |
+|---|---|---|
+| `LEAD_OWN_RW` | low | CRUD pe lead-urile proprii |
+| `LEAD_TEAM_R` | medium | Vizibilitate lead-uri echipă |
+| `LEAD_FIREWALL_OVERRIDE` | high | Forțare lead sub LS threshold |
+| `DEAL_TEAM_R` | medium | Vizibilitate deal-uri echipă |
+| `AUDIT_LOG_READ` | high | Citire AUDIT_LOG |
+| `AUDIT_LOG_FULL` | critical | Acces complet AUDIT_LOG |
+| `GDPR_EXPORT` | high | Export date GDPR |
+| `GDPR_ERASURE` | critical | Executare cerere ștergere |
+| `SCORING_WEIGHTS_TUNE` | critical | Modificare ponderi formule scoring |
+| `TENANT_MANAGE` | critical | Management tenant (users, billing, plan) |
+| `ROLE_DEFINITION_RW` | critical | Creare/editare roluri custom (doar Agency Pro) |
+| `WHITE_LABEL_CONFIG` | high | Configurare brand per-agency (FRANCHISE) |
 
 ---
 
@@ -566,7 +715,9 @@ Permisiuni aditive (fiecare rol include permisiunile rolului precedent).
 
 > Niciun alt cod de aplicație nu poate fi scris înainte de completarea acestei faze.
 
-- JWT RS256 + RBAC 5 roluri
+- JWT RS256 + RBAC system roles (5 default)
+- ★ Entitate TENANT + tenant_id pe toate entitățile core (multi-tenant ready)
+- ★ Entitate ROLE + PERMISSION + ROLE_PERMISSION (system roles seed la deploy)
 - GDPR câmpuri LEAD + consent management
 - AUDIT_LOG + middleware logging
 - Webhook HMAC-SHA256 verification
@@ -575,6 +726,8 @@ Permisiuni aditive (fiecare rol include permisiunile rolului precedent).
 
 ### Phase 1 — Core (Luna 1–3)
 
+- Tenancy modes activate: `SOLO` + `AGENCY` ★
+- Tenant Onboarding Flow (signup → tenant_type selection → seed roles) ★
 - Property Management + câmpuri tehnice noi
 - Lead Management + câmpuri GDPR
 - Lead Score cu LS_initial = 0.30
@@ -583,21 +736,27 @@ Permisiuni aditive (fiecare rol include permisiunile rolului precedent).
 - Entitate OFFER + lanț oferte ★
 - Entitate ACTIVITY + log interacțiuni ★
 - Showcase Links: rate limiting + 410 page
-- Agent Dashboard cu APS_default = 0.65
+- Agent Dashboard cu APS_default = 0.65 (UI adaptat per tenant_type) ★
 
 ### Phase 2 — Intelligence (Luna 4–6)
 
+- Tenancy modes activate: `NETWORK_FLAT` + `NETWORK_LED` + `AGENCY_CUSTOM` ★
+- Custom Role Builder UI (Agency Pro tier) ★
 - Match Engine cu IS Formula completă
 - DP complet cu IS calculabil
 - NBA Score scala [0, 2.0] + UTC+2
-- Lead Firewall + Manager Override + AUDIT
+- Lead Firewall + Manager Override + AUDIT (comportament per tenancy ★)
 - Escalation Protocol 3 niveluri SLA ★
 - DHI cu TF_default = 0.70
 - Negotiation cu OFFER chain history
 - Concurrent access protection (optimistic locking) ★
+- Lead pool sharing pentru NETWORK_FLAT (round-robin + LS-weighted) ★
 
 ### Phase 3 — Optimization (Luna 7–12)
 
+- Tenancy mode `FRANCHISE` activat ★
+- White-label config per-agency (logo, paletă, domeniu custom) ★
+- Cross-agency referral tracking + comision split ★
 - AI Pricing, Advanced Analytics
 - Dynamic Pricing, Deal Loss Analyzer
 - API Public + Webhooks outbound
@@ -747,6 +906,12 @@ Criterii obligatorii pentru release. Lista completă în Spec v1.1, Secțiunea 1
 | TF | Time Factor | Factor temporal pentru DHI · default 0.70 |
 | UF | Urgency Factor | Factor urgență pentru NBA · [1.0 – 2.0] |
 | Δt | Delta timp | Zile de la ultima interacțiune pentru NBA |
+| Tenant ★ | Tenant | Container root al unei instanțe (agent solo, agenție, network sau franciză) |
+| Tenancy Model ★ | Model de Tenancy | Unul din 6: SOLO, NETWORK_FLAT, NETWORK_LED, AGENCY, AGENCY_CUSTOM, FRANCHISE |
+| System Role ★ | Rol Sistem | Unul din 5 roluri default imutabile: agent, senior_agent, team_lead, manager, admin |
+| Custom Role ★ | Rol Custom | Rol definit în-app de tenanți Agency Pro, moștenește dintr-un system role |
+| Permission ★ | Permisiune Atomică | Unitate minimă de acces (ex: LEAD_FIREWALL_OVERRIDE) |
+| White-label ★ | Branding Per-Agency | Override brand (logo, paletă) pentru tenanți copil într-un FRANCHISE |
 
 ---
 
@@ -762,5 +927,5 @@ Criterii obligatorii pentru release. Lista completă în Spec v1.1, Secțiunea 1
 
 ---
 
-*BRD_REVYX_v1.0.0.md · v1.0.0 · 2025-04 · CONFIDENȚIAL · Uz Intern*
-*REVYX — Real Estate Execution Intelligence · © 2025 REVYX · ITPRO SYSTEM SRL*
+*BRD_REVYX_v1.1.0.md · v1.1.0 · 2026-05 · CONFIDENȚIAL · Uz Intern*
+*REVYX — Real Estate Execution Intelligence · © 2026 REVYX · ITPRO SYSTEM SRL*

@@ -46,7 +46,7 @@ REVYX.app/
 |---|---|
 | [`CLAUDE.md`](./CLAUDE.md) | Context per-sesiune pentru Claude Code |
 | [`docs/brand-configs/revyx.md`](./docs/brand-configs/revyx.md) | Brand system complet |
-| [`docs/BRD_REVYX_v1.0.0.md`](./docs/BRD_REVYX_v1.0.0.md) | Business Requirements |
+| [`docs/BRD_REVYX_v1.1.0.md`](./docs/BRD_REVYX_v1.1.0.md) | Business Requirements |
 
 ## Convenții
 
@@ -62,7 +62,7 @@ REVYX.app/
 | Componentă | Versiune | Status |
 |---|---|---|
 | Brand Config | v1.0.0 | ✅ Aprobat |
-| BRD | v1.0.0 | ✅ Aprobat |
+| BRD | v1.1.0 | ✅ Aprobat (★ tenancy + custom roles) |
 | PRD | — | ⏳ În pregătire |
 | Tech Spec | — | ⏳ În pregătire |
 | Workflow MD | — | ⏳ În pregătire |
