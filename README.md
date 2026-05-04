@@ -47,6 +47,14 @@ REVYX.app/
 | [`CLAUDE.md`](./CLAUDE.md) | Context per-sesiune pentru Claude Code |
 | [`docs/brand-configs/revyx.md`](./docs/brand-configs/revyx.md) | Brand system complet |
 | [`docs/BRD_REVYX_v1.0.0.md`](./docs/BRD_REVYX_v1.0.0.md) | Business Requirements |
+| [`docs/templates/HEADER_STANDARD.md`](./docs/templates/HEADER_STANDARD.md) | Header standard documente |
+| [`docs/templates/IMPACT_ASSESSMENT.md`](./docs/templates/IMPACT_ASSESSMENT.md) | Template Impact Assessment (CLAUDE.md §13) |
+| [`docs/tech-spec/TECH_SPEC_REVYX_audit-log_v1.0.0.md`](./docs/tech-spec/TECH_SPEC_REVYX_audit-log_v1.0.0.md) | AUDIT_LOG append-only · Phase 0 |
+| [`docs/tech-spec/TECH_SPEC_REVYX_webhook-intake_v1.0.0.md`](./docs/tech-spec/TECH_SPEC_REVYX_webhook-intake_v1.0.0.md) | Webhook intake HMAC + DLQ · Phase 0 |
+| [`docs/tech-spec/TECH_SPEC_REVYX_tenancy-roles-extension_v1.0.0.md`](./docs/tech-spec/TECH_SPEC_REVYX_tenancy-roles-extension_v1.0.0.md) | 4 custom roles tenancy · Phase 0 |
+| [`docs/workflow/WORKFLOW_REVYX_tenant-lifecycle_v1.0.0.md`](./docs/workflow/WORKFLOW_REVYX_tenant-lifecycle_v1.0.0.md) | Lifecycle tenant: ACTIVE → DELETED |
+| [`docs/legal/privacy-policy.md`](./docs/legal/privacy-policy.md) | Privacy Policy draft (v0.1) |
+| [`docs/legal/cookie-policy.md`](./docs/legal/cookie-policy.md) | Cookie Policy draft (v0.1) |
 
 ## Convenții
 
@@ -63,10 +71,19 @@ REVYX.app/
 |---|---|---|
 | Brand Config | v1.0.0 | ✅ Aprobat |
 | BRD | v1.0.0 | ✅ Aprobat |
-| PRD | — | ⏳ În pregătire |
-| Tech Spec | — | ⏳ În pregătire |
-| Workflow MD | — | ⏳ În pregătire |
-| Phase 0 Security | — | ⛔ Blocant pentru dev |
+| Templates · HEADER_STANDARD | v1.0.0 | ✅ Aprobat |
+| Templates · IMPACT_ASSESSMENT | v1.0.0 | ✅ Aprobat |
+| Skills · DOC_MASTER + 4 sub-skills | v1.0.0 | ✅ Aprobat |
+| Tech Spec · AUDIT_LOG | v1.0.0 | ✅ Aprobat (Phase 0) |
+| Tech Spec · Webhook Intake | v1.0.0 | ✅ Aprobat (Phase 0) |
+| Tech Spec · Tenancy Roles Extension | v1.0.0 | ✅ Aprobat (Phase 0) |
+| Workflow · Tenant Lifecycle | v1.0.0 | ✅ Aprobat |
+| Privacy Policy (draft) | v0.1.0 | ⏳ LEGAL_REVIEW_PENDING |
+| Cookie Policy (draft) | v0.1.0 | ⏳ LEGAL_REVIEW_PENDING |
+| PRD | — | ⏳ În pregătire (S3) |
+| Tech Spec · Lead Scoring · Property · Showcase | — | ⏳ În pregătire (S3) |
+| Workflow · Lead Lifecycle · Property Onboarding · Showing | — | ⏳ În pregătire (S3) |
+| Phase 0 Security | — | 🟡 Specs livrate · cod aplicație blocat până implementare |
 
 ---
 
