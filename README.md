@@ -52,7 +52,13 @@ REVYX.app/
 | [`docs/tech-spec/TECH_SPEC_REVYX_audit-log_v1.0.0.md`](./docs/tech-spec/TECH_SPEC_REVYX_audit-log_v1.0.0.md) | AUDIT_LOG append-only · Phase 0 |
 | [`docs/tech-spec/TECH_SPEC_REVYX_webhook-intake_v1.0.0.md`](./docs/tech-spec/TECH_SPEC_REVYX_webhook-intake_v1.0.0.md) | Webhook intake HMAC + DLQ · Phase 0 |
 | [`docs/tech-spec/TECH_SPEC_REVYX_tenancy-roles-extension_v1.0.0.md`](./docs/tech-spec/TECH_SPEC_REVYX_tenancy-roles-extension_v1.0.0.md) | 4 custom roles tenancy · Phase 0 |
+| [`docs/tech-spec/TECH_SPEC_REVYX_lead-scoring_v1.0.0.md`](./docs/tech-spec/TECH_SPEC_REVYX_lead-scoring_v1.0.0.md) | Lead Scoring Engine: LS, IS, TS · Lead Firewall · Escalation · Phase 1 |
+| [`docs/tech-spec/TECH_SPEC_REVYX_property_v1.0.0.md`](./docs/tech-spec/TECH_SPEC_REVYX_property_v1.0.0.md) | Property Engine: PS, LF, Pricing AI hooks, pgvector · Phase 1 |
+| [`docs/tech-spec/TECH_SPEC_REVYX_showcase-links_v1.0.0.md`](./docs/tech-spec/TECH_SPEC_REVYX_showcase-links_v1.0.0.md) | Showcase Links: token 6 char · rate limiting · 410 Gone · Phase 1 |
 | [`docs/workflow/WORKFLOW_REVYX_tenant-lifecycle_v1.0.0.md`](./docs/workflow/WORKFLOW_REVYX_tenant-lifecycle_v1.0.0.md) | Lifecycle tenant: ACTIVE → DELETED |
+| [`docs/workflow/WORKFLOW_REVYX_lead-lifecycle_v1.0.0.md`](./docs/workflow/WORKFLOW_REVYX_lead-lifecycle_v1.0.0.md) | Lead lifecycle: INTAKE → FIREWALL → QUEUE → CONTACT → SHOWING → OFFER → DEAL/LOST |
+| [`docs/workflow/WORKFLOW_REVYX_property-onboarding_v1.0.0.md`](./docs/workflow/WORKFLOW_REVYX_property-onboarding_v1.0.0.md) | Property onboarding: INTAKE → VALIDATION → PRICING → SHOWCASE_PUBLISH → MONITORING |
+| [`docs/workflow/WORKFLOW_REVYX_showing-flow_v1.0.0.md`](./docs/workflow/WORKFLOW_REVYX_showing-flow_v1.0.0.md) | Showing flow: SCHEDULED → REMINDER → ATTENDED/NO_SHOW → FEEDBACK → IS+LS update |
 | [`docs/legal/privacy-policy.md`](./docs/legal/privacy-policy.md) | Privacy Policy draft (v0.1) |
 | [`docs/legal/cookie-policy.md`](./docs/legal/cookie-policy.md) | Cookie Policy draft (v0.1) |
 
@@ -64,6 +70,17 @@ REVYX.app/
 - **Marcaj modificări**: `★` = nou sau actualizat față de versiunea anterioară
 - **Timezone**: UTC+2 (Chișinău) pentru toate calculele temporale
 - **Currency**: EUR default · MDL · USD
+
+## Roadmap sesiuni
+
+| Sesiune | Conținut | Status |
+|---|---|---|
+| S1 | Brand · BRD · Templates · Skills | ✅ |
+| S2 | Phase 0 Security: AUDIT_LOG · Webhook Intake · Tenancy Roles · Privacy/Cookie | ✅ |
+| S3 | Phase 1 Core: Lead Scoring · Property · Showcase + 3 workflows (lead, property, showing) | ✅ |
+| S4 | Phase 1 rest: NBA Engine · DHI Engine · Match Engine · workflows (escalation, offer-chain, deal-closure) · TECH_SPEC SHOWING dedicat | ⏳ |
+
+---
 
 ## Status
 
@@ -78,12 +95,19 @@ REVYX.app/
 | Tech Spec · Webhook Intake | v1.0.0 | ✅ Aprobat (Phase 0) |
 | Tech Spec · Tenancy Roles Extension | v1.0.0 | ✅ Aprobat (Phase 0) |
 | Workflow · Tenant Lifecycle | v1.0.0 | ✅ Aprobat |
+| Tech Spec · Lead Scoring | v1.0.0 | ✅ Aprobat (Phase 1 — S3) |
+| Tech Spec · Property | v1.0.0 | ✅ Aprobat (Phase 1 — S3) |
+| Tech Spec · Showcase Links | v1.0.0 | ✅ Aprobat (Phase 1 — S3) |
+| Workflow · Lead Lifecycle | v1.0.0 | ✅ Aprobat (S3) |
+| Workflow · Property Onboarding | v1.0.0 | ✅ Aprobat (S3) |
+| Workflow · Showing Flow | v1.0.0 | ✅ Aprobat (S3) |
 | Privacy Policy (draft) | v0.1.0 | ⏳ LEGAL_REVIEW_PENDING |
 | Cookie Policy (draft) | v0.1.0 | ⏳ LEGAL_REVIEW_PENDING |
-| PRD | — | ⏳ În pregătire (S3) |
-| Tech Spec · Lead Scoring · Property · Showcase | — | ⏳ În pregătire (S3) |
-| Workflow · Lead Lifecycle · Property Onboarding · Showing | — | ⏳ În pregătire (S3) |
+| PRD | — | ⏳ În pregătire |
+| Tech Spec · NBA · DHI · Match Engine · SHOWING schema | — | ⏳ În pregătire (S4) |
+| Workflow · Escalation · Offer Chain · Deal Closure | — | ⏳ În pregătire (S4) |
 | Phase 0 Security | — | 🟡 Specs livrate · cod aplicație blocat până implementare |
+| Phase 1 Core Engines | — | 🟡 Specs Lead Scoring + Property + Showcase livrate (S3) |
 
 ---
 
