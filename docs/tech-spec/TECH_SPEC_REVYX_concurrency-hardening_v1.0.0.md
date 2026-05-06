@@ -197,7 +197,9 @@ CREATE TABLE IF NOT EXISTS optimistic_conflict_metric (
 CREATE INDEX IF NOT EXISTS idx_oc_metric_time
   ON optimistic_conflict_metric (tenant_id, occurred_at DESC);
 CREATE INDEX IF NOT EXISTS idx_oc_metric_entity
-  ON optimistic_conflict_metric (entity_type, entity_id, occurred_at DESC);
+  ON optimistic_conflict_metric (tenant_id, entity_type, entity_id, occurred_at DESC);
+CREATE INDEX IF NOT EXISTS idx_oc_metric_source
+  ON optimistic_conflict_metric (tenant_id, source, occurred_at DESC);
 -- Retention: cron purge >30 zile
 ```
 
@@ -206,7 +208,7 @@ CREATE INDEX IF NOT EXISTS idx_oc_metric_entity
 ```sql
 -- Migrare: 0183_circuit_breaker_state.sql
 CREATE TABLE IF NOT EXISTS circuit_breaker_state (
-  breaker_key          TEXT         PRIMARY KEY,     -- ex: 'saga:OFFER_ACCEPT' or 'engine:pricing'
+  breaker_key          TEXT         PRIMARY KEY,     -- ex: 'saga:OFFER_ACCEPT', 'engine:pricing', 'tenant:<uuid>:engine:aps:nps'
   state                TEXT         NOT NULL CHECK (state IN ('CLOSED','HALF_OPEN','OPEN')),
   failures             INTEGER      NOT NULL DEFAULT 0,
   successes            INTEGER      NOT NULL DEFAULT 0,
@@ -215,7 +217,14 @@ CREATE TABLE IF NOT EXISTS circuit_breaker_state (
   config               JSONB        NOT NULL,        -- thresholds, cool-down
   updated_at           TIMESTAMPTZ  NOT NULL DEFAULT NOW()
 );
+CREATE INDEX IF NOT EXISTS idx_breaker_open
+  ON circuit_breaker_state (state, next_attempt_at) WHERE state IN ('OPEN','HALF_OPEN');
 ```
+
+> **Convenție key naming** (păstrată consistent în tot codebase-ul):
+> - Global / per-host: `engine:<name>` (ex: `engine:pricing`) și `saga:<TYPE>` (ex: `saga:OFFER_ACCEPT`)
+> - Per-tenant: prefix `tenant:<uuid>:` (ex: `tenant:abc-123:engine:aps:nps`)
+> - Per-entity hot: `optimistic:<entity_type>` (ex: `optimistic:deal`)
 
 ### 4.5 Constraints & invariants
 

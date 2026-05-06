@@ -51,7 +51,7 @@
 
 1. Output `recommended_price_eur ∈ [low, high]` cu `confidence ∈ [0,1]`.
 2. PF real recalculat cu deviație față de `mid` și inflație via confidence (vezi §6.5).
-3. Alertă `OVERPRICED` când `current_price_eur > high × 1.15`; `UNDERPRICED` când `current_price_eur < low × 0.90`.
+3. Alertă `OVERPRICED` când `current_price_eur > recommended_price_eur × 1.15` (>15% peste mid); `UNDERPRICED` când `current_price_eur < recommended_price_eur × 0.90` (>10% sub mid). Pragurile sunt relative la `mid` (recomandare), nu la marginile benzii — alertele rămân utilizabile chiar când banda este lată din cauza confidence scăzut.
 4. Re-pricing **event-driven** la modificare comparables (INSERT/UPDATE PROPERTY similar în 5km / același district + property_type) sau market_baseline refresh.
 5. NFR: `recommendPrice` p95 < 1s pentru property cu features complete · cascade re-pricing post-comparable update p95 ≤ 30s (NFR-01 derivat).
 6. Niciun PII în input/output (preț + features structurale).
@@ -249,6 +249,7 @@ type PricingRecommendation = {
   highPriceEur: number;
   pricePerSqmEur: number;
   confidence: number;                // [0,1]
+  iqrSqmEur: number;                 // band width raw input (audit + observability)
   factors: {
     geo:    { radiusKm: number; comparableCount: number };
     features: { roomsMatch: number; areaCloseness: number; conditionMatch: number };
@@ -351,18 +352,28 @@ function scoreRecommendation(p: Property, comps: Comparable[], baseline: MarketB
   const confidence = computeConfidence(comps.length, iqr / midSqm, baselineAlignment(adjMidSqm, baseline));
   const k = bandWidthFromConfidence(confidence);                                 // 0.5 → 1.5
 
-  const lowSqm  = adjMidSqm - k * iqr;
-  const highSqm = adjMidSqm + k * iqr;
+  const lowSqm  = Math.max(adjMidSqm * 0.5, adjMidSqm - k * iqr);    // floor 50% din mid (clamp anti-bug)
+  const highSqm = Math.min(adjMidSqm * 1.5, adjMidSqm + k * iqr);    // ceiling 150% din mid
 
   const recommendedPriceEur = Math.round(adjMidSqm * p.area_sqm);
   const lowPriceEur  = Math.round(lowSqm  * p.area_sqm);
   const highPriceEur = Math.round(highSqm * p.area_sqm);
 
-  const alert = evaluateAlert(p.price_amount_eur, lowPriceEur, highPriceEur);
+  const alert = evaluateAlert(p.price_amount_eur, recommendedPriceEur);
 
   return {
     recommendedPriceEur, lowPriceEur, highPriceEur, pricePerSqmEur: adjMidSqm,
-    confidence, factors: { /* … */ }, alertState: alert.state, alertDeltaPct: alert.deltaPct,
+    confidence,
+    iqrSqmEur: iqr,                   // expus pentru persist + observability
+    factors: {
+      geo:    { radiusKm: comps[0]?.distance_km <= RADIUS_PRIMARY_KM ? RADIUS_PRIMARY_KM : RADIUS_FALLBACK_KM, comparableCount: comps.length },
+      features: { roomsMatch: avg(comps.map(c => c.roomsW)), areaCloseness: avg(comps.map(c => c.areaW)), conditionMatch: avg(comps.map(c => c.condW)) },
+      trendAdj,
+      baselineAlignment: baselineAlignment(adjMidSqm, baseline),
+      comparableIds: comps.map(c => c.property_id),
+    },
+    alertState: alert.state,
+    alertDeltaPct: alert.deltaPct,
   };
 }
 
@@ -382,16 +393,21 @@ function bandWidthFromConfidence(conf: number): number {
 
 ### 6.4 Alert thresholds (BR-PR-01/02)
 
-```typescript
-const OVER_THRESHOLD = 1.15;   // current > high * 1.15 → OVERPRICED
-const UNDER_THRESHOLD = 0.90;  // current < low  * 0.90 → UNDERPRICED
+Pragurile sunt relative la `mid` (recomandare), nu la marginile benzii — astfel alertele rămân utilizabile când confidence-ul e mic (bandă largă).
 
-function evaluateAlert(currentEur: number, low: number, high: number) {
-  if (currentEur > high * OVER_THRESHOLD)  return { state: 'OVERPRICED' as const,  deltaPct: (currentEur - high) / high };
-  if (currentEur < low  * UNDER_THRESHOLD) return { state: 'UNDERPRICED' as const, deltaPct: (currentEur - low)  / low  };
-  return { state: 'OK' as const };
+```typescript
+const OVER_THRESHOLD  = 1.15;  // current > mid * 1.15 → OVERPRICED (>15% peste recomandare)
+const UNDER_THRESHOLD = 0.90;  // current < mid * 0.90 → UNDERPRICED (>10% sub recomandare)
+
+function evaluateAlert(currentEur: number, midEur: number): { state: 'OK'|'OVERPRICED'|'UNDERPRICED'; deltaPct?: number } {
+  const deltaPct = (currentEur - midEur) / midEur;
+  if (deltaPct >  0.15) return { state: 'OVERPRICED',  deltaPct };
+  if (deltaPct < -0.10) return { state: 'UNDERPRICED', deltaPct };
+  return { state: 'OK' };
 }
 ```
+
+> **Hysteresis (anti-flap, Phase 3):** alert ON la `>1.15×` / OFF la `<1.10×` (over) și ON la `<0.90×` / OFF la `>0.93×` (under). În Phase 2 fără hysteresis — flapping monitorizat via `pricing_alerts_open_total{state}`.
 
 ### 6.5 PF real (înlocuiește property v1 §6.1 stub `priceFit`)
 
@@ -452,7 +468,7 @@ async function persistAndPublish(tx: Tx, p: Property, rec: PricingRecommendation
     recommended_price_eur: rec.recommendedPriceEur, low_price_eur: rec.lowPriceEur, high_price_eur: rec.highPriceEur,
     recommended_price_sqm_eur: rec.pricePerSqmEur, confidence: rec.confidence,
     comparable_count: rec.factors.geo.comparableCount, comparable_radius_km: rec.factors.geo.radiusKm,
-    iqr_sqm_eur: 0,  // see factors
+    iqr_sqm_eur: rec.iqrSqmEur,
     factors: rec.factors as any,
     alert_state: rec.alertState, alert_delta_pct: rec.alertDeltaPct ?? null,
     is_current: true,

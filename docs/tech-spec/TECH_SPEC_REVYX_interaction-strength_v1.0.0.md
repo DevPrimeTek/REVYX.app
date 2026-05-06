@@ -305,19 +305,12 @@ async function recalcForLead(leadId: string, trigger: ISTrigger): Promise<ISSnap
     const cf      = clamp01(counts.callsQualified   / cfg.normalizerCf);
 
     const is = clamp01(0.40*sf + 0.30*rfShow + 0.20*mf + 0.10*cf);
+    const newComponents = { SF: sf, RF_show: rfShow, MF: mf, CF: cf };
 
-    if (Math.abs(is - Number(lead.interaction_strength)) < 1e-4 && !sameComponents(lead.is_components, { SF: sf, RF_show: rfShow, MF: mf, CF: cf })) {
-      // dacă valoarea finală e ~aceeași dar componentele s-au mutat, păstrăm snapshot dar nu ne deranjam DP cascade
-      // continuăm UPDATE pentru explainability
-    }
+    const isMaterialDelta  = Math.abs(is - Number(lead.interaction_strength)) >= 1e-4;
+    const compsChanged     = !sameComponents(lead.is_components, newComponents);
 
-    await tx.updateTable('lead').set({
-      interaction_strength: is,
-      is_calculated_at: new Date(),
-      is_components: { SF: sf, RF_show: rfShow, MF: mf, CF: cf },
-      version: lead.version + 1n,
-    }).where('lead_id','=',leadId).where('version','=',lead.version).execute();
-
+    // Snapshot scris întotdeauna (audit + explainability), chiar dacă IS nu s-a mișcat material.
     await tx.insertInto('is_calculation_snapshot').values({
       tenant_id: lead.tenant_id, lead_id: leadId,
       is_value: is, sf, rf_show: rfShow, mf, cf,
@@ -325,19 +318,40 @@ async function recalcForLead(leadId: string, trigger: ISTrigger): Promise<ISSnap
       trigger,
     }).execute();
 
+    // UPDATE doar când e cazul (evită version bump inutil + cascade DP zgomotos).
+    if (!isMaterialDelta && !compsChanged) {
+      return { is, sf, rfShow, mf, cf, rawCounts: counts, normalizers: cfg, trigger, calculatedAt: new Date() };
+    }
+
+    await tx.updateTable('lead').set({
+      interaction_strength: is,
+      is_calculated_at: new Date(),
+      is_components: newComponents,
+      version: lead.version + 1n,
+    }).where('lead_id','=',leadId).where('version','=',lead.version).execute();
+
     await auditLogger.record({
       tenantId: lead.tenant_id,
       eventType: 'LEAD_IS_RECALCULATED',
       entityType: 'LEAD', entityId: leadId,
-      oldValue: { interaction_strength: lead.interaction_strength },
-      newValue: { interaction_strength: is, components: { SF: sf, RF_show: rfShow, MF: mf, CF: cf } },
-      metadata: { trigger },
+      oldValue: { interaction_strength: lead.interaction_strength, is_components: lead.is_components },
+      newValue: { interaction_strength: is, components: newComponents },
+      metadata: { trigger, material_delta: isMaterialDelta },
     }, tx);
 
     await invalidateCache(`lead:${leadId}:is`);
-    tx.afterCommit(() => events.publish('lead.is.updated', { leadId, is, components: { SF: sf, RF_show: rfShow, MF: mf, CF: cf } }));
+    // DP cascade publish DOAR la material delta — components-only schimbare nu afectează DP.
+    if (isMaterialDelta) {
+      tx.afterCommit(() => events.publish('lead.is.updated', { leadId, is, components: newComponents }));
+    }
     return { is, sf, rfShow, mf, cf, rawCounts: counts, normalizers: cfg, trigger, calculatedAt: new Date() };
   });
+}
+
+// Egalitate componente cu toleranță numerică
+function sameComponents(prev: any, next: { SF: number; RF_show: number; MF: number; CF: number }): boolean {
+  if (!prev) return false;
+  return ['SF','RF_show','MF','CF'].every(k => Math.abs(Number(prev[k] ?? 0) - Number((next as any)[k])) < 1e-4);
 }
 ```
 

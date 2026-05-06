@@ -163,23 +163,21 @@ CREATE INDEX IF NOT EXISTS idx_offer_manager_review
   ON offer (tenant_id, manager_review_required)
   WHERE manager_review_required = TRUE AND manager_reviewed_at IS NULL;
 
--- Invariant: counter_to_offer_id same deal
-ALTER TABLE offer ADD CONSTRAINT chk_counter_same_deal
-  EXCLUDE USING gist (
-    deal_id WITH =,
-    counter_to_offer_id WITH <>
-  ) WHERE (counter_to_offer_id IS NOT NULL);
--- Note: simpler trigger-based enforcement preferred; vezi 4.5
+-- Invariant: counter_to_offer_id same deal — enforcement în trigger §4.5 (RAISE EXCEPTION OFFER_INVALID_COUNTER_PARENT
+-- la deal_id mismatch). Nu folosim EXCLUDE constraint: semantica EXCLUDE este pentru a interzice perechi de rânduri
+-- conflictuale, nu pentru validare FK cross-row. Trigger BEFORE INSERT (§4.5) face validation explicită cu rollback.
 ```
 
-### 4.2 ALTER `deal` — long_negotiation flag
+### 4.2 ALTER `deal` — long_negotiation flag + manager review state
 
 ```sql
 -- Migrare: 0191_deal_offer_extensions.sql
 ALTER TABLE deal
-  ADD COLUMN IF NOT EXISTS manager_review_required BOOLEAN NOT NULL DEFAULT FALSE,
+  ADD COLUMN IF NOT EXISTS manager_review_required     BOOLEAN     NOT NULL DEFAULT FALSE,
   ADD COLUMN IF NOT EXISTS long_negotiation_flagged_at TIMESTAMPTZ NULL,
-  ADD COLUMN IF NOT EXISTS won_pending_notary_at TIMESTAMPTZ NULL;
+  ADD COLUMN IF NOT EXISTS manager_reviewed_at         TIMESTAMPTZ NULL,    -- ★ gate state for chain_round >= 8
+  ADD COLUMN IF NOT EXISTS manager_reviewed_by         UUID        NULL,
+  ADD COLUMN IF NOT EXISTS won_pending_notary_at       TIMESTAMPTZ NULL;
 
 -- Extindere enum status (vezi DEAL existing CHECK; folosim TEXT cu CHECK actualizat)
 ALTER TABLE deal DROP CONSTRAINT IF EXISTS deal_status_check;
@@ -284,6 +282,15 @@ BEGIN
   -- 3) Manager review gate
   IF NEW.chain_round >= 8 THEN
     NEW.manager_review_required := TRUE;
+    -- Validare gate: DEAL.manager_reviewed_at trebuie să fie setat (aprobare prealabilă).
+    -- Aplicația ar fi trebuit să blocheze înainte cu HttpError 423; trigger e plasă de siguranță.
+    PERFORM 1 FROM deal
+      WHERE deal_id = NEW.deal_id
+        AND manager_reviewed_at IS NOT NULL
+        AND (long_negotiation_flagged_at IS NULL OR manager_reviewed_at >= long_negotiation_flagged_at);
+    IF NOT FOUND THEN
+      RAISE EXCEPTION 'OFFER_MANAGER_REVIEW_REQUIRED' USING ERRCODE = 'check_violation';
+    END IF;
   END IF;
 
   RETURN NEW;
@@ -292,6 +299,23 @@ $$ LANGUAGE plpgsql;
 
 CREATE TRIGGER trg_offer_before_insert BEFORE INSERT ON offer
   FOR EACH ROW EXECUTE FUNCTION offer_before_insert();
+
+-- AFTER INSERT: reset deal.manager_reviewed_at after consuming approval (one-shot per round ≥ 8)
+CREATE OR REPLACE FUNCTION offer_after_insert_consume_review() RETURNS TRIGGER AS $$
+BEGIN
+  IF NEW.chain_round >= 8 THEN
+    UPDATE deal SET
+      manager_reviewed_at = NULL,
+      manager_reviewed_by = NULL,
+      long_negotiation_flagged_at = NOW()
+    WHERE deal_id = NEW.deal_id;
+  END IF;
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER trg_offer_after_insert_consume_review AFTER INSERT ON offer
+  FOR EACH ROW EXECUTE FUNCTION offer_after_insert_consume_review();
 
 -- Single accepted per deal
 CREATE UNIQUE INDEX IF NOT EXISTS uq_offer_accepted_per_deal
@@ -314,8 +338,8 @@ CREATE UNIQUE INDEX IF NOT EXISTS uq_offer_accepted_per_deal
 | `POST` | `/api/v1/offers/:id/reject` | agent (own) | YES | Tranziție rejected |
 | `POST` | `/api/v1/offers/:id/counter` | agent (own) | YES | Counter (creează nou offer + UPDATE parent=countered) |
 | `POST` | `/api/v1/offers/:id/withdraw` | agent (own offered_by) | YES | Withdraw |
-| `POST` | `/api/v1/offers/:id/manager-review/approve` | manager+ | YES | Deblocare chain >7 |
-| `POST` | `/api/v1/offers/:id/manager-review/reject` | manager+ | YES | DEAL=LOST reason=negotiation_stalemate |
+| `POST` | `/api/v1/deals/:dealId/manager-review/approve` | manager+ | YES | Deblocare chain ≥ 8 (operează pe DEAL) |
+| `POST` | `/api/v1/deals/:dealId/manager-review/reject` | manager+ | YES | DEAL=LOST reason=negotiation_stalemate (cancel pending offers) |
 
 ### 5.2 Internal services
 
@@ -326,7 +350,7 @@ interface OfferEngine {
   reject(offerId: string, actor: User, reason?: string): Promise<Offer>;
   counter(parentOfferId: string, input: OfferCounterInput, actor: User): Promise<Offer>;
   withdraw(offerId: string, actor: User, reason: string): Promise<Offer>;
-  managerReview(offerId: string, decision: 'approve'|'reject', actor: User): Promise<Offer>;
+  managerReviewDeal(dealId: string, decision: 'approve'|'reject', actor: User): Promise<Deal>;
 }
 
 type OfferSubmitInput = {
@@ -352,10 +376,25 @@ async function submit(input: OfferSubmitInput, actor: User): Promise<Offer> {
     const deal = await tx.selectFrom('deal').where('deal_id','=',input.dealId).forUpdate().executeTakeFirstOrThrow();
     if (deal.status !== 'NEGOTIATION') throw new Error('DEAL_NOT_IN_NEGOTIATION');
 
-    // Manager gate verificare proactivă
+    // Manager gate: când submit-ul ar produce un offer cu chain_round >= 8 (parent.chain_round >= 7),
+    // necesită aprobare prealabilă pe DEAL. Aprobarea e validă "o singură rundă" — la fiecare nouă
+    // rundă peste 8, gate-ul resetează `manager_reviewed_at` la NULL în trigger §4.5 după INSERT.
     if (input.counterToOfferId) {
       const parent = await tx.selectFrom('offer').where('offer_id','=',input.counterToOfferId).executeTakeFirstOrThrow();
-      if (parent.chain_round >= 7 && !parent.manager_reviewed_at) {
+      if (parent.chain_round >= 7 && !deal.manager_reviewed_at) {
+        // Marchează DEAL pentru manager UI dacă nu e deja flagged
+        if (!deal.manager_review_required) {
+          await tx.updateTable('deal').set({
+            manager_review_required: true,
+            long_negotiation_flagged_at: new Date(),
+            version: deal.version + 1n,
+          }).where('deal_id','=',deal.deal_id).where('version','=',deal.version).execute();
+          await auditLogger.record({
+            tenantId: deal.tenant_id, eventType: 'DEAL_LONG_NEGOTIATION_FLAGGED',
+            entityType: 'DEAL', entityId: deal.deal_id,
+            metadata: { parent_chain_round: parent.chain_round },
+          }, tx);
+        }
         throw new HttpError(423, 'MANAGER_REVIEW_REQUIRED');
       }
     }
@@ -442,38 +481,53 @@ Implementat în `submit()` cu `counterToOfferId` set. Trigger asigură `chain_ro
 
 ### 6.4 Manager review gate flow
 
+Gate-ul operează pe DEAL (nu pe offer): la `chain_round >= 8`, `deal.manager_reviewed_at` e marker-ul
+care permite următoarea submisie. `offer.manager_review_required` rămâne ca audit-marker pe offer-ul care
+a declanșat gate-ul (informațional). Aprobarea e valabilă pentru următoarea rundă; trigger-ul §4.5 resetează
+`deal.manager_reviewed_at` la NULL după fiecare INSERT cu `chain_round >= 8` (deci managerul re-aprobă pentru
+fiecare rundă consecutivă peste 8).
+
 ```typescript
-async function managerReview(offerId: string, decision: 'approve'|'reject', actor: User): Promise<Offer> {
+async function managerReview(dealId: string, decision: 'approve'|'reject', actor: User): Promise<Deal> {
   return db.transaction(async (tx) => {
-    const o = await tx.selectFrom('offer').where('offer_id','=',offerId).forUpdate().executeTakeFirstOrThrow();
-    if (!o.manager_review_required || o.manager_reviewed_at) throw new Error('OFFER_REVIEW_INVALID_STATE');
+    const deal = await tx.selectFrom('deal').where('deal_id','=',dealId).forUpdate().executeTakeFirstOrThrow();
+    if (!deal.manager_review_required) throw new HttpError(409, 'DEAL_REVIEW_INVALID_STATE');
     if (!hasRole(actor, 'manager')) throw new HttpError(403, 'FORBIDDEN');
 
     if (decision === 'reject') {
-      // DEAL → LOST reason='negotiation_stalemate'
-      await tx.updateTable('deal').set({
-        status: 'LOST', lost_reason: 'negotiation_stalemate',
+      // Cancel toate offers pending pe deal + DEAL → LOST
+      await tx.updateTable('offer').set({
+        status: 'withdrawn', responded_at: new Date(),
+        withdraw_reason: 'manager_rejected_long_negotiation',
         version: sql`version + 1`,
-      }).where('deal_id','=',o.deal_id).execute();
+      }).where('deal_id','=',dealId).where('status','=','pending').execute();
+
+      const updated = await tx.updateTable('deal').set({
+        status: 'LOST', lost_reason: 'negotiation_stalemate',
+        manager_reviewed_at: new Date(), manager_reviewed_by: actor.userId,
+        manager_review_required: false,
+        version: deal.version + 1n,
+      }).where('deal_id','=',dealId).where('version','=',deal.version).returningAll().executeTakeFirstOrThrow();
+
       await auditLogger.record({
-        tenantId: o.tenant_id, eventType: 'DEAL_NEGOTIATION_STALEMATE_LOST',
-        entityType: 'DEAL', entityId: o.deal_id,
-        metadata: { chain_round: o.chain_round, manager_user_id: actor.userId },
+        tenantId: deal.tenant_id, eventType: 'DEAL_NEGOTIATION_STALEMATE_LOST',
+        entityType: 'DEAL', entityId: dealId,
+        metadata: { manager_user_id: actor.userId },
       }, tx);
+      return updated;
     }
 
-    const updated = await tx.updateTable('offer').set({
+    // approve: deblocare gate
+    const updated = await tx.updateTable('deal').set({
       manager_reviewed_at: new Date(),
       manager_reviewed_by: actor.userId,
-      manager_review_required: decision === 'approve' ? false : o.manager_review_required,
-      version: sql`version + 1`,
-    }).where('offer_id','=',offerId).returningAll().executeTakeFirstOrThrow();
+      version: deal.version + 1n,
+    }).where('deal_id','=',dealId).where('version','=',deal.version).returningAll().executeTakeFirstOrThrow();
 
     await auditLogger.record({
-      tenantId: o.tenant_id,
-      eventType: decision === 'approve' ? 'OFFER_MANAGER_REVIEW_APPROVED' : 'OFFER_MANAGER_REVIEW_REJECTED',
-      entityType: 'OFFER', entityId: offerId,
-      metadata: { manager_user_id: actor.userId, chain_round: o.chain_round },
+      tenantId: deal.tenant_id, eventType: 'DEAL_MANAGER_REVIEW_APPROVED',
+      entityType: 'DEAL', entityId: dealId,
+      metadata: { manager_user_id: actor.userId },
     }, tx);
     return updated;
   });

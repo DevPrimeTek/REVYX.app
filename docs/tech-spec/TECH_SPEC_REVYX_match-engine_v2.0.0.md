@@ -346,6 +346,30 @@ async function scoreCandidatesForLead(leadId: string, topK = 5): Promise<MatchCa
   }
   return scored.map(s => /* ... */);
 }
+
+// `persistCandidatesV2` reuses the v1 UPSERT pattern (match-engine v1 §6.3) cu doar
+// două diferențe: `engine_version='v2'` setat pe row, plus `ann_distance` și `ann_rank`
+// stocate în coloanele dedicate (vezi 4.3).
+async function persistCandidatesV2(lead: Lead, scored: Array<{ p: Property; ann: ANNHit | null; score: MatchScore }>) {
+  for (const { p, ann, score } of scored) {
+    await db.insertInto('match_candidate').values({
+      tenant_id: lead.tenant_id, lead_id: lead.lead_id, property_id: p.property_id,
+      match_score: score.score, match_components: score.components,
+      hard_stop_reasons: score.hardStopReasons.length ? score.hardStopReasons : null,
+      status: 'CANDIDATE',
+      engine_version: 'v2',
+      ann_distance: ann?.distance ?? null,
+      ann_rank: ann?.rank ?? null,
+    }).onConflict(oc => oc.columns(['tenant_id','lead_id','property_id','engine_version']).doUpdateSet(eb => ({
+      match_score: eb.ref('excluded.match_score'),
+      match_components: eb.ref('excluded.match_components'),
+      ann_distance: eb.ref('excluded.ann_distance'),
+      ann_rank: eb.ref('excluded.ann_rank'),
+      version: eb.ref('match_candidate.version').plus(1),
+      calculated_at: new Date(),
+    }))).execute();
+  }
+}
 ```
 
 ### 6.5 A/B Comparator (job nightly)

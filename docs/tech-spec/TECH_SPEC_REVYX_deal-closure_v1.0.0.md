@@ -183,6 +183,8 @@ CREATE POLICY dcs_select      ON deal_closure_step FOR SELECT USING (tenant_id =
 CREATE POLICY dcs_insert      ON deal_closure_step FOR INSERT WITH CHECK (TRUE);
 ```
 
+> **Convention `app.tenant_id` GUC:** API middleware setează `SET LOCAL app.tenant_id = $1` la începutul fiecărei tranzacții HTTP (conexiune din pool reset-ată la `RESET app.tenant_id` la final). Background jobs care nu au context tenant (cron-uri admin) bypass RLS via `SET LOCAL row_security = off` rulând cu rol `revyx_system` (privileged). Documentat ca standard cross-engine; backwards compat — engine-urile S2-S4 vor adopta același pattern în PR follow-up `concurrency-hardening v1.0.0` integration.
+
 ### 4.3 Tabel `documents`
 
 ```sql
@@ -434,6 +436,13 @@ async function atomicWonTransition(dealId: string, input: CadastreInput, ctx: an
       { eventType: 'LEAD_WON',     entityType: 'LEAD',     entityId: deal.lead_id },
     ], tx);
 
+    // Publish events post-commit pentru cascade downstream (APS, NPS, GDPR retention, archive scheduler)
+    tx.afterCommit(() => {
+      events.publish('deal.won',      { dealId, agentId: deal.assigned_agent_id, propertyId: deal.property_id, leadId: deal.lead_id, soldPriceEur: input.soldPriceEur });
+      events.publish('property.sold', { propertyId: deal.property_id, dealId });
+      events.publish('lead.status_changed', { leadId: deal.lead_id, agentId: deal.assigned_agent_id, oldStatus: 'NEGOTIATION', newStatus: 'WON' });
+    });
+
     return { propertyId: deal.property_id, leadId: deal.lead_id, assignedAgentId: deal.assigned_agent_id };
   });
 }
@@ -488,13 +497,17 @@ async function downloadEncrypted(documentId: string, actor: User) {
 
 ```typescript
 async function dispatchNPS(dispatchId: string) {
-  const d = await db.selectFrom('nps_dispatch_queue').where('dispatch_id','=',dispatchId).executeTakeFirstOrThrow();
-  if (d.state !== 'PENDING' || d.scheduled_for > new Date()) return;
-
   const token = generateToken(64);
-  await db.updateTable('nps_dispatch_queue').set({
-    state: 'SENT', sent_at: new Date(), response_token: token, attempts: d.attempts + 1,
-  }).where('dispatch_id','=',dispatchId).execute();
+
+  // Atomic claim: doar un worker poate trece la SENT (UPDATE ... WHERE state='PENDING' ... RETURNING).
+  const claimed = await db.updateTable('nps_dispatch_queue').set({
+    state: 'SENT', sent_at: new Date(), response_token: token, attempts: sql`attempts + 1`,
+  }).where('dispatch_id','=',dispatchId)
+    .where('state','=','PENDING')
+    .where('scheduled_for','<=', sql`NOW()`)
+    .returningAll().executeTakeFirst();
+  if (!claimed) return;     // alt worker a luat job-ul SAU PENDING expirat — skip silent.
+  const d = claimed;
 
   const lead = await loadLeadOfDeal(d.deal_id);
   if (!lead.gdpr_consent_at) {

@@ -152,7 +152,23 @@ CREATE INDEX IF NOT EXISTS idx_aps_snap_agent_time
 -- Retention: 365 zile pentru audit + trend analysis
 ```
 
-### 4.3 Tabel `aps_weights_config` (per tenant)
+### 4.3 ALTER `deal` — DCR helper column
+
+```sql
+-- Migrare: 0213_deal_negotiation_started_at.sql
+ALTER TABLE deal
+  ADD COLUMN IF NOT EXISTS status_changed_to_negotiation_at TIMESTAMPTZ NULL;
+
+CREATE INDEX IF NOT EXISTS idx_deal_negotiation_started
+  ON deal (tenant_id, assigned_agent_id, status_changed_to_negotiation_at DESC)
+  WHERE status_changed_to_negotiation_at IS NOT NULL;
+```
+
+> **Backfill**: pentru deals existente cu `status IN ('NEGOTIATION','WON_PENDING_NOTARY','WON','LOST')` se setează
+> `status_changed_to_negotiation_at = COALESCE(<timestamp from deal_closure_step phase_to='STARTED'>, created_at)`.
+> Setare ulterioară: handler pe event `deal.status_changed` la tranziția → NEGOTIATION.
+
+### 4.4 Tabel `aps_weights_config` (per tenant)
 
 ```sql
 -- Migrare: 0212_aps_weights_config.sql
@@ -179,7 +195,7 @@ ALTER TABLE aps_weights_config
   CHECK (ABS((weight_cr + weight_rt + weight_dcr + weight_cs) - 1.000) < 0.001);
 ```
 
-### 4.4 Constraints & invariants
+### 4.5 Constraints & invariants
 
 | Invariant | Enforcement |
 |---|---|
@@ -294,54 +310,71 @@ async function calcRT(tx: Tx, agentId: string, cfg: APSWeightsConfig): Promise<{
 ### 6.3 DCR — Deal Close Rate
 
 ```typescript
-// DCR = deals_won (90d) / deals_negotiation_started (90d), clamp [0,1]
+// DCR = deals_won / deals_concluded (în window). „Concluded" = WON sau LOST în window.
+// Această definiție evită volatilitatea agentilor noi (deals în NEGOTIATION nu apar la denominator
+// până nu se finalizează) și e robust statistic.
 async function calcDCR(tx: Tx, agentId: string, windowDays: number): Promise<{ value: number; raw: any }> {
-  const result = await tx.executeQuery<{ won: number; started: number }>(/* sql */`
+  const result = await tx.executeQuery<{ won: number; lost: number; concluded: number }>(/* sql */`
+    WITH concluded AS (
+      SELECT
+        deal_id,
+        status,
+        CASE
+          WHEN status = 'WON'  THEN won_at
+          WHEN status = 'LOST' THEN COALESCE(lost_at, updated_at)
+        END AS concluded_at
+      FROM deal
+      WHERE tenant_id = $1
+        AND assigned_agent_id = $2
+        AND status IN ('WON','LOST')
+        AND status_changed_to_negotiation_at IS NOT NULL  -- doar deals care au trecut prin NEGOTIATION
+    )
     SELECT
-      COUNT(*) FILTER (WHERE status = 'WON' AND won_at >= NOW() - ($3 || ' days')::INTERVAL) AS won,
-      COUNT(*) FILTER (WHERE
-        (status_changed_to_negotiation_at >= NOW() - ($3 || ' days')::INTERVAL)
-        OR (status IN ('NEGOTIATION','WON_PENDING_NOTARY','WON','LOST')
-            AND COALESCE(status_changed_to_negotiation_at, created_at) >= NOW() - ($3 || ' days')::INTERVAL)
-      ) AS started
-    FROM deal
-    WHERE tenant_id = $1 AND assigned_agent_id = $2
+      COUNT(*) FILTER (WHERE status = 'WON')  AS won,
+      COUNT(*) FILTER (WHERE status = 'LOST') AS lost,
+      COUNT(*)                                 AS concluded
+    FROM concluded
+    WHERE concluded_at >= NOW() - ($3 || ' days')::INTERVAL;
   `, [tenant, agentId, windowDays]);
 
-  const { won, started } = result.rows[0];
-  if (started === 0) return { value: 0.50, raw: { won, started, fallback: 'no_data' } };
-  return { value: clamp01(won / started), raw: { won, started } };
+  const { won, lost, concluded } = result.rows[0];
+  if (concluded === 0) return { value: 0.50, raw: { won, lost, concluded, fallback: 'no_data' } };
+  return { value: clamp01(won / concluded), raw: { won, lost, concluded } };
 }
 ```
 
-> **Notă:** `deal.status_changed_to_negotiation_at` este o coloană nouă (vezi 4.5 schema patch) — sau alternativ derived din `deal_closure_step` cu `phase_to='STARTED'`. Documentat ca migrare follow-up minor.
+> **Notă schema:** `deal.status_changed_to_negotiation_at` provine din migrarea 0213 (vezi §4.3); `deal.lost_at` recomandat ca migrare follow-up minor (similar cu `won_at`).
 
 ### 6.4 CS — Client Satisfaction (NPS-derived)
 
 ```typescript
-// CS = avg(NPS / 10) pentru deals WON ale agentului în window. Cu clasă pondere:
-//   promoter (9-10) → 1.0
-//   passive  (7-8)  → 0.7
-//   detractor (0-6) → score/10
+// CS = weighted aggregate per clasă NPS, pentru deals WON ale agentului în window.
+//   promoter (9-10) → contribuție 1.0
+//   passive  (7-8)  → contribuție 0.7
+//   detractor (0-6) → contribuție = AVG(detractor.score) / 10  (specific clasei detractor, nu globala)
 async function calcCS(tx: Tx, agentId: string, cfg: APSWeightsConfig): Promise<{ value: number; raw: any }> {
-  const result = await tx.executeQuery<{ avg_score: number; promoters: number; passives: number; detractors: number; total: number }>(/* sql */`
+  const result = await tx.executeQuery<{
+    avg_score: number; promoters: number; passives: number; detractors: number;
+    detractor_avg: number; total: number;
+  }>(/* sql */`
     SELECT
-      AVG(score)::NUMERIC                                    AS avg_score,
-      COUNT(*) FILTER (WHERE classification='promoter')      AS promoters,
-      COUNT(*) FILTER (WHERE classification='passive')       AS passives,
-      COUNT(*) FILTER (WHERE classification='detractor')     AS detractors,
-      COUNT(*)                                                AS total
+      AVG(score)::NUMERIC                                              AS avg_score,
+      COUNT(*) FILTER (WHERE classification='promoter')                AS promoters,
+      COUNT(*) FILTER (WHERE classification='passive')                 AS passives,
+      COUNT(*) FILTER (WHERE classification='detractor')               AS detractors,
+      COALESCE(AVG(score) FILTER (WHERE classification='detractor'),0)::NUMERIC AS detractor_avg,
+      COUNT(*)                                                          AS total
     FROM nps_response
     WHERE tenant_id = $1 AND agent_id = $2
       AND submitted_at >= NOW() - ($3 || ' days')::INTERVAL
   `, [tenant, agentId, cfg.windowDays]);
 
-  const { avg_score, promoters, passives, detractors, total } = result.rows[0];
+  const { avg_score, promoters, passives, detractors, detractor_avg, total } = result.rows[0];
   if (total < cfg.csMinResponses) return { value: 0.65, raw: { total, fallback: 'low_responses' } };
 
-  // Weighted score per class
-  const cs = (1.0*promoters + 0.7*passives + (avg_score < 7 ? avg_score/10 : 0) * detractors) / total;
-  return { value: clamp01(cs), raw: { avg_score, promoters, passives, detractors, total } };
+  const detractorContribution = (Number(detractor_avg) / 10) * detractors;     // 0 dacă detractors=0
+  const cs = (1.0 * promoters + 0.7 * passives + detractorContribution) / total;
+  return { value: clamp01(cs), raw: { avg_score, promoters, passives, detractors, detractor_avg, total } };
 }
 ```
 
