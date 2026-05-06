@@ -162,17 +162,20 @@ CREATE INDEX IF NOT EXISTS idx_deal_won_unarchived
 CREATE TABLE IF NOT EXISTS deal_closure_step (
   step_id              UUID         PRIMARY KEY DEFAULT gen_random_uuid(),
   tenant_id            UUID         NOT NULL,
-  deal_id              UUID         NOT NULL REFERENCES deal(deal_id),
+  deal_id              UUID         NOT NULL REFERENCES deal(deal_id) ON DELETE RESTRICT,  -- ★ block delete deal cu audit
   phase_from           TEXT         NULL,
   phase_to             TEXT         NOT NULL,
   actor_user_id        UUID         NULL,
   actor_type           TEXT         NOT NULL CHECK (actor_type IN ('USER','SYSTEM','SAGA')),
-  payload              JSONB        NULL,        -- step-specific data
+  payload              JSONB        NULL,
   document_ids         UUID[]       NULL,
   occurred_at          TIMESTAMPTZ  NOT NULL DEFAULT NOW()
 );
 CREATE INDEX IF NOT EXISTS idx_dcs_deal_time
   ON deal_closure_step (tenant_id, deal_id, occurred_at);
+-- GIN index pe payload (queried frecvent pentru drill-down audit)
+CREATE INDEX IF NOT EXISTS idx_dcs_payload_gin
+  ON deal_closure_step USING GIN (payload) WHERE payload IS NOT NULL;
 
 -- Append-only: revoke UPDATE/DELETE
 REVOKE UPDATE, DELETE ON deal_closure_step FROM PUBLIC;
@@ -180,7 +183,7 @@ ALTER TABLE deal_closure_step ENABLE ROW LEVEL SECURITY;
 CREATE POLICY dcs_no_mutation ON deal_closure_step FOR UPDATE TO PUBLIC USING (FALSE) WITH CHECK (FALSE);
 CREATE POLICY dcs_no_delete   ON deal_closure_step FOR DELETE TO PUBLIC USING (FALSE);
 CREATE POLICY dcs_select      ON deal_closure_step FOR SELECT USING (tenant_id = current_setting('app.tenant_id', true)::uuid);
-CREATE POLICY dcs_insert      ON deal_closure_step FOR INSERT WITH CHECK (TRUE);
+CREATE POLICY dcs_insert      ON deal_closure_step FOR INSERT WITH CHECK (tenant_id = current_setting('app.tenant_id', true)::uuid);  -- ★ tenant-gated INSERT
 ```
 
 > **Convention `app.tenant_id` GUC:** API middleware setează `SET LOCAL app.tenant_id = $1` la începutul fiecărei tranzacții HTTP (conexiune din pool reset-ată la `RESET app.tenant_id` la final). Background jobs care nu au context tenant (cron-uri admin) bypass RLS via `SET LOCAL row_security = off` rulând cu rol `revyx_system` (privileged). Documentat ca standard cross-engine; backwards compat — engine-urile S2-S4 vor adopta același pattern în PR follow-up `concurrency-hardening v1.0.0` integration.
@@ -223,18 +226,19 @@ CREATE INDEX IF NOT EXISTS idx_doc_type        ON documents (tenant_id, document
 CREATE TABLE IF NOT EXISTS nps_response (
   nps_id               UUID         PRIMARY KEY DEFAULT gen_random_uuid(),
   tenant_id            UUID         NOT NULL,
-  deal_id              UUID         NOT NULL REFERENCES deal(deal_id),
+  deal_id              UUID         NOT NULL REFERENCES deal(deal_id) ON DELETE RESTRICT,
   agent_id             UUID         NOT NULL,
   lead_id              UUID         NOT NULL,
   score                INTEGER      NOT NULL CHECK (score BETWEEN 0 AND 10),
   classification       TEXT         NOT NULL CHECK (classification IN ('detractor','passive','promoter')),
   comment              TEXT         NULL,
+  consent_at           TIMESTAMPTZ  NULL,                          -- ★ Art.6/Art.21: consent capturat la deal WON UI
   dispatched_at        TIMESTAMPTZ  NOT NULL,
   submitted_at         TIMESTAMPTZ  NOT NULL DEFAULT NOW(),
-  response_token       TEXT         NOT NULL UNIQUE,   -- single-use token from email
+  response_token       TEXT         NOT NULL UNIQUE,
   ip_address           INET         NULL
 );
-CREATE UNIQUE INDEX IF NOT EXISTS uq_nps_per_deal ON nps_response (deal_id);
+CREATE UNIQUE INDEX IF NOT EXISTS uq_nps_per_deal ON nps_response (tenant_id, deal_id);  -- ★ tenant-scoped
 CREATE INDEX IF NOT EXISTS idx_nps_agent_time ON nps_response (tenant_id, agent_id, submitted_at DESC);
 ```
 
@@ -245,15 +249,17 @@ CREATE INDEX IF NOT EXISTS idx_nps_agent_time ON nps_response (tenant_id, agent_
 CREATE TABLE IF NOT EXISTS nps_dispatch_queue (
   dispatch_id          UUID         PRIMARY KEY DEFAULT gen_random_uuid(),
   tenant_id            UUID         NOT NULL,
-  deal_id              UUID         NOT NULL UNIQUE REFERENCES deal(deal_id),
-  scheduled_for        TIMESTAMPTZ  NOT NULL,         -- WON_AT + 7d
+  deal_id              UUID         NOT NULL REFERENCES deal(deal_id) ON DELETE CASCADE,
+  scheduled_for        TIMESTAMPTZ  NOT NULL,
   state                TEXT         NOT NULL DEFAULT 'PENDING' CHECK (state IN ('PENDING','SENT','OPENED','SUBMITTED','EXPIRED','CANCELLED')),
   attempts             INTEGER      NOT NULL DEFAULT 0,
   response_token       TEXT         NULL UNIQUE,
   sent_at              TIMESTAMPTZ  NULL,
-  expires_at           TIMESTAMPTZ  NOT NULL,         -- scheduled_for + 30d
+  expires_at           TIMESTAMPTZ  NOT NULL,
+  consent_at           TIMESTAMPTZ  NULL,                          -- ★ propagat din UI deal WON; required pentru dispatch
   created_at           TIMESTAMPTZ  NOT NULL DEFAULT NOW()
 );
+CREATE UNIQUE INDEX IF NOT EXISTS uq_nps_dispatch_per_deal ON nps_dispatch_queue (tenant_id, deal_id);  -- ★ tenant-scoped
 CREATE INDEX IF NOT EXISTS idx_nps_due ON nps_dispatch_queue (state, scheduled_for) WHERE state = 'PENDING';
 ```
 
@@ -267,6 +273,70 @@ CREATE INDEX IF NOT EXISTS idx_nps_due ON nps_dispatch_queue (state, scheduled_f
 | Document encryption mandatory | App + KMS check |
 | `deal_closure_step` append-only | RLS POLICY |
 | `closure_phase = WON ↔ deal.status = WON ↔ property.status = SOLD ↔ lead.status = WON` | Saga atomic |
+
+### 4.7 ★ GDPR special category data (Art. 9) — notary acts cu CNP/IDNP
+
+Documentele tip `notary_act` și `identity_proof` conțin **CNP / IDNP (numere de identificare națională)**, calificate
+ca **special category data** sub GDPR Art. 9. Procesarea este permisă sub derogarea **Art. 9(2)(c) — necesitate
+pentru protejarea intereselor vitale** combinată cu **Art. 9(2)(g) — interes public substanțial** și obligație legală
+națională (Legea nr. 133/2011 RM + cadrul notarial moldovenesc + Legea cadastrului).
+
+**Limitări impuse:**
+
+| Aspect | Restricție |
+|---|---|
+| Storage | Encryption mandatory (KMS envelope §6.5) — niciun acces neautorizat |
+| Retention | 10 ani (obligație contabilă/legală) — override Art. 17 erasure (vezi §4.8) |
+| Access | RBAC strict: `notary_act` → agent (own deal) + manager (audit trail visible); `identity_proof` → agent (own deal) only · admin **NICIODATĂ** fără audit `DOCUMENT_DOWNLOADED` log |
+| Profilare / decizii automate | INTERZISĂ (Art. 22) — niciun scoring nu folosește conținut document |
+| Export | Inclus în Art. 15 export DAR redactat de Art. 9 fields la admin export bulk |
+| Disclosure în AUDIT_LOG | `act_number` ok (number admin), CNP/IDNP **NICIODATĂ** în metadata diff — verificat la write via PII redactor |
+
+### 4.8 ★ GDPR Art. 17 (right to erasure) policy — coexistență cu append-only AUDIT_LOG
+
+REVYX adoptă **modelul "redaction with audit retention"** pentru Art. 17:
+
+| Tabel | Comportament la GDPR erasure |
+|---|---|
+| `lead` | PII fields (`full_name`, `phone_e164`, `email`) → NULL; `score_components` → redact buyer-identifying paths |
+| `activity` | Bulk DELETE pe `entity_type='lead' AND entity_id=$leadId` — operational data |
+| `deal` | `notes` → NULL; numerice (price, dates) → păstrate pentru analytics anonimizat |
+| `documents` | Soft delete + 30 zile re-evaluare; documente sub legal hold (notary_act, contract_preliminary, financing_approval) → **NU sunt purgate** până la `retention_expires_at` (10 ani — Art. 17(3)(b) excepție obligație legală) |
+| `audit_log` | **NU** se purgă entries; PII din `old_value`/`new_value` JSONB **redactată** prin script `gdpr_audit_redact` (înlocuiește valorile cu `'[REDACTED_GDPR_<request_id>]'`); `event_type`, timestamp, actor sunt păstrate (Art. 5(1)(f) accountability) |
+| `deal_closure_step` | Append-only; `payload` JSONB redactată similar AUDIT_LOG dacă conține PII |
+| `nps_response` | Soft-delete cu pseudonimizare `comment` → NULL; `score` păstrat anonimizat |
+
+**Audit events GDPR:**
+- `GDPR_ERASURE_REQUESTED` (T+0)
+- `GDPR_ERASURE_LEGAL_REVIEW_REQUIRED` (când documente sub legal hold blochează cascade)
+- `GDPR_ERASURE_COMPLETED` cu cascade summary
+- `GDPR_AUDIT_REDACTED` (per script run, cu nr. records redacted)
+- `LEAD_DATA_RECTIFIED` (★ Art. 16 right to rectification)
+
+**Justificare regulatorie:** modelul respectă Art. 5(1)(f) integritate + Art. 5(1)(b) limitarea scopului · Art. 17(3)(b)/(e) — excepții pentru obligații legale și exercitarea drepturilor în justiție.
+
+> **Notă proces:** orice cerere de erasure care ar atinge documente sub legal hold (notary, financing) trece prin
+> manager review (SLA 10 zile lucrătoare) cu notice către data subject privind temeiul refuzului parțial. Refuz total
+> este interzis — pseudonimizare minimă obligatorie (CNP/IDNP redact din metadata audit).
+
+### 4.9 ★ GDPR Art. 22 — automated decision-making review
+
+Lead Firewall (LS<0.60 blochează queue), Match DP scoring și NBA prioritization sunt decizii automate cu efect legal
+(determinarea queue-ului agent, prioritate task-uri). Sub Art. 22 GDPR + Legea 133/2011 RM:
+
+| Component | Notice către data subject | Right to human review | Implementare |
+|---|---|---|---|
+| Lead Firewall (LS gate) | DA — privacy-policy + intake notice | DA | `POST /api/v1/gdpr/automated-decision/review` cu deadline manager response 5 zile lucrătoare |
+| Match Engine DP | DA | DA | Manager poate override match selection (audit `MATCH_OVERRIDE_HUMAN`) |
+| NBA priority | NU (operațional intern, fără efect direct subject) | N/A | — |
+| APS (per agent, internal) | NU | N/A — agent vede explainability §6.9 | — |
+
+**Audit events:**
+- `AUTOMATED_DECISION_REVIEW_REQUESTED` (data subject input via /gdpr endpoint)
+- `AUTOMATED_DECISION_OVERRIDDEN` (manager review concludes override)
+- `AUTOMATED_DECISION_UPHELD` (review concludes original decision OK + reasoning)
+
+> Acest framework este auditabil de DPO și exportabil ca evidence pentru CNPDCP investigation.
 
 ---
 
@@ -306,7 +376,8 @@ interface DocumentStorage {
 }
 
 interface NPSDispatcher {
-  schedule(dealId: string, sendAt: Date): Promise<NPSDispatch>;
+  // ★ consentAt obligatoriu — null face dispatch CANCELLED (GDPR Art. 6/Art. 21)
+  schedule(dealId: string, sendAt: Date, consentAt: Date | null): Promise<NPSDispatch>;
   send(dispatchId: string): Promise<void>;
   recordResponse(token: string, score: number, comment?: string): Promise<NPSResponse>;
 }
@@ -402,7 +473,7 @@ async function registerCadastre(dealId: string, input: CadastreInput, actor: Use
       { name: 'cancel_tasks',        invoke: ctx => cancelActiveTasks(dealId, 'deal_won') },
       { name: 'cancel_showings',     invoke: ctx => cancelFutureShowings(ctx.propertyId) },
       { name: 'aps_recalc_dcr',      invoke: ctx => apsEngine.triggerDcrIncrement(ctx.assignedAgentId, dealId) },
-      { name: 'nps_schedule',        invoke: ctx => npsDispatcher.schedule(dealId, addDays(new Date(), 7)) },
+      { name: 'nps_schedule',        invoke: ctx => npsDispatcher.schedule(dealId, addDays(new Date(), 7), input.npsConsentAt) },     // ★ npsConsentAt captured în UI cadastre confirmation
       { name: 'gdpr_retention_set',  invoke: ctx => gdprService.setRetentionExpiresAt(ctx.leadId, addYears(new Date(), 3)) },
       { name: 'release_lock',        invoke: ctx => lockManager.release({ id: ctx.leaseId }) },
     ],
@@ -508,6 +579,17 @@ async function dispatchNPS(dispatchId: string) {
     .returningAll().executeTakeFirst();
   if (!claimed) return;     // alt worker a luat job-ul SAU PENDING expirat — skip silent.
   const d = claimed;
+
+  // ★ GDPR Art. 6/Art. 21: NPS dispatch necesită consent explicit
+  if (!d.consent_at) {
+    await db.updateTable('nps_dispatch_queue').set({ state: 'CANCELLED' })
+      .where('dispatch_id','=',dispatchId).execute();
+    await auditLogger.record({
+      tenantId: d.tenant_id, eventType: 'NPS_DISPATCH_SKIPPED_NO_CONSENT',
+      entityType: 'DEAL', entityId: d.deal_id,
+    });
+    return;
+  }
 
   const lead = await loadLeadOfDeal(d.deal_id);
   if (!lead.gdpr_consent_at) {

@@ -248,6 +248,14 @@ interface PropertyIntakeService {
   withdraw(propertyId: string, reason: string, agent: User): Promise<Property>;
 }
 
+// ★ Events publicate de PropertyIntakeService la fiecare tranziție de status
+// (consumate de offer-engine §6.7, pricing-ai §6.6, match-engine v1 §6.6, etc.):
+//   `property.created`           — DRAFT → ACTIVE (publish)
+//   `property.changed`           — UPDATE pe câmpuri material (price, area, condition, district, status)
+//   `property.status.changed`    — payload: { propertyId, oldStatus, newStatus, changedAt, byUserId }
+//                                  emitted on: ACTIVE↔RESERVED, ACTIVE→SOLD, ACTIVE→WITHDRAWN, *→EXPIRED
+//   `property.sold_at`           — la SOLD (din DEAL_CLOSURE_SAGA via deal-closure §6.4)
+
 interface PropertyScoringService {
   recalcScore(propertyId: string): Promise<PSSnapshot>;
   recalcLFAll(tenantId: string): Promise<{ updated: number }>;  // cron

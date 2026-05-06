@@ -463,6 +463,16 @@ Identice cu v1 (vezi `match-engine v1.0.0` §7).
 
 - JWT RS256 + RBAC moștenit v1.
 - **OpenAI key** în vault (`OPENAI_API_KEY`); local fallback doar dacă tenant flag `embeddings_local_only=true` (data sovereignty option).
+- ★ **GDPR Art. 44+ (cross-border transfer) — Schrems II compliance:**
+
+  | Aspect | Politică REVYX |
+  |---|---|
+  | **Default provider** | `local` sentence-transformers (multilingual, EU-only). OpenAI activabil per-tenant cu DPA semnată + TIA acceptat. |
+  | **Transfer Impact Assessment (TIA)** | Document `docs/legal/TIA_OPENAI_v1.0.0.md` (★ legal-pending) — evaluare US legal framework + măsuri suplimentare; refresh anual + la schimbare provider. |
+  | **Supplementary technical measures** | (1) Property `description` și lead `preferences` sunt sanitizate înainte de send: regex strip telefon/email/CNP; (2) niciun field cu PII nu intră în text encoded (validat la `canonicalText` build); (3) embedding hash store local — răspunsul OpenAI este vector pur (numerical), nu mai conține text. |
+  | **Contractual measures** | OpenAI Privacy Mode (`X-Anthropic-Privacy: enabled` echivalent) + DPA cu data residency clause + retention zero pe API; Standard Contractual Clauses (SCC 2021/914) Module 2. |
+  | **Tenant override** | Tenant config `embeddings_local_only=true` forțează local-only fără opt-out (data sovereignty enforce). |
+  | **Audit** | `EMBEDDING_GENERATED` event cu `source=openai\|local` permite raportare către CNPDCP la solicitare. |
 - **AUDIT_LOG events:**
   - `EMBEDDING_GENERATED{LEAD|PROPERTY}` (model, hash, source=openai|local)
   - `MATCH_CANDIDATES_GENERATED_V2`
