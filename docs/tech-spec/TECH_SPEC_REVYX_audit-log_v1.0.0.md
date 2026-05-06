@@ -134,7 +134,15 @@ CREATE INDEX IF NOT EXISTS idx_audit_log_2026_05_event
 CREATE INDEX IF NOT EXISTS idx_audit_log_2026_05_correlation
   ON audit_log_2026_05 (correlation_id)
   WHERE correlation_id IS NOT NULL;
+
+-- ★ GIN pe metadata pentru drill-down audit (queries pe `metadata->>'override_reason'`,
+--   `metadata @> '{"escalation_level":3}'` etc.)
+CREATE INDEX IF NOT EXISTS idx_audit_log_2026_05_metadata_gin
+  ON audit_log_2026_05 USING GIN (metadata) WHERE metadata IS NOT NULL;
 ```
+
+> **GIN policy:** identic aplicat per partiție lunară prin job-ul `partition_mgr` (vezi §10) — nu necesită alter
+> separat per partiție în spec, ci e parte din template-ul de partiționare.
 
 ### 4.2 Constraints & invariants
 
@@ -165,8 +173,20 @@ CREATE INDEX IF NOT EXISTS idx_audit_log_2026_05_correlation
 | `WEBHOOK_RECEIVED` | — | source · idempotency_key în metadata |
 | `WEBHOOK_HMAC_FAILED` | — | source · ip · 401 |
 | `GDPR_CONSENT_CAPTURED` | LEAD | version + channel |
+| `GDPR_CONSENT_REVOKED` | LEAD | ★ revoking consent → opt-out flags |
 | `GDPR_ERASURE_REQUESTED` | LEAD | timestamp |
+| `GDPR_ERASURE_LEGAL_REVIEW_REQUIRED` | LEAD | ★ blocked by legal hold (notary docs) |
 | `GDPR_ERASURE_COMPLETED` | LEAD | cascade summary |
+| `GDPR_AUDIT_REDACTED` | — | ★ records redacted, request_id |
+| `GDPR_RECTIFICATION_REQUESTED` | LEAD | ★ Art. 16 — data subject input |
+| `LEAD_DATA_RECTIFIED` | LEAD | ★ field-level diff |
+| `GDPR_RESTRICTION_REQUESTED` | LEAD | ★ Art. 18 |
+| `GDPR_OBJECTION_REQUESTED` | LEAD | ★ Art. 21 — opt out tracking/marketing |
+| `AUTOMATED_DECISION_REVIEW_REQUESTED` | LEAD/DEAL | ★ Art. 22 |
+| `AUTOMATED_DECISION_OVERRIDDEN` | LEAD/DEAL | ★ manager override decision |
+| `AUTOMATED_DECISION_UPHELD` | LEAD/DEAL | ★ review concluded original OK |
+| `SECURITY_INCIDENT_REPORTED` | — | ★ Art. 33-34 incident |
+| `CNPDCP_NOTIFICATION_SENT` | — | ★ regulator notification (severity ≥ HIGH) |
 | `AUTH_LOGIN_SUCCESS` / `AUTH_LOGIN_FAILED` | — | actor_type=USER, ip |
 | `AUTH_PASSWORD_CHANGED` | — | session forcing (BR-12) |
 | `RBAC_ROLE_GRANTED` / `RBAC_ROLE_REVOKED` | AGENT | actor=admin/manager |
@@ -258,6 +278,36 @@ CREATE TRIGGER audit_log_no_truncate
 - `REVOKE UPDATE, DELETE, TRUNCATE ON audit_log FROM PUBLIC;`
 - Backups pentru `audit_log` separate, semnate cryptografic, retenție 7 ani.
 - Hash chain opțional (Phase 2): `event_hash = SHA256(prev_hash || canonical_json(event))` pentru tamper evidence.
+
+### 6.4 ★ RLS defense-in-depth (multi-tenant isolation)
+
+În plus față de privilege REVOKE (§6.2), RLS este activat pentru izolare cross-tenant la nivel de rând:
+
+```sql
+-- Migrare: 0013_audit_log_rls.sql
+ALTER TABLE audit_log ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY al_select_tenant ON audit_log
+  FOR SELECT USING (tenant_id = current_setting('app.tenant_id', true)::uuid);
+
+CREATE POLICY al_insert_tenant ON audit_log
+  FOR INSERT WITH CHECK (tenant_id = current_setting('app.tenant_id', true)::uuid);
+
+-- Bypass pentru rolul `revyx_admin` cu BYPASSRLS atribut, doar pentru audit cross-tenant la cerere DPO
+ALTER ROLE revyx_admin BYPASSRLS;
+```
+
+> **Convention `app.tenant_id` GUC:** API middleware setează `SET LOCAL app.tenant_id = $1` la începutul fiecărei
+> tranzacții HTTP. Background jobs care nu au context tenant rulează cu rol `revyx_system` (BYPASSRLS) sau setează
+> explicit `app.tenant_id` per loop iteration. Documentat ca standard cross-engine.
+
+### 6.5 ★ GDPR redaction script (Art. 17 cu retention audit)
+
+Script `gdpr_audit_redact(lead_id UUID)` se rulează la GDPR erasure request după manager review:
+- UPDATE `audit_log SET old_value = jsonb_set(old_value, ['full_name'|'phone_e164'|'email'], '"[REDACTED_GDPR]"')`
+- Aplicat numai pentru câmpuri PII identificate via tabelul `pii_field_registry` (per entity_type → field paths).
+- AUDIT event `GDPR_AUDIT_REDACTED` cu `request_id`, `affected_rows`, executor.
+- IDEMPOTENT: re-run safe (verifică deja redactat).
 
 ---
 

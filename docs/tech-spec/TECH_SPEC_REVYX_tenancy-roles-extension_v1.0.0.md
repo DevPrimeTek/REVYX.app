@@ -10,7 +10,7 @@
 
 ---
 
-> **Notă de context:** Acest spec presupune existența unei spec-uri-părinte `TECH_SPEC_REVYX_tenancy-rbac_v1.0.0.md` (ne-livrată încă în repo la momentul scrierii). Concepte minime referite — 6 modele de tenancy și 13 entități extinse — sunt rezumate în §2 pentru a face spec-ul self-contained. Când spec-ul-părinte va fi materializat, secțiunea §2 din acest document devine o referință (`vezi TECH_SPEC_tenancy-rbac §X`) și se elimină rezumatul.
+> **Notă de context:** Acest spec presupune existența unei spec-uri-părinte `TECH_SPEC_REVYX_tenancy-rbac_v1.0.0.md` (★ ne-livrată — planificată Phase 0 follow-up · audit-tracked ca `AUDIT_FINDING_TENANCY_RBAC_MISSING`). Concepte minime referite — 6 modele de tenancy și 13 entități extinse — sunt rezumate în §2 pentru a face spec-ul self-contained. Când spec-ul-părinte va fi materializat, secțiunea §2 din acest document devine o referință (`vezi TECH_SPEC_tenancy-rbac §X`) și se elimină rezumatul.
 
 ---
 

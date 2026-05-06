@@ -119,7 +119,7 @@ flowchart LR
 CREATE TABLE IF NOT EXISTS offer (
   offer_id              UUID         PRIMARY KEY DEFAULT gen_random_uuid(),
   tenant_id             UUID         NOT NULL,
-  deal_id               UUID         NOT NULL REFERENCES deal(deal_id),
+  deal_id               UUID         NOT NULL REFERENCES deal(deal_id) ON DELETE RESTRICT,
 
   offered_by            TEXT         NOT NULL CHECK (offered_by IN (
     'buyer','agent_on_behalf_buyer','seller','agent_on_behalf_seller'
@@ -135,7 +135,7 @@ CREATE TABLE IF NOT EXISTS offer (
     'pending','accepted','rejected','countered','withdrawn','expired'
   )),
   valid_until           TIMESTAMPTZ  NULL,
-  counter_to_offer_id   UUID         NULL REFERENCES offer(offer_id),
+  counter_to_offer_id   UUID         NULL REFERENCES offer(offer_id) ON DELETE SET NULL,  -- ★ chain integrity
   chain_round           INTEGER      NOT NULL DEFAULT 1 CHECK (chain_round >= 1),
   manager_review_required BOOLEAN    NOT NULL DEFAULT FALSE,
   manager_reviewed_at   TIMESTAMPTZ  NULL,

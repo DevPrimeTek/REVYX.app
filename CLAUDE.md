@@ -176,6 +176,38 @@ Orice skill care generează un document **trebuie**:
 
 ---
 
+## 10b. Reguli operaționale (post-S5)
+
+### Regula 1 — Prompts în chat
+Toate prompturile/rezumatele de sesiune se livrează **doar în chat**. Nu se scriu în CLAUDE.md, README.md sau alte fișiere repo.
+
+### Regula 2 — Senior Architect + PM + Tester
+Claude operează ca Senior Architect + Senior PM + Senior Tester. După scriere, citește documentele și aplică un self-review pass înainte de a marca task-ul complet (validare formule, schema, cross-refs, edge cases).
+
+### Regula 3 — Audit checkpoints recurente (echipă audit extern)
+La **fiecare etapă** de creare documentație ȘI **fiecare etapă** de dezvoltare, se rulează audit complet cu echipă virtuală de specialiști rang superior:
+
+| Rol | Domeniu |
+|---|---|
+| Audit Lead | Orchestrare + severity scoring + remediation tracking |
+| Senior Solution Architect | Cross-spec consistency, integration contracts, NFR alignment |
+| Senior Security Auditor | RBAC matrix, GDPR Art. 5/6/15-22/32, OWASP, encryption, secrets |
+| Senior DBA | Schema, FK/index, RLS, migrations, partitioning |
+| Senior QA / Test Architect | Test coverage, edge cases, BR-XX traceability, NFR validation |
+| Senior Compliance Auditor | GDPR, Legea 133/2011 RM, Legea 142/2018, retention, DPIA |
+| Senior Product Auditor | BRD ↔ specs ↔ workflows formula alignment |
+
+**Output audit:** raport în chat cu findings tabelate (severitate CRIT/HIGH/MED/LOW) + fixes aplicate direct în documente; out-of-scope items (legal counsel, regulator registration) sunt enumerate ca gating items pentru milestone.
+
+**Trigger checkpoints:**
+1. La final de fiecare sesiune `/sN` — înainte de final commit
+2. La înainte de orice rampa de feature flag → 100%
+3. La major release (vMAJOR bump în BRD/spec)
+4. La schimbare regulatorie (GDPR amendment, Moldova Legea modificare)
+5. Ad-hoc la cerere stakeholder (PM, DPO, Security Lead)
+
+---
+
 ## 11. Ce să faci & ce să nu faci
 
 ### ✅ Fă
