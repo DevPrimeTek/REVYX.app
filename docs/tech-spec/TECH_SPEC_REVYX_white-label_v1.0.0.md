@@ -1,5 +1,5 @@
 # TECH SPEC — WHITE-LABEL (Custom Branding · Subdomain Routing · Enterprise Addon)
-<!-- TECH_SPEC_REVYX_white-label_v1.0.0.md · v1.0.0 · 2026-05 -->
+<!-- TECH_SPEC_REVYX_white-label_v1.0.0.md · v1.0.1 · 2026-05 -->
 <!-- CONFIDENȚIAL · Uz Intern · © 2026 REVYX · ITPRO SYSTEM SRL -->
 
 ## Changelog
@@ -7,6 +7,7 @@
 | Versiune | Data | Autor | Note |
 |---|---|---|---|
 | 1.0.0 | 2026-05 | Senior PM + Solution Architect | ★ Spec inițială S8 — REVYX white-label pentru agenții imobiliare · branding custom (logo, culori, domeniu custom revyx.agentie.ro) · email from custom domain · subdomain routing middleware · Enterprise plan + WL addon (Stripe) |
+| 1.0.1 | 2026-05 | Audit Lead + Security Auditor | ★ Fix F-01 (CRIT) din `AUDIT_REVYX_s8-external-pass_v1.0.0.md` — edge tenant signature corectată: payload semnat include timestamp propagat în header separat `X-REVYX-Tenant-Ts`; verificare cu skew tolerance ±120s |
 
 ---
 
@@ -310,8 +311,11 @@ export default {
 
     const headers = new Headers(req.headers);
     if (tenantId) {
-      const sig = await sign(`${tenantId}:${Date.now()}`, env.EDGE_SIGNING_KEY);
+      // ★ v1.0.1 (F-01 fix): timestamp propagat în header separat pentru a permite verify cu skew
+      const ts = Date.now().toString();
+      const sig = await sign(`${tenantId}:${ts}`, env.EDGE_SIGNING_KEY);
       headers.set('X-REVYX-Tenant-Id', tenantId);
+      headers.set('X-REVYX-Tenant-Ts', ts);
       headers.set('X-REVYX-Tenant-Sig', sig);
     }
     return fetch(env.ORIGIN, { ...req, headers });
@@ -322,11 +326,23 @@ export default {
 **App middleware:**
 
 ```typescript
+const SKEW_MS = 120_000;                                              // ±120s tolerance
+
 async function wlContextMiddleware(req, res, next) {
   const tenantId = req.headers['x-revyx-tenant-id'] as string | undefined;
+  const ts       = req.headers['x-revyx-tenant-ts'] as string | undefined;
   const sig      = req.headers['x-revyx-tenant-sig'] as string | undefined;
+
   if (tenantId) {
-    if (!verifySig(`${tenantId}:`, sig, EDGE_SIGNING_KEY, /* skew=120s */)) {
+    if (!ts || !sig) return res.status(400).json({ error: 'MISSING_TENANT_HEADERS' });
+
+    const tsNum = Number(ts);
+    if (!Number.isFinite(tsNum) || Math.abs(Date.now() - tsNum) > SKEW_MS) {
+      return res.status(400).json({ error: 'TENANT_HEADER_SKEW' });
+    }
+
+    // ★ v1.0.1 (F-01 fix): payload signed = `${tenantId}:${ts}` exact ca pe edge
+    if (!verifySig(`${tenantId}:${ts}`, sig, EDGE_SIGNING_KEY)) {
       return res.status(400).json({ error: 'INVALID_TENANT_HEADER' });
     }
     req.tenant = await wlConfig.get(tenantId);
@@ -526,6 +542,8 @@ VERIFIED ──drift (DNS removed)──> FAILED ──fix──> VERIFIED
 | `WL_EMAIL_DKIM_NOT_VERIFIED` | publish config cu email unverified | 422 |
 | `WL_PLAN_TIER_INSUFFICIENT` | plan < ENTERPRISE | 403 |
 | `WL_HEADER_SIG_INVALID` | edge header missing/invalid | 400 |
+| `MISSING_TENANT_HEADERS` ★ v1.0.1 | absent `X-REVYX-Tenant-Ts` sau `-Sig` | 400 |
+| `TENANT_HEADER_SKEW` ★ v1.0.1 | timestamp în afara ferestrei ±120s | 400 |
 
 ---
 
@@ -761,5 +779,5 @@ Pilot 2 tenanți → 10 → GA. Rollback flag OFF.
 
 ---
 
-*docs/tech-spec/TECH_SPEC_REVYX_white-label_v1.0.0.md · v1.0.0 · 2026-05 · CONFIDENȚIAL · Uz Intern*
+*docs/tech-spec/TECH_SPEC_REVYX_white-label_v1.0.0.md · v1.0.1 · 2026-05 · CONFIDENȚIAL · Uz Intern*
 *REVYX — Real Estate Execution Intelligence · © 2026 REVYX · ITPRO SYSTEM SRL*
