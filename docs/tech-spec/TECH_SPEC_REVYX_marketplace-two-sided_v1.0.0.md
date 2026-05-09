@@ -1,5 +1,5 @@
 # TECH SPEC — MARKETPLACE TWO-SIDED (Buyer Profiles · Inverse Matching · NBA Agent)
-<!-- TECH_SPEC_REVYX_marketplace-two-sided_v1.0.0.md · v1.0.0 · 2026-05 -->
+<!-- TECH_SPEC_REVYX_marketplace-two-sided_v1.0.0.md · v1.0.1 · 2026-05 -->
 <!-- CONFIDENȚIAL · Uz Intern · © 2026 REVYX · ITPRO SYSTEM SRL -->
 
 ## Changelog
@@ -7,6 +7,7 @@
 | Versiune | Data | Autor | Note |
 |---|---|---|---|
 | 1.0.0 | 2026-05 | Senior PM + Solution Architect | ★ Spec inițială S8 — marketplace bidirectional · BUYER_PROFILE public/searchable de agenți · matching invers (proprietate ↔ cereri active) · NBA agent „Ai N proprietăți care match cereri active" · billing buyer profile listing ca produs separat (Stripe) |
+| 1.0.1 | 2026-05 | Audit Lead + DBA | ★ Fix F-02 (HIGH) din `AUDIT_REVYX_s8-external-pass_v1.0.0.md` — `buyer_match_score` UNIQUE constraint corectat: înlocuit `UNIQUE (property_id, buyer_profile_id, is_current)` cu partial unique index `WHERE is_current = TRUE` (analog `pricing-ai` §4.1) |
 
 ---
 
@@ -237,9 +238,12 @@ CREATE TABLE IF NOT EXISTS buyer_match_score (
   factors               JSONB        NOT NULL,
   is_current            BOOLEAN      NOT NULL DEFAULT TRUE,
   computed_at           TIMESTAMPTZ  NOT NULL DEFAULT NOW(),
-  expires_at            TIMESTAMPTZ  NOT NULL,
-  UNIQUE (property_id, buyer_profile_id, is_current) DEFERRABLE INITIALLY DEFERRED
+  expires_at            TIMESTAMPTZ  NOT NULL
 );
+-- ★ v1.0.1 (F-02 fix): partial unique pe (property_id, buyer_profile_id) WHERE is_current=TRUE.
+-- Garantează un singur snapshot curent · permite multiple snapshots istorice cu is_current=FALSE.
+CREATE UNIQUE INDEX IF NOT EXISTS idx_bms_current_unique
+  ON buyer_match_score (property_id, buyer_profile_id) WHERE is_current = TRUE;
 CREATE INDEX IF NOT EXISTS idx_bms_property_active
   ON buyer_match_score (property_id, bps DESC) WHERE is_current = TRUE;
 CREATE INDEX IF NOT EXISTS idx_bms_buyer_active
@@ -790,5 +794,5 @@ Pilot 3 tenanți 4 săpt → 25% → 100%. Rollback prin flag OFF (date intacte)
 
 ---
 
-*docs/tech-spec/TECH_SPEC_REVYX_marketplace-two-sided_v1.0.0.md · v1.0.0 · 2026-05 · CONFIDENȚIAL · Uz Intern*
+*docs/tech-spec/TECH_SPEC_REVYX_marketplace-two-sided_v1.0.0.md · v1.0.1 · 2026-05 · CONFIDENȚIAL · Uz Intern*
 *REVYX — Real Estate Execution Intelligence · © 2026 REVYX · ITPRO SYSTEM SRL*
