@@ -1,5 +1,5 @@
 # CLAUDE.md — REVYX Agent Operating System
-<!-- CLAUDE.md · v1.0.0 · 2026-05 -->
+<!-- CLAUDE.md · v1.1.0 · 2026-05 -->
 <!-- CONFIDENȚIAL · Uz Intern · © 2026 REVYX · ITPRO SYSTEM SRL -->
 
 > Acest fișier este citit de Claude Code la **fiecare sesiune** din acest repo.
@@ -205,6 +205,45 @@ La **fiecare etapă** de creare documentație ȘI **fiecare etapă** de dezvolta
 3. La major release (vMAJOR bump în BRD/spec)
 4. La schimbare regulatorie (GDPR amendment, Moldova Legea modificare)
 5. Ad-hoc la cerere stakeholder (PM, DPO, Security Lead)
+
+### ★ Regula 4 — Verificare finală post-commit (CRITIC)
+Claude (AI) este **direct responsabil** pentru verificarea corectitudinii informației create în baza analizei Senior Architect + echipa de auditori externi (§10b Regula 3). **După fiecare commit** dintr-o sesiune `/sN`:
+
+1. Re-citește integral fiecare document creat/modificat în acest commit (NU se rezumă la diff).
+2. Verifică cross-reference integrity: orice mențiune `vX.Y.Z` / `§N.M` / `F-XXX` să corespundă realității.
+3. Verifică formule scoring: dacă un scor e menționat → valid contra BRD §7 + T01-T07.
+4. Verifică schema BD coherence: orice migrare nouă (0XXX) — număr unic, nesuprapus, idempotent.
+5. Verifică audit-log catalog: orice eveniment introdus → catalogat în `audit-log` v1.x §4.x.
+6. Verifică approval gate: fiecare document tech-spec/runbook/audit are §19/§14 cu aprobatori semnați.
+7. Raportează în chat orice inconsistență detectată **înainte** de a marca task-ul complet.
+
+Această verificare **substituie review-ul uman** doar la nivel sintactic + cross-ref; **NU** substituie sign-off-ul Senior Architect / Auditors externi (Regula 3) care rămân autoritatea finală.
+
+### ★ Regula 5 — Prompt next session (obligatoriu la final)
+La finalizarea **fiecărei** sesiuni `/sN`, Claude generează **în chat** (NU în repo, conform Regula 1) promptul propus pentru sesiunea următoare `/sN+1`. Format:
+
+```
+Prompt /sN+1 (proposed):
+- Branch: claude/<scope>-<short-id>
+- Context: <ce s-a închis în /sN, ce rămâne deschis din audit>
+- Task: <obiectiv principal>
+- Files to read (in order): <lista>
+- Deliverables: <lista numerotată>
+- Operating rules: <referință la CLAUDE.md §10b reguli aplicabile>
+```
+
+Fără acest prompt, sesiunea NU e considerată închisă. Promptul e self-contained (poate fi copiat 1:1 în următorul `claude /sN+1`).
+
+### ★ Regula 6 — INDEX documents update (obligatoriu)
+La **fiecare** document nou creat (spec, runbook, audit, playbook, checklist, workflow, etc.), Claude trebuie să:
+
+1. Adauge entry în `docs/INDEX_REVYX_documents_v1.0.0.md` — categoria corespunzătoare §3-§11.
+2. Descriere maximum **10 rânduri** — focus pe (a) ce e documentul · (b) ce findings/feature acoperă · (c) versiune · (d) cross-ref-uri majore.
+3. Bump PATCH al INDEX la ≥1 doc nou; MINOR la ≥3 docs noi în aceeași sesiune.
+4. Marcaj `★` înaintea numelui pentru documente noi/actualizate la sesiunea curentă.
+5. La deprecare doc: append `[DEPRECATED]` + cross-ref successor.
+
+Fără update INDEX, sesiunea NU e considerată închisă (verificat de Regula 4 step 7).
 
 ---
 
