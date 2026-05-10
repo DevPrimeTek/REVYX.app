@@ -25,10 +25,14 @@ if (!args.spec) {
   exit(2);
 }
 
-// 1) Catalogued set from spec
-const specText = readFileSync(args.spec, 'utf8');
-const cataloged = extractCatalogedEvents(specText);
-console.error(`[audit-catalog-lint] cataloged events: ${cataloged.size}`);
+// 1) Catalogued set from spec(s). --spec may repeat (e.g. v1.1.0 base + v1.1.1 patch).
+const specPaths = Array.isArray(args.spec) ? args.spec : [args.spec];
+const cataloged = new Set();
+for (const sp of specPaths) {
+  const specText = readFileSync(sp, 'utf8');
+  for (const ev of extractCatalogedEvents(specText)) cataloged.add(ev);
+}
+console.error(`[audit-catalog-lint] cataloged events: ${cataloged.size} (specs: ${specPaths.length})`);
 
 // 2) Code-side scan
 const srcPatterns = Array.isArray(args.src) ? args.src : [args.src].filter(Boolean);
@@ -66,7 +70,7 @@ const uncatalogued = codeMentions.filter((x) => !cataloged.has(x.eventType));
 const orphans = [...cataloged].filter((e) => !codeSet.has(e));
 
 const report = {
-  spec: args.spec,
+  specs: specPaths,
   catalogedCount: cataloged.size,
   codeMentionCount: codeMentions.length,
   uncatalogued,
@@ -92,7 +96,7 @@ if (uncatalogued.length > 0) {
   for (const e of uncatalogued) {
     console.error(`   - ${e.eventType}  (${e.file}:${e.line})`);
   }
-  console.error('\nFix: add each event to TECH_SPEC_REVYX_audit-log_v1.1.0.md §4.3 / §4.4 with severity, retention class, payload schema, alerting hook (per §4.4 conventions).');
+  console.error('\nFix: add each event to TECH_SPEC_REVYX_audit-log §4.3 / §4.4 catalog (current canonical: v1.1.1) with severity, retention class, payload schema, alerting hook.');
   exit(1);
 }
 

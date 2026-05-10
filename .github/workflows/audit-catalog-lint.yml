@@ -57,6 +57,7 @@ jobs:
           mkdir -p artifacts
           node .github/scripts/audit-catalog-lint.mjs \
             --spec docs/tech-spec/TECH_SPEC_REVYX_audit-log_v1.1.0.md \
+            --spec docs/tech-spec/TECH_SPEC_REVYX_audit-log_v1.1.1.md \
             --src 'apps/**/*.{ts,tsx,js}' \
             --src 'services/**/*.{ts,tsx,js}' \
             --src 'packages/**/*.{ts,tsx,js}' \
