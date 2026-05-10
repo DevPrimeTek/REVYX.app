@@ -1,0 +1,106 @@
+name: audit-catalog-lint
+
+# Closes F-04 HIGH (S9 audit) + F-S10-05 MED (S10 audit)
+# Implements TECH_SPEC_REVYX_audit-log v1.1.0 §4.5 (CI guard) + §13 (metric audit_event_uncatalogued_total)
+#
+# Behavior:
+#   1) Parse repo for `auditLogger.record({eventType: 'X'})` literals → set of code event types.
+#   2) Parse docs/tech-spec/TECH_SPEC_REVYX_audit-log_v1.1.0.md §4.3 (Phase 0-4) + §4.4 (Phase 5)
+#      → set of catalogued event types.
+#   3) Diff:
+#        - uncatalogued (in code, not in catalog) → fail build (HIGH)
+#        - orphan (in catalog, not in code) → warn (MEDIUM, soft fail only on PRs)
+#   4) Emit metric `audit_event_uncatalogued_total` to artifacts/metrics.txt.
+
+on:
+  pull_request:
+    paths:
+      - 'apps/**'
+      - 'services/**'
+      - 'packages/**'
+      - 'docs/tech-spec/TECH_SPEC_REVYX_audit-log_*.md'
+      - '.github/workflows/audit-catalog-lint.yml'
+      - '.github/scripts/audit-catalog-lint.mjs'
+  push:
+    branches:
+      - main
+    paths:
+      - 'apps/**'
+      - 'services/**'
+      - 'packages/**'
+      - 'docs/tech-spec/TECH_SPEC_REVYX_audit-log_*.md'
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  audit-catalog-lint:
+    name: Audit Event Catalog Lint
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'  # node:fs/promises.glob requires Node ≥22
+
+      - name: Run audit-catalog-lint
+        id: lint
+        run: |
+          mkdir -p artifacts
+          node .github/scripts/audit-catalog-lint.mjs \
+            --spec docs/tech-spec/TECH_SPEC_REVYX_audit-log_v1.1.0.md \
+            --src 'apps/**/*.{ts,tsx,js}' \
+            --src 'services/**/*.{ts,tsx,js}' \
+            --src 'packages/**/*.{ts,tsx,js}' \
+            --metrics-out artifacts/metrics.txt \
+            --report-out artifacts/audit-catalog-report.json
+        continue-on-error: false
+
+      - name: Upload report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: audit-catalog-report
+          path: artifacts/
+
+      - name: Comment on PR (uncatalogued events)
+        if: failure() && github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            let body = '## ❌ audit-catalog-lint failed\n\n';
+            try {
+              const report = JSON.parse(fs.readFileSync('artifacts/audit-catalog-report.json', 'utf8'));
+              if (report.uncatalogued && report.uncatalogued.length > 0) {
+                body += `### Uncatalogued event types (${report.uncatalogued.length})\n\n`;
+                body += 'These appear in code but NOT in `TECH_SPEC_REVYX_audit-log_v1.1.0.md` §4.3 / §4.4:\n\n';
+                for (const e of report.uncatalogued) {
+                  body += `- \`${e.eventType}\` at \`${e.file}:${e.line}\`\n`;
+                }
+                body += '\n**Fix:** add the event to the spec catalog with severity, retention class, payload schema, alerting hook (per §4.4 conventions). Then re-run CI.\n';
+              }
+              if (report.orphans && report.orphans.length > 0) {
+                body += `\n### ⚠️ Orphan catalog entries (${report.orphans.length}, advisory)\n\n`;
+                body += 'These appear in spec catalog but NOT in code (potentially stale):\n\n';
+                for (const e of report.orphans) {
+                  body += `- \`${e}\`\n`;
+                }
+              }
+            } catch (e) {
+              body += '_(no machine-readable report; see job logs)_';
+            }
+            github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body
+            });
