@@ -1,5 +1,5 @@
 # MASTER PLAN — REVYX Execution Roadmap
-<!-- MASTER_PLAN_REVYX_execution-roadmap_v1.1.0.md · v1.1.0 · 2026-06 -->
+<!-- MASTER_PLAN_REVYX_execution-roadmap_v1.1.1.md · v1.1.1 · 2026-06 -->
 <!-- CONFIDENȚIAL · Uz Intern · © 2026 REVYX · ITPRO SYSTEM SRL -->
 
 ## Changelog
@@ -7,7 +7,8 @@
 | Versiune | Data | Autor | Note |
 |---|---|---|---|
 | 1.0.0 | 2026-06 | Senior PM + Senior PO + Solution Architect + Audit Lead | INITIAL — Master Plan execution roadmap pentru REVYX AOS. Devine structural backbone al documentației: orice document nou (spec, runbook, audit) trebuie să citeze stage-ul de care aparține și să se conformeze cu acceptance criteria al milestone-ului respectiv. Definește 3 macro-milestones (M0 MVP Prezentare · M1 MVP Funcțional · M2 FULL Release GA), echipa virtuală Claude Code (10 hats cu activare condiționată per stage pentru optimizare token), Hard Stress Test methodology mandatory pre-fiecare milestone, gating documentation closure pre-development (S16-S19 + S20 HST #2). Cross-ref CLAUDE.md §10b Regula 3 (audit checkpoint) + Regula 4 (post-commit verify) + nou Regula 8 (Master Plan compliance). |
-| **1.1.0** | **2026-06** | ★ Senior PM + Senior PO + Solution Architect + Frontend Lead | ★ MINOR — **Dual-platform architecture explicit**. Triggered de feedback PM: REVYX este platformă dual-channel (Web primary + Mobile companion), nu doar mobile-centric. Schimbări: (1) §1.4 NEW — clarificare platforme: Web = ~80% workflow agenți (PC desktop, primary), Mobile = ~20% workflow în deplasare (companion); (2) §2.2 nou hat **FRONTEND WEB DEV** (separat de IMPLEMENTER backend); 10 → 11 hats; (3) §2.3 matrice actualizată — FRONTEND WEB DEV activ în M0.S3 + M1.S5/S6 + M2.S2/S5 + DESIGNER co-active pentru parity Web/Mobile; (4) §4-§6 restructurare sub-stages — M1 acum 8 sub-stages (split web dashboard în Agent + Manager), M2 acum 8 sub-stages (split web platform complete vs mobile companion); (5) §11 Definition of Done — Web AC explicit la M1 + M2; (6) AC matrix update — AC-M1-04 split în AC-M1-04a (Web agent) + AC-M1-04b (Web manager); AC-M2-02 Mobile devine companion (nu primary); (7) §10 risk register — nou R-11 "Web/Mobile feature parity drift" MED. Cross-ref CLAUDE.md v1.2.1 §10b Regula 7 (11 hats), BRD futura v1.2.0 trebuie să adauge §10.4 Web Platform Architecture explicit. |
+| 1.1.0 | 2026-06 | Senior PM + Senior PO + Solution Architect + Frontend Lead | MINOR — **Dual-platform architecture explicit**. Triggered de feedback PM: REVYX este platformă dual-channel (Web primary + Mobile companion), nu doar mobile-centric. Schimbări: (1) §1.4 NEW — clarificare platforme: Web = ~80% workflow agenți (PC desktop, primary), Mobile = ~20% workflow în deplasare (companion); (2) §2.2 nou hat **FRONTEND WEB DEV** (separat de IMPLEMENTER backend); 10 → 11 hats; (3) §2.3 matrice actualizată — FRONTEND WEB DEV activ în M0.S3 + M1.S5/S6 + M2.S2/S5 + DESIGNER co-active pentru parity Web/Mobile; (4) §4-§6 restructurare sub-stages — M1 acum 8 sub-stages (split web dashboard în Agent + Manager), M2 acum 8 sub-stages (split web platform complete vs mobile companion); (5) §11 Definition of Done — Web AC explicit la M1 + M2; (6) AC matrix update — AC-M1-04 split în AC-M1-04a (Web agent) + AC-M1-04b (Web manager); AC-M2-02 Mobile devine companion (nu primary); (7) §10 risk register — nou R-11 "Web/Mobile feature parity drift" MED. Cross-ref CLAUDE.md v1.2.1 §10b Regula 7 (11 hats), BRD futura v1.2.0 trebuie să adauge §10.4 Web Platform Architecture explicit. |
+| **1.1.1** | **2026-06** | ★ Senior Architect + Senior PM + Senior PO | ★ PATCH — **Trio canonical**: Master Plan v1.1.1 + Platform Matrix v1.0.0 + Detailed Roadmap v1.0.0 sunt acum cele 3 documente canonice pentru orice execuție. Schimbări: (1) §0 Status Tracker — adăugare row "Documente canonice" listând trio; (2) §12 Cross-references — adăugare cele 2 docs noi; (3) Notă globală: pentru orice "Web" / "Mobile" mențiune din sub-stages → vezi Platform Matrix v1.0.0 §X-modul corespondent; pentru orice atomic task ID (T-XXX) → vezi Detailed Roadmap v1.0.0 §Y. Trigger: Audit S15-bis-3 finding 88% docs cu gap-uri Web/Mobile + cerere user "să nu fie rework în development" — Senior Architect mandate pentru clarificare totală pre-development. |
 
 ---
 
@@ -27,6 +28,7 @@
 | **Modul Claude activ** | DOC + ARCHITECT (no code) |
 | **Plan tariff curent** | Claude.ai Pro $20/lună |
 | **Capacitate work/zi declarată** | 6-8 ore (efectiv ~4-5 ore post rate-limit overhead) |
+| **Documente canonice** ★ v1.1.1 | TRIO: Master Plan v1.1.1 (acest doc) + `PLATFORM_MATRIX_REVYX_web-mobile_v1.0.0.md` (feature×platform) + `ROADMAP_REVYX_detailed-execution_v1.0.0.md` (atomic tasks T-XXX) |
 
 ### 0.2 Progres milestone-uri
 
@@ -735,5 +737,5 @@ Conform CLAUDE.md §10b Regula 3:
 
 ---
 
-*docs/MASTER_PLAN_REVYX_execution-roadmap_v1.1.0.md · v1.1.0 · 2026-06 · CONFIDENȚIAL · Uz Intern*
+*docs/MASTER_PLAN_REVYX_execution-roadmap_v1.1.1.md · v1.1.1 · 2026-06 · CONFIDENȚIAL · Uz Intern*
 *REVYX — Real Estate Execution Intelligence · © 2026 REVYX · ITPRO SYSTEM SRL*
