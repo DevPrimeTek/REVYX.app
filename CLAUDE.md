@@ -1,5 +1,5 @@
 # CLAUDE.md — REVYX Agent Operating System
-<!-- CLAUDE.md · v1.2.0 · 2026-06 -->
+<!-- CLAUDE.md · v1.2.1 · 2026-06 -->
 <!-- CONFIDENȚIAL · Uz Intern · © 2026 REVYX · ITPRO SYSTEM SRL -->
 
 > Acest fișier este citit de Claude Code la **fiecare sesiune** din acest repo.
@@ -7,10 +7,10 @@
 
 ---
 
-## 0a. STATUS EXECUȚIE (LIVE) ★ v1.2.0
+## 0a. STATUS EXECUȚIE (LIVE) ★ v1.2.1
 
 > Single source of truth pentru "unde suntem ACUM". Actualizat la fiecare sesiune `/sN`.
-> Pentru detaliu complet → `docs/MASTER_PLAN_REVYX_execution-roadmap_v1.0.0.md` §0.
+> Pentru detaliu complet → `docs/MASTER_PLAN_REVYX_execution-roadmap_v1.1.0.md` §0.
 
 | Atribut | Valoare curentă |
 |---|---|
@@ -21,7 +21,8 @@
 | **Hard Stress Test #2** | S20 — MANDATORY GATE post-S19 |
 | **Modul Claude activ** | DOC + ARCHITECT (no application code) |
 | **Plan tariff** | Claude.ai Pro $20/lună · ~6-8 ore/zi declarat |
-| **Master Plan status** | v1.0.0 publicat 2026-06 · aprobare la S20 close |
+| **Master Plan status** | v1.1.0 publicat 2026-06 (★ dual-platform Web primary / Mobile companion) · aprobare la S20 close |
+| **Arhitectură platforme** ★ | Dual-channel: WEB primary (~80% workflow, browser desktop) + MOBILE companion (~20% in-field) |
 
 ### Roadmap macro
 
@@ -66,7 +67,7 @@ Pre-dev (S16-S20) ──→ M0 MVP Prezentare ──→ M1 MVP Funcțional ─�
 
 | Prioritate | Document | Scop |
 |---|---|---|
-| **0** | `docs/MASTER_PLAN_REVYX_execution-roadmap_v1.0.0.md` ★ | **Structural backbone** — milestones M0/M1/M2, sub-stages, echipa virtuală hats, acceptance criteria. Orice cod/doc nou trebuie să citeze stage-ul din care face parte (Regula 8). |
+| **0** | `docs/MASTER_PLAN_REVYX_execution-roadmap_v1.1.0.md` ★ | **Structural backbone** — milestones M0/M1/M2, sub-stages, echipa virtuală hats, acceptance criteria. Orice cod/doc nou trebuie să citeze stage-ul din care face parte (Regula 8). |
 | 1 | `docs/brand-configs/revyx.md` | Brand system (culori, font, componente, ton) |
 | 2 | `docs/BRD_REVYX_v1.0.0.md` + `v1.1.0.md` | Business Requirements (piloni, scoring, RBAC, roadmap) |
 | 3 | `docs/PRD_REVYX_*.md` | Product Requirements (când există) |
@@ -283,8 +284,10 @@ La **fiecare** document nou creat (spec, runbook, audit, playbook, checklist, wo
 
 Fără update INDEX, sesiunea NU e considerată închisă (verificat de Regula 4 step 7).
 
-### ★ Regula 7 — Roluri operaționale Claude
-Claude operează ca Senior Architect + Senior PM + Senior PO + Senior Tester + Senior DBA + Senior Security + Senior DevOps + Senior ML Engineer + Senior Mobile Dev + Senior Designer (10 hats). Activare condiționată per stage conform `MASTER_PLAN_REVYX_execution-roadmap` §2.3 matrice. Maximum 2-3 hats simultan pentru focus + token efficiency.
+### ★ Regula 7 — Roluri operaționale Claude (★ v1.2.1)
+Claude operează ca **11 hats** distincte (★ extins din 10 la v1.2.1): ARCHITECT + BACKEND DEV + FRONTEND WEB DEV ★ + MOBILE DEV + DBA + TESTER + SECURITY + DEVOPS + ML ENGINEER + DESIGNER + DOC. Activare condiționată per stage conform `MASTER_PLAN_REVYX_execution-roadmap_v1.1.0` §2.3 matrice. Maximum 2-3 hats simultan pentru focus + token efficiency.
+
+**Notă rename v1.1.0:** "IMPLEMENTER" generic s-a split în BACKEND DEV + FRONTEND WEB DEV + MOBILE DEV pentru claritate dual-platform Web (PRIMARY ~80%) + Mobile (COMPANION ~20%).
 
 ### ★ Regula 8 — Master Plan compliance (NEW v1.2.0)
 Orice document nou (spec, runbook, audit, playbook) ȘI orice cod scris (Phase 0 → G) **trebuie**:
@@ -340,7 +343,7 @@ Violarea Regulii 8 → rollback sesiune + raport în chat cu remedierea propusă
 
 ---
 
-*CLAUDE.md · v1.2.0 · 2026-06 · CONFIDENȚIAL · Uz Intern*
+*CLAUDE.md · v1.2.1 · 2026-06 · CONFIDENȚIAL · Uz Intern*
 *REVYX — Real Estate Execution Intelligence · © 2026 REVYX · ITPRO SYSTEM SRL*
 
 ---
@@ -351,4 +354,5 @@ Violarea Regulii 8 → rollback sesiune + raport în chat cu remedierea propusă
 |---|---|---|
 | 1.0.0 | 2026-05 | Initial — identitate proiect, documente referință, BR critice, Phase 0 checklist, §10b Regulile 1-6 |
 | 1.1.0 | 2026-05 | MINOR — adăugare Regula 7 (10 hats Claude) |
-| **1.2.0** | **2026-06** | ★ MINOR — adăugare §0a Status Execuție LIVE + Master Plan ca priority 0 în §1 + Regula 8 (Master Plan compliance) + footer changelog. Triggered de decizie strategică: Claude Code = singura forță execuție; necesită roadmap structurat M0/M1/M2 + HST mandatory pre-fiecare milestone. Cross-ref `MASTER_PLAN_REVYX_execution-roadmap_v1.0.0.md`. |
+| 1.2.0 | 2026-06 | MINOR — adăugare §0a Status Execuție LIVE + Master Plan ca priority 0 în §1 + Regula 8 (Master Plan compliance) + footer changelog. Triggered de decizie strategică: Claude Code = singura forță execuție; necesită roadmap structurat M0/M1/M2 + HST mandatory pre-fiecare milestone. |
+| **1.2.1** | **2026-06** | ★ PATCH — sincronizare cu MASTER_PLAN v1.1.0 (dual-platform). Regula 7 actualizată: 10 → **11 hats** (IMPLEMENTER split în BACKEND DEV + FRONTEND WEB DEV ★ + MOBILE DEV); §0a Status Execuție adăugare row "Arhitectură platforme" (WEB primary ~80% + MOBILE companion ~20%); referințe `MASTER_PLAN_REVYX_execution-roadmap_v1.0.0` → `v1.1.0` actualizate global. Triggered de feedback PM: REVYX e platformă dual-channel, nu mobile-only — restructurare M1 (7→8 sub-stages cu split Agent/Manager Web dashboard) + M2 (6→8 sub-stages cu Web Complete + Mobile Companion separate). |
