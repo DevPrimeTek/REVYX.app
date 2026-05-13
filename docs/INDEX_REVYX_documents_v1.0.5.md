@@ -1,5 +1,5 @@
 # INDEX — REVYX Document Catalog
-<!-- INDEX_REVYX_documents_v1.0.4.md · v1.0.4 · 2026-06 -->
+<!-- INDEX_REVYX_documents_v1.0.5.md · v1.0.5 · 2026-06 -->
 <!-- CONFIDENȚIAL · Uz Intern · © 2026 REVYX · ITPRO SYSTEM SRL -->
 
 ## Changelog
@@ -10,7 +10,8 @@
 | 1.0.1 | 2026-05 | Senior PM + Audit Lead | PATCH — adăugare 4 documente S13 + extensie audit-catalog-lint (`AUDIT_REVYX_s12-external-pass` v1.0.0 · `RUNBOOK_REVYX_stage1-mobile-launch` v1.0.0 · `SCC_VENDORS_phase5` v1.0.0 · `READINESS_REVYX_phase5` v1.0.1 PATCH) · descrieri ajustate la 5-5 rânduri în română pentru claritate operațională · re-marcaj `★` pe entries S13; entries S12 mențin marker în istoric · bump count summary §12 (76 documente totale post-S13) · cross-ref nou §0.14 SCC + §3.1 Stage 1 launch runbook |
 | 1.0.2 | 2026-05 | Senior PM + Audit Lead | PATCH — post-Stage 1 launch (T+14 close) + S13 audit pass · adăugare 3 documente S14: (`AUDIT_REVYX_s13-external-pass` v1.0.0 audit Stage 1 exit gates PASS · `RUNBOOK_REVYX_stage2-marketplace-launch` v1.0.0 operational day-by-day Stage 2 · `READINESS_REVYX_phase5` v1.0.2 PATCH cu exit gates measured Stage 1 + Stage 2 entry status updates) · re-marcaj `★` pe entries S14; entries S13 mențin marker în istoric · bump count summary §12 (79 documente totale post-S14) · cross-ref nou §3.2 Stage 2 launch runbook + §0.16 entry sign-off · F-S11-03 OPERATIONAL FULL CLOSED + new findings F-S13-01..04 toate TRACKED (1 MED UX deep-link + 3 LOW retention/SCC/Sentry tuning) |
 | 1.0.3 | 2026-06 | Senior PM + Audit Lead | PATCH — post-Stage 2 launch (T+35 close) + S14 audit pass · adăugare 4 documente S15: (`AUDIT_REVYX_s14-external-pass` v1.0.0 audit Stage 2 exit gates PASS + F-S11-08 op-closed + F-S14-01..04 new findings · `RUNBOOK_REVYX_stage3-ml-pricing-launch` v1.0.0 operational day-by-day Stage 3 CANARY 5%→25% · `READINESS_REVYX_phase5` v1.0.3 PATCH cu exit gates measured Stage 2 + Stage 3 entry status 🟢 GREEN · `SCC_VENDORS_phase5` v1.0.1 PATCH Apple+Google ON FILE + BSI §3.6 expandat pre-Stage 5) · re-marcaj `★` pe entries S15; entries S14 mențin marker în istoric · bump count summary §12 (83 documente totale post-S15) · cross-ref nou §0.17 Stage 3 runbook entry sign-off + §3.3 Stage 3 launch runbook + §0.18 SCC v1.0.1 BSI plan · F-S11-08 OPERATIONAL CLOSED FULL (4-eyes E2E staging 2026-05-30 PASS) + F-S13-01 IN PROGRESS (mobile-rn v1.0.1 PR) + F-S13-02/03/04 toate CLOSED + new findings F-S14-01..04 (1 MED L10n + 3 LOW Stripe idempotency/DBA perf/DPIA verbiage) |
-| 1.0.4 | 2026-06 | Senior PM + Senior PO + Solution Architect + Audit Lead | ★ PATCH — strategic backbone introduction · adăugare 1 doc strategic + categorie nouă §2a "Strategic Planning" (deasupra §3): (`MASTER_PLAN_REVYX_execution-roadmap` v1.0.0 — 3 macro-milestones M0 MVP Prezentare / M1 MVP Funcțional / M2 FULL Release GA cu sub-stages, echipa virtuală 10 hats Claude Code, matrice activare per stage, HST mandatory pre-fiecare milestone, token efficiency rules pentru Pro plan, risk register 10 items, AC matrix per milestone) · cross-ref CLAUDE.md v1.2.0 nou §0a Status Execuție LIVE + §1 priority 0 + §10b Regula 8 Master Plan compliance · re-marcaj `★` pe entry S15-bis (post-context-compaction); entries S15 mențin marker în istoric · bump count summary §12 (84 documente totale post-S15-bis) · trigger: decizie strategică user — Claude Code = singura forță execuție; gating documentation closure (S16-S19) + Hard Stress Test #2 (S20) pre-development M0. |
+| 1.0.4 | 2026-06 | Senior PM + Senior PO + Solution Architect + Audit Lead | PATCH — strategic backbone introduction · adăugare 1 doc strategic + categorie nouă §2a "Strategic Planning" (deasupra §3): (`MASTER_PLAN_REVYX_execution-roadmap` v1.0.0 — 3 macro-milestones M0 MVP Prezentare / M1 MVP Funcțional / M2 FULL Release GA cu sub-stages, echipa virtuală 10 hats Claude Code, matrice activare per stage, HST mandatory pre-fiecare milestone, token efficiency rules pentru Pro plan, risk register 10 items, AC matrix per milestone) · cross-ref CLAUDE.md v1.2.0 nou §0a Status Execuție LIVE + §1 priority 0 + §10b Regula 8 Master Plan compliance · bump count summary §12 (84 documente totale) · trigger: decizie strategică user — Claude Code = singura forță execuție; gating documentation closure (S16-S19) + Hard Stress Test #2 (S20) pre-development M0. |
+| 1.0.5 | 2026-06 | Senior PM + Senior PO + Frontend Lead + Solution Architect | ★ PATCH — dual-platform restructure · `MASTER_PLAN_REVYX_execution-roadmap` v1.0.0 → **v1.1.0 MINOR** (rename + 11 hats acum, separator IMPLEMENTER → BACKEND DEV + FRONTEND WEB DEV ★ + MOBILE DEV; M1 7→8 sub-stages cu split Web Agent + Web Manager dashboard; M2 6→8 sub-stages cu Web Platform Complete + Mobile Companion + WhatsApp Integration separate; §1.3 stack frontend Web vs Mobile explicit; §1.4 NEW filozofie dual-platform cu reguli DP-01..DP-07; AC matrix update AC-M1-04 split în 04a/04b + nou 09/10 + AC-M2-02 split în 02a/02b + nou 11 parity matrix; risk register +3 R-11/12/13 Web/Mobile parity drift) · CLAUDE.md v1.2.0 → **v1.2.1 PATCH** (Regula 7 actualizată 10→11 hats; §0a Arhitectură platforme adăugat; referințe Master Plan v1.0.0→v1.1.0 global) · trigger: feedback PM — REVYX este platformă dual-channel (Web primary ~80% workflow + Mobile companion ~20% in-field), nu doar mobile; restructurarea forțează clarificarea sub-stages per platformă · bump count summary §12 (85 documente totale — +1 entry MASTER_PLAN v1.1.0 alături de v1.0.0 [HISTORY] supersedat) · re-marcaj `★` pe entries S15-bis-2; entries S15-bis mențin marker. |
 
 ---
 
@@ -28,7 +29,7 @@
 
 | Document | Descriere |
 |---|---|
-| `CLAUDE.md` v1.2.0 ★ | Agent Operating System cheat-sheet pentru Claude Code la fiecare sesiune. Conține identitate proiect REVYX, documente referință (inclusiv priority 0 Master Plan), semantic versioning, stack tehnic, reguli critice business (BR-XX), SLA-uri, Phase 0 Security checklist, sistem skill-uri, limbă & ton, convenții cod + git, reguli operaționale §10b (Regula 1-8) — INCL. Regula 4 (verificare post-commit), Regula 5 (prompt next session), Regula 6 (update INDEX), Regula 7 (10 hats Claude), ★ Regula 8 NEW (Master Plan compliance), do's & don'ts, glosar minim. ★ v1.2.0: nou §0a Status Execuție LIVE + footer changelog. |
+| ★ `CLAUDE.md` v1.2.1 | Agent Operating System cheat-sheet pentru Claude Code la fiecare sesiune. Conține identitate proiect REVYX, documente referință (inclusiv priority 0 Master Plan v1.1.0), semantic versioning, stack tehnic, reguli critice business (BR-XX), SLA-uri, Phase 0 Security checklist, sistem skill-uri, limbă & ton, convenții cod + git, reguli operaționale §10b (Regula 1-8). ★ v1.2.1 PATCH: Regula 7 actualizată 10 → **11 hats** (IMPLEMENTER split în BACKEND DEV + FRONTEND WEB DEV ★ + MOBILE DEV); §0a row "Arhitectură platforme" adăugat (Web primary + Mobile companion). |
 | `docs/brand-configs/revyx.md` | Brand system canonical: paletă culori, font (Inter), componente UI, ton voce. Citit de toate skill-urile la generare document. Lege pentru orice UI sau document nou. Definește header/footer brandat obligatoriu pe orice spec. Owner: Senior Designer + PM. |
 
 ---
@@ -37,7 +38,8 @@
 
 | Document | Descriere |
 |---|---|
-| ★ `docs/MASTER_PLAN_REVYX_execution-roadmap_v1.0.0.md` | NEW S15-bis — **Structural backbone** al întregii documentații + execuției. Definește 3 macro-milestones (M0 MVP Prezentare cu 5 sub-stages + demo URL public + pitch deck 3 limbi · M1 MVP Funcțional cu 7 sub-stages mapate Phase 0 + A + B + C + pilot 2-3 tenanți · M2 FULL Release GA cu 6 sub-stages Phase D-G + mobile + ML + marketplace + white-label + pen-test extern), echipa virtuală Claude Code (10 hats: ARCHITECT/IMPLEMENTER/DBA/TESTER/SECURITY/DEVOPS/ML/MOBILE/DESIGNER/DOC cu matrice activare per stage pentru token efficiency), Hard Stress Test methodology 7-rol auditori MANDATORY pre-fiecare milestone, token efficiency rules pentru Pro plan ($20/lună), risk register 10 items, AC matrix per milestone (AC-M0-XX/AC-M1-XX/AC-M2-XX), pre-development gates (S16-S19 doc closure + S20 HST #2 + Master Plan §13 sign-off). Gating: niciun cod aplicație înainte de S20 PASS + Master Plan approval. Cross-ref CLAUDE.md v1.2.0 §0a + §1 priority 0 + Regula 7 + Regula 8 + BRD v1.1.0 + READINESS v1.0.3 + RUNBOOK phase5-rollout-sequence. Owner: Senior PM + Senior PO + Solution Architect + Audit Lead + CTO + DPO. |
+| `docs/MASTER_PLAN_REVYX_execution-roadmap_v1.0.0.md` [HISTORY] | INITIAL S15-bis — 3 macro-milestones (M0/M1/M2) cu 10 hats Claude Code; M0 5 sub-stages, M1 7 sub-stages, M2 6 sub-stages. SUPERSEDED de v1.1.0. |
+| ★ `docs/MASTER_PLAN_REVYX_execution-roadmap_v1.1.0.md` | MINOR S15-bis-2 — **Dual-platform restructure**. Updates din v1.0.0: (1) §1.3 stack frontend Web (Next.js 14 RSC + shadcn/ui + TailwindCSS) vs Mobile (RN + Expo SDK 51 + NativeWind) explicit; (2) §1.4 NEW filozofie dual-platform — WEB primary ~80% workflow desktop / MOBILE companion ~20% in-field cu reguli DP-01..DP-07 (Web-first development, feature parity matrix, single backend API, single session per agent, admin = Web only); (3) §2.2 11 hats (IMPLEMENTER split în **BACKEND DEV + FRONTEND WEB DEV ★ + MOBILE DEV**); (4) §2.3 matrice update; (5) M1 **8 sub-stages** (split S5 Agent + S6 Manager Web dashboard); (6) M2 **8 sub-stages** (Web Platform Complete S2 separat de Mobile Companion S3 + WhatsApp Integration S6 nou); (7) AC matrix updates AC-M1-04→04a/04b + AC-M1-09/10 nou (Web perf+i18n) + AC-M2-02→02a/02b + AC-M2-11 nou (parity matrix); (8) Risk register +3 R-11/12/13 (Web/Mobile parity drift, Lighthouse <80, admin Mobile leak). Cross-ref CLAUDE.md v1.2.1 §0a Arhitectură platforme + Regula 7 11 hats. Trigger: feedback PM dual-channel clarification. Owner: Senior PM + Senior PO + Frontend Lead + Solution Architect + Audit Lead + CTO + DPO. |
 
 ---
 
@@ -190,12 +192,12 @@
 
 ---
 
-## 12. Document count summary (S15-bis close, v1.0.4)
+## 12. Document count summary (S15-bis-2 close, v1.0.5)
 
 | Categorie | Count |
 |---|---|
-| Foundation (CLAUDE.md + brand) | 2 (★ CLAUDE.md v1.2.0) |
-| Strategic Planning ★ NEW | 1 (★ MASTER_PLAN v1.0.0) |
+| Foundation (CLAUDE.md + brand) | 2 (★ CLAUDE.md v1.2.1) |
+| Strategic Planning ★ | 2 (MASTER_PLAN v1.0.0 [history] + ★ v1.1.0 active) |
 | BRD | 2 |
 | Tech Specs (Phase 0-4 + Phase 5) | 31 |
 | Workflows | 9 |
@@ -205,9 +207,9 @@
 | Legal | 5 |
 | Test fixtures + Templates | 3 |
 | Skills | 5 |
-| **Total** | **84 documente** (incl. patch + minor versions; +1 vs v1.0.3) |
+| **Total** | **85 documente** (incl. patch + minor versions; +1 vs v1.0.4 = MASTER_PLAN v1.1.0) |
 
-> **Notă:** documente duplicate prin versiuni (v1.0.0 + v1.1.0 + v1.0.1) sunt listate separat — fiecare versiune e document distinct istoric. Total **active** (deprecate excluse): **~69** post-S15-bis.
+> **Notă:** documente duplicate prin versiuni (v1.0.0 + v1.1.0 + v1.0.1) sunt listate separat — fiecare versiune e document distinct istoric. Total **active** (deprecate excluse, MASTER_PLAN v1.0.0 supersedat de v1.1.0): **~69** post-S15-bis-2.
 
 ---
 
@@ -234,5 +236,5 @@
 
 ---
 
-*docs/INDEX_REVYX_documents_v1.0.4.md · v1.0.4 · 2026-06 · CONFIDENȚIAL · Uz Intern*
+*docs/INDEX_REVYX_documents_v1.0.5.md · v1.0.5 · 2026-06 · CONFIDENȚIAL · Uz Intern*
 *REVYX — Real Estate Execution Intelligence · © 2026 REVYX · ITPRO SYSTEM SRL*
