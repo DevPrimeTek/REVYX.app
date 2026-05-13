@@ -1,5 +1,5 @@
 # CLAUDE.md — REVYX Agent Operating System
-<!-- CLAUDE.md · v1.2.1 · 2026-06 -->
+<!-- CLAUDE.md · v1.2.2 · 2026-06 -->
 <!-- CONFIDENȚIAL · Uz Intern · © 2026 REVYX · ITPRO SYSTEM SRL -->
 
 > Acest fișier este citit de Claude Code la **fiecare sesiune** din acest repo.
@@ -7,10 +7,10 @@
 
 ---
 
-## 0a. STATUS EXECUȚIE (LIVE) ★ v1.2.1
+## 0a. STATUS EXECUȚIE (LIVE) ★ v1.2.2
 
 > Single source of truth pentru "unde suntem ACUM". Actualizat la fiecare sesiune `/sN`.
-> Pentru detaliu complet → `docs/MASTER_PLAN_REVYX_execution-roadmap_v1.1.0.md` §0.
+> Pentru detaliu complet → `docs/MASTER_PLAN_REVYX_execution-roadmap_v1.1.1.md` §0.
 
 | Atribut | Valoare curentă |
 |---|---|
@@ -67,7 +67,9 @@ Pre-dev (S16-S20) ──→ M0 MVP Prezentare ──→ M1 MVP Funcțional ─�
 
 | Prioritate | Document | Scop |
 |---|---|---|
-| **0** | `docs/MASTER_PLAN_REVYX_execution-roadmap_v1.1.0.md` ★ | **Structural backbone** — milestones M0/M1/M2, sub-stages, echipa virtuală hats, acceptance criteria. Orice cod/doc nou trebuie să citeze stage-ul din care face parte (Regula 8). |
+| **0** | `docs/MASTER_PLAN_REVYX_execution-roadmap_v1.1.1.md` ★ | **Structural backbone** — milestones M0/M1/M2, sub-stages, echipa virtuală hats, acceptance criteria. Orice cod/doc nou trebuie să citeze stage-ul din care face parte (Regula 8). |
+| **0.1** ★ v1.2.2 | `docs/PLATFORM_MATRIX_REVYX_web-mobile_v1.0.0.md` | **Canonical feature × platform mapping** — single source of truth pentru întrebarea "Această funcționalitate e Web, Mobile sau Both?". Acoperă 15 module (119 features) cu RBAC role per platform + reguli DP-01..DP-07. Orice spec/workflow trebuie cross-ref aici (Regula 9). |
+| **0.2** ★ v1.2.2 | `docs/ROADMAP_REVYX_detailed-execution_v1.0.0.md` | **Detailed roadmap** — descompunere Master Plan §4-§6 în atomic tasks (T-XXX) cu owner hat, effort estimate (XS-XL), dependencies, output deliverable, platform tag. ~308 tasks total, ~125-165 sesiuni Claude estimate. Cross-ref pentru session planning. |
 | 1 | `docs/brand-configs/revyx.md` | Brand system (culori, font, componente, ton) |
 | 2 | `docs/BRD_REVYX_v1.0.0.md` + `v1.1.0.md` | Business Requirements (piloni, scoring, RBAC, roadmap) |
 | 3 | `docs/PRD_REVYX_*.md` | Product Requirements (când există) |
@@ -285,9 +287,20 @@ La **fiecare** document nou creat (spec, runbook, audit, playbook, checklist, wo
 Fără update INDEX, sesiunea NU e considerată închisă (verificat de Regula 4 step 7).
 
 ### ★ Regula 7 — Roluri operaționale Claude (★ v1.2.1)
-Claude operează ca **11 hats** distincte (★ extins din 10 la v1.2.1): ARCHITECT + BACKEND DEV + FRONTEND WEB DEV ★ + MOBILE DEV + DBA + TESTER + SECURITY + DEVOPS + ML ENGINEER + DESIGNER + DOC. Activare condiționată per stage conform `MASTER_PLAN_REVYX_execution-roadmap_v1.1.0` §2.3 matrice. Maximum 2-3 hats simultan pentru focus + token efficiency.
+Claude operează ca **11 hats** distincte (★ extins din 10 la v1.2.1): ARCHITECT + BACKEND DEV + FRONTEND WEB DEV ★ + MOBILE DEV + DBA + TESTER + SECURITY + DEVOPS + ML ENGINEER + DESIGNER + DOC. Activare condiționată per stage conform `MASTER_PLAN_REVYX_execution-roadmap_v1.1.1` §2.3 matrice. Maximum 2-3 hats simultan pentru focus + token efficiency.
 
 **Notă rename v1.1.0:** "IMPLEMENTER" generic s-a split în BACKEND DEV + FRONTEND WEB DEV + MOBILE DEV pentru claritate dual-platform Web (PRIMARY ~80%) + Mobile (COMPANION ~20%).
+
+### ★ Regula 9 — Platform Matrix compliance (NEW v1.2.2)
+Pentru orice spec, workflow, runbook sau cod care **atinge UI** (frontend Web sau Mobile), Claude trebuie:
+
+1. Să citeze în header `## 0.1 Platform Matrix` cu cross-ref la modul-ul corespunzător din `PLATFORM_MATRIX_REVYX_web-mobile_v1.0.0.md` §X.
+2. Să marcheze fiecare feature/screen menționat cu tag explicit: 🌐 WEB / 📱 MOBILE / 🔁 BOTH / 🔧 Backend (no UI).
+3. Să respecte regulile DP-01..DP-07 (Web-first, single backend, admin = Web only, etc.).
+4. Niciun feature admin (RBAC mgmt, ML promote, white-label config, billing, audit log viewer, reports complete) NU poate apărea pe Mobile per DP-05.
+5. Pentru orice termen ambiguu ("dashboard", "queue", "list") → **obligatoriu** specificare platform.
+
+Violarea Regulii 9 → finding HIGH în HST + rollback PR până la rezolvare.
 
 ### ★ Regula 8 — Master Plan compliance (NEW v1.2.0)
 Orice document nou (spec, runbook, audit, playbook) ȘI orice cod scris (Phase 0 → G) **trebuie**:
@@ -343,7 +356,7 @@ Violarea Regulii 8 → rollback sesiune + raport în chat cu remedierea propusă
 
 ---
 
-*CLAUDE.md · v1.2.1 · 2026-06 · CONFIDENȚIAL · Uz Intern*
+*CLAUDE.md · v1.2.2 · 2026-06 · CONFIDENȚIAL · Uz Intern*
 *REVYX — Real Estate Execution Intelligence · © 2026 REVYX · ITPRO SYSTEM SRL*
 
 ---
@@ -355,4 +368,5 @@ Violarea Regulii 8 → rollback sesiune + raport în chat cu remedierea propusă
 | 1.0.0 | 2026-05 | Initial — identitate proiect, documente referință, BR critice, Phase 0 checklist, §10b Regulile 1-6 |
 | 1.1.0 | 2026-05 | MINOR — adăugare Regula 7 (10 hats Claude) |
 | 1.2.0 | 2026-06 | MINOR — adăugare §0a Status Execuție LIVE + Master Plan ca priority 0 în §1 + Regula 8 (Master Plan compliance) + footer changelog. Triggered de decizie strategică: Claude Code = singura forță execuție; necesită roadmap structurat M0/M1/M2 + HST mandatory pre-fiecare milestone. |
-| **1.2.1** | **2026-06** | ★ PATCH — sincronizare cu MASTER_PLAN v1.1.0 (dual-platform). Regula 7 actualizată: 10 → **11 hats** (IMPLEMENTER split în BACKEND DEV + FRONTEND WEB DEV ★ + MOBILE DEV); §0a Status Execuție adăugare row "Arhitectură platforme" (WEB primary ~80% + MOBILE companion ~20%); referințe `MASTER_PLAN_REVYX_execution-roadmap_v1.0.0` → `v1.1.0` actualizate global. Triggered de feedback PM: REVYX e platformă dual-channel, nu mobile-only — restructurare M1 (7→8 sub-stages cu split Agent/Manager Web dashboard) + M2 (6→8 sub-stages cu Web Complete + Mobile Companion separate). |
+| 1.2.1 | 2026-06 | PATCH — sincronizare cu MASTER_PLAN v1.1.0 (dual-platform). Regula 7 actualizată: 10 → **11 hats** (IMPLEMENTER split în BACKEND DEV + FRONTEND WEB DEV ★ + MOBILE DEV); §0a Status Execuție adăugare row "Arhitectură platforme" (WEB primary ~80% + MOBILE companion ~20%); referințe `MASTER_PLAN_REVYX_execution-roadmap_v1.0.0` → `v1.1.0` actualizate global. |
+| **1.2.2** | **2026-06** | ★ PATCH — Trio canonical introduction. Adăugare priority 0.1 + 0.2 în §1: `PLATFORM_MATRIX_REVYX_web-mobile_v1.0.0.md` (canonical feature×platform mapping, 15 module, 119 features) + `ROADMAP_REVYX_detailed-execution_v1.0.0.md` (atomic tasks T-XXX, ~308 total). Adăugare ★ Regula 9 NEW (Platform Matrix compliance) — orice spec/workflow UI-touching trebuie tag-uit explicit Web/Mobile/Both + respectare DP-01..DP-07. Master Plan ref bump v1.1.0 → v1.1.1. Trigger: Audit S15-bis-3 finding 88% docs gap-uri Web/Mobile + cerere user "Senior Architect mandate" — definirea totală pre-development. |
