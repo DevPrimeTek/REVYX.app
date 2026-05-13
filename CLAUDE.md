@@ -1,9 +1,46 @@
 # CLAUDE.md — REVYX Agent Operating System
-<!-- CLAUDE.md · v1.1.0 · 2026-05 -->
+<!-- CLAUDE.md · v1.2.0 · 2026-06 -->
 <!-- CONFIDENȚIAL · Uz Intern · © 2026 REVYX · ITPRO SYSTEM SRL -->
 
 > Acest fișier este citit de Claude Code la **fiecare sesiune** din acest repo.
 > Conține contextul minim necesar pentru a lucra corect pe REVYX fără brief repetat.
+
+---
+
+## 0a. STATUS EXECUȚIE (LIVE) ★ v1.2.0
+
+> Single source of truth pentru "unde suntem ACUM". Actualizat la fiecare sesiune `/sN`.
+> Pentru detaliu complet → `docs/MASTER_PLAN_REVYX_execution-roadmap_v1.0.0.md` §0.
+
+| Atribut | Valoare curentă |
+|---|---|
+| **Macro-milestone activ** | Pre-development — Documentation closure |
+| **Sesiune curentă** | S15 ✅ CLOSED |
+| **Următoarea sesiune** | S16 (Stage 3 audit + Stage 4 entry) |
+| **Documentație rămasă** | 4 sesiuni (S16, S17, S18, S19) |
+| **Hard Stress Test #2** | S20 — MANDATORY GATE post-S19 |
+| **Modul Claude activ** | DOC + ARCHITECT (no application code) |
+| **Plan tariff** | Claude.ai Pro $20/lună · ~6-8 ore/zi declarat |
+| **Master Plan status** | v1.0.0 publicat 2026-06 · aprobare la S20 close |
+
+### Roadmap macro
+
+```
+Pre-dev (S16-S20) ──→ M0 MVP Prezentare ──→ M1 MVP Funcțional ──→ M2 FULL Release GA
+   ↑ ACUM              (Demo pitching)        (Pilot 2-3 tenanți)    (Public Moldova)
+```
+
+### Următoarele 5 sesiuni programate
+
+| Sesiune | Scop | Output |
+|---|---|---|
+| **S16** | Stage 3 audit + Stage 4 entry | AUDIT_s15, RUNBOOK_stage4-churn, READINESS v1.0.4 |
+| **S17** | Stage 4 audit + Stage 5 entry | AUDIT_s16, RUNBOOK_stage5-white-label, READINESS v1.0.5 |
+| **S18** | Stage 5 audit + GA prep | AUDIT_s17, READINESS v1.1.0 MINOR |
+| **S19** | Final doc closure | Raport final board, INDEX v1.1.0 |
+| **S20** | **Hard Stress Test #2** ⚠️ MANDATORY | HST report, gap closure backlog |
+
+**Gating pentru a începe development (M0):** S20 PASS cu 0 findings CRIT/HIGH + Master Plan §13 sign-off.
 
 ---
 
@@ -29,8 +66,9 @@
 
 | Prioritate | Document | Scop |
 |---|---|---|
+| **0** | `docs/MASTER_PLAN_REVYX_execution-roadmap_v1.0.0.md` ★ | **Structural backbone** — milestones M0/M1/M2, sub-stages, echipa virtuală hats, acceptance criteria. Orice cod/doc nou trebuie să citeze stage-ul din care face parte (Regula 8). |
 | 1 | `docs/brand-configs/revyx.md` | Brand system (culori, font, componente, ton) |
-| 2 | `docs/BRD_REVYX_v1.0.0.md` | Business Requirements (piloni, scoring, RBAC, roadmap) |
+| 2 | `docs/BRD_REVYX_v1.0.0.md` + `v1.1.0.md` | Business Requirements (piloni, scoring, RBAC, roadmap) |
 | 3 | `docs/PRD_REVYX_*.md` | Product Requirements (când există) |
 | 4 | `docs/TECH_SPEC_REVYX_*.md` | Technical Specification (când există) |
 | 5 | `docs/WORKFLOW_REVYX_*.md` | Workflow & Process Maps (când există) |
@@ -237,13 +275,27 @@ Fără acest prompt, sesiunea NU e considerată închisă. Promptul e self-conta
 ### ★ Regula 6 — INDEX documents update (obligatoriu)
 La **fiecare** document nou creat (spec, runbook, audit, playbook, checklist, workflow, etc.), Claude trebuie să:
 
-1. Adauge entry în `docs/INDEX_REVYX_documents_v1.0.0.md` — categoria corespunzătoare §3-§11.
+1. Adauge entry în `docs/INDEX_REVYX_documents_v1.0.X.md` (versiunea curentă) — categoria corespunzătoare §2a-§11.
 2. Descriere maximum **10 rânduri** — focus pe (a) ce e documentul · (b) ce findings/feature acoperă · (c) versiune · (d) cross-ref-uri majore.
 3. Bump PATCH al INDEX la ≥1 doc nou; MINOR la ≥3 docs noi în aceeași sesiune.
 4. Marcaj `★` înaintea numelui pentru documente noi/actualizate la sesiunea curentă.
 5. La deprecare doc: append `[DEPRECATED]` + cross-ref successor.
 
 Fără update INDEX, sesiunea NU e considerată închisă (verificat de Regula 4 step 7).
+
+### ★ Regula 7 — Roluri operaționale Claude
+Claude operează ca Senior Architect + Senior PM + Senior PO + Senior Tester + Senior DBA + Senior Security + Senior DevOps + Senior ML Engineer + Senior Mobile Dev + Senior Designer (10 hats). Activare condiționată per stage conform `MASTER_PLAN_REVYX_execution-roadmap` §2.3 matrice. Maximum 2-3 hats simultan pentru focus + token efficiency.
+
+### ★ Regula 8 — Master Plan compliance (NEW v1.2.0)
+Orice document nou (spec, runbook, audit, playbook) ȘI orice cod scris (Phase 0 → G) **trebuie**:
+
+1. Să citeze în header `## 0. Stage Master Plan` cu referință explicită la stage-ul de care aparține (ex: `M1.S3 — Phase B Lead Intake + Scoring`).
+2. Să respecte acceptance criteria definite pentru milestone-ul respectiv (AC-M0-XX / AC-M1-XX / AC-M2-XX).
+3. Să respecte matricea de hats activi din §2.3 Master Plan — nu introduce funcționalitate care necesită un hat inactiv pentru stage-ul curent.
+4. La închidere stage → update §0a Status Execuție din acest CLAUDE.md ȘI §0 din Master Plan.
+5. Niciun cod aplicație înainte de aprobarea Master Plan (§13) și PASS la Hard Stress Test #2 (S20).
+
+Violarea Regulii 8 → rollback sesiune + raport în chat cu remedierea propusă.
 
 ---
 
@@ -288,5 +340,15 @@ Fără update INDEX, sesiunea NU e considerată închisă (verificat de Regula 4
 
 ---
 
-*CLAUDE.md · v1.0.0 · 2026-05 · CONFIDENȚIAL · Uz Intern*
+*CLAUDE.md · v1.2.0 · 2026-06 · CONFIDENȚIAL · Uz Intern*
 *REVYX — Real Estate Execution Intelligence · © 2026 REVYX · ITPRO SYSTEM SRL*
+
+---
+
+## Changelog CLAUDE.md
+
+| Versiune | Data | Note |
+|---|---|---|
+| 1.0.0 | 2026-05 | Initial — identitate proiect, documente referință, BR critice, Phase 0 checklist, §10b Regulile 1-6 |
+| 1.1.0 | 2026-05 | MINOR — adăugare Regula 7 (10 hats Claude) |
+| **1.2.0** | **2026-06** | ★ MINOR — adăugare §0a Status Execuție LIVE + Master Plan ca priority 0 în §1 + Regula 8 (Master Plan compliance) + footer changelog. Triggered de decizie strategică: Claude Code = singura forță execuție; necesită roadmap structurat M0/M1/M2 + HST mandatory pre-fiecare milestone. Cross-ref `MASTER_PLAN_REVYX_execution-roadmap_v1.0.0.md`. |
