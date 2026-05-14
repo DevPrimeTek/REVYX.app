@@ -21,30 +21,30 @@
 | Atribut | Valoare |
 |---|---|
 | **Macro-milestone activ** | Pre-development — Documentation closure |
-| **Sub-stage activ** | S15 ✅ CLOSED → S16 next |
-| **Documentație rămasă** | 4 sesiuni (S16, S17, S18, S19) |
+| **Sub-stage activ** | ★ S16 ✅ CLOSED → S17 next |
+| **Documentație rămasă** | 3 sesiuni (S17, S18, S19) |
 | **Hard Stress Test #2** | Programat post-S19 ca sesiune **S20** |
 | **Development start (Phase 0)** | Blocat până la închidere S20 |
 | **Modul Claude activ** | DOC + ARCHITECT (no code) |
 | **Plan tariff curent** | Claude.ai Pro $20/lună |
 | **Capacitate work/zi declarată** | 6-8 ore (efectiv ~4-5 ore post rate-limit overhead) |
-| **Documente canonice** ★ v1.1.1 | TRIO: Master Plan v1.1.1 (acest doc) + `PLATFORM_MATRIX_REVYX_web-mobile_v1.0.0.md` (feature×platform) + `ROADMAP_REVYX_detailed-execution_v1.0.0.md` (atomic tasks T-XXX) |
+| **Documente canonice** v1.1.1 | TRIO: Master Plan v1.1.1 (acest doc) + `PLATFORM_MATRIX_REVYX_web-mobile_v1.0.0.md` (feature×platform) + `ROADMAP_REVYX_detailed-execution_v1.0.0.md` (atomic tasks T-XXX) |
+| **Phase 5 progress** ★ S16 | Stage 1 ✅ PASS · Stage 2 ✅ PASS · **Stage 3 ✅ PASS (6/6 exit gates T+56 close)** · Stage 4 🟢 entry unblocked T+56 (9/9 GREEN) |
 
 ### 0.2 Progres milestone-uri
 
 | Milestone | Status | Progres documentație | Progres execuție |
 |---|---|---|---|
-| **Pre-dev** | 🟡 IN PROGRESS | 83/~95 docs | N/A |
+| **Pre-dev** | 🟡 IN PROGRESS | ★ 96/~100 docs (post-S16) | N/A |
 | **M0 — MVP Prezentare** | ⚪ NOT STARTED | 0/required | 0% |
 | **M1 — MVP Funcțional** | ⚪ NOT STARTED | 0/required | 0% |
 | **M2 — FULL Release GA** | ⚪ NOT STARTED | 0/required | 0% |
 
-### 0.3 Următoarele 5 sesiuni programate
+### 0.3 Următoarele 4 sesiuni programate
 
 | Sesiune | Scop | Output principal |
 |---|---|---|
-| **S16** | Stage 3 audit + Stage 4 entry | AUDIT_s15, RUNBOOK_stage4-churn, READINESS v1.0.4 |
-| **S17** | Stage 4 audit + Stage 5 entry | AUDIT_s16, RUNBOOK_stage5-white-label, READINESS v1.0.5 |
+| **S17** ★ next | Stage 4 audit + Stage 5 entry | AUDIT_s16, RUNBOOK_stage5-white-label, READINESS v1.0.5 |
 | **S18** | Stage 5 audit + GA prep | AUDIT_s17, READINESS v1.1.0 MINOR (GA close) |
 | **S19** | Final doc closure + GA sign-off | Raport final board, INDEX v1.1.0 |
 | **S20** | **Hard Stress Test #2** ⚠️ MANDATORY GATE | HST report, gap closure backlog |
