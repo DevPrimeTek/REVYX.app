@@ -15,28 +15,29 @@
 | Atribut | Valoare curentă |
 |---|---|
 | **Macro-milestone activ** | Pre-development — Documentation closure |
-| **Sesiune curentă** | S15 ✅ CLOSED |
-| **Următoarea sesiune** | S16 (Stage 3 audit + Stage 4 entry) |
-| **Documentație rămasă** | 4 sesiuni (S16, S17, S18, S19) |
+| **Sesiune curentă** | ★ S16 ✅ CLOSED (Stage 3 audit + Stage 4 entry unblocked) |
+| **Următoarea sesiune** | S17 (Stage 4 audit + Stage 5 entry) |
+| **Documentație rămasă** | 3 sesiuni (S17, S18, S19) |
 | **Hard Stress Test #2** | S20 — MANDATORY GATE post-S19 |
 | **Modul Claude activ** | DOC + ARCHITECT (no application code) |
 | **Plan tariff** | Claude.ai Pro $20/lună · ~6-8 ore/zi declarat |
-| **Master Plan status** | v1.1.0 publicat 2026-06 (★ dual-platform Web primary / Mobile companion) · aprobare la S20 close |
-| **Arhitectură platforme** ★ | Dual-channel: WEB primary (~80% workflow, browser desktop) + MOBILE companion (~20% in-field) |
+| **Master Plan status** | v1.1.1 publicat 2026-06 (Trio canonical: Master Plan + Platform Matrix + Detailed Roadmap) · aprobare la S20 close |
+| **Arhitectură platforme** | Dual-channel: WEB primary (~80% workflow, browser desktop) + MOBILE companion (~20% in-field) |
+| **Phase 5 progress** ★ S16 | Stage 1 ✅ PASS · Stage 2 ✅ PASS · **Stage 3 ✅ PASS (6/6 exit gates)** · Stage 4 🟢 entry unblocked T+56 |
 
 ### Roadmap macro
 
 ```
 Pre-dev (S16-S20) ──→ M0 MVP Prezentare ──→ M1 MVP Funcțional ──→ M2 FULL Release GA
-   ↑ ACUM              (Demo pitching)        (Pilot 2-3 tenanți)    (Public Moldova)
+   ↑ S16 ✅ CLOSED     (Demo pitching)        (Pilot 2-3 tenanți)    (Public Moldova)
+   → S17 next
 ```
 
-### Următoarele 5 sesiuni programate
+### Următoarele 4 sesiuni programate
 
 | Sesiune | Scop | Output |
 |---|---|---|
-| **S16** | Stage 3 audit + Stage 4 entry | AUDIT_s15, RUNBOOK_stage4-churn, READINESS v1.0.4 |
-| **S17** | Stage 4 audit + Stage 5 entry | AUDIT_s16, RUNBOOK_stage5-white-label, READINESS v1.0.5 |
+| **S17** ★ next | Stage 4 audit + Stage 5 entry | AUDIT_s16, RUNBOOK_stage5-white-label, READINESS v1.0.5 |
 | **S18** | Stage 5 audit + GA prep | AUDIT_s17, READINESS v1.1.0 MINOR |
 | **S19** | Final doc closure | Raport final board, INDEX v1.1.0 |
 | **S20** | **Hard Stress Test #2** ⚠️ MANDATORY | HST report, gap closure backlog |
