@@ -15,30 +15,29 @@
 | Atribut | Valoare curentă |
 |---|---|
 | **Macro-milestone activ** | Pre-development — Documentation closure |
-| **Sesiune curentă** | ★ S16 ✅ CLOSED (Stage 3 audit + Stage 4 entry unblocked) |
-| **Următoarea sesiune** | S17 (Stage 4 audit + Stage 5 entry) |
-| **Documentație rămasă** | 3 sesiuni (S17, S18, S19) |
+| **Sesiune curentă** | ★ S17 ✅ CLOSED (Stage 4 audit + Stage 5 entry unblocked) |
+| **Următoarea sesiune** | S18 (Stage 5 audit + GA prep) |
+| **Documentație rămasă** | 2 sesiuni (S18, S19) |
 | **Hard Stress Test #2** | S20 — MANDATORY GATE post-S19 |
 | **Modul Claude activ** | DOC + ARCHITECT (no application code) |
 | **Plan tariff** | Claude.ai Pro $20/lună · ~6-8 ore/zi declarat |
 | **Master Plan status** | v1.1.1 publicat 2026-06 (Trio canonical: Master Plan + Platform Matrix + Detailed Roadmap) · aprobare la S20 close |
 | **Arhitectură platforme** | Dual-channel: WEB primary (~80% workflow, browser desktop) + MOBILE companion (~20% in-field) |
-| **Phase 5 progress** ★ S16 | Stage 1 ✅ PASS · Stage 2 ✅ PASS · **Stage 3 ✅ PASS (6/6 exit gates)** · Stage 4 🟢 entry unblocked T+56 |
+| **Phase 5 progress** ★ S17 | Stage 1 ✅ PASS · Stage 2 ✅ PASS · Stage 3 ✅ PASS · **Stage 4 ✅ PASS (7/7 exit gates)** · Stage 5 🟢 entry unblocked T+77 (17/17 GREEN) |
 
 ### Roadmap macro
 
 ```
 Pre-dev (S16-S20) ──→ M0 MVP Prezentare ──→ M1 MVP Funcțional ──→ M2 FULL Release GA
-   ↑ S16 ✅ CLOSED     (Demo pitching)        (Pilot 2-3 tenanți)    (Public Moldova)
-   → S17 next
+   ↑ S17 ✅ CLOSED     (Demo pitching)        (Pilot 2-3 tenanți)    (Public Moldova)
+   → S18 next
 ```
 
-### Următoarele 4 sesiuni programate
+### Următoarele 3 sesiuni programate
 
 | Sesiune | Scop | Output |
 |---|---|---|
-| **S17** ★ next | Stage 4 audit + Stage 5 entry | AUDIT_s16, RUNBOOK_stage5-white-label, READINESS v1.0.5 |
-| **S18** | Stage 5 audit + GA prep | AUDIT_s17, READINESS v1.1.0 MINOR |
+| **S18** ★ next | Stage 5 audit + GA prep | AUDIT_s17, READINESS v1.1.0 MINOR (GA close), DPIA v1.0.1, SCC v1.0.2 |
 | **S19** | Final doc closure | Raport final board, INDEX v1.1.0 |
 | **S20** | **Hard Stress Test #2** ⚠️ MANDATORY | HST report, gap closure backlog |
 
