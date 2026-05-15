@@ -20,22 +20,22 @@
 
 | Atribut | Valoare |
 |---|---|
-| **Macro-milestone activ** | Pre-development — Documentation closure |
-| **Sub-stage activ** | ★ S17 ✅ CLOSED → S18 next |
-| **Documentație rămasă** | 2 sesiuni (S18, S19) |
+| **Macro-milestone activ** | Pre-development — Documentation closure (★ Phase 5 GA-ready post-S18) |
+| **Sub-stage activ** | ★ S18 ✅ CLOSED → S19 next |
+| **Documentație rămasă** | 1 sesiune (S19) |
 | **Hard Stress Test #2** | Programat post-S19 ca sesiune **S20** |
 | **Development start (Phase 0)** | Blocat până la închidere S20 |
 | **Modul Claude activ** | DOC + ARCHITECT (no code) |
 | **Plan tariff curent** | Claude.ai Pro $20/lună |
 | **Capacitate work/zi declarată** | 6-8 ore (efectiv ~4-5 ore post rate-limit overhead) |
 | **Documente canonice** v1.1.1 | TRIO: Master Plan v1.1.1 (acest doc) + `PLATFORM_MATRIX_REVYX_web-mobile_v1.0.0.md` (feature×platform) + `ROADMAP_REVYX_detailed-execution_v1.0.0.md` (atomic tasks T-XXX) |
-| **Phase 5 progress** ★ S17 | Stage 1 ✅ PASS · Stage 2 ✅ PASS · Stage 3 ✅ PASS · **Stage 4 ✅ PASS (7/7 exit gates T+77 close)** · Stage 5 🟢 entry unblocked T+77 (17/17 GREEN) |
+| **Phase 5 progress** ★ S18 | Stage 1 ✅ PASS · Stage 2 ✅ PASS · Stage 3 ✅ PASS · Stage 4 ✅ PASS · **Stage 5 ✅ PASS (5/5 exit gates T+91 close)** · **Master Phase 5 GA decision = GO unanimous T+91** (6/6 aprobatori VP+CTO+CISO+DPO+Audit+CFO) |
 
 ### 0.2 Progres milestone-uri
 
 | Milestone | Status | Progres documentație | Progres execuție |
 |---|---|---|---|
-| **Pre-dev** | 🟡 IN PROGRESS | ★ 100/~100 docs (post-S17) | N/A |
+| **Pre-dev** | 🟢 NEAR COMPLETE | ★ 104/~104 docs (post-S18; +4 vs S17) | Phase 5 GA-ready |
 | **M0 — MVP Prezentare** | ⚪ NOT STARTED | 0/required | 0% |
 | **M1 — MVP Funcțional** | ⚪ NOT STARTED | 0/required | 0% |
 | **M2 — FULL Release GA** | ⚪ NOT STARTED | 0/required | 0% |
@@ -44,20 +44,21 @@
 
 | Sesiune | Scop | Output principal |
 |---|---|---|
-| **S18** ★ next | Stage 5 audit + GA prep | AUDIT_s17, READINESS v1.1.0 MINOR (GA close), DPIA v1.0.1, SCC v1.0.2 (BSI signed) |
-| **S19** | Final doc closure + GA sign-off | Raport final board, INDEX v1.1.0 |
+| **S19** ★ next | Final doc closure + Raport final board Phase 5 GA | Raport final board, INDEX v1.1.0 MINOR |
 | **S20** | **Hard Stress Test #2** ⚠️ MANDATORY GATE | HST report, gap closure backlog |
+| **Post-S20** | Gap closure + M0 entry | M0.S1 wireframes & design system |
 
 ### 0.4 Gating items active
 
 | Item | Categorie | Status |
 |---|---|---|
-| Documentation closure 100% | Pre-dev | 🟡 4 sesiuni rămase |
+| Documentation closure 100% | Pre-dev | 🟢 1 sesiune rămasă (S19) |
 | Hard Stress Test #2 (S20) | Pre-dev | ⚪ programat |
 | Gap closure post-HST | Pre-dev | ⚪ dependent S20 |
-| Master Plan approval | Pre-dev | 🟡 acest doc — aprobare la close |
+| Master Plan approval | Pre-dev | 🟡 acest doc — aprobare la S20 close |
 | Phase 0 Security checklist | M1 entry | 🔴 nu început |
-| ISO 27001 RFP (BSI Group MD) | M2 entry | 🟡 BSI-M1..M4 tracking S16+ |
+| ISO 27001 RFP (BSI Group MD) | M2 entry | 🟢 BSI engaged (DPA signed T+77); RFP formal post-GA M+1 |
+| ★ Phase 5 GA decision | Pre-dev | 🟢 **GO unanimous T+91 (post-S18)** |
 
 ---
 
