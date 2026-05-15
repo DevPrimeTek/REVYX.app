@@ -20,23 +20,24 @@
 
 | Atribut | Valoare |
 |---|---|
-| **Macro-milestone activ** | Pre-development — Documentation closure (★ Phase 5 GA-ready post-S18) |
-| **Sub-stage activ** | ★ S18 ✅ CLOSED → S19 next |
-| **Documentație rămasă** | 1 sesiune (S19) |
-| **Hard Stress Test #2** | Programat post-S19 ca sesiune **S20** |
-| **Development start (Phase 0)** | Blocat până la închidere S20 |
+| **Macro-milestone activ** | Pre-development — Documentation closure (★ **100% COMPLETE post-S19**; Phase 5 GA-ready ratified board) |
+| **Sub-stage activ** | ★ S19 ✅ CLOSED → S20 HST #2 next ⚠️ MANDATORY |
+| **Documentație rămasă** | 0 sesiuni (doc closure COMPLETE) |
+| **Hard Stress Test #2** | Active next ca sesiune **S20** ⚠️ MANDATORY GATE |
+| **Development start (Phase 0)** | Blocat până la S20 PASS + §13 sign-off |
 | **Modul Claude activ** | DOC + ARCHITECT (no code) |
 | **Plan tariff curent** | Claude.ai Pro $20/lună |
 | **Capacitate work/zi declarată** | 6-8 ore (efectiv ~4-5 ore post rate-limit overhead) |
 | **Documente canonice** v1.1.1 | TRIO: Master Plan v1.1.1 (acest doc) + `PLATFORM_MATRIX_REVYX_web-mobile_v1.0.0.md` (feature×platform) + `ROADMAP_REVYX_detailed-execution_v1.0.0.md` (atomic tasks T-XXX) |
-| **Phase 5 progress** ★ S18 | Stage 1 ✅ PASS · Stage 2 ✅ PASS · Stage 3 ✅ PASS · Stage 4 ✅ PASS · **Stage 5 ✅ PASS (5/5 exit gates T+91 close)** · **Master Phase 5 GA decision = GO unanimous T+91** (6/6 aprobatori VP+CTO+CISO+DPO+Audit+CFO) |
+| **Phase 5 progress** ★ S19 | Stage 1 ✅ PASS · Stage 2 ✅ PASS · Stage 3 ✅ PASS · Stage 4 ✅ PASS · Stage 5 ✅ PASS (5/5 exit gates T+91 close) · **Master Phase 5 GA decision = GO unanimous T+91** (6/6 aprobatori) **★ ratified board S19** (Raport Final Board v1.0.0 publicat) |
+| **Findings register lifecycle** ★ S19 | **13 CLOSED FULL** · 2 TRACKED pre-GA backlog non-blocking (F-S14-02 Stripe + F-S16-01 NTP) · 1 TRACKED next cycle post-GA review (F-S11-07 DPIA T+91+90d) · **zero new finding S17+S18+S19** |
 
 ### 0.2 Progres milestone-uri
 
 | Milestone | Status | Progres documentație | Progres execuție |
 |---|---|---|---|
-| **Pre-dev** | 🟢 NEAR COMPLETE | ★ 104/~104 docs (post-S18; +4 vs S17) | Phase 5 GA-ready |
-| **M0 — MVP Prezentare** | ⚪ NOT STARTED | 0/required | 0% |
+| **Pre-dev** | 🟢 **DOC COMPLETE (S19)** — pending S20 HST #2 + §13 sign-off | ★ 106/~106 docs (post-S19; +2 vs S18 = RAPORT_FINAL_BOARD + CHECKLIST_pre-hst2) | Phase 5 GA-ready ratified |
+| **M0 — MVP Prezentare** | ⚪ NOT STARTED (BLOCKED until S20 PASS) | 0/required | 0% |
 | **M1 — MVP Funcțional** | ⚪ NOT STARTED | 0/required | 0% |
 | **M2 — FULL Release GA** | ⚪ NOT STARTED | 0/required | 0% |
 
@@ -44,21 +45,23 @@
 
 | Sesiune | Scop | Output principal |
 |---|---|---|
-| **S19** ★ next | Final doc closure + Raport final board Phase 5 GA | Raport final board, INDEX v1.1.0 MINOR |
-| **S20** | **Hard Stress Test #2** ⚠️ MANDATORY GATE | HST report, gap closure backlog |
-| **Post-S20** | Gap closure + M0 entry | M0.S1 wireframes & design system |
+| **S20** ★ next | **Hard Stress Test #2** ⚠️ MANDATORY GATE | HST report `docs/audit/HST_REVYX_pre-dev_v1.0.0.md`, gap closure backlog, Master Plan §13 sign-off |
+| **Post-S20** | Gap closure cycle S21+ (conditional) sau direct M0 entry | S21+ doc adjustment PATCH/MINOR (dacă findings CRIT/HIGH) sau M0.S1 entry direct (dacă HST PASS clean) |
+| **M0.S1** | Wireframes & Design System | DESIGNER hat primary; brand-configs/revyx.md; design tokens .json |
 
 ### 0.4 Gating items active
 
 | Item | Categorie | Status |
 |---|---|---|
-| Documentation closure 100% | Pre-dev | 🟢 1 sesiune rămasă (S19) |
-| Hard Stress Test #2 (S20) | Pre-dev | ⚪ programat |
-| Gap closure post-HST | Pre-dev | ⚪ dependent S20 |
-| Master Plan approval | Pre-dev | 🟡 acest doc — aprobare la S20 close |
-| Phase 0 Security checklist | M1 entry | 🔴 nu început |
+| Documentation closure 100% | Pre-dev | ✅ **COMPLETE post-S19** (Raport Final Board v1.0.0 + CHECKLIST pre-HST2 v1.0.0 + INDEX v1.1.0 MINOR + Master Plan §0 sync) |
+| Hard Stress Test #2 (S20) | Pre-dev | 🟡 **ACTIVE NEXT** ⚠️ MANDATORY GATE |
+| Gap closure post-HST | Pre-dev | ⚪ dependent S20 outcome |
+| Master Plan approval (§13) | Pre-dev | 🟡 pending S20 close — 6/6 aprobatori sign-off bloc post-HST |
+| Phase 0 Security checklist | M1 entry | 🔴 nu început (BLOCKED until S20 PASS + §13 sign-off) |
 | ISO 27001 RFP (BSI Group MD) | M2 entry | 🟢 BSI engaged (DPA signed T+77); RFP formal post-GA M+1 |
-| ★ Phase 5 GA decision | Pre-dev | 🟢 **GO unanimous T+91 (post-S18)** |
+| ★ Phase 5 GA decision | Pre-dev | 🟢 **GO unanimous T+91 (post-S18) — ratified board S19** (Raport Final Board sign-off 8-rol) |
+| Findings tracked pre-GA backlog | Post-GA non-blocking | 📋 F-S14-02 Stripe webhook idempotency + F-S16-01 NTP cron observability — Backend Lead post-GA cycle |
+| Findings tracked next cycle | Post-GA review | 📋 F-S11-07 DPIA less-intrusive-alternative — DPO + Compliance T+91+90d (cca 2026-10-25) |
 
 ---
 
