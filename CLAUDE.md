@@ -14,32 +14,33 @@
 
 | Atribut | Valoare curentă |
 |---|---|
-| **Macro-milestone activ** | Pre-development — Documentation closure (★ Phase 5 GA-ready) |
-| **Sesiune curentă** | ★ S18 ✅ CLOSED (Stage 5 audit + Master Phase 5 GA decision GO unanimous T+91) |
-| **Următoarea sesiune** | S19 (Final doc closure + Raport final board + INDEX v1.1.0) |
-| **Documentație rămasă** | 1 sesiune (S19) |
-| **Hard Stress Test #2** | S20 — MANDATORY GATE post-S19 |
-| **Modul Claude activ** | DOC + ARCHITECT (no application code) |
+| **Macro-milestone activ** | Pre-development — Documentation closure (★ **100% COMPLETE post-S19**; Phase 5 GA-ready ratified) |
+| **Sesiune curentă** | ★ S19 ✅ CLOSED (Final doc closure: Raport Final Board Phase 5 GA + INDEX v1.1.0 MINOR + CHECKLIST pre-HST2 + Master Plan §0 sync) |
+| **Următoarea sesiune** | ★ S20 — **Hard Stress Test #2** ⚠️ MANDATORY GATE pre-dev M0 start |
+| **Documentație rămasă** | 0 sesiuni (doc closure COMPLETE) |
+| **Hard Stress Test #2** | S20 — MANDATORY GATE active next |
+| **Modul Claude activ** | DOC + ARCHITECT (no application code până la S20 PASS + Master Plan §13 sign-off) |
 | **Plan tariff** | Claude.ai Pro $20/lună · ~6-8 ore/zi declarat |
-| **Master Plan status** | v1.1.1 publicat 2026-06 (Trio canonical: Master Plan + Platform Matrix + Detailed Roadmap) · aprobare la S20 close |
+| **Master Plan status** | v1.1.1 publicat 2026-06 (Trio canonical: Master Plan + Platform Matrix + Detailed Roadmap) · §13 approval pending S20 close |
 | **Arhitectură platforme** | Dual-channel: WEB primary (~80% workflow, browser desktop) + MOBILE companion (~20% in-field) |
-| **Phase 5 progress** ★ S18 | Stage 1 ✅ PASS · Stage 2 ✅ PASS · Stage 3 ✅ PASS · Stage 4 ✅ PASS · **Stage 5 ✅ PASS (5/5 exit gates T+91)** · **Master Phase 5 GA decision = GO unanimous T+91 (6/6 aprobatori VP+CTO+CISO+DPO+Audit+CFO)** |
+| **Phase 5 progress** ★ S19 | Stage 1 ✅ PASS · Stage 2 ✅ PASS · Stage 3 ✅ PASS · Stage 4 ✅ PASS · Stage 5 ✅ PASS (5/5 exit gates T+91) · **Master Phase 5 GA decision = GO unanimous T+91 (6/6 aprobatori VP+CTO+CISO+DPO+Audit+CFO) — ★ ratified board S19** |
+| **Findings register lifecycle** ★ S19 | **13 CLOSED FULL** · 2 TRACKED pre-GA backlog non-blocking (F-S14-02 Stripe + F-S16-01 NTP) · 1 TRACKED next cycle post-GA review (F-S11-07 DPIA T+91+90d) · **zero new finding S17+S18+S19** |
 
 ### Roadmap macro
 
 ```
 Pre-dev (S16-S20) ──→ M0 MVP Prezentare ──→ M1 MVP Funcțional ──→ M2 FULL Release GA
-   ↑ S18 ✅ CLOSED     (Demo pitching)        (Pilot 2-3 tenanți)    (Public Moldova)
-   → S19 next          Phase 5 GA-ready ✅
+   ↑ S19 ✅ CLOSED     (Demo pitching)        (Pilot 2-3 tenanți)    (Public Moldova)
+   → S20 HST #2 next   Phase 5 GA-ready ✅ (ratified board S19)
 ```
 
 ### Următoarele 3 sesiuni programate
 
 | Sesiune | Scop | Output |
 |---|---|---|
-| **S19** ★ next | Final doc closure + GA sign-off | Raport final board Phase 5 GA, INDEX v1.1.0 MINOR |
-| **S20** | **Hard Stress Test #2** ⚠️ MANDATORY | HST report, gap closure backlog |
-| **Post-S20** | Gap closure + M0 entry | M0.S1 wireframes & design system |
+| **S20** ★ next | **Hard Stress Test #2** ⚠️ MANDATORY GATE | HST report, gap closure backlog, Master Plan §13 sign-off |
+| **Post-S20** | Gap closure (dacă necesar) + M0 entry | S21+ doc adjustment (conditional) sau direct M0.S1 entry |
+| **M0.S1** | Wireframes & Design System | Design tokens + componente repetabile (DESIGNER hat primary) |
 
 **Gating pentru a începe development (M0):** S20 PASS cu 0 findings CRIT/HIGH + Master Plan §13 sign-off.
 
