@@ -1,5 +1,5 @@
 # CLAUDE.md — REVYX Agent Operating System
-<!-- CLAUDE.md · v1.2.2 · 2026-06 -->
+<!-- CLAUDE.md · v1.2.3 · 2026-07 -->
 <!-- CONFIDENȚIAL · Uz Intern · © 2026 REVYX · ITPRO SYSTEM SRL -->
 
 > Acest fișier este citit de Claude Code la **fiecare sesiune** din acest repo.
@@ -7,42 +7,42 @@
 
 ---
 
-## 0a. STATUS EXECUȚIE (LIVE) ★ v1.2.2
+## 0a. STATUS EXECUȚIE (LIVE) ★ v1.2.3
 
 > Single source of truth pentru "unde suntem ACUM". Actualizat la fiecare sesiune `/sN`.
-> Pentru detaliu complet → `docs/MASTER_PLAN_REVYX_execution-roadmap_v1.1.1.md` §0.
+> Pentru detaliu complet → `docs/MASTER_PLAN_REVYX_execution-roadmap_v1.1.2.md` §0.
 
 | Atribut | Valoare curentă |
 |---|---|
-| **Macro-milestone activ** | Pre-development — Documentation closure (★ **100% COMPLETE post-S19**; Phase 5 GA-ready ratified) |
-| **Sesiune curentă** | ★ S19 ✅ CLOSED (Final doc closure: Raport Final Board Phase 5 GA + INDEX v1.1.0 MINOR + CHECKLIST pre-HST2 + Master Plan §0 sync) |
-| **Următoarea sesiune** | ★ S20 — **Hard Stress Test #2** ⚠️ MANDATORY GATE pre-dev M0 start |
-| **Documentație rămasă** | 0 sesiuni (doc closure COMPLETE) |
-| **Hard Stress Test #2** | S20 — MANDATORY GATE active next |
-| **Modul Claude activ** | DOC + ARCHITECT (no application code până la S20 PASS + Master Plan §13 sign-off) |
-| **Plan tariff** | Claude.ai Pro $20/lună · ~6-8 ore/zi declarat |
-| **Master Plan status** | v1.1.1 publicat 2026-06 (Trio canonical: Master Plan + Platform Matrix + Detailed Roadmap) · §13 approval pending S20 close |
+| **Macro-milestone activ** | ★ Pre-development **COMPLETE** (doc closure + HST #2 PASS clean post-S20) → **M0.S1 entry UNBLOCKED** |
+| **Sesiune curentă** | ★ S20 ✅ CLOSED (Hard Stress Test #2 PASS clean: 0 CRIT · 0 HIGH · 4 MED · 6 LOW non-blocking; Master Plan §13 sign-off 6/6 aprobatori) |
+| **Următoarea sesiune** | ★ **M0.S1** — Wireframes & Design System (DESIGNER hat primary; brand-configs/revyx.md aplicabil; design tokens .json deliverable principal T-M0.S1-09) |
+| **Documentație rămasă** | 0 sesiuni (pre-dev COMPLETE; M0+ development active) |
+| **Hard Stress Test #2** | ✅ **PASS clean** S20 per `docs/audit/HST_REVYX_pre-dev_v1.0.0.md` §10 sign-off 7-rol |
+| **Modul Claude activ** | DOC + DESIGNER + ARCHITECT (M0.S1 entry; FRONTEND WEB DEV activat din M0.S3) |
+| **Plan tariff** | Claude.ai Pro $20/lună (sustained M0; Max $100/lună anticipat M1.S3 per F-S20-09 tracking) |
+| **Master Plan status** | ★ v1.1.2 active post-S20 (Trio canonical: Master Plan v1.1.2 + Platform Matrix v1.0.0 + Detailed Roadmap v1.0.0) · §13 approval ✅ SIGNED 6/6 |
 | **Arhitectură platforme** | Dual-channel: WEB primary (~80% workflow, browser desktop) + MOBILE companion (~20% in-field) |
-| **Phase 5 progress** ★ S19 | Stage 1 ✅ PASS · Stage 2 ✅ PASS · Stage 3 ✅ PASS · Stage 4 ✅ PASS · Stage 5 ✅ PASS (5/5 exit gates T+91) · **Master Phase 5 GA decision = GO unanimous T+91 (6/6 aprobatori VP+CTO+CISO+DPO+Audit+CFO) — ★ ratified board S19** |
-| **Findings register lifecycle** ★ S19 | **13 CLOSED FULL** · 2 TRACKED pre-GA backlog non-blocking (F-S14-02 Stripe + F-S16-01 NTP) · 1 TRACKED next cycle post-GA review (F-S11-07 DPIA T+91+90d) · **zero new finding S17+S18+S19** |
+| **Phase 5 progress** S19→S20 | Stage 1-5 ✅ PASS · Master Phase 5 GA = GO unanimous T+91 ratified board S19 · ★ HST #2 PASS clean S20 confirmă stabilitate corpus documentar |
+| **Findings register lifecycle** ★ S20 | **13 CLOSED FULL** Phase 5 · 2 TRACKED pre-GA backlog non-blocking (F-S14-02 + F-S16-01) · 1 TRACKED next cycle (F-S11-07 DPIA 2026-10-25) · ★ **8 NEW S20** (4 MED + 4 LOW, toate non-blocking M0.S1, owner+ETA per `HST_REVYX_pre-dev_findings-backlog_v1.0.0.md`) · zero CRIT/HIGH cumulative S10..S20 |
 
 ### Roadmap macro
 
 ```
 Pre-dev (S16-S20) ──→ M0 MVP Prezentare ──→ M1 MVP Funcțional ──→ M2 FULL Release GA
-   ↑ S19 ✅ CLOSED     (Demo pitching)        (Pilot 2-3 tenanți)    (Public Moldova)
-   → S20 HST #2 next   Phase 5 GA-ready ✅ (ratified board S19)
+   ↑ S20 ✅ CLOSED      (Demo pitching)        (Pilot 2-3 tenanți)    (Public Moldova)
+   → M0.S1 next         Phase 5 GA-ready ✅ · HST #2 PASS clean ✅
 ```
 
 ### Următoarele 3 sesiuni programate
 
 | Sesiune | Scop | Output |
 |---|---|---|
-| **S20** ★ next | **Hard Stress Test #2** ⚠️ MANDATORY GATE | HST report, gap closure backlog, Master Plan §13 sign-off |
-| **Post-S20** | Gap closure (dacă necesar) + M0 entry | S21+ doc adjustment (conditional) sau direct M0.S1 entry |
-| **M0.S1** | Wireframes & Design System | Design tokens + componente repetabile (DESIGNER hat primary) |
+| ★ **M0.S1** next | Wireframes & Design System | Design tokens .json (T-M0.S1-09) + components Figma (T-M0.S1-10); screens inventory; wireframes 15-20 ecrane critice (DESIGNER hat primary) |
+| **M0.S2** | Clickable Prototype Figma | Click-through 4 user journeys (lead intake, property creation, deal pipeline, manager escalation) |
+| **M0.S3** | Web Static Demo (Next.js 14 RSC) | `apps/web/` skeleton + mock-data + 12 pages + i18n setup + deploy Vercel demo.revyx.app |
 
-**Gating pentru a începe development (M0):** S20 PASS cu 0 findings CRIT/HIGH + Master Plan §13 sign-off.
+**Gating pentru a începe M0:** ✅ TOATE atinse (S20 HST #2 PASS clean + Master Plan §13 sign-off 6/6 + INDEX v1.1.1 PATCH publicat + 0 findings CRIT/HIGH cumulative).
 
 ---
 
@@ -68,7 +68,7 @@ Pre-dev (S16-S20) ──→ M0 MVP Prezentare ──→ M1 MVP Funcțional ─�
 
 | Prioritate | Document | Scop |
 |---|---|---|
-| **0** | `docs/MASTER_PLAN_REVYX_execution-roadmap_v1.1.1.md` ★ | **Structural backbone** — milestones M0/M1/M2, sub-stages, echipa virtuală hats, acceptance criteria. Orice cod/doc nou trebuie să citeze stage-ul din care face parte (Regula 8). |
+| **0** | `docs/MASTER_PLAN_REVYX_execution-roadmap_v1.1.2.md` ★ | **Structural backbone** — milestones M0/M1/M2, sub-stages, echipa virtuală hats, acceptance criteria. Orice cod/doc nou trebuie să citeze stage-ul din care face parte (Regula 8). §13 approval ✅ SIGNED 6/6 post-HST #2 S20. |
 | **0.1** ★ v1.2.2 | `docs/PLATFORM_MATRIX_REVYX_web-mobile_v1.0.0.md` | **Canonical feature × platform mapping** — single source of truth pentru întrebarea "Această funcționalitate e Web, Mobile sau Both?". Acoperă 15 module (119 features) cu RBAC role per platform + reguli DP-01..DP-07. Orice spec/workflow trebuie cross-ref aici (Regula 9). |
 | **0.2** ★ v1.2.2 | `docs/ROADMAP_REVYX_detailed-execution_v1.0.0.md` | **Detailed roadmap** — descompunere Master Plan §4-§6 în atomic tasks (T-XXX) cu owner hat, effort estimate (XS-XL), dependencies, output deliverable, platform tag. ~308 tasks total, ~125-165 sesiuni Claude estimate. Cross-ref pentru session planning. |
 | 1 | `docs/brand-configs/revyx.md` | Brand system (culori, font, componente, ton) |
@@ -357,7 +357,7 @@ Violarea Regulii 8 → rollback sesiune + raport în chat cu remedierea propusă
 
 ---
 
-*CLAUDE.md · v1.2.2 · 2026-06 · CONFIDENȚIAL · Uz Intern*
+*CLAUDE.md · v1.2.3 · 2026-07 · CONFIDENȚIAL · Uz Intern*
 *REVYX — Real Estate Execution Intelligence · © 2026 REVYX · ITPRO SYSTEM SRL*
 
 ---
@@ -370,4 +370,5 @@ Violarea Regulii 8 → rollback sesiune + raport în chat cu remedierea propusă
 | 1.1.0 | 2026-05 | MINOR — adăugare Regula 7 (10 hats Claude) |
 | 1.2.0 | 2026-06 | MINOR — adăugare §0a Status Execuție LIVE + Master Plan ca priority 0 în §1 + Regula 8 (Master Plan compliance) + footer changelog. Triggered de decizie strategică: Claude Code = singura forță execuție; necesită roadmap structurat M0/M1/M2 + HST mandatory pre-fiecare milestone. |
 | 1.2.1 | 2026-06 | PATCH — sincronizare cu MASTER_PLAN v1.1.0 (dual-platform). Regula 7 actualizată: 10 → **11 hats** (IMPLEMENTER split în BACKEND DEV + FRONTEND WEB DEV ★ + MOBILE DEV); §0a Status Execuție adăugare row "Arhitectură platforme" (WEB primary ~80% + MOBILE companion ~20%); referințe `MASTER_PLAN_REVYX_execution-roadmap_v1.0.0` → `v1.1.0` actualizate global. |
-| **1.2.2** | **2026-06** | ★ PATCH — Trio canonical introduction. Adăugare priority 0.1 + 0.2 în §1: `PLATFORM_MATRIX_REVYX_web-mobile_v1.0.0.md` (canonical feature×platform mapping, 15 module, 119 features) + `ROADMAP_REVYX_detailed-execution_v1.0.0.md` (atomic tasks T-XXX, ~308 total). Adăugare ★ Regula 9 NEW (Platform Matrix compliance) — orice spec/workflow UI-touching trebuie tag-uit explicit Web/Mobile/Both + respectare DP-01..DP-07. Master Plan ref bump v1.1.0 → v1.1.1. Trigger: Audit S15-bis-3 finding 88% docs gap-uri Web/Mobile + cerere user "Senior Architect mandate" — definirea totală pre-development. |
+| 1.2.2 | 2026-06 | PATCH — Trio canonical introduction. Adăugare priority 0.1 + 0.2 în §1: `PLATFORM_MATRIX_REVYX_web-mobile_v1.0.0.md` (canonical feature×platform mapping, 15 module, 119 features) + `ROADMAP_REVYX_detailed-execution_v1.0.0.md` (atomic tasks T-XXX, ~308 total). Adăugare Regula 9 NEW (Platform Matrix compliance) — orice spec/workflow UI-touching trebuie tag-uit explicit Web/Mobile/Both + respectare DP-01..DP-07. Master Plan ref bump v1.1.0 → v1.1.1. Trigger: Audit S15-bis-3 finding 88% docs gap-uri Web/Mobile + cerere user "Senior Architect mandate" — definirea totală pre-development. |
+| **1.2.3** | **2026-07** | ★ PATCH — **S20 HST #2 PASS clean sync**. Schimbări: (1) §0a Status Execuție LIVE actualizat S19 ✅ → S20 ✅ CLOSED + M0.S1 entry **UNBLOCKED** (DESIGNER hat primary; brand-configs/revyx.md aplicabil); (2) Master Plan ref bump v1.1.1 → v1.1.2 (§13 sign-off complete 6/6 post-HST); (3) §0a Phase 5 progress + Findings lifecycle row updated cu **8 NEW S20 findings** (4 MED + 4 LOW, toate non-blocking, owner+ETA per `HST_REVYX_pre-dev_findings-backlog_v1.0.0.md`); (4) Gating row schimbat în "✅ TOATE atinse". Trigger: T-S20-09/12 atomic tasks output; HST #2 raport principal §10 sign-off 7-rol echipa virtuală + §12 next steps M0.S1 unblock. Backwards compat full cu v1.2.2 (Regulile 1-9 neschimbate). |
