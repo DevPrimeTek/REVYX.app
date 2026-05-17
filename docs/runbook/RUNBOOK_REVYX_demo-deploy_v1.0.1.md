@@ -1,5 +1,5 @@
 # RUNBOOK — Demo Deploy (Vercel)
-<!-- RUNBOOK_REVYX_demo-deploy_v1.0.0.md · v1.0.0 · 2026-05 -->
+<!-- RUNBOOK_REVYX_demo-deploy_v1.0.1.md · v1.0.1 · 2026-05 -->
 <!-- CONFIDENȚIAL · Uz Intern · © 2026 REVYX · ITPRO SYSTEM SRL -->
 
 ## 0. Stage Master Plan
@@ -16,7 +16,8 @@
 
 | Versiune | Data | Autor | Note |
 |---|---|---|---|
-| **1.0.0** | **2026-05** | ★ DEVOPS + FRONTEND WEB DEV + Senior PM | Initial — Vercel GitHub App integration pentru `apps/web-preview/`; preview URL per PR + production deploy pe `main`. CI build-check workflow paralel (`web-preview-ci`) gate-uiește merge-uri pe build success. |
+| 1.0.0 | 2026-05 | DEVOPS + FRONTEND WEB DEV + Senior PM | Initial — Vercel GitHub App integration pentru `apps/web-preview/`; preview URL per PR + production deploy pe `main`. CI build-check workflow paralel (`web-preview-ci`) gate-uiește merge-uri pe build success. |
+| **1.0.1** | **2026-05** | ★ DEVOPS | ★ **PATCH — fix Next.js detection issue.** Eliminat `outputDirectory`, `buildCommand`, `installCommand`, `devCommand` din `vercel.json` — pentru Next.js framework preset, Vercel auto-detectează tot prin `@vercel/next` builder, iar setarea explicită a `outputDirectory: ".next"` cauzează fallback la "Other" framework (Vercel începe să caute `public/` ca output). vercel.json final = doar `framework`, `regions`, `headers`. §4 troubleshooting actualizat cu noul simptom + cauză + fix. |
 
 ---
 
@@ -105,6 +106,7 @@ Tracked ca T-M0.S3-14 în Roadmap v1.0.2 §3.3 — nu se face acum:
 
 | Simptom | Cauză probabilă | Fix |
 |---|---|---|
+| Build fail `No Output Directory named "public" found` | (a) Root Directory ≠ `apps/web-preview` SAU (b) framework preset = "Other" în UI (override din vercel.json) SAU (c) vercel.json setează `outputDirectory` explicit (interfer cu builder `@vercel/next`) | (a) Vercel Settings → Git → Root Directory = `apps/web-preview` · (b) Settings → General → Framework Preset = **Next.js** · (c) elimină `outputDirectory` din `vercel.json` (vezi v1.0.1 changelog) |
 | Build fail "Cannot find module" | Root Directory greșit | Vercel Settings → Git → Root Directory = `apps/web-preview` |
 | Preview URL 404 pe rute dinamice (`/leads/[id]`) | Next.js output mode greșit | Asigură-te că NU e setat `output: 'export'` în `next.config.mjs` (necesită SSR pentru `/leads/[id]`) |
 | Build OK dar paginile arată unstyled | `design/tokens.json` nu e în git | Verifică `git ls-files design/tokens.json` |
@@ -147,5 +149,5 @@ CSP completă (`Content-Security-Policy`) e amânată pentru M1.S5 când avem AP
 
 ---
 
-*docs/runbook/RUNBOOK_REVYX_demo-deploy_v1.0.0.md · v1.0.0 · 2026-05 · CONFIDENȚIAL · Uz Intern*
+*docs/runbook/RUNBOOK_REVYX_demo-deploy_v1.0.1.md · v1.0.1 · 2026-05 · CONFIDENȚIAL · Uz Intern*
 *REVYX — Real Estate Execution Intelligence · © 2026 REVYX · ITPRO SYSTEM SRL*
