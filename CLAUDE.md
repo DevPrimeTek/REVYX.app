@@ -1,5 +1,5 @@
 # CLAUDE.md — REVYX Agent Operating System
-<!-- CLAUDE.md · v1.2.4 · 2026-05 -->
+<!-- CLAUDE.md · v1.2.5 · 2026-05 -->
 <!-- CONFIDENȚIAL · Uz Intern · © 2026 REVYX · ITPRO SYSTEM SRL -->
 
 > Acest fișier este citit de Claude Code la **fiecare sesiune** din acest repo.
@@ -7,43 +7,43 @@
 
 ---
 
-## 0a. STATUS EXECUȚIE (LIVE) ★ v1.2.4
+## 0a. STATUS EXECUȚIE (LIVE) ★ v1.2.5
 
 > Single source of truth pentru "unde suntem ACUM". Actualizat la fiecare sesiune `/sN`.
 > Pentru detaliu complet → `docs/MASTER_PLAN_REVYX_execution-roadmap_v1.1.2.md` §0.
 
 | Atribut | Valoare curentă |
 |---|---|
-| **Macro-milestone activ** | ★ **M0 — MVP Prezentare** (M0.S1 ✅ CLOSED post direct-to-code shift; M0.S2 next) |
-| **Sesiune curentă** | ★ M0.S1 ✅ CLOSED — Design System direct-to-code (Creative Director shift away from Figma). Livrate: `design/tokens.json` + `design/screens-inventory.md` + `TECH_SPEC_REVYX_ui-design-system_v1.0.0.md` + `apps/web-preview/` skeleton Next.js 14 (7 page stubs + 6 UI primitives) + Roadmap PATCH v1.0.1 + INDEX PATCH v1.1.2. Findings F-S20-04 component half + F-S20-10 brand parity CLOSED FULL. |
-| **Următoarea sesiune** | ★ **M0.S2** — Clickable Prototype (4 user journeys: lead intake→score→assign · property→match · deal pipeline→won · manager escalation). Hats: DESIGNER (P) + FRONTEND WEB DEV (P) + ARCHITECT (S). Input: `apps/web-preview/` deja livrat în M0.S1. |
+| **Macro-milestone activ** | ★ **M0 — MVP Prezentare** (M0.S1 ✅ + ★ M0.S2 ✅ CLOSED; M0.S3 next) |
+| **Sesiune curentă** | ★ M0.S2 ✅ CLOSED — Clickable Prototype direct-to-code. Livrate în `apps/web-preview/`: 3 pages noi (`app/properties/new/page.tsx` 8-field intake form, `app/manager/escalations/page.tsx` bulk reassign queue, `app/leads/[id]/page.tsx` upgrade client cu Assign modal + LS recompute animat) + rewrite `app/deals/page.tsx` click-to-advance + Close-won confirm modal + `components/ui/toast.tsx` global queue + `components/providers.tsx` `<AppProviders/>` în layout + button focus ring/active translate. 4 user journeys J1-J4 end-to-end clickable. 13 routes prerendered (`next build` pass). Roadmap PATCH v1.0.2 (T-M0.S2-01..05 ☑) + INDEX PATCH v1.1.3. Drag-drop @dnd-kit reținut explicit M0.S3 (T-M0.S3-10) cu click-to-advance ca a11y fallback permanent. |
+| **Următoarea sesiune** | **M0.S3** — Web Static Demo (Next.js, mock data full). Hats: FRONTEND WEB DEV (P) + DEVOPS (S) + DESIGNER (S). Input: `apps/web-preview/` extins în M0.S2 (J1-J4 clickable). Output: promovare → `apps/web/` + mock data 100/50/20 + content full 12 pagini + i18n RO/RU/EN (next-intl) + drag-drop @dnd-kit pe `/deals` + Vercel deploy `demo.revyx.app`. |
 | **Documentație rămasă** | 0 sesiuni doc-only (M0+ development active) |
 | **Hard Stress Test #2** | ✅ PASS clean S20 per `docs/audit/HST_REVYX_pre-dev_v1.0.0.md` §10 sign-off 7-rol |
-| **Modul Claude activ** | DESIGNER (Creative Director) + ARCHITECT + FRONTEND WEB DEV (★ early activation per direct-to-code shift) + DOC |
+| **Modul Claude activ** | FRONTEND WEB DEV (primary) + DESIGNER (Creative Director, primary) + ARCHITECT (a11y/review) + DOC |
 | **Plan tariff** | Claude.ai Pro $20/lună (sustained M0; Max $100/lună anticipat M1.S3 per F-S20-09 tracking) |
-| **Master Plan status** | ★ v1.1.2 active (Trio canonical: Master Plan v1.1.2 + Platform Matrix v1.0.0 + **Detailed Roadmap v1.0.1** post-M0.S1) · §13 approval ✅ SIGNED 6/6 |
+| **Master Plan status** | v1.1.2 active (Trio canonical: Master Plan v1.1.2 + Platform Matrix v1.0.0 + ★ **Detailed Roadmap v1.0.2** post-M0.S2) · §13 approval ✅ SIGNED 6/6 |
 | **Arhitectură platforme** | Dual-channel: WEB primary (~80%, browser desktop) + MOBILE companion (~20% in-field, M2.S3) |
 | **Phase 5 progress** S19→S20 | Stage 1-5 ✅ PASS · Master Phase 5 GA = GO unanimous T+91 · HST #2 PASS clean S20 |
-| **Findings register lifecycle** ★ M0.S1 | **13 CLOSED FULL** Phase 5 + ★ **2 CLOSED M0.S1** (F-S20-04 component half via ui-design-system spec + F-S20-10 DP-06 brand parity via tokens.json) · 2 TRACKED pre-GA (F-S14-02 + F-S16-01) · 1 TRACKED next cycle (F-S11-07) · 6 NEW S20 LOW/MED remaining tracked (F-S20-05/06/07/08/09/11) · zero CRIT/HIGH cumulative S10..M0.S1 |
-| **Open decisions (PM)** ★ M0.S1 | OD-01 font (brand-config Bebas Neue+Montserrat+JetBrains Mono — currently shipped — vs AC-M0-02 "Inter") · OD-02 spacing grid (8px confirmed vs 4px prompt) · OD-03 dark mode stance (single dark M0-M1, switch M2+) — vezi `TECH_SPEC_REVYX_ui-design-system_v1.0.0.md` §10 |
+| **Findings register lifecycle** ★ M0.S2 | **13 CLOSED FULL** Phase 5 + **2 CLOSED M0.S1** (F-S20-04 component half + F-S20-10 DP-06 brand parity) · 2 TRACKED pre-GA (F-S14-02 + F-S16-01) · 1 TRACKED next cycle (F-S11-07) · 6 NEW S20 LOW/MED remaining tracked (F-S20-05/06/07/08/09/11) · ★ zero NEW M0.S2 · zero CRIT/HIGH cumulative S10..M0.S2 |
+| **Open decisions (PM)** | OD-01 font (brand-config Bebas Neue+Montserrat+JetBrains Mono — currently shipped — vs AC-M0-02 "Inter") · OD-02 spacing grid (8px confirmed vs 4px prompt) · OD-03 dark mode stance (single dark M0-M1, switch M2+) — vezi `TECH_SPEC_REVYX_ui-design-system_v1.0.0.md` §10. **Nimic blocant M0.S3 entry.** |
 
 ### Roadmap macro
 
 ```
 Pre-dev (S16-S20) ──→ M0 MVP Prezentare ──→ M1 MVP Funcțional ──→ M2 FULL Release GA
-   S20 ✅ CLOSED        ★ M0.S1 ✅ CLOSED       (Pilot 2-3 tenanți)    (Public Moldova)
-                        → M0.S2 next            Phase 5 GA-ready ✅ · HST #2 PASS clean ✅
+   S20 ✅ CLOSED        M0.S1 ✅ + ★ M0.S2 ✅    (Pilot 2-3 tenanți)    (Public Moldova)
+                        → M0.S3 next            Phase 5 GA-ready ✅ · HST #2 PASS clean ✅
 ```
 
 ### Următoarele 3 sesiuni programate
 
 | Sesiune | Scop | Output |
 |---|---|---|
-| ★ **M0.S2** next | Clickable Prototype (direct-to-code, in `apps/web-preview/`) | 4 user journeys interactive (J1 lead intake→score→assign · J2 property→match · J3 deal pipeline→won · J4 manager escalation); nav state + hover/active completate |
-| **M0.S3** | Web Static Demo (Next.js, mock data full) | promovare `apps/web-preview/` → `apps/web/` + mock-data 100 leads/50 props/20 deals + content full pe 12 pagini + i18n RO/RU/EN + Vercel deploy `demo.revyx.app` |
+| ★ **M0.S3** next | Web Static Demo (Next.js, mock data full) | promovare `apps/web-preview/` → `apps/web/` + mock-data 100 leads/50 props/20 deals + content full pe 12 pagini + i18n RO/RU/EN (next-intl) + drag-drop @dnd-kit pe `/deals` (T-M0.S3-10) + Vercel deploy `demo.revyx.app` |
 | **M0.S4** | Pitch Deck + Video Walkthrough | Deck 15-20 slide RO/RU/EN + video 5 min cu voice-over |
+| **M0.S5** | HST M0 ⚠️ GATE | Hard Stress Test pre-M1; sign-off 7-rol pentru M1.S1 entry |
 
-**Gating pentru a continua M0.S2:** ✅ TOATE atinse — M0.S1 closed cu tokens.json + ui-design-system spec + apps/web-preview skeleton + 0 findings CRIT/HIGH cumulative. Pending PM OD-01..OD-03 (non-blocking M0.S2 entry — implementation already follows brand-config).
+**Gating pentru a continua M0.S3:** ✅ TOATE atinse — M0.S2 closed cu 4 user journeys end-to-end clickable, `next build` pass (13/13 routes), zero findings CRIT/HIGH/MED noi, ARCHITECT a11y review pass (focus trap + ESC + click-to-advance keyboard fallback). Pending PM OD-01..OD-03 (non-blocking M0.S3 entry — implementation continuă brand-config).
 
 ---
 
@@ -358,7 +358,7 @@ Violarea Regulii 8 → rollback sesiune + raport în chat cu remedierea propusă
 
 ---
 
-*CLAUDE.md · v1.2.4 · 2026-05 · CONFIDENȚIAL · Uz Intern*
+*CLAUDE.md · v1.2.5 · 2026-05 · CONFIDENȚIAL · Uz Intern*
 *REVYX — Real Estate Execution Intelligence · © 2026 REVYX · ITPRO SYSTEM SRL*
 
 ---
@@ -373,4 +373,5 @@ Violarea Regulii 8 → rollback sesiune + raport în chat cu remedierea propusă
 | 1.2.1 | 2026-06 | PATCH — sincronizare cu MASTER_PLAN v1.1.0 (dual-platform). Regula 7 actualizată: 10 → **11 hats** (IMPLEMENTER split în BACKEND DEV + FRONTEND WEB DEV ★ + MOBILE DEV); §0a Status Execuție adăugare row "Arhitectură platforme" (WEB primary ~80% + MOBILE companion ~20%); referințe `MASTER_PLAN_REVYX_execution-roadmap_v1.0.0` → `v1.1.0` actualizate global. |
 | 1.2.2 | 2026-06 | PATCH — Trio canonical introduction. Adăugare priority 0.1 + 0.2 în §1: `PLATFORM_MATRIX_REVYX_web-mobile_v1.0.0.md` (canonical feature×platform mapping, 15 module, 119 features) + `ROADMAP_REVYX_detailed-execution_v1.0.0.md` (atomic tasks T-XXX, ~308 total). Adăugare Regula 9 NEW (Platform Matrix compliance) — orice spec/workflow UI-touching trebuie tag-uit explicit Web/Mobile/Both + respectare DP-01..DP-07. Master Plan ref bump v1.1.0 → v1.1.1. Trigger: Audit S15-bis-3 finding 88% docs gap-uri Web/Mobile + cerere user "Senior Architect mandate" — definirea totală pre-development. |
 | 1.2.3 | 2026-07 | PATCH — S20 HST #2 PASS clean sync (M0.S1 entry unblocked). |
-| **1.2.4** | **2026-05** | ★ PATCH — **M0.S1 ✅ CLOSED — Design System direct-to-code shift**. Schimbări: (1) §0a Status Execuție LIVE actualizat: sesiune curentă S20 ✅ → M0.S1 ✅ CLOSED; următoarea sesiune M0.S1 → M0.S2 (Clickable Prototype direct-to-code in `apps/web-preview/`); modul Claude activ adăugare FRONTEND WEB DEV early activation; (2) Roadmap ref bump v1.0.0 → v1.0.1 în §1 priority 0.2 (PATCH direct-to-code shift §3.1 + §3.3); (3) Findings lifecycle row ★ 2 CLOSED M0.S1 (F-S20-04 component half + F-S20-10 DP-06 brand parity); (4) NEW row "Open decisions (PM)" cu OD-01 font discrepancy (brand-config Bebas Neue+Montserrat+JetBrains Mono — shipped — vs AC-M0-02 "Inter") + OD-02 spacing grid (8px) + OD-03 dark mode stance (single dark M0-M1); (5) Roadmap macro diagram updated; (6) Gating row updated pentru M0.S2 entry. Trigger: T-M0.S1-01..10 atomic tasks output (direct-to-code path per Roadmap v1.0.1). Backwards compat full cu v1.2.3 (Regulile 1-9 neschimbate). |
+| 1.2.4 | 2026-05 | PATCH — **M0.S1 ✅ CLOSED — Design System direct-to-code shift**. Schimbări: (1) §0a Status Execuție LIVE actualizat: sesiune curentă S20 ✅ → M0.S1 ✅ CLOSED; următoarea sesiune M0.S1 → M0.S2 (Clickable Prototype direct-to-code in `apps/web-preview/`); modul Claude activ adăugare FRONTEND WEB DEV early activation; (2) Roadmap ref bump v1.0.0 → v1.0.1 în §1 priority 0.2 (PATCH direct-to-code shift §3.1 + §3.3); (3) Findings lifecycle row ★ 2 CLOSED M0.S1 (F-S20-04 component half + F-S20-10 DP-06 brand parity); (4) NEW row "Open decisions (PM)" cu OD-01 font discrepancy (brand-config Bebas Neue+Montserrat+JetBrains Mono — shipped — vs AC-M0-02 "Inter") + OD-02 spacing grid (8px) + OD-03 dark mode stance (single dark M0-M1); (5) Roadmap macro diagram updated; (6) Gating row updated pentru M0.S2 entry. Trigger: T-M0.S1-01..10 atomic tasks output (direct-to-code path per Roadmap v1.0.1). Backwards compat full cu v1.2.3 (Regulile 1-9 neschimbate). |
+| **1.2.5** | **2026-05** | ★ PATCH — **M0.S2 ✅ CLOSED — Clickable Prototype direct-to-code**. Schimbări: (1) §0a Status Execuție LIVE actualizat — sesiune curentă M0.S1 → ★ M0.S2 ✅ CLOSED; următoarea M0.S2 → ★ M0.S3 (Web Static Demo); modul Claude activ shift de la DESIGNER-primary la FRONTEND WEB DEV-primary; (2) Roadmap ref bump v1.0.1 → v1.0.2 în §0a + §1 priority 0.2 (PATCH M0.S2 close, T-M0.S2-01..05 ☑); (3) Findings lifecycle row sync ★ zero NEW M0.S2 + zero CRIT/HIGH cumulative S10..M0.S2; (4) Open decisions row simplificat (OD-01..03 rămân non-blocant M0.S3); (5) Roadmap macro diagram updated (M0.S2 ✅ next M0.S3); (6) "Următoarele 3 sesiuni programate" shifted (M0.S3/M0.S4/M0.S5); (7) Gating row actualizat pentru M0.S3 entry. Trigger: T-M0.S2-01..05 atomic tasks output (4 user journeys end-to-end clickable per Roadmap v1.0.2 §3.2 ☑) + `next build` pass 13/13 routes. Backwards compat full cu v1.2.4 (Regulile 1-9 neschimbate). |

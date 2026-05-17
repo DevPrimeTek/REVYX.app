@@ -38,7 +38,7 @@ export function SiteNav({ active }: { active?: string }) {
         ))}
       </ul>
       <div className="flex items-center gap-sp2">
-        <span className="badge-mono text-text-muted hidden md:inline">demo · M0.S1</span>
+        <span className="badge-mono text-text-muted hidden md:inline">demo · M0.S2</span>
         <Link
           href="/login"
           className="inline-flex h-9 items-center px-sp3 rounded-md border border-border-light text-[13px] text-text-h hover:bg-navy-hover transition-colors duration-fast"
