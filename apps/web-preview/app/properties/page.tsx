@@ -1,6 +1,8 @@
+import Link from 'next/link';
 import { SiteNav } from '@/components/site-nav';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import { ScorePill } from '@/components/ui/score-badge';
 
 const props = [
@@ -15,17 +17,22 @@ export default function PropertiesPage() {
     <>
       <SiteNav active="/properties" />
       <main id="main" className="px-sp4 py-sp4 lg:px-sp6 max-w-7xl mx-auto flex flex-col gap-sp4">
-        <header>
-          <p className="label-mono text-gold">Modul 3 · Property</p>
-          <h1 className="text-[28px] mt-sp1">Portofoliu proprietăți</h1>
-          <p className="text-[13px] text-text-secondary mt-sp1">
-            Property Score (PS) §7.2 BRD · Listing Freshness LF = 1 − min(1, zile/90).
-          </p>
+        <header className="flex items-start justify-between gap-sp3 flex-wrap">
+          <div>
+            <p className="label-mono text-gold">Modul 3 · Property</p>
+            <h1 className="text-[28px] mt-sp1">Portofoliu proprietăți</h1>
+            <p className="text-[13px] text-text-secondary mt-sp1">
+              Property Score (PS) §7.2 BRD · Listing Freshness LF = 1 − min(1, zile/90).
+            </p>
+          </div>
+          <Link href="/properties/new">
+            <Button>+ Adaugă proprietate</Button>
+          </Link>
         </header>
 
         <section className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-sp3">
           {props.map((p) => (
-            <Card key={p.id} variant="elevated" accentTop>
+            <Card key={p.id} variant="elevated" accentTop className="focus-within:border-gold">
               <CardHeader>
                 <p className="label-mono text-text-secondary">{p.id}</p>
                 <CardTitle>{p.addr}</CardTitle>

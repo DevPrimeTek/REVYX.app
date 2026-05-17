@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import './globals.css';
+import { AppProviders } from '@/components/providers';
 
 export const metadata: Metadata = {
   title: 'REVYX — Real Estate Execution Intelligence',
@@ -32,7 +33,7 @@ export default function RootLayout({
         >
           Sări la conținutul principal
         </a>
-        {children}
+        <AppProviders>{children}</AppProviders>
       </body>
     </html>
   );

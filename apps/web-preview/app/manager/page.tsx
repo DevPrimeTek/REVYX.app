@@ -1,7 +1,9 @@
+import Link from 'next/link';
 import { SiteNav } from '@/components/site-nav';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Table, TBody, TD, TH, THead, TR } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import { ScorePill } from '@/components/ui/score-badge';
 
 const agents = [
@@ -101,9 +103,14 @@ export default function ManagerPage() {
         </Card>
 
         <Card>
-          <CardHeader>
-            <CardTitle>Escalation queue</CardTitle>
-            <CardDescription>3 niveluri (BR-03): T+SLA · T+SLA+30 min · T+SLA+2h.</CardDescription>
+          <CardHeader className="flex flex-row items-start justify-between gap-sp2">
+            <div>
+              <CardTitle>Escalation queue</CardTitle>
+              <CardDescription>3 niveluri (BR-03): T+SLA · T+SLA+30 min · T+SLA+2h.</CardDescription>
+            </div>
+            <Link href="/manager/escalations">
+              <Button size="sm" variant="secondary">Vezi toate · bulk reassign →</Button>
+            </Link>
           </CardHeader>
           <CardContent>
             <Table>
