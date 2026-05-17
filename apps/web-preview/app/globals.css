@@ -1,0 +1,122 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+ * REVYX UI Design System — globals.css
+ * Tokens sourced from design/tokens.json. CSS custom properties
+ * mirror the Tailwind theme so non-Tailwind contexts (raw HTML email,
+ * iframe embeds) can reuse the same palette.
+ */
+
+:root {
+  --navy: #0C1428;
+  --navy-deep: #080E1C;
+  --navy-mid: #111D35;
+  --navy-card: #152038;
+  --navy-hover: #1A2844;
+
+  --gold: #C9870A;
+  --gold-light: #E6A020;
+  --gold-bright: #F5B830;
+  --gold-dark: #8A5C06;
+
+  --border: #1E2E48;
+  --border-light: #263A58;
+  --gold-border: #C9870A38;
+  --gold-pale: #C9870A14;
+
+  --text-h: #F0F4FA;
+  --text-primary: #D8E2F0;
+  --text-sec: #8FA8CC;
+  --text-muted: #4A6280;
+  --white: #FFFFFF;
+
+  --green: #0FBA7F;
+  --amber: #E8950A;
+  --red: #E03030;
+  --blue: #3B82F6;
+
+  --r-sm: 4px;
+  --r-md: 8px;
+  --r-lg: 14px;
+  --r-xl: 20px;
+}
+
+@layer base {
+  html, body {
+    @apply bg-navy text-text-primary font-body antialiased;
+    font-feature-settings: 'cv11', 'ss01';
+  }
+
+  body {
+    min-height: 100vh;
+    background:
+      radial-gradient(at 20% 10%, rgba(201,135,10,0.08) 0%, transparent 50%),
+      radial-gradient(at 80% 90%, rgba(59,130,246,0.04) 0%, transparent 50%),
+      var(--navy);
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply text-text-h;
+    font-weight: 700;
+  }
+
+  ::selection {
+    background-color: var(--gold);
+    color: var(--navy-deep);
+  }
+
+  *:focus-visible {
+    outline: 2px solid var(--gold-light);
+    outline-offset: 2px;
+    border-radius: var(--r-sm);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+@layer components {
+  .label-mono {
+    @apply font-mono uppercase text-[10px] tracking-label text-text-secondary;
+  }
+
+  .badge-mono {
+    @apply font-mono uppercase text-[9px] tracking-badge;
+  }
+
+  .card-accent-top {
+    position: relative;
+  }
+
+  .card-accent-top::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--gold-dark), var(--gold), var(--gold-light));
+    border-radius: var(--r-lg) var(--r-lg) 0 0;
+  }
+
+  .grid-overlay {
+    background-image:
+      linear-gradient(to right, var(--border) 1px, transparent 1px),
+      linear-gradient(to bottom, var(--border) 1px, transparent 1px);
+    background-size: 80px 80px;
+    opacity: 0.18;
+  }
+
+  .pulse-hot {
+    animation: pulse-hot 1.6s ease-in-out infinite;
+  }
+
+  @keyframes pulse-hot {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(224, 48, 48, 0.6); }
+    50%      { box-shadow: 0 0 0 8px rgba(224, 48, 48, 0); }
+  }
+}

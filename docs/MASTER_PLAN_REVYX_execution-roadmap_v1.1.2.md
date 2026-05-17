@@ -9,7 +9,8 @@
 | 1.0.0 | 2026-06 | Senior PM + Senior PO + Solution Architect + Audit Lead | INITIAL — Master Plan execution roadmap pentru REVYX AOS. Devine structural backbone al documentației: orice document nou (spec, runbook, audit) trebuie să citeze stage-ul de care aparține și să se conformeze cu acceptance criteria al milestone-ului respectiv. Definește 3 macro-milestones (M0 MVP Prezentare · M1 MVP Funcțional · M2 FULL Release GA), echipa virtuală Claude Code (10 hats cu activare condiționată per stage pentru optimizare token), Hard Stress Test methodology mandatory pre-fiecare milestone, gating documentation closure pre-development (S16-S19 + S20 HST #2). Cross-ref CLAUDE.md §10b Regula 3 (audit checkpoint) + Regula 4 (post-commit verify) + nou Regula 8 (Master Plan compliance). |
 | 1.1.0 | 2026-06 | Senior PM + Senior PO + Solution Architect + Frontend Lead | MINOR — **Dual-platform architecture explicit**. Triggered de feedback PM: REVYX este platformă dual-channel (Web primary + Mobile companion), nu doar mobile-centric. Schimbări: (1) §1.4 NEW — clarificare platforme: Web = ~80% workflow agenți (PC desktop, primary), Mobile = ~20% workflow în deplasare (companion); (2) §2.2 nou hat **FRONTEND WEB DEV** (separat de IMPLEMENTER backend); 10 → 11 hats; (3) §2.3 matrice actualizată — FRONTEND WEB DEV activ în M0.S3 + M1.S5/S6 + M2.S2/S5 + DESIGNER co-active pentru parity Web/Mobile; (4) §4-§6 restructurare sub-stages — M1 acum 8 sub-stages (split web dashboard în Agent + Manager), M2 acum 8 sub-stages (split web platform complete vs mobile companion); (5) §11 Definition of Done — Web AC explicit la M1 + M2; (6) AC matrix update — AC-M1-04 split în AC-M1-04a (Web agent) + AC-M1-04b (Web manager); AC-M2-02 Mobile devine companion (nu primary); (7) §10 risk register — nou R-11 "Web/Mobile feature parity drift" MED. Cross-ref CLAUDE.md v1.2.1 §10b Regula 7 (11 hats), BRD futura v1.2.0 trebuie să adauge §10.4 Web Platform Architecture explicit. |
 | 1.1.1 | 2026-06 | Senior Architect + Senior PM + Senior PO | PATCH — **Trio canonical**: Master Plan v1.1.1 + Platform Matrix v1.0.0 + Detailed Roadmap v1.0.0 sunt acum cele 3 documente canonice pentru orice execuție. Schimbări: (1) §0 Status Tracker — adăugare row "Documente canonice" listând trio; (2) §12 Cross-references — adăugare cele 2 docs noi; (3) Notă globală: pentru orice "Web" / "Mobile" mențiune din sub-stages → vezi Platform Matrix v1.0.0 §X-modul corespondent; pentru orice atomic task ID (T-XXX) → vezi Detailed Roadmap v1.0.0 §Y. Trigger: Audit S15-bis-3 finding 88% docs cu gap-uri Web/Mobile + cerere user "să nu fie rework în development" — Senior Architect mandate pentru clarificare totală pre-development. |
-| **1.1.2** | **2026-07** | ★ Senior PM + Senior PO + Solution Architect + Audit Lead + CTO + DPO | ★ PATCH — **§13 sign-off complete 6/6 aprobatori post HST #2 PASS clean** (S20 close). Schimbări: (1) §0 Status Tracker — S19 ✅ → S20 ✅ CLOSED + M0.S1 entry **UNBLOCKED**; documente canonice row update (acest v1.1.2 active); progres documentație 100% complete pre-dev; HST #2 row PASS clean (0 CRIT · 0 HIGH · 4 MED · 6 LOW non-blocking); (2) §11 Definition of Done Pre-dev — toate bullets ☑; **clarificare F-S20-08:** NFR API p95 + Web FCP + Mobile JS bundle = **deliverables M1.S3+/M2.S3**, NU pre-condiții HST #2 (gating timpuriu doc closure 100% atins fără NFR runtime measurements); (3) §13 Approval Gate — 6/6 ⬜ pending → ✅ sign-off cu data 2026-07. Trigger: HST #2 PASS clean per `docs/audit/HST_REVYX_pre-dev_v1.0.0.md` §10 sign-off 7-rol echipa virtuală + §12 next steps unblock; T-S20-12 atomic task (Roadmap §2.5). Backwards compat full cu v1.1.1. |
+| 1.1.2 | 2026-07 | Senior PM + Senior PO + Solution Architect + Audit Lead + CTO + DPO | PATCH — §13 sign-off complete 6/6 post HST #2 PASS clean (S20 close). §0 Status Tracker S19 ✅ → S20 ✅ CLOSED → M0.S1 entry UNBLOCKED. F-S20-08 NFR clarification §11. |
+| **1.1.2-p1** | **2026-05** | ★ DESIGNER (Creative Director) + Senior Architect + Frontend Lead + Senior PM + DOC | ★ §0 sync only (in-place) — **M0.S1 ✅ CLOSED post Design System direct-to-code shift**. §0.1 Sub-stage activ: S20 → M0.S1 ✅ CLOSED → **M0.S2 next**. §0.2 M0 progres documentație 0 → 3 docs (tokens.json + screens-inventory + ui-design-system spec) + 1 Roadmap PATCH v1.0.1. §0.3 Următoarele sesiuni listă rebalansat: M0.S2 Clickable Prototype (in-place `apps/web-preview/`), M0.S3 Web Static Demo, M0.S4 Pitch Deck. §0.4 Gating items M0.S1 ✅ COMPLETE; Findings F-S20-04 component half + F-S20-10 DP-06 brand parity CLOSED FULL. NU semver bump (acest § sincronizare ne-content, exclus changelog formal). |
 
 ---
 
@@ -21,24 +22,25 @@
 
 | Atribut | Valoare |
 |---|---|
-| **Macro-milestone activ** | ★ Pre-development — Documentation closure **100% COMPLETE** + **HST #2 PASS clean post-S20** → M0.S1 entry UNBLOCKED |
-| **Sub-stage activ** | ★ S20 ✅ CLOSED (HST #2 PASS clean) → **M0.S1 next** (DESIGNER hat primary; brand-configs/revyx.md aplicabil; design tokens .json deliverable principal T-M0.S1-09) |
-| **Documentație rămasă** | 0 sesiuni (doc closure + HST #2 COMPLETE) |
-| **Hard Stress Test #2** | ✅ **PASS clean S20** (0 CRIT · 0 HIGH · 4 MED · 6 LOW non-blocking) per `docs/audit/HST_REVYX_pre-dev_v1.0.0.md` |
-| **Development start (Phase 0)** | ★ **UNBLOCKED** — M0.S1 next; Phase 0 Security la M1.S1 entry (post-M0 close) |
-| **Modul Claude activ** | DOC + DESIGNER + ARCHITECT (M0.S1 entry) |
+| **Macro-milestone activ** | ★ **M0 — MVP Prezentare** (M0.S1 ✅ CLOSED post direct-to-code; M0.S2 next) |
+| **Sub-stage activ** | ★ M0.S1 ✅ CLOSED (Design System direct-to-code: tokens.json + screens-inventory + ui-design-system spec + `apps/web-preview/` skeleton) → **M0.S2 next** (Clickable Prototype, in-place `apps/web-preview/`) |
+| **Documentație rămasă** | 0 sesiuni doc-only |
+| **Hard Stress Test #2** | ✅ PASS clean S20 (0 CRIT · 0 HIGH · 4 MED · 6 LOW non-blocking) per `docs/audit/HST_REVYX_pre-dev_v1.0.0.md` |
+| **Development start (Phase 0)** | M1.S1 entry post-M0 close |
+| **Modul Claude activ** | ★ DESIGNER (Creative Director) + ARCHITECT + FRONTEND WEB DEV (★ early activation per direct-to-code shift) + DOC |
 | **Plan tariff curent** | Claude.ai Pro $20/lună (sustained M0; Max $100/lună anticipat M1.S3 per F-S20-09 tracking) |
 | **Capacitate work/zi declarată** | 6-8 ore (efectiv ~4-5 ore post rate-limit overhead) |
-| **Documente canonice** ★ v1.1.2 | TRIO: Master Plan **v1.1.2** (acest doc, active post-HST) + `PLATFORM_MATRIX_REVYX_web-mobile_v1.0.0.md` (feature×platform) + `ROADMAP_REVYX_detailed-execution_v1.0.0.md` (atomic tasks T-XXX) |
-| **Phase 5 progress** S19→S20 | Stage 1-5 ✅ PASS (5/5 exit gates T+91 close) · **Master Phase 5 GA decision = GO unanimous T+91** ratified board S19 · ★ **HST #2 PASS clean S20** confirmă stabilitatea documentary corpus |
-| **Findings register lifecycle** ★ S20 | **13 CLOSED FULL** Phase 5 · 2 TRACKED pre-GA backlog non-blocking (F-S14-02 Stripe + F-S16-01 NTP) · 1 TRACKED next cycle post-GA review (F-S11-07 DPIA T+91+90d) · ★ **8 NEW S20** findings (4 MED + 4 LOW, toate non-blocking M0.S1 entry, owner+ETA per `HST_REVYX_pre-dev_findings-backlog_v1.0.0.md`) · zero CRIT/HIGH cumulative S10..S20 |
+| **Documente canonice** ★ M0.S1 sync | TRIO: Master Plan **v1.1.2** (acest doc) + `PLATFORM_MATRIX_REVYX_web-mobile_v1.0.0.md` + **`ROADMAP_REVYX_detailed-execution_v1.0.1.md`** (★ PATCH direct-to-code shift §3.1 + §3.3) |
+| **Phase 5 progress** S19→S20 | Stage 1-5 ✅ PASS · Master Phase 5 GA = GO unanimous T+91 · HST #2 PASS clean S20 |
+| **Findings register lifecycle** ★ M0.S1 | **13 CLOSED FULL** Phase 5 + ★ **2 CLOSED M0.S1** (F-S20-04 component half via ui-design-system spec + F-S20-10 DP-06 brand parity via tokens.json) · 2 TRACKED pre-GA (F-S14-02 + F-S16-01) · 1 TRACKED next cycle (F-S11-07 DPIA 2026-10-25) · 6 NEW S20 LOW/MED tracked (F-S20-05/06/07/08/09/11) · zero CRIT/HIGH cumulative S10..M0.S1 |
+| **Open decisions (PM)** ★ M0.S1 | OD-01 font (brand-config Bebas Neue+Montserrat+JetBrains Mono — currently shipped — vs AC-M0-02 "Inter") · OD-02 spacing grid (8px confirmed) · OD-03 dark mode stance (single dark M0-M1) — vezi `TECH_SPEC_REVYX_ui-design-system_v1.0.0.md` §10 |
 
 ### 0.2 Progres milestone-uri
 
 | Milestone | Status | Progres documentație | Progres execuție |
 |---|---|---|---|
-| **Pre-dev** | 🟢 **COMPLETE — HST #2 PASS clean S20** + §13 sign-off ✅ | ★ 109 docs post-S20 (+3 vs S19 = MASTER_PLAN v1.1.2 + HST raport + HST findings-backlog) | Phase 5 GA-ready ratified + HST #2 PASS clean |
-| **M0 — MVP Prezentare** | 🟢 **UNBLOCKED — M0.S1 next** (DESIGNER hat primary) | 0/required | 0% |
+| **Pre-dev** | 🟢 **COMPLETE — HST #2 PASS clean S20** + §13 sign-off ✅ | 109 docs post-S20 | Phase 5 GA-ready ratified + HST #2 PASS clean |
+| **M0 — MVP Prezentare** | 🟡 **M0.S1 ✅ CLOSED → M0.S2 next** (Clickable Prototype direct-to-code) | ★ 4 docs M0.S1 (tokens.json + screens-inventory + ui-design-system spec + Roadmap v1.0.1 PATCH) | M0.S1 ☑ · M0.S2..S5 remaining |
 | **M1 — MVP Funcțional** | ⚪ NOT STARTED (Phase 0 Security M1.S1 entry post-M0 close) | 0/required | 0% |
 | **M2 — FULL Release GA** | ⚪ NOT STARTED | 0/required | 0% |
 
@@ -46,9 +48,9 @@
 
 | Sesiune | Scop | Output principal |
 |---|---|---|
-| ★ **M0.S1** next | Wireframes & Design System — DESIGNER hat primary | Design tokens .json (T-M0.S1-09) + components Figma (T-M0.S1-10); screens inventory; wireframes 15-20 ecrane critice (T-M0.S1-03..08); ui-design-system spec (closes F-S20-04 component) |
-| **M0.S2** | Clickable Prototype Figma | Click-through 4 user journeys (lead intake, property creation, deal pipeline, manager escalation) |
-| **M0.S3** | Web Static Demo (Next.js 14 RSC) | `apps/web/` skeleton + mock-data JSON + 12 pages + i18n setup + deploy Vercel demo.revyx.app |
+| ★ **M0.S2** next | Clickable Prototype (direct-to-code in `apps/web-preview/`) | 4 user journeys interactive (lead intake→score→assign · property→match · deal pipeline→won · manager escalation); hover/active/focus states completate; nav linkable end-to-end |
+| **M0.S3** | Web Static Demo (Next.js, mock data full) | promovare `apps/web-preview/` → `apps/web/` + mock-data 100/50/20 + content full 12 pagini + i18n RO/RU/EN + Vercel deploy `demo.revyx.app` |
+| **M0.S4** | Pitch Deck + Video Walkthrough | Deck 15-20 slide RO/RU/EN + video 5 min cu voice-over |
 
 ### 0.4 Gating items active
 
