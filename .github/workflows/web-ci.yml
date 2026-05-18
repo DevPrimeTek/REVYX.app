@@ -1,0 +1,55 @@
+name: web-ci
+
+# M0.S3 · Build verification for apps/web/ (promoted from apps/web-preview/ at T-M0.S3-01).
+# Gates PR merges on typecheck + production build success.
+# Vercel deployment runs separately via the Vercel GitHub App
+# (Root Directory = apps/web, see docs/runbook/RUNBOOK_REVYX_demo-deploy_v1.0.2.md).
+
+on:
+  pull_request:
+    paths:
+      - 'apps/web/**'
+      - 'design/tokens.json'
+      - '.github/workflows/web-ci.yml'
+  push:
+    branches:
+      - main
+    paths:
+      - 'apps/web/**'
+      - 'design/tokens.json'
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Typecheck + Build
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    defaults:
+      run:
+        working-directory: apps/web
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+          cache-dependency-path: apps/web/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci --no-audit --no-fund
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Build
+        run: npm run build
+        env:
+          NEXT_TELEMETRY_DISABLED: '1'
