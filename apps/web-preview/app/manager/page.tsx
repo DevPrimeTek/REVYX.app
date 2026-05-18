@@ -1,36 +1,55 @@
+'use client';
+
+// M0.S3 · Manager dashboard wired to 8-agent mock + 100-lead aggregate · 🌐 Web only
+// Master Plan ref: docs/MASTER_PLAN_REVYX_execution-roadmap_v1.1.2.md §4.1 (M0.S3)
+// Roadmap ref: docs/ROADMAP_REVYX_detailed-execution_v1.0.3.md §3.3 T-M0.S3-09 + T-M0.S3-13
+
 import Link from 'next/link';
+import { useMemo } from 'react';
 import { SiteNav } from '@/components/site-nav';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Table, TBody, TD, TH, THead, TR } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { ScorePill } from '@/components/ui/score-badge';
-
-const agents = [
-  { id: 'A-001', name: 'Andrei Caraman',   aps: 0.84, conv: 0.46, deals30d: 7 },
-  { id: 'A-002', name: 'Doina Cebotari',   aps: 0.79, conv: 0.41, deals30d: 6 },
-  { id: 'A-003', name: 'Sergiu Pîrlog',    aps: 0.71, conv: 0.38, deals30d: 5 },
-  { id: 'A-004', name: 'Tatiana Movilă',   aps: 0.65, conv: 0.34, deals30d: 4 },
-  { id: 'A-005', name: 'Valeria Postu',    aps: 0.62, conv: 0.30, deals30d: 3 },
-];
-
-const escalations = [
-  { id: 'E-301', lead: 'Maria P.',  sla: 'T+SLA+30m', level: 2 },
-  { id: 'E-302', lead: 'Ion C.',    sla: 'T+SLA',    level: 1 },
-  { id: 'E-303', lead: 'Olga C.',   sla: 'T+SLA+2h', level: 3 },
-];
+import { useT } from '@/components/i18n/provider';
+import { agents, leads, deals } from '@/lib/mock';
 
 export default function ManagerPage() {
+  const { t } = useT();
+
+  const sortedAgents = useMemo(() => [...agents].sort((a, b) => b.aps - a.aps), []);
+  const teamAvgAps = useMemo(
+    () => Math.round((agents.reduce((s, a) => s + a.aps, 0) / agents.length) * 100) / 100,
+    []
+  );
+  const wonCount = deals.filter((d) => d.stage === 'won').length;
+  const conversionPct = Math.round((wonCount / leads.length) * 1000) / 10;
+
+  // Synthetic escalations: pick top-3 HOT leads still unassigned (rare due to firewall)
+  // OR overdue qualified leads.
+  const escalations = useMemo(
+    () =>
+      leads
+        .filter((l) => l.status === 'HOT' || l.status === 'qualified')
+        .slice(0, 3)
+        .map((l, i) => ({
+          id: `E-${String(300 + i + 1).padStart(3, '0')}`,
+          lead: l.name,
+          sla: i === 0 ? 'T+SLA' : i === 1 ? 'T+SLA+30m' : 'T+SLA+2h',
+          level: (i + 1) as 1 | 2 | 3,
+        })),
+    []
+  );
+
   return (
     <>
       <SiteNav active="/manager" />
       <main id="main" className="px-sp4 py-sp4 lg:px-sp6 max-w-7xl mx-auto flex flex-col gap-sp4">
         <header>
-          <p className="label-mono text-gold">Modul 10 · Reports · Modul 2.12 · Escalations</p>
-          <h1 className="text-[28px] mt-sp1">Manager Dashboard</h1>
-          <p className="text-[13px] text-text-secondary mt-sp1">
-            🌐 Web only (DP-05). Acțiunile de reassignment + bulk override sunt audit-logged automat (BR-07).
-          </p>
+          <p className="label-mono text-gold">{t('manager.moduleLabel')}</p>
+          <h1 className="text-[28px] mt-sp1">{t('manager.title')}</h1>
+          <p className="text-[13px] text-text-secondary mt-sp1">{t('manager.subtitle')}</p>
         </header>
 
         <section className="grid grid-cols-1 lg:grid-cols-3 gap-sp3">
@@ -38,40 +57,42 @@ export default function ManagerPage() {
             <CardHeader>
               <p className="label-mono text-gold">APS</p>
               <CardTitle>Team avg</CardTitle>
-              <CardDescription>5 agenți activi · 30 zile.</CardDescription>
+              <CardDescription>{agents.length} agenți · 30 zile.</CardDescription>
             </CardHeader>
             <CardContent>
-              <p className="font-mono text-[32px] text-gold">0.72</p>
-              <p className="text-[12px] text-text-secondary mt-sp1">+0.04 vs perioada anterioară</p>
+              <p className="font-mono text-[32px] text-gold">{teamAvgAps.toFixed(2)}</p>
+              <p className="text-[12px] text-text-secondary mt-sp1">+0.04 vs prev</p>
             </CardContent>
           </Card>
           <Card>
             <CardHeader>
               <p className="label-mono text-text-secondary">Conversie</p>
               <CardTitle>Lead → Deal won</CardTitle>
-              <CardDescription>BR-13 prevention rate ≥ 30%.</CardDescription>
+              <CardDescription>BR-13 target ≥ 30%.</CardDescription>
             </CardHeader>
             <CardContent>
-              <p className="font-mono text-[32px] text-text-h">38%</p>
-              <p className="text-[12px] text-status-green mt-sp1">peste target</p>
+              <p className="font-mono text-[32px] text-text-h">{conversionPct.toFixed(1)}%</p>
+              <p className={'text-[12px] mt-sp1 ' + (conversionPct >= 30 ? 'text-status-green' : 'text-status-amber')}>
+                {wonCount} deal-uri Won · {leads.length} leads totali
+              </p>
             </CardContent>
           </Card>
           <Card>
             <CardHeader>
-              <p className="label-mono text-text-secondary">Escalări active</p>
-              <CardTitle>3 pe queue</CardTitle>
+              <p className="label-mono text-text-secondary">{t('manager.escalations')}</p>
+              <CardTitle>{escalations.length} {t('manager.escalations').toLowerCase()}</CardTitle>
               <CardDescription>BR-03 · 3 niveluri.</CardDescription>
             </CardHeader>
             <CardContent>
-              <p className="font-mono text-[32px] text-status-amber">3</p>
-              <p className="text-[12px] text-text-secondary mt-sp1">1× nivel 1 · 1× nivel 2 · 1× nivel 3</p>
+              <p className="font-mono text-[32px] text-status-amber">{escalations.length}</p>
+              <p className="text-[12px] text-text-secondary mt-sp1">L1 · L2 · L3</p>
             </CardContent>
           </Card>
         </section>
 
         <Card>
           <CardHeader>
-            <CardTitle>APS leaderboard</CardTitle>
+            <CardTitle>{t('manager.leaderboard')}</CardTitle>
             <CardDescription>
               APS_default = 0.65 pentru agenți cu &lt;5 deal-uri SAU &lt;30 zile (BR-11).
             </CardDescription>
@@ -81,20 +102,22 @@ export default function ManagerPage() {
               <THead>
                 <TR>
                   <TH>ID</TH>
-                  <TH>Agent</TH>
+                  <TH>{t('common.name')}</TH>
                   <TH>APS</TH>
-                  <TH>Conversie</TH>
+                  <TH>Trust</TH>
+                  <TH>Slots</TH>
                   <TH>Deals 30d</TH>
                 </TR>
               </THead>
               <TBody>
-                {agents.map((a) => (
+                {sortedAgents.map((a) => (
                   <TR key={a.id}>
                     <TD className="font-mono text-text-secondary">{a.id}</TD>
                     <TD>{a.name}</TD>
                     <TD><ScorePill label="APS" value={a.aps} /></TD>
-                    <TD className="font-mono">{Math.round(a.conv * 100)}%</TD>
-                    <TD className="font-mono">{a.deals30d}</TD>
+                    <TD className="font-mono">{a.trust.toFixed(2)}</TD>
+                    <TD className="font-mono">{a.activeTasks}/3</TD>
+                    <TD className="font-mono">{a.closedDeals30d}</TD>
                   </TR>
                 ))}
               </TBody>
@@ -105,11 +128,11 @@ export default function ManagerPage() {
         <Card>
           <CardHeader className="flex flex-row items-start justify-between gap-sp2">
             <div>
-              <CardTitle>Escalation queue</CardTitle>
-              <CardDescription>3 niveluri (BR-03): T+SLA · T+SLA+30 min · T+SLA+2h.</CardDescription>
+              <CardTitle>{t('manager.escalationsTitle')}</CardTitle>
+              <CardDescription>{t('manager.escalationsSubtitle')}</CardDescription>
             </div>
             <Link href="/manager/escalations">
-              <Button size="sm" variant="secondary">Vezi toate · bulk reassign →</Button>
+              <Button size="sm" variant="secondary">{t('manager.openEscalations')}</Button>
             </Link>
           </CardHeader>
           <CardContent>
@@ -129,10 +152,7 @@ export default function ManagerPage() {
                     <TD>{e.lead}</TD>
                     <TD className="font-mono">{e.sla}</TD>
                     <TD>
-                      <Badge
-                        variant={e.level === 1 ? 'warning' : e.level === 2 ? 'critical' : 'critical'}
-                        size="xs"
-                      >
+                      <Badge variant={e.level === 1 ? 'warning' : 'critical'} size="xs">
                         L{e.level}
                       </Badge>
                     </TD>

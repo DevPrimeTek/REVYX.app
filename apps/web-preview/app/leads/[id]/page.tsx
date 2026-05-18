@@ -1,12 +1,12 @@
 'use client';
 
-// M0.S2 · T-M0.S2-01 · J1 Lead intake → Score → Assign · 🌐 Web only
-// Master Plan ref: docs/MASTER_PLAN_REVYX_execution-roadmap_v1.1.2.md §4.1 (M0.S2)
-// Roadmap ref: docs/ROADMAP_REVYX_detailed-execution_v1.0.1.md §3.2
+// M0.S2 + M0.S3 · J1 Lead detail wired to 100-lead mock · 🌐 Web only
+// Master Plan ref: docs/MASTER_PLAN_REVYX_execution-roadmap_v1.1.2.md §4.1 (M0.S2/M0.S3)
+// Roadmap ref: docs/ROADMAP_REVYX_detailed-execution_v1.0.3.md §3.3 T-M0.S3-04 + T-M0.S3-13
 
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { SiteNav } from '@/components/site-nav';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { LeadScoreBadge, ScorePill } from '@/components/ui/score-badge';
@@ -14,26 +14,29 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Modal } from '@/components/ui/modal';
 import { useToast } from '@/components/ui/toast';
+import { useT } from '@/components/i18n/provider';
 import { formatScore } from '@/lib/utils';
-
-const baseLs = 0.82;
-
-const agents = [
-  { id: 'A-001', name: 'Andrei Caraman',   aps: 0.84, slots: '2/3 active', match: 'top' },
-  { id: 'A-002', name: 'Doina Cebotari',   aps: 0.79, slots: '1/3 active', match: 'good' },
-  { id: 'A-003', name: 'Sergiu Pîrlog',    aps: 0.71, slots: '3/3 full',   match: 'busy' },
-  { id: 'A-004', name: 'Tatiana Movilă',   aps: 0.65, slots: '0/3 active', match: 'available' },
-];
+import { agents, leadsById, properties } from '@/lib/mock';
 
 type Params = { params: { id: string } };
 
 export default function LeadDetailPage({ params }: Params) {
   const router = useRouter();
+  const { t } = useT();
   const { toast } = useToast();
+  const lead = leadsById.get(params.id);
+
   const [assignOpen, setAssignOpen] = useState(false);
-  const [selectedAgent, setSelectedAgent] = useState<string>('A-001');
+  const [selectedAgent, setSelectedAgent] = useState<string>(agents[0].id);
+  const baseLs = lead?.ls ?? 0.30;
   const [ls, setLs] = useState(baseLs);
   const [recomputing, setRecomputing] = useState(false);
+
+  // Top-3 property matches: highest PS, slight LS coupling.
+  const matches = useMemo(
+    () => [...properties].sort((a, b) => b.ps - a.ps).slice(0, 3),
+    []
+  );
 
   function recomputeScore() {
     if (recomputing) return;
@@ -50,8 +53,8 @@ export default function LeadDetailPage({ params }: Params) {
         setRecomputing(false);
         toast({
           variant: 'success',
-          title: `Lead Score recomputat → ${formatScore(target)}`,
-          description: 'Signal-uri proaspete: interacțiune WhatsApp + match P-2041 actualizat.',
+          title: t('leadDetail.toastRecompute', { score: formatScore(target) }),
+          description: t('leadDetail.toastRecomputeDesc'),
         });
       }
     }, 40);
@@ -62,12 +65,34 @@ export default function LeadDetailPage({ params }: Params) {
     setAssignOpen(false);
     toast({
       variant: 'success',
-      title: `Lead ${params.id} asignat lui ${agent?.name ?? selectedAgent}`,
-      description: 'Task adăugat în queue. Audit-log eveniment LEAD_ASSIGNED scris (BR-07).',
+      title: t('leadDetail.toastAssign', { id: params.id, name: agent?.name ?? selectedAgent }),
+      description: t('leadDetail.toastAssignDesc'),
       duration: 5000,
     });
     setTimeout(() => router.push('/dashboard'), 600);
   }
+
+  if (!lead) {
+    return (
+      <>
+        <SiteNav active="/leads" />
+        <main id="main" className="px-sp4 py-sp8 max-w-3xl mx-auto text-center">
+          <p className="label-mono text-gold">404</p>
+          <h1 className="text-[28px] mt-sp2">Lead {params.id} inexistent.</h1>
+          <p className="text-text-secondary mt-sp2">
+            <Link href="/leads" className="text-gold hover:underline">← {t('leadDetail.breadcrumbQueue')}</Link>
+          </p>
+        </main>
+      </>
+    );
+  }
+
+  const agentSlotState = (a: typeof agents[number]) => {
+    if (a.activeTasks >= 3) return 'busy';
+    if (a.aps >= 0.80) return 'top';
+    if (a.activeTasks === 0) return 'available';
+    return 'good';
+  };
 
   return (
     <>
@@ -75,7 +100,7 @@ export default function LeadDetailPage({ params }: Params) {
       <main id="main" className="px-sp4 py-sp4 lg:px-sp6 max-w-7xl mx-auto flex flex-col gap-sp4">
         <nav aria-label="Breadcrumb" className="text-[12px] text-text-secondary">
           <Link href="/leads" className="hover:text-text-h focus-visible:text-gold rounded-sm">
-            Queue
+            {t('leadDetail.breadcrumbQueue')}
           </Link>
           <span className="mx-sp1 text-text-muted">/</span>
           <span className="text-text-h font-mono">{params.id}</span>
@@ -83,75 +108,75 @@ export default function LeadDetailPage({ params }: Params) {
 
         <header className="flex items-start justify-between gap-sp3 flex-wrap">
           <div>
-            <p className="label-mono text-gold">Modul 2 · Lead Detail</p>
-            <h1 className="text-[28px] mt-sp1">Maria Popescu</h1>
+            <p className="label-mono text-gold">{t('leadDetail.moduleLabel')}</p>
+            <h1 className="text-[28px] mt-sp1">{lead.name}</h1>
             <div className="flex items-center gap-sp2 mt-sp2">
               <LeadScoreBadge ls={ls} />
-              <Badge variant="updated">Match needs review</Badge>
-              {recomputing && <Badge variant="info" size="xs">recomputing…</Badge>}
+              {lead.needsReview && <Badge variant="updated">{t('leadDetail.matchNeedsReview')}</Badge>}
+              {recomputing && <Badge variant="info" size="xs">{t('leadDetail.recomputing')}</Badge>}
             </div>
           </div>
           <div className="flex items-center gap-sp2 flex-wrap">
             <Button variant="ghost" onClick={recomputeScore} disabled={recomputing}>
-              Recalculează LS
+              {t('leadDetail.recompute')}
             </Button>
-            <Button variant="secondary">WhatsApp</Button>
-            <Button onClick={() => setAssignOpen(true)}>Asignează agent</Button>
+            <Button variant="secondary">{t('leadDetail.whatsapp')}</Button>
+            <Button onClick={() => setAssignOpen(true)}>{t('leadDetail.assignAgent')}</Button>
           </div>
         </header>
 
-        <div className="bg-status-amber/10 border border-status-amber/30 rounded-lg px-sp3 py-sp2 text-[13px] text-text-h">
-          <strong className="text-status-amber">Re-matching:</strong> proprietatea P-2041 a fost actualizată — match-urile au
-          fost re-evaluate. Deal-ul existent NU se anulează automat (BR-05).
-        </div>
+        {lead.needsReview && (
+          <div
+            className="bg-status-amber/10 border border-status-amber/30 rounded-lg px-sp3 py-sp2 text-[13px] text-text-h"
+            dangerouslySetInnerHTML={{ __html: t('leadDetail.rematchBanner') }}
+          />
+        )}
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-sp3">
           <Card className="lg:col-span-2">
             <CardHeader>
-              <CardTitle>Detalii lead</CardTitle>
-              <CardDescription>GDPR consent capturat 2026-05-12 14:21 (BRD §9.4).</CardDescription>
+              <CardTitle>{t('leadDetail.title')}</CardTitle>
+              <CardDescription>{t('leadDetail.gdprNote')} · {lead.createdAt}</CardDescription>
             </CardHeader>
             <CardContent>
               <dl className="grid grid-cols-1 md:grid-cols-2 gap-sp3 text-[13px]">
                 <div>
-                  <dt className="label-mono text-text-muted">Sursă</dt>
-                  <dd className="text-text-h">Meta Lead Ads · Campania &quot;Apartament 2 cam Centru&quot;</dd>
+                  <dt className="label-mono text-text-muted">{t('leadDetail.source')}</dt>
+                  <dd className="text-text-h">{lead.source}</dd>
                 </div>
                 <div>
-                  <dt className="label-mono text-text-muted">Buget</dt>
-                  <dd className="text-text-h">€55,000 – €75,000</dd>
+                  <dt className="label-mono text-text-muted">{t('leadDetail.budget')}</dt>
+                  <dd className="text-text-h">
+                    €{lead.budgetMin.toLocaleString('ro-MD')} – €{lead.budgetMax.toLocaleString('ro-MD')}
+                  </dd>
                 </div>
                 <div>
-                  <dt className="label-mono text-text-muted">Zonă preferată</dt>
-                  <dd className="text-text-h">Chișinău · Centru, Botanica</dd>
+                  <dt className="label-mono text-text-muted">{t('leadDetail.zone')}</dt>
+                  <dd className="text-text-h">{lead.zone}</dd>
                 </div>
                 <div>
-                  <dt className="label-mono text-text-muted">Camere</dt>
-                  <dd className="text-text-h">2 – 3</dd>
+                  <dt className="label-mono text-text-muted">{t('leadDetail.rooms')}</dt>
+                  <dd className="text-text-h">{lead.rooms}</dd>
                 </div>
               </dl>
 
               <div className="mt-sp4 flex flex-wrap gap-sp3">
                 <ScorePill label="LS" value={ls} />
-                <ScorePill label="IS" value={0.54} />
+                <ScorePill label="IS" value={lead.is} />
                 <ScorePill label="Trust" value={0.71} />
-                <ScorePill label="DP" value={0.66} />
+                <ScorePill label="DP" value={Math.round((ls * 0.8) * 100) / 100} />
               </div>
             </CardContent>
           </Card>
 
           <Card variant="elevated" accentTop>
             <CardHeader>
-              <p className="label-mono text-gold">Modul 4 · Match suggestions</p>
-              <CardTitle>Top 3 proprietăți</CardTitle>
-              <CardDescription>PS+LS+IS combined (match v1).</CardDescription>
+              <p className="label-mono text-gold">{t('leadDetail.matchModule')}</p>
+              <CardTitle>{t('leadDetail.matchTitle')}</CardTitle>
+              <CardDescription>{t('leadDetail.matchSubtitle')}</CardDescription>
             </CardHeader>
             <CardContent className="flex flex-col gap-sp2">
-              {[
-                { id: 'P-2041', addr: 'Str. București 14, ap. 23', score: 0.84 },
-                { id: 'P-2008', addr: 'Str. Mihai Eminescu 7, ap. 5', score: 0.76 },
-                { id: 'P-1992', addr: 'Bd. Ștefan cel Mare 91, ap. 12', score: 0.71 },
-              ].map((p) => (
+              {matches.map((p) => (
                 <Link
                   key={p.id}
                   href="/properties"
@@ -161,7 +186,7 @@ export default function LeadDetailPage({ params }: Params) {
                     <p className="font-mono text-[11px] text-text-secondary">{p.id}</p>
                     <p className="text-text-h text-[13px]">{p.addr}</p>
                   </div>
-                  <span className="font-mono text-gold">{p.score.toFixed(2)}</span>
+                  <span className="font-mono text-gold">{p.ps.toFixed(2)}</span>
                 </Link>
               ))}
             </CardContent>
@@ -172,14 +197,15 @@ export default function LeadDetailPage({ params }: Params) {
       <Modal
         open={assignOpen}
         onClose={() => setAssignOpen(false)}
-        title={`Asignează lead ${params.id}`}
-        description="Agent selectat va primi task activ (BR-04: max 3/agent). Eveniment LEAD_ASSIGNED audit-logged."
+        title={t('leadDetail.assignModalTitle', { id: params.id })}
+        description={t('leadDetail.assignModalDesc')}
         size="md"
       >
         <fieldset className="flex flex-col gap-sp2">
-          <legend className="sr-only">Lista agenților disponibili</legend>
+          <legend className="sr-only">{t('leadDetail.assignAgent')}</legend>
           {agents.map((a) => {
-            const disabled = a.match === 'busy';
+            const state = agentSlotState(a);
+            const disabled = state === 'busy';
             const checked = selectedAgent === a.id;
             return (
               <label
@@ -206,23 +232,29 @@ export default function LeadDetailPage({ params }: Params) {
                   <span className="flex flex-col">
                     <span className="text-text-h text-[13px]">{a.name}</span>
                     <span className="text-text-muted text-[11px] font-mono">
-                      {a.id} · APS {formatScore(a.aps)} · {a.slots}
+                      {a.id} · APS {formatScore(a.aps)} · {a.activeTasks}/3
                     </span>
                   </span>
                 </span>
                 <Badge
                   variant={
-                    a.match === 'top'
+                    state === 'top'
                       ? 'success'
-                      : a.match === 'good'
+                      : state === 'good'
                       ? 'info'
-                      : a.match === 'available'
+                      : state === 'available'
                       ? 'updated'
                       : 'critical'
                   }
                   size="xs"
                 >
-                  {a.match}
+                  {state === 'top'
+                    ? t('leadDetail.agentStateTop')
+                    : state === 'good'
+                    ? t('leadDetail.agentStateGood')
+                    : state === 'available'
+                    ? t('leadDetail.agentStateAvailable')
+                    : t('leadDetail.agentStateBusy')}
                 </Badge>
               </label>
             );
@@ -231,9 +263,9 @@ export default function LeadDetailPage({ params }: Params) {
 
         <div className="flex items-center justify-end gap-sp2 mt-sp4 pt-sp3 border-t border-border">
           <Button variant="ghost" onClick={() => setAssignOpen(false)}>
-            Renunță
+            {t('common.cancel')}
           </Button>
-          <Button onClick={confirmAssign}>Confirmă asignare</Button>
+          <Button onClick={confirmAssign}>{t('common.confirm')}</Button>
         </div>
       </Modal>
     </>

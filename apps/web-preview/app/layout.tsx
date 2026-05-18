@@ -5,7 +5,7 @@ import { AppProviders } from '@/components/providers';
 export const metadata: Metadata = {
   title: 'REVYX — Real Estate Execution Intelligence',
   description:
-    'REVYX Agent Operating System (AOS) — M0.S1 design-system preview. Lead Scoring · Matching · Deal Pipeline.',
+    'REVYX Agent Operating System (AOS) — M0 Web Static Demo. Lead Scoring · Matching · Deal Pipeline · i18n RO/RU/EN.',
   applicationName: 'REVYX',
   authors: [{ name: 'ITPRO SYSTEM SRL' }],
   robots: { index: false, follow: false },

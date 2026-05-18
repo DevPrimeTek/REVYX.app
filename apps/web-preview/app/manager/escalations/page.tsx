@@ -1,8 +1,8 @@
 'use client';
 
-// M0.S2 · T-M0.S2-04 · J4 Manager escalation queue · 🌐 Web only (DP-05)
-// Master Plan ref: docs/MASTER_PLAN_REVYX_execution-roadmap_v1.1.2.md §4.1 (M0.S2)
-// Roadmap ref: docs/ROADMAP_REVYX_detailed-execution_v1.0.1.md §3.2
+// M0.S2 + M0.S3 · J4 Manager escalation queue · 🌐 Web only (DP-05)
+// Master Plan ref: docs/MASTER_PLAN_REVYX_execution-roadmap_v1.1.2.md §4.1
+// Roadmap ref: docs/ROADMAP_REVYX_detailed-execution_v1.0.3.md §3.3 T-M0.S3-13
 // Platform Matrix: §3 Modul 2.12 — escalation overrides Web-only per DP-05.
 
 import Link from 'next/link';
@@ -13,10 +13,13 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Modal } from '@/components/ui/modal';
 import { useToast } from '@/components/ui/toast';
+import { useT } from '@/components/i18n/provider';
+import { agents as mockAgents, leads as mockLeads } from '@/lib/mock';
 
 type Escalation = {
   id: string;
   lead: string;
+  leadId: string;
   agent: string;
   ls: number;
   sla: string;
@@ -24,28 +27,44 @@ type Escalation = {
   age: string;
 };
 
-const initial: Escalation[] = [
-  { id: 'E-301', lead: 'Maria Popescu (L-0001)',  agent: 'Andrei C.', ls: 0.82, sla: 'T+SLA+30m', level: 2, age: '47 min'  },
-  { id: 'E-302', lead: 'Ion Cojocaru (L-0003)',   agent: 'Doina C.',  ls: 0.64, sla: 'T+SLA',    level: 1, age: '12 min'   },
-  { id: 'E-303', lead: 'Olga Ciobanu (L-0006)',   agent: 'Sergiu P.', ls: 0.71, sla: 'T+SLA+2h', level: 3, age: '2h 18min' },
-  { id: 'E-304', lead: 'Andrei Bodiu (L-0002)',   agent: 'Sergiu P.', ls: 0.71, sla: 'T+SLA+30m', level: 2, age: '38 min'  },
-  { id: 'E-305', lead: 'Elena Rusu (L-0004)',     agent: 'Tatiana M.',ls: 0.58, sla: 'T+SLA',    level: 1, age: '6 min'    },
-  { id: 'E-306', lead: 'Mihai Țurcanu (L-0005)',  agent: 'Sergiu P.', ls: 0.61, sla: 'T+SLA+2h', level: 3, age: '2h 41min' },
-];
+const slaStages = ['T+SLA', 'T+SLA+30m', 'T+SLA+2h'] as const;
+const ages = ['12 min', '47 min', '2h 18min', '38 min', '6 min', '2h 41min'];
 
-const reassignTargets = [
-  { id: 'A-001', name: 'Andrei Caraman',  load: '2/3 active',  aps: 0.84 },
-  { id: 'A-002', name: 'Doina Cebotari',  load: '1/3 active',  aps: 0.79 },
-  { id: 'A-004', name: 'Tatiana Movilă',  load: '0/3 active',  aps: 0.65 },
-  { id: 'A-005', name: 'Valeria Postu',   load: '1/3 active',  aps: 0.62 },
-];
+function makeInitial(): Escalation[] {
+  const top = mockLeads
+    .filter((l) => l.status === 'HOT' || l.status === 'qualified')
+    .slice(0, 6);
+  return top.map((l, i) => {
+    const ag = mockAgents[(i + 2) % mockAgents.length];
+    const level = ((i % 3) + 1) as 1 | 2 | 3;
+    return {
+      id: `E-${String(300 + i + 1).padStart(3, '0')}`,
+      lead: `${l.name} (${l.id})`,
+      leadId: l.id,
+      agent: ag.name.split(' ').slice(0, 2).join(' '),
+      ls: l.ls,
+      sla: slaStages[(level - 1) as 0 | 1 | 2],
+      level,
+      age: ages[i % ages.length],
+    };
+  });
+}
+
+const reassignTargets = mockAgents.slice(0, 4).map((a) => ({
+  id: a.id,
+  name: a.name,
+  load: `${a.activeTasks}/3 active`,
+  aps: a.aps,
+}));
 
 export default function EscalationsPage() {
   const { toast } = useToast();
+  const { t } = useT();
+  const initial = useMemo(() => makeInitial(), []);
   const [items, setItems] = useState<Escalation[]>(initial);
   const [selected, setSelected] = useState<Set<string>>(new Set());
   const [reassignOpen, setReassignOpen] = useState(false);
-  const [target, setTarget] = useState<string>('A-001');
+  const [target, setTarget] = useState<string>(reassignTargets[0]?.id ?? 'A-001');
 
   const allChecked = items.length > 0 && selected.size === items.length;
   const someChecked = selected.size > 0 && !allChecked;
@@ -71,7 +90,7 @@ export default function EscalationsPage() {
 
   function openReassign() {
     if (selected.size === 0) {
-      toast({ variant: 'warning', title: 'Selectează cel puțin un lead.' });
+      toast({ variant: 'warning', title: t('common.filter') + '…' });
       return;
     }
     setReassignOpen(true);

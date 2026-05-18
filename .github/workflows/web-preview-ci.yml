@@ -1,8 +1,13 @@
 name: web-preview-ci
 
-# M0.S2/M0.S3 · Build verification for apps/web-preview/
+# M0.S3 · Build verification for apps/web-preview/.
+# Physical path retained from M0.S1 → M0.S2 → M0.S3 to keep Vercel Root Directory
+# stable. Package upgraded in-place to @revyx/web@0.2.0 (semantic promote without
+# directory rename) per Runbook v1.0.2 §1 deploy-stability rule.
+#
 # Gates PR merges on typecheck + production build success.
-# Vercel deployment runs separately via the Vercel GitHub App.
+# Vercel deployment runs separately via the Vercel GitHub App
+# (Root Directory = apps/web-preview, see docs/runbook/RUNBOOK_REVYX_demo-deploy_v1.0.2.md).
 
 on:
   pull_request:

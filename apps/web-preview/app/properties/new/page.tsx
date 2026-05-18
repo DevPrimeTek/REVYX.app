@@ -1,8 +1,8 @@
 'use client';
 
-// M0.S2 · T-M0.S2-02 · J2 Property creation → Match · 🌐 Web only
-// Master Plan ref: docs/MASTER_PLAN_REVYX_execution-roadmap_v1.1.2.md §4.1 (M0.S2)
-// Roadmap ref: docs/ROADMAP_REVYX_detailed-execution_v1.0.1.md §3.2
+// M0.S2 + M0.S3 · J2 Property creation → Match · 🌐 Web only
+// Master Plan ref: docs/MASTER_PLAN_REVYX_execution-roadmap_v1.1.2.md §4.1 (M0.S2/M0.S3)
+// Roadmap ref: docs/ROADMAP_REVYX_detailed-execution_v1.0.3.md §3.3 T-M0.S3-13
 
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -13,26 +13,28 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { useToast } from '@/components/ui/toast';
+import { useT } from '@/components/i18n/provider';
 
 export default function NewPropertyPage() {
   const router = useRouter();
   const { toast } = useToast();
+  const { t } = useT();
   const [submitting, setSubmitting] = useState(false);
 
   function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     if (submitting) return;
     setSubmitting(true);
-    const propertyId = 'P-2042';
+    const propertyId = 'P-1951';
 
     setTimeout(() => {
       toast({
         variant: 'success',
-        title: `Proprietatea ${propertyId} creată`,
-        description: 'Match engine: 4 lead-uri candidate (top: Maria P. score 0.84). Re-matching emis pentru deal-urile afectate (BR-05).',
+        title: `${propertyId} → match engine`,
+        description: '4 lead-uri candidate (top score 0.84). Re-matching emis (BR-05).',
         duration: 5500,
       });
-      setTimeout(() => router.push('/leads/L-0001'), 700);
+      setTimeout(() => router.push('/leads/L-1001'), 700);
     }, 400);
   }
 
@@ -41,21 +43,18 @@ export default function NewPropertyPage() {
       <SiteNav active="/properties" />
       <main id="main" className="px-sp4 py-sp4 lg:px-sp6 max-w-3xl mx-auto flex flex-col gap-sp4">
         <nav aria-label="Breadcrumb" className="text-[12px] text-text-secondary">
-          <Link href="/properties" className="hover:text-text-h">Portofoliu</Link>
+          <Link href="/properties" className="hover:text-text-h">{t('property.portfolioTitle')}</Link>
           <span className="mx-sp1 text-text-muted">/</span>
-          <span className="text-text-h">Adaugă</span>
+          <span className="text-text-h">{t('property.addCta')}</span>
         </nav>
 
         <header>
           <div className="flex items-center gap-sp2">
-            <p className="label-mono text-gold">Modul 3 · Property Intake</p>
-            <Badge variant="info" size="xs">Match auto la submit</Badge>
+            <p className="label-mono text-gold">{t('property.moduleLabel')}</p>
+            <Badge variant="info" size="xs">match auto</Badge>
           </div>
-          <h1 className="text-[28px] mt-sp1">Proprietate nouă</h1>
-          <p className="text-[13px] text-text-secondary mt-sp1">
-            Câmpurile minime pentru calcul PS + LF + emitere match suggestions. Property Score complet
-            se recalculează după upload poze (M1.S5).
-          </p>
+          <h1 className="text-[28px] mt-sp1">{t('property.newFormTitle')}</h1>
+          <p className="text-[13px] text-text-secondary mt-sp1">{t('property.newFormSubtitle')}</p>
         </header>
 
         <Card variant="elevated" accentTop>
@@ -136,10 +135,10 @@ export default function NewPropertyPage() {
 
               <div className="flex items-center justify-end gap-sp2 pt-sp2 border-t border-border">
                 <Link href="/properties">
-                  <Button type="button" variant="ghost">Anulează</Button>
+                  <Button type="button" variant="ghost">{t('common.cancel')}</Button>
                 </Link>
                 <Button type="submit" loading={submitting}>
-                  Salvează &amp; rulează match
+                  {t('common.save')} → match
                 </Button>
               </div>
             </form>
