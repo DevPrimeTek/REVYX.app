@@ -10,7 +10,8 @@
 | 1.1.0 | 2026-06 | Senior PM + Senior PO + Solution Architect + Frontend Lead | MINOR — **Dual-platform architecture explicit**. Triggered de feedback PM: REVYX este platformă dual-channel (Web primary + Mobile companion), nu doar mobile-centric. Schimbări: (1) §1.4 NEW — clarificare platforme: Web = ~80% workflow agenți (PC desktop, primary), Mobile = ~20% workflow în deplasare (companion); (2) §2.2 nou hat **FRONTEND WEB DEV** (separat de IMPLEMENTER backend); 10 → 11 hats; (3) §2.3 matrice actualizată — FRONTEND WEB DEV activ în M0.S3 + M1.S5/S6 + M2.S2/S5 + DESIGNER co-active pentru parity Web/Mobile; (4) §4-§6 restructurare sub-stages — M1 acum 8 sub-stages (split web dashboard în Agent + Manager), M2 acum 8 sub-stages (split web platform complete vs mobile companion); (5) §11 Definition of Done — Web AC explicit la M1 + M2; (6) AC matrix update — AC-M1-04 split în AC-M1-04a (Web agent) + AC-M1-04b (Web manager); AC-M2-02 Mobile devine companion (nu primary); (7) §10 risk register — nou R-11 "Web/Mobile feature parity drift" MED. Cross-ref CLAUDE.md v1.2.1 §10b Regula 7 (11 hats), BRD futura v1.2.0 trebuie să adauge §10.4 Web Platform Architecture explicit. |
 | 1.1.1 | 2026-06 | Senior Architect + Senior PM + Senior PO | PATCH — **Trio canonical**: Master Plan v1.1.1 + Platform Matrix v1.0.0 + Detailed Roadmap v1.0.0 sunt acum cele 3 documente canonice pentru orice execuție. Schimbări: (1) §0 Status Tracker — adăugare row "Documente canonice" listând trio; (2) §12 Cross-references — adăugare cele 2 docs noi; (3) Notă globală: pentru orice "Web" / "Mobile" mențiune din sub-stages → vezi Platform Matrix v1.0.0 §X-modul corespondent; pentru orice atomic task ID (T-XXX) → vezi Detailed Roadmap v1.0.0 §Y. Trigger: Audit S15-bis-3 finding 88% docs cu gap-uri Web/Mobile + cerere user "să nu fie rework în development" — Senior Architect mandate pentru clarificare totală pre-development. |
 | 1.1.2 | 2026-07 | Senior PM + Senior PO + Solution Architect + Audit Lead + CTO + DPO | PATCH — §13 sign-off complete 6/6 post HST #2 PASS clean (S20 close). §0 Status Tracker S19 ✅ → S20 ✅ CLOSED → M0.S1 entry UNBLOCKED. F-S20-08 NFR clarification §11. |
-| 1.1.2 (★ §0 sync M0.S5) | 2026-05 | Audit Lead + Senior Architect + DESIGNER (Creative Director) + Senior PM | ★ **§0 LIVE TRACKER sync M0.S5 ✅ CLOSED** — M0 EXIT GATE atins (HST M0 PASS conditional 0 CRIT/HIGH post-fix; F-M0S5-01 + F-M0S5-02 closed acest PR). Status row Macro-milestone + Sub-stage + Modul Claude + Documente canonice + §0.2 Progres milestones M0 → CLOSED + §0.3 next sessions M1.S1/S2/S3 + §0.4 gating M0.S5 row + Phase 0 UNBLOCKED. Doc content NESCHIMBAT (§1-§14); doar §0 LIVE TRACKER actualizat. Cross-ref `HST_REVYX_m0_v1.0.0.md` + `ROADMAP v1.0.5`. |
+| 1.1.2 (★ §0 sync M1.S1) | 2026-05 | BACKEND DEV + Senior Security Auditor + Senior Solution Architect + Senior PM | ★ **§0 LIVE TRACKER sync M1.S1 ✅ CLOSED — Phase 0 Security Foundation livrată.** Status row Macro-milestone shift M0 ✅ → M1 active · Sub-stage M0.S5 → M1.S1 ☑ · Modul Claude tranziție audit team → BACKEND DEV + DBA (M1.S2 next) · Documente canonice ref bump Roadmap v1.0.5 → v1.0.6 + NEW TECH_SPEC phase0-security v1.0.0 · M1 progress row 0% → M1.S1 ☑ · §0.3 next sessions shift M1.S1 → M1.S2/S3/S4 · §0.4 Phase 0 gating UNBLOCKED → COMPLETE · NEW legal review gating row pending M1.S2 entry. Doc content NESCHIMBAT (§1-§14). Cross-ref `TECH_SPEC_REVYX_phase0-security_v1.0.0.md` + Roadmap v1.0.6 §4.1. |
+| 1.1.2 (★ §0 sync M0.S5) | 2026-05 | Audit Lead + Senior Architect + DESIGNER (Creative Director) + Senior PM | §0 LIVE TRACKER sync M0.S5 ✅ CLOSED — M0 EXIT GATE atins (HST M0 PASS conditional 0 CRIT/HIGH post-fix; F-M0S5-01 + F-M0S5-02 closed acest PR). Status row Macro-milestone + Sub-stage + Modul Claude + Documente canonice + §0.2 Progres milestones M0 → CLOSED + §0.3 next sessions M1.S1/S2/S3 + §0.4 gating M0.S5 row + Phase 0 UNBLOCKED. Doc content NESCHIMBAT (§1-§14); doar §0 LIVE TRACKER actualizat. Cross-ref `HST_REVYX_m0_v1.0.0.md` + `ROADMAP v1.0.5`. |
 | **1.1.2-p1** | **2026-05** | ★ DESIGNER (Creative Director) + Senior Architect + Frontend Lead + Senior PM + DOC | ★ §0 sync only (in-place) — **M0.S1 ✅ CLOSED post Design System direct-to-code shift**. §0.1 Sub-stage activ: S20 → M0.S1 ✅ CLOSED → **M0.S2 next**. §0.2 M0 progres documentație 0 → 3 docs (tokens.json + screens-inventory + ui-design-system spec) + 1 Roadmap PATCH v1.0.1. §0.3 Următoarele sesiuni listă rebalansat: M0.S2 Clickable Prototype (in-place `apps/web-preview/`), M0.S3 Web Static Demo, M0.S4 Pitch Deck. §0.4 Gating items M0.S1 ✅ COMPLETE; Findings F-S20-04 component half + F-S20-10 DP-06 brand parity CLOSED FULL. NU semver bump (acest § sincronizare ne-content, exclus changelog formal). |
 
 ---
@@ -23,15 +24,15 @@
 
 | Atribut | Valoare |
 |---|---|
-| **Macro-milestone activ** | ★ **M0 — MVP Prezentare ✅ CLOSED** (M0.S1..S5 toate ☑; M0 EXIT GATE atins post HST M0 PASS) → **M1 — MVP Funcțional next** (M1.S1 Phase 0 Security Foundation entry UNBLOCKED) |
-| **Sub-stage activ** | ★ **M0.S5 ✅ CLOSED** (Hard Stress Test M0 EXIT GATE — 0 CRIT/HIGH post-fix; F-M0S5-01 Card interactive prop + F-M0S5-02 i18n RO/RU 44 keys fixed acest PR; 6 MED + 9 LOW backlog) → **M1.S1 next** (Phase 0 Security Foundation: JWT RS256 + RBAC + GDPR + AUDIT_LOG + HMAC webhooks) |
+| **Macro-milestone activ** | ★ **M1 — MVP Funcțional** (M1.S1 ✅ CLOSED Phase 0 Security Foundation livrată; Phase 0 BLOCANT lifted) → **M1.S2 next** (Phase A Foundation — DB schema + API skeleton + auth wire-up real) |
+| **Sub-stage activ** | ★ **M1.S1 ✅ CLOSED** (Phase 0 Security: NestJS 10 + Fastify + Drizzle + PostgreSQL + Redis; 6 migrations cu trigger anti-modify audit_log; JWT RS256 + refresh rotation cu replay detection; RBAC 5 roluri aditiv; AUDIT_LOG global interceptor; HMAC webhook guard + dedup; GDPR Art. 15/17/18/20; Throttler NFR-05/06; Privacy/Cookie drafts; tests 12/12 PASS; CI workflow) → **M1.S2 next** (Phase A Foundation) |
 | **Documentație rămasă** | 0 sesiuni doc-only |
 | **Hard Stress Test #2** | ✅ PASS clean S20 (0 CRIT · 0 HIGH · 4 MED · 6 LOW non-blocking) per `docs/audit/HST_REVYX_pre-dev_v1.0.0.md` |
 | **Development start (Phase 0)** | M1.S1 entry post-M0 close |
-| **Modul Claude activ** | ★ M1.S1 next: BACKEND DEV (P) + SECURITY (P) + DBA (S) + ARCHITECT (S) + DOC. Post-M0.S5 ☑: Audit Lead + 7-rol (Architect/Security/QA/Compliance/Product Auditor) + DESIGNER (Creative Director) + DOC + Senior PM toți signed-off. |
+| **Modul Claude activ** | M1.S1 ☑: BACKEND DEV (P) + Senior Security Auditor (P) + Senior DBA (S) + Senior Solution Architect (S) + DOC + Senior PM toți signed-off. **M1.S2 next:** BACKEND DEV (P) + DBA (P) + ARCHITECT (S) + TESTER (S) + DOC. |
 | **Plan tariff curent** | Claude.ai Pro $20/lună (sustained M0; Max $100/lună anticipat M1.S3 per F-S20-09 tracking) |
 | **Capacitate work/zi declarată** | 6-8 ore (efectiv ~4-5 ore post rate-limit overhead) |
-| **Documente canonice** ★ M0.S5 sync | TRIO: Master Plan **v1.1.2** (acest doc) + `PLATFORM_MATRIX_REVYX_web-mobile_v1.0.0.md` + **`ROADMAP_REVYX_detailed-execution_v1.0.5.md`** (★ PATCH M0.S5 ✅ CLOSED) |
+| **Documente canonice** ★ M1.S1 sync | TRIO: Master Plan **v1.1.2** (acest doc) + `PLATFORM_MATRIX_REVYX_web-mobile_v1.0.0.md` + **`ROADMAP_REVYX_detailed-execution_v1.0.6.md`** (★ PATCH M1.S1 ✅ CLOSED Phase 0 Security) · NEW spec: `TECH_SPEC_REVYX_phase0-security_v1.0.0.md` |
 | **Phase 5 progress** S19→S20 | Stage 1-5 ✅ PASS · Master Phase 5 GA = GO unanimous T+91 · HST #2 PASS clean S20 |
 | **Findings register lifecycle** ★ M0.S1 | **13 CLOSED FULL** Phase 5 + ★ **2 CLOSED M0.S1** (F-S20-04 component half via ui-design-system spec + F-S20-10 DP-06 brand parity via tokens.json) · 2 TRACKED pre-GA (F-S14-02 + F-S16-01) · 1 TRACKED next cycle (F-S11-07 DPIA 2026-10-25) · 6 NEW S20 LOW/MED tracked (F-S20-05/06/07/08/09/11) · zero CRIT/HIGH cumulative S10..M0.S1 |
 | **Open decisions (PM)** ★ M0.S1 | OD-01 font (brand-config Bebas Neue+Montserrat+JetBrains Mono — currently shipped — vs AC-M0-02 "Inter") · OD-02 spacing grid (8px confirmed) · OD-03 dark mode stance (single dark M0-M1) — vezi `TECH_SPEC_REVYX_ui-design-system_v1.0.0.md` §10 |
@@ -42,16 +43,16 @@
 |---|---|---|---|
 | **Pre-dev** | 🟢 **COMPLETE — HST #2 PASS clean S20** + §13 sign-off ✅ | 109 docs post-S20 | Phase 5 GA-ready ratified + HST #2 PASS clean |
 | **M0 — MVP Prezentare** | 🟢 **CLOSED — M0.S1..S5 toate ☑; EXIT GATE atins** | M0.S1..M0.S5 docs livrate (tokens.json + screens-inventory + ui-design-system spec + pitch deck × 3 limbi + video script + screenshot checklist + HST M0 raport + findings backlog + 5 Roadmap PATCH-uri v1.0.1..v1.0.5) | M0.S1..M0.S5 ☑ 100% |
-| **M1 — MVP Funcțional** | 🟡 **M1.S1 next — Phase 0 Security Foundation UNBLOCKED** | 0/required | 0% (entry post-HST M0 PASS) |
+| **M1 — MVP Funcțional** | 🟡 **M1.S1 ✅ CLOSED → M1.S2 next** (Phase A Foundation) | TECH_SPEC phase0-security v1.0.0 + Roadmap v1.0.6 + Privacy/Cookie drafts v0.1.0 | M1.S1 ☑ · M1.S2..S8 remaining |
 | **M2 — FULL Release GA** | ⚪ NOT STARTED | 0/required | 0% |
 
 ### 0.3 Următoarele 3 sesiuni programate
 
 | Sesiune | Scop | Output principal |
 |---|---|---|
-| ★ **M1.S1** next | Phase 0 Security Foundation (BLOCANT pre-cod aplicație) | JWT RS256 + RBAC 5 roluri + GDPR câmpuri LEAD + AUDIT_LOG append-only + HMAC-SHA256 webhook verify + rate limiting + Privacy/Cookie Policy legal review |
-| **M1.S2** | Phase A Foundation (DB schema + API skeleton) | Migrations 0001-0010 + REST API scaffold + auth middleware + RBAC middleware + test fixtures T01-T07 wired |
-| **M1.S3** | Phase B Lead Intake + Scoring engines | Webhook intake Meta/Google/OLX + LS engine + LF engine + PS engine; token budget upgrade Pro→Max anticipat (F-S20-09) |
+| ★ **M1.S2** next | Phase A Foundation (DB schema + API entități business + auth real wire-up) | Migrations 0007-0015 (leads + properties + deals + activities + tasks + offers + showings + scoring) + REST API scaffold cu RBAC + tenant isolation + test fixtures T01-T07 wired în Vitest |
+| **M1.S3** | Phase B Lead Intake + Scoring engines | Webhook intake Meta/Google/OLX processing real + LS engine + LF engine + PS engine; token budget upgrade Pro→Max anticipat (F-S20-09) |
+| **M1.S4** | Phase B+ Match Engine v1 + NBA Engine | Match (PS+LS+IS) + NBA computation [0, 2.0] + assignment workflow BR-04 max 3 task/agent |
 
 ### 0.4 Gating items active
 
@@ -61,8 +62,9 @@
 | ★ Hard Stress Test #2 (S20) | Pre-dev | ✅ **PASS clean** — 0 CRIT · 0 HIGH · 4 MED · 6 LOW (toate non-blocking) per HST_REVYX_pre-dev v1.0.0 §10 sign-off 7-rol |
 | ★ Gap closure post-HST | Pre-dev | ✅ N/A — HST PASS clean, skip S21+ doc adjustment cycle; findings backlog cu owner+ETA per `HST_REVYX_pre-dev_findings-backlog_v1.0.0.md` |
 | ★ Master Plan approval (§13) | Pre-dev | ✅ **SIGNED 6/6 aprobatori** post-S20 (vezi §13 acest doc) |
-| Phase 0 Security checklist | M1 entry | 🟢 **UNBLOCKED post M0.S5 ☑** — M1.S1 entry direct (JWT RS256 + RBAC + GDPR + AUDIT_LOG + HMAC) |
+| Phase 0 Security checklist | M1 entry | ✅ **COMPLETE post M1.S1 ☑** — JWT RS256 + RBAC + GDPR + AUDIT_LOG append-only + HMAC + rate limit + Privacy/Cookie drafts (legal review pending M1.S2 entry, 8 OD-legal/cookie tracked) |
 | ★ Hard Stress Test M0 (M0.S5) | M0 exit | ✅ **PASS conditional** — 0 CRIT + 0 HIGH post-fix (F-M0S5-01 + F-M0S5-02) + 6 MED + 9 LOW backlog per `HST_REVYX_m0_v1.0.0.md` §5 sign-off 8/8 |
+| ★ Legal review Privacy + Cookie Policy | M1.S2 entry | 📋 PENDING — 8 OD-legal/cookie-XX tracked în drafts v0.1.0 (DPO appointment + vendor SCC list + traduceri + CNPDCP înregistrare + analytics tool decision) |
 | ISO 27001 RFP (BSI Group MD) | M2 entry | 🟢 BSI engaged (DPA signed T+77); RFP formal post-GA M+1 |
 | Phase 5 GA decision | Pre-dev | 🟢 GO unanimous T+91 (post-S18) — ratified board S19 (Raport Final Board sign-off 8-rol) |
 | ★ HST #2 sign-off 7-rol | Pre-dev | 🟢 COMPLETE — Audit Lead + Architect + Security + DBA + QA + Compliance + Product Auditor + PM toți ✅ |
