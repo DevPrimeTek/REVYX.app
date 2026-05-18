@@ -4,10 +4,11 @@ import { cn } from '@/lib/utils';
 export type CardProps = HTMLAttributes<HTMLDivElement> & {
   variant?: 'default' | 'elevated' | 'formula';
   accentTop?: boolean;
+  interactive?: boolean;
 };
 
 export const Card = forwardRef<HTMLDivElement, CardProps>(
-  ({ className, variant = 'default', accentTop, children, ...rest }, ref) => (
+  ({ className, variant = 'default', accentTop, interactive = false, children, ...rest }, ref) => (
     <div
       ref={ref}
       className={cn(
@@ -16,7 +17,7 @@ export const Card = forwardRef<HTMLDivElement, CardProps>(
         variant === 'elevated' && 'bg-navy-card border-border shadow-md',
         variant === 'formula' && 'bg-navy-card border-border shadow-md',
         accentTop && 'card-accent-top',
-        'hover:-translate-y-0.5 hover:border-border-light',
+        interactive && 'cursor-pointer hover:-translate-y-0.5 hover:border-border-light',
         className
       )}
       {...rest}

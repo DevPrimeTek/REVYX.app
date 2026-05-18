@@ -1,5 +1,5 @@
 # CLAUDE.md — REVYX Agent Operating System
-<!-- CLAUDE.md · v1.2.10 · 2026-05 -->
+<!-- CLAUDE.md · v1.2.11 · 2026-05 -->
 <!-- CONFIDENȚIAL · Uz Intern · © 2026 REVYX · ITPRO SYSTEM SRL -->
 
 > Acest fișier este citit de Claude Code la **fiecare sesiune** din acest repo.
@@ -7,44 +7,46 @@
 
 ---
 
-## 0a. STATUS EXECUȚIE (LIVE) ★ v1.2.10
+## 0a. STATUS EXECUȚIE (LIVE) ★ v1.2.11
 
 > Single source of truth pentru "unde suntem ACUM". Actualizat la fiecare sesiune `/sN`.
 > Pentru detaliu complet → `docs/MASTER_PLAN_REVYX_execution-roadmap_v1.1.2.md` §0.
 
 | Atribut | Valoare curentă |
 |---|---|
-| **Macro-milestone activ** | ★ **M0 — MVP Prezentare** (M0.S1 ✅ + M0.S2 ✅ + M0.S3 ✅ + ★ **M0.S4 ✅ CLOSED**; M0.S5 next ⚠️ GATE) |
-| **Sesiune curentă** | ★ **M0.S4 ✅ CLOSED — Pitch Deck + Video Walkthrough script livrate**. Livrate atomic: (1) **T-M0.S4-01..05** — `docs/marketing/PITCH_DECK_REVYX_M0_v1.0.0/` cu 5 fișiere: README.md (index + structură 16 slides + visual specs 16:9 1920×1080) + deck-ro.md (canonical RO cu speaker notes inline per slide, durată target 14:30 live + 5min Q&A) + deck-ru.md + deck-en.md + assets/SCREENSHOT_REFS.md. Slide content: Cover · Problem · Solution (4 diferențiatori) · Market RM (~400 agenții, €5M TAM) · 5 Piloni AI · 4 Demo (J1 Lead+Firewall · J2 Property+Match · J3 Deal Pipeline · J4 Manager Command) · Arhitectură Web+Mobile · Securitate+GDPR · Business Model (3 tier €29/49/79) · Roadmap M0→M1→M2 · Tracțiune · Ask · Q&A. (2) **T-M0.S4-05** — `docs/marketing/VIDEO_SCRIPT_REVYX_M0_v1.0.0.md` — 8 scene storyboard × 5:00 durată exactă (Intro 25s · Login+Dashboard 35s · Lead queue 45s · Lead detail 45s · Property+match 35s · Deal pipeline drag-drop 45s · Manager command 35s · i18n+closing 35s) cu VO RO/RU/EN sincronizat pe timing markers + production checklist (mic specs + tempo RO 150wpm/RU 140wpm/EN 160wpm) + SRT generation procedure. (3) **T-M0.S4-07** — `docs/marketing/SCREENSHOT_CHECKLIST_REVYX_M0_v1.0.0.md` — 18 screens × 3 locale capture procedura: 7 mandatory × 2 locale RO+EN = 14 PNG mandatory pentru deck render, manual + Playwright automation script propus reproducible (cu cookie locale via `localStorage.setItem('revyx.locale', ...)`). (4) **T-M0.S4-06** (recording fizic video) + **T-M0.S4-08** (PDF export deck aspect 16:9) rămân ◐ deferred — depind de finalizare DNS demo.revyx.app (T-M0.S3-14) + OD-M0.S4-01..04 PM input. 4 OD-M0.S4-XX tracked non-blocking M0.S5: cifră invest slide 15 · URL demo final slide 01+16 · logo asset path · echipa fondatori nume slide 14. Documente foundation citate: BRD v1.1.0 §5-§7 pentru content piloni · brand-configs/revyx.md pentru visual + ton · PLATFORM_MATRIX v1.0.0 §17 pentru statistici Web/Mobile. Regulile 1, 4, 6, 8, 9 verificate ☑ (Regula 10 N/A — M0.S4 nu atinge deploy pipeline). |
-| **M0.S3 (predecesor)** | ✅ CLOSED prin PR #28 merged. Web Static Demo `apps/web-preview/` cu 16 routes + mock 100/50/20 + i18n RO/RU/EN + drag-drop @dnd-kit. |
-| **Următoarea sesiune** | **M0.S5** — HST M0 ⚠️ GATE. Hats: ARCHITECT + SECURITY + TESTER + DOC + ★ DESIGNER (Creative Director, mandatory pentru Regulile 12+14 audit). Output: `docs/audit/HST_REVYX_m0_v1.0.0.md` cu findings + closure plan (UX flow + brand compliance + presentation rehearsal + message clarity + demo robustness + ★ **Regula 11 puritate i18n audit pe `messages/{ro,ru,en}.json`** + ★ **Regula 12 disciplina interacțiuni audit pe componente `apps/web-preview/components/**`** + ★ **Regula 13 in-app tutorial coverage gap analysis** (probabil va genera findings deoarece `<TutorialOverlay>` nu e încă implementat — task M0.S5 sau M1.S5) + ★ **Regula 14 overlap audit pe 3 viewport-uri × 9 pagini × 3 locale**). **Exit gate:** 0 findings CRIT/HIGH; toate MED triagate; LOW backlog acceptat. Apoi M1.S1 Phase 0 Security Foundation entry. |
-| **Documentație rămasă** | 0 sesiuni doc-only (M0+ development active) |
-| **Hard Stress Test #2** | ✅ PASS clean S20 per `docs/audit/HST_REVYX_pre-dev_v1.0.0.md` §10 sign-off 7-rol |
-| **Modul Claude activ** | DOC (P, deck + video + checklist) + DESIGNER (S, Creative Director, visual specs + storyboard) + ARCHITECT (S, a11y captions + URL refs verify) + Senior PM |
-| **Plan tariff** | Claude.ai Pro $20/lună (sustained M0; Max $100/lună anticipat M1.S3 per F-S20-09 tracking) |
-| **Master Plan status** | v1.1.2 active (Trio canonical: Master Plan v1.1.2 + Platform Matrix v1.0.0 + ★ **Detailed Roadmap v1.0.4** post-M0.S4) · §13 approval ✅ SIGNED 6/6 |
+| **Macro-milestone activ** | ★ **M0 — MVP Prezentare ✅ CLOSED** (M0.S1 ✅ + M0.S2 ✅ + M0.S3 ✅ + M0.S4 ✅ + ★ **M0.S5 ✅ CLOSED — EXIT GATE atins**). Următor: **M1 — MVP Funcțional** (M1.S1 Phase 0 Security Foundation UNBLOCKED). |
+| **Sesiune curentă** | ★ **M0.S5 ✅ CLOSED — Hard Stress Test M0 EXIT GATE atins**. Livrate atomic: (1) **T-M0.S5-01** — `docs/audit/HST_REVYX_m0_v1.0.0.md` — raport HST principal cu 9 categorii audit (§2.1 UX flow J1-J4 + §2.2 brand compliance + §2.3 presentation rehearsal + §2.4 message clarity vs BRD §5 piloni + §2.5 demo robustness build/typecheck/lint/i18n/drag-drop + ★ **§2.6 Regula 11 puritate i18n** grep RO/RU + ★ **§2.7 Regula 12 disciplina interacțiuni** grep `hover:` per componentă + ★ **§2.8 Regula 13 in-app tutorial coverage gap analysis** (13/13 pagini gap, MED tracked forward) + ★ **§2.9 Regula 14 overlap audit** pe 3 viewport canonice 1920×1080/1440×900/1024×768 × 14 pagini). 17 findings F-M0S5-01..17 catalogate: **0 CRIT · 2 HIGH (★ ambele FIXED acest PR) · 6 MED · 9 LOW**. Sign-off **8/8** (Audit Lead + Senior Architect + Senior Security Auditor + Senior QA / Test Architect + Senior Compliance Auditor + Senior Product Auditor + DESIGNER Creative Director + Senior PM). (2) **T-M0.S5-02** — `docs/audit/HST_REVYX_m0_findings-backlog_v1.0.0.md` — detailed findings cu repro steps + cauză + fix code diff + verification + cross-ref per finding. (3) **T-M0.S5-03** — fix-uri imediate aplicate în acest PR: **F-M0S5-01 HIGH Regula 12** `apps/web-preview/components/ui/card.tsx` — introdus `interactive?: boolean` prop opt-in; hover translate și `cursor-pointer` aplicate DOAR când `interactive=true`; backward compatible (default false → toate Card existente devin static fără modificarea call-site-urilor M0). **F-M0S5-02 HIGH Regula 11** `apps/web-preview/messages/{ro,ru}.json` — 30 keys RO + 14 keys RU retraduse (Dashboard→Panou de bord/Панель управления; Sign out→Deconectare; Queue→Listă; Match needs review→Potrivire necesită revizuire; Won→Câștigat/Выигр.; Discovery→Descoperire/Поиск; healthy/review/risk→sănătos/de revizuit/risc и здоровая/проверка/риск; Fresh/Aging/Stale→Proaspăt/Învechire/Vechi и Новый/Стареет/Устарел; Match suggestions→Sugestii de potrivire; Top 3→Primele 3; Dashboard Manager→Panou Manager/Панель менеджера). Excepții acronime EN păstrate (LS/PS/IS/DP/NBA/DHI/APS/SLA/GDPR/RBAC/HOT/audit-log/lead-uri/WhatsApp). (4) **T-M0.S5-04** — sign-off matrix 7-rol + Senior PM = 8/8 documentat în HST §5. (5) **T-M0.S5-05** (TutorialOverlay POC) **decision deferred M1.S5** cu task explicit T-M1.S5-XX (cross-ref F-M0S5-14 MED forward-applying Regula 13). Argument: demo deck+video walkthrough M0.S4 acoperă tutorial scope pentru demo investor flow. **Tests primary post-fix:** `npm run typecheck` PASS, `npm run lint` PASS (1 pre-existing warning F-M0S5-10 LOW), `npm run build` PASS (15 routes static + 1 dynamic identic pre-fix). Regulile 1, 4, 6, 8, 9, 10, 11, 12, 13 (gap analysis only), 14 verificate ☑. **M0 EXIT GATE atins** → M1.S1 entry UNBLOCKED. |
+| **M0.S4 (predecesor)** | ✅ CLOSED prin PR #29 merged. Pitch deck 16 slides × 3 limbi + video script 8 scene × 5:00 + screenshot checklist 18 screens. |
+| **Următoarea sesiune** | **M1.S1** — Phase 0 Security Foundation ⛔ BLOCANT pentru M1.S2+ application code. Hats: BACKEND DEV (P) + SECURITY (P) + DBA (S) + ARCHITECT (S) + DOC. Output: JWT RS256 (access 15min / refresh 7d + rotație) + RBAC 5 roluri (agent → senior_agent → team_lead → manager → admin aditiv) + GDPR câmpuri pe LEAD entity (consent capture + retention + Art. 15-22 endpoints) + AUDIT_LOG append-only PostgreSQL (catalog evenimente + middleware logging WRITE) + HMAC-SHA256 webhook verify (Meta/Google/OLX inbound) + rate limiting endpoint-uri publice + Privacy Policy + Cookie Policy legal review. Acceptance: §6 Phase 0 checklist toate ☑. |
+| **Documentație rămasă** | 0 sesiuni doc-only (M1+ development active post-Phase 0 Security) |
+| **Hard Stress Test M0** | ✅ PASS conditional (0 CRIT + 0 HIGH post-fix; 6 MED + 9 LOW) per `docs/audit/HST_REVYX_m0_v1.0.0.md` §5 sign-off 8/8 |
+| **Hard Stress Test #2 (pre-dev)** | ✅ PASS clean S20 per `docs/audit/HST_REVYX_pre-dev_v1.0.0.md` §10 sign-off 7-rol |
+| **Modul Claude activ** | M0.S5 ☑: Audit Lead (P) + Senior Architect (S) + DESIGNER (S, Creative Director, mandatory Regulile 12+14) + QA / Test Architect (S, Regulile 11+12 grep) + Senior Product Auditor (S, message clarity) + Senior Compliance Auditor (S) + Senior Security Auditor (S, Phase 0 readiness) + DOC + Senior PM. **M1.S1 next:** BACKEND DEV (P) + SECURITY (P) + DBA (S) + ARCHITECT (S) + DOC. |
+| **Plan tariff** | Claude.ai Pro $20/lună (sustained M0 ☑; ★ Max $100/lună anticipat M1.S3 entry per F-S20-09 tracking — CFO sign-off pending la M1.S2 close) |
+| **Master Plan status** | v1.1.2 active (Trio canonical: Master Plan v1.1.2 + Platform Matrix v1.0.0 + ★ **Detailed Roadmap v1.0.5** post-M0.S5) · §13 approval ✅ SIGNED 6/6 + §0 LIVE TRACKER sync M0.S5 ☑ |
 | **Arhitectură platforme** | Dual-channel: WEB primary (~80%, browser desktop) + MOBILE companion (~20% in-field, M2.S3) |
 | **Phase 5 progress** S19→S20 | Stage 1-5 ✅ PASS · Master Phase 5 GA = GO unanimous T+91 · HST #2 PASS clean S20 |
-| **Findings register lifecycle** ★ M0.S4 | **13 CLOSED FULL** Phase 5 + 2 CLOSED M0.S1 · 2 TRACKED pre-GA · 1 TRACKED next cycle · 6 NEW S20 LOW/MED tracked · ★ zero NEW M0.S3-M0.S4 · zero CRIT/HIGH cumulative S10..M0.S4 |
-| **Open decisions (PM)** | OD-01 font · OD-02 spacing 8px · OD-03 dark mode (M0.S1 lineage) · ★ OD-M0.S4-01 cifră invest · OD-M0.S4-02 URL demo final · OD-M0.S4-03 logo asset path · OD-M0.S4-04 echipa fondatori — non-blocking M0.S5 entry; blocking PDF export deck (T-M0.S4-08). |
+| **Findings register lifecycle** ★ M0.S5 | **13 CLOSED FULL** Phase 5 + 2 CLOSED M0.S1 + ★ **2 CLOSED M0.S5** (F-M0S5-01 Regula 12 Card hover + F-M0S5-02 Regula 11 anglicisme RO/RU) · 2 TRACKED pre-GA · 1 TRACKED next cycle · 6 NEW S20 LOW/MED tracked · ★ **15 NEW M0.S5 catalogate** (0 CRIT + 2 HIGH ✅ FIXED + 6 MED + 9 LOW; F-M0S5-03..17 tracked M1.S2/M1.S5/M1.S5+ entry per HST §3) · zero CRIT cumulative S10..M0.S5 |
+| **Open decisions (PM)** | OD-01 font · OD-02 spacing 8px · OD-03 dark mode (M0.S1 lineage) · OD-M0.S4-01 cifră invest · OD-M0.S4-02 URL demo final · OD-M0.S4-03 logo asset path · OD-M0.S4-04 echipa fondatori (non-blocking M1.S1, blocking T-M0.S4-08 PDF export) · ★ **OD-i18n-01** glosar scoring AOS RO/RU (LS=Scor Lead? PS=Scor Proprietate? sau păstrare EN abreviat?) — recomandare DESIGNER+DOC: Opțiune C hybrid (long-form RO/RU + acronim EN inline badge). Non-blocking M1.S1. |
 
 ### Roadmap macro
 
 ```
-Pre-dev (S16-S20) ──→ M0 MVP Prezentare ──→ M1 MVP Funcțional ──→ M2 FULL Release GA
-   S20 ✅ CLOSED        M0.S1 ✅ + M0.S2 ✅ + M0.S3 ✅ + ★ M0.S4 ✅   (Pilot 2-3)        (Public)
-                        → M0.S5 ⚠️ GATE next                         Phase 5 GA-ready ✅
+Pre-dev (S16-S20) ──→ M0 MVP Prezentare ✅ CLOSED ──→ M1 MVP Funcțional ──→ M2 FULL Release GA
+   S20 ✅ CLOSED        M0.S1..M0.S5 toate ✅         (Pilot 2-3)            (Public)
+                        ★ M0 EXIT GATE atins         M1.S1 Phase 0 next     Phase 5 GA-ready ✅
+                        HST M0 PASS sign-off 8/8
 ```
 
 ### Următoarele 3 sesiuni programate
 
 | Sesiune | Scop | Output |
 |---|---|---|
-| ★ **M0.S5** next ⚠️ GATE | Hard Stress Test M0 | Raport HST M0 cu 0 findings CRIT/HIGH + sign-off 7-rol pentru M1.S1 entry |
-| **M1.S1** | Phase 0 Security Foundation + Backend scaffold | JWT RS256 + RBAC + GDPR + AUDIT_LOG + HMAC webhooks |
-| **M1.S2** | Phase A Foundation (DB schema + API skeleton) | Migrations 0001-0010 + REST API + auth + RBAC middleware |
+| ★ **M1.S1** next ⛔ BLOCANT | Phase 0 Security Foundation | JWT RS256 + RBAC 5 roluri + GDPR câmpuri LEAD + AUDIT_LOG append-only + HMAC-SHA256 webhook verify + rate limiting + Privacy/Cookie Policy review |
+| **M1.S2** | Phase A Foundation (DB schema + API skeleton) | Migrations 0001-0010 + REST API + auth middleware + RBAC middleware + test fixtures T01-T07 wired |
+| **M1.S3** | Phase B Lead Intake + Scoring engines | Webhook intake Meta/Google/OLX + LS engine + LF engine + PS engine; token budget upgrade Pro→Max (F-S20-09) |
 
-**Gating pentru a continua M0.S5:** ✅ TOATE atinse — M0.S4 closed cu pitch deck 16 slide × 3 limbi + video script 8 scene × 5:00 + screenshot checklist 18 screens. Pending PM OD-M0.S4-01..04 (non-blocking M0.S5 entry; blocking T-M0.S4-08 PDF export + T-M0.S4-06 video recording fizic).
+**Gating pentru a continua M1.S1:** ✅ TOATE atinse — M0.S5 closed cu HST M0 PASS conditional (0 CRIT + 0 HIGH post-fix F-M0S5-01 + F-M0S5-02 acest PR) + sign-off 8/8. M0 EXIT GATE atins. Pending PM OD-M0.S4-01..04 + OD-i18n-01 (non-blocking M1.S1 entry; blocking doar T-M0.S4-06 video recording + T-M0.S4-08 PDF export deck).
 
 ---
 
@@ -465,7 +467,7 @@ Violarea Regulii 14 (overlap depistat post-merge) → finding **HIGH** în HST +
 
 ---
 
-*CLAUDE.md · v1.2.10 · 2026-05 · CONFIDENȚIAL · Uz Intern*
+*CLAUDE.md · v1.2.11 · 2026-05 · CONFIDENȚIAL · Uz Intern*
 *REVYX — Real Estate Execution Intelligence · © 2026 REVYX · ITPRO SYSTEM SRL*
 
 ---
@@ -486,4 +488,5 @@ Violarea Regulii 14 (overlap depistat post-merge) → finding **HIGH** în HST +
 | 1.2.7 | 2026-05 | PATCH — M0.S3 ✅ CLOSED Web Static Demo (first attempt — included git mv apps/web-preview → apps/web; ulterior rolled back când a rupt deploy Vercel Root Directory). |
 | 1.2.8 | 2026-05 | PATCH — M0.S3 ✅ CLOSED corrected + Regula 10 introduction. Reverted git mv `apps/web-preview/` → `apps/web/` (physical path retained, semantic upgrade in-place la `@revyx/web-preview@0.2.0`). Regula 10 "Deployment verification mandatory" adăugată în §10b. |
 | 1.2.9 | 2026-05 | PATCH — M0.S4 ✅ CLOSED Pitch Deck + Video Walkthrough. Roadmap v1.0.4 + INDEX v1.1.6. Output 6 documente `docs/marketing/`. Backwards compat full cu v1.2.8 (Regulile 1-10 neschimbate). |
-| **1.2.10** | **2026-05** | ★ PATCH — **4 reguli operaționale noi (Regulile 11-14)** triggered de PM design+layout feedback post-M0.S4 merge. Schimbări: (1) §10b extins cu ★ **Regula 11 "Puritate i18n"** — RO/RU/EN fără anglicisme când există echivalent autohton (panou de bord vs dashboard, listă de așteptare vs queue, etc.); lista exception acronime tehnice EN păstrate (NBA/LS/DP/APS/RBAC/JWT/HMAC/SLA/GDPR); OD-i18n-01 pending PM (glosar scoring RO/RU). (2) ★ **Regula 12 "Disciplina interacțiunilor layout"** — static stays static, dynamic responds; lista excluzii (logo, hero, stats, badges read-only); pattern audit `:hover` doar pe `cursor: pointer/grab` sau `role="button|link"`; finding MED la violare. (3) ★ **Regula 13 "In-app tutorial / onboarding"** — `<TutorialOverlay screenId="...">` componentă reutilizabilă cu conținut localizat per pagină; auto-show prima vizită + buton "?" persistent; update protocol obligatoriu la fiecare adăugare funcționalitate; implementare task M0.S5+ scope. (4) ★ **Regula 14 "Verificare overlap layout"** — manual smoke test 3 viewport-uri canonice (1920×1080 + 1440×900 + 1024×768) la fiecare modificare UI; visual regression Playwright sugerat M1.S5+; quick-check command pre-commit; finding HIGH la overlap depistat post-merge. (5) §0a Status Execuție actualizat — sesiune curentă reflectă rule introduction; nu există schimbare în macro-milestone (M0.S4 rămâne CLOSED, M0.S5 next). Trigger: PM message "Inca reguli importante legata de design si layout" — 4 reguli + cerere prompt M0.S5. Backwards compat full cu v1.2.9 (Regulile 1-10 neschimbate; 11-14 sunt additive). M0.S5 HST M0 va include audit checkpoints pe Regulile 11-14. |
+| 1.2.10 | 2026-05 | PATCH — 4 reguli operaționale noi (Regulile 11-14) triggered de PM design+layout feedback post-M0.S4 merge. §10b extins cu Regula 11 (Puritate i18n) + Regula 12 (Disciplina interacțiuni) + Regula 13 (In-app tutorial) + Regula 14 (Verificare overlap). Backwards compat full cu v1.2.9. |
+| **1.2.11** | **2026-05** | ★ PATCH — **M0.S5 ✅ CLOSED Hard Stress Test M0 EXIT GATE.** §0a Status Execuție LIVE actualizat — Macro-milestone "M0 ✅ CLOSED → M1 next"; sesiune curentă reflectă HST M0 outputs (raport principal + findings backlog + 2 fix-uri HIGH F-M0S5-01 + F-M0S5-02); roadmap macro diagram updated cu "M0 EXIT GATE atins"; "Următoarele 3 sesiuni" shifted (M1.S1/M1.S2/M1.S3); modul Claude activ tranziție de la audit team la BACKEND DEV + SECURITY hat (M1.S1 entry); Master Plan ref bump v1.0.4 → **v1.0.5** Roadmap; OD-i18n-01 NEW pending PM (glosar scoring AOS RO/RU); findings register lifecycle row +15 NEW M0.S5 (2 HIGH ✅ FIXED + 6 MED + 9 LOW); gating row updated "M1.S1 entry UNBLOCKED". **Reguli 11-14 prima ocurență audit** în acest HST M0 (Regula 11 i18n: F-M0S5-02 HIGH FIXED 44 keys retraduse; Regula 12 interaction: F-M0S5-01 HIGH FIXED Card interactive opt-in; Regula 13 tutorial: F-M0S5-14 MED tracked M1.S5; Regula 14 overlap: F-M0S5-15 MED + 2 LOW tracked M1.S5+). Backwards compat full cu v1.2.10 (Regulile 1-14 toate neschimbate; doar §0a sync). Trigger: M0.S5 sesiune output T-M0.S5-01..04 ☑ + Regula 4 self-review + Regula 6 INDEX update v1.1.7 → v1.1.8 + Regula 8 Master Plan §0 sync. |
