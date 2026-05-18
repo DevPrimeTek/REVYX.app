@@ -1,8 +1,8 @@
 {
-  "name": "@revyx/web",
+  "name": "@revyx/web-preview",
   "version": "0.2.0",
   "private": true,
-  "description": "REVYX M0 Web Static Demo — Next.js 14 + Tailwind + i18n (RO/RU/EN) + mock-data wired to design/tokens.json (promoted from web-preview at M0.S3 T-M0.S3-01).",
+  "description": "REVYX M0 Web Static Demo — Next.js 14 + Tailwind + i18n (RO/RU/EN) + mock-data wired to design/tokens.json. Physical directory apps/web-preview retained for Vercel Root Directory stability (Regula 10).",
   "scripts": {
     "dev": "next dev",
     "build": "next build",

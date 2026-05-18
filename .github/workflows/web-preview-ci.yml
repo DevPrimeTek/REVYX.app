@@ -1,21 +1,25 @@
-name: web-ci
+name: web-preview-ci
 
-# M0.S3 · Build verification for apps/web/ (promoted from apps/web-preview/ at T-M0.S3-01).
+# M0.S3 · Build verification for apps/web-preview/.
+# Physical path retained from M0.S1 → M0.S2 → M0.S3 to keep Vercel Root Directory
+# stable. Package upgraded in-place to @revyx/web@0.2.0 (semantic promote without
+# directory rename) per Runbook v1.0.2 §1 deploy-stability rule.
+#
 # Gates PR merges on typecheck + production build success.
 # Vercel deployment runs separately via the Vercel GitHub App
-# (Root Directory = apps/web, see docs/runbook/RUNBOOK_REVYX_demo-deploy_v1.0.2.md).
+# (Root Directory = apps/web-preview, see docs/runbook/RUNBOOK_REVYX_demo-deploy_v1.0.2.md).
 
 on:
   pull_request:
     paths:
-      - 'apps/web/**'
+      - 'apps/web-preview/**'
       - 'design/tokens.json'
-      - '.github/workflows/web-ci.yml'
+      - '.github/workflows/web-preview-ci.yml'
   push:
     branches:
       - main
     paths:
-      - 'apps/web/**'
+      - 'apps/web-preview/**'
       - 'design/tokens.json'
 
 permissions:
@@ -28,7 +32,7 @@ jobs:
     timeout-minutes: 10
     defaults:
       run:
-        working-directory: apps/web
+        working-directory: apps/web-preview
 
     steps:
       - name: Checkout
@@ -41,7 +45,7 @@ jobs:
         with:
           node-version: '22'
           cache: 'npm'
-          cache-dependency-path: apps/web/package-lock.json
+          cache-dependency-path: apps/web-preview/package-lock.json
 
       - name: Install dependencies
         run: npm ci --no-audit --no-fund

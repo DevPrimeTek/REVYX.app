@@ -1,5 +1,5 @@
 # CLAUDE.md — REVYX Agent Operating System
-<!-- CLAUDE.md · v1.2.7 · 2026-05 -->
+<!-- CLAUDE.md · v1.2.8 · 2026-05 -->
 <!-- CONFIDENȚIAL · Uz Intern · © 2026 REVYX · ITPRO SYSTEM SRL -->
 
 > Acest fișier este citit de Claude Code la **fiecare sesiune** din acest repo.
@@ -7,7 +7,7 @@
 
 ---
 
-## 0a. STATUS EXECUȚIE (LIVE) ★ v1.2.7
+## 0a. STATUS EXECUȚIE (LIVE) ★ v1.2.8
 
 > Single source of truth pentru "unde suntem ACUM". Actualizat la fiecare sesiune `/sN`.
 > Pentru detaliu complet → `docs/MASTER_PLAN_REVYX_execution-roadmap_v1.1.2.md` §0.
@@ -15,7 +15,7 @@
 | Atribut | Valoare curentă |
 |---|---|
 | **Macro-milestone activ** | ★ **M0 — MVP Prezentare** (M0.S1 ✅ + M0.S2 ✅ + ★ **M0.S3 ✅ CLOSED**; M0.S4 next) |
-| **Sesiune curentă** | ★ **M0.S3 ✅ CLOSED — Web Static Demo livrat**. Livrate atomic: (1) **T-M0.S3-01** rename `apps/web-preview/` → `apps/web/` (git mv 33 fișiere + `package.json` `@revyx/web@0.2.0` + CI workflow `web-ci.yml`). (2) **T-M0.S3-02..05** mock data factories deterministe (seeded xmur3+sfc32 RNG) — 100 leads (LS distribution HOT 12% / qualified 22% / warm 36% / nurturing 30%), 50 properties (apartament/casă/teren/comercial), 20 deals (6 stages), 8 agents (APS/Trust/Slots realistic). (3) **T-M0.S3-06..09** wire mock + 3 pagini noi (`/settings`, `/profile` cu APS 6-month bars, `/notifications` cu feed audit-log). (4) **T-M0.S3-10** `/deals` drag-drop @dnd-kit (PointerSensor distance 6 + KeyboardSensor + DragOverlay +1° rotation) cu click-to-advance permanent ca a11y fallback. (5) **T-M0.S3-11..13** i18n RO/RU/EN custom React context (`useT()` hook + ~120 keys/limbă + localStorage persistence + RO fallback) + language switcher dropdown listbox în `<SiteNav>`. (6) **T-M0.S3-14** PARTIAL — Vercel project Root Directory rename + DNS step documented Runbook v1.0.2 (PM/DevOps action). `next build` PASS 16 routes (15 static + 1 dynamic `/leads/[id]`). |
+| **Sesiune curentă** | ★ **M0.S3 ✅ CLOSED — Web Static Demo livrat (corrected)**. Livrate atomic: (1) **T-M0.S3-01 amended** — physical directory `apps/web-preview/` retained pentru Vercel deploy stability (★ **Regula 10 nouă** introdusă post-incident când prima încercare git mv a rupt Root Directory); package upgrade in-place la `@revyx/web-preview@0.2.0`. (2) **T-M0.S3-02..05** mock data factories deterministe (seeded xmur3+sfc32 RNG) — 100 leads (LS HOT 12% / qualified 22% / warm 36% / nurturing 30%), 50 properties (apartament/casă/teren/comercial), 20 deals (6 stages), 8 agents (APS/Trust/Slots realistic). (3) **T-M0.S3-06..09** wire mock + 3 pagini noi (`/settings`, `/profile` cu APS 6-month bars, `/notifications` cu feed audit-log). (4) **T-M0.S3-10** `/deals` drag-drop @dnd-kit (PointerSensor distance 6 + KeyboardSensor + DragOverlay +1° rotation) cu click-to-advance permanent ca a11y fallback. (5) **T-M0.S3-11..13** i18n RO/RU/EN custom React context (`useT()` hook + ~120 keys/limbă + localStorage persistence + RO fallback) + language switcher dropdown listbox în `<SiteNav>`. (6) **T-M0.S3-14** documented Runbook v1.0.2 §2.3 (DNS execution PM action). Tests Regula 10 §2 executate: `typecheck` PASS, `lint` PASS (1 known OD-01 warning), `build` PASS 16 routes, `dev` smoke test 14/14 routes HTTP 200 + DOM verified 100 leads + 50 props + 20 deals + 20 drag handles + lang switcher. |
 | **M0.S2 (predecesor)** | ✅ CLOSED prin PR #25/#26/#27 merged. 4 user journeys J1-J4 clickable + deploy pipeline online. |
 | **Următoarea sesiune** | **M0.S4** — Pitch Deck + Video Walkthrough. Hats: DESIGNER (P) + DOC (S) + PM. Output: Deck 15-20 slide RO/RU/EN + video 5 min cu voice-over derulând pe demo `demo.revyx.app`. |
 | **Documentație rămasă** | 0 sesiuni doc-only (M0+ development active) |
@@ -72,7 +72,7 @@ Pre-dev (S16-S20) ──→ M0 MVP Prezentare ──→ M1 MVP Funcțional ─�
 |---|---|---|
 | **0** | `docs/MASTER_PLAN_REVYX_execution-roadmap_v1.1.2.md` ★ | **Structural backbone** — milestones M0/M1/M2, sub-stages, echipa virtuală hats, acceptance criteria. Orice cod/doc nou trebuie să citeze stage-ul din care face parte (Regula 8). §13 approval ✅ SIGNED 6/6 post-HST #2 S20. |
 | **0.1** ★ v1.2.2 | `docs/PLATFORM_MATRIX_REVYX_web-mobile_v1.0.0.md` | **Canonical feature × platform mapping** — single source of truth pentru întrebarea "Această funcționalitate e Web, Mobile sau Both?". Acoperă 15 module (119 features) cu RBAC role per platform + reguli DP-01..DP-07. Orice spec/workflow trebuie cross-ref aici (Regula 9). |
-| **0.2** ★ v1.2.7 | `docs/ROADMAP_REVYX_detailed-execution_v1.0.3.md` | **Detailed roadmap** — descompunere Master Plan §4-§6 în atomic tasks (T-XXX) cu owner hat, effort estimate, dependencies, output, platform tag. ~308 tasks · ~122-164 sesiuni estimate. v1.0.3 PATCH M0.S3 ✅ CLOSED (T-M0.S3-01..13 ☑; T-M0.S3-14 ◐ DNS step pending). |
+| **0.2** ★ v1.2.8 | `docs/ROADMAP_REVYX_detailed-execution_v1.0.3.md` | **Detailed roadmap** — descompunere Master Plan §4-§6 în atomic tasks (T-XXX) cu owner hat, effort estimate, dependencies, output, platform tag. ~308 tasks · ~122-164 sesiuni estimate. v1.0.3 PATCH M0.S3 ✅ CLOSED (T-M0.S3-01..13 ☑; T-M0.S3-14 ◐ DNS step pending). |
 | 1 | `docs/brand-configs/revyx.md` | Brand system (culori, font, componente, ton) |
 | 2 | `docs/BRD_REVYX_v1.0.0.md` + `v1.1.0.md` | Business Requirements (piloni, scoring, RBAC, roadmap) |
 | 3 | `docs/PRD_REVYX_*.md` | Product Requirements (când există) |
@@ -316,6 +316,26 @@ Orice document nou (spec, runbook, audit, playbook) ȘI orice cod scris (Phase 0
 
 Violarea Regulii 8 → rollback sesiune + raport în chat cu remedierea propusă.
 
+### ★ Regula 10 — Deployment verification mandatory (NEW v1.2.8)
+
+Orice modificare care atinge deploy pipeline (rename de path sub `apps/*`, modificare `vercel.json`, modificare CI workflow, adăugare dependency, schimbare framework) **trebuie**:
+
+1. **Pre-commit verification:**
+   - (a) Confirm Vercel project Root Directory current value (UI inspection sau Vercel API).
+   - (b) Asigură că Root Directory match-uiește un path real în repo.
+   - (c) `npm install` în pachetul afectat → commit lockfile sincronizat.
+2. **Test plan executat în chat / PR body**, cu output exact al comenzilor (nu doar enumerare):
+   - `npm run typecheck` (pass exit 0)
+   - `npm run lint` (pass; warnings tracked ca OD-XX, nu ca errors)
+   - `npm run build` (pass; număr de routes raportat)
+   - `npm run dev` smoke test (HTTP status per route + content probe DOM pentru mock + i18n + interactive elements)
+3. **Niciun rename de path deploy-critical** (orice path care apare în Vercel Settings → Root Directory) fără update sincron al UI Vercel **înainte** de merge. Dacă nu există acces UI Vercel, NU se face rename — se preferă semantic upgrade in-place prin `package.json`.
+4. **Post-deploy verification mandatory:** după merge la `main`, Claude verifică status-ul deployment Vercel (via webhook PR activity sau Vercel API). La detecție eroare deploy: Claude inițiază remediation imediat în următorul commit pe branch separat, NU așteaptă cerere PM.
+5. **Build verification status report obligatoriu în chat la finalul fiecărei sesiuni** cu modificări `apps/*` sau `.github/workflows/*` — secțiune dedicată "Tests primary + secondary" cu PASS/FAIL per item.
+6. **Lecție învățată M0.S3 first attempt:** un `git mv apps/web-preview/ → apps/web/` a rupt deploy-ul Vercel când Root Directory rămas la path vechi. Revertit la in-place semantic upgrade. Aceasta este Regula 10 fundator-case.
+
+Violarea Regulii 10 → rollback automat al modificării + raport în chat cu remedierea aplicată + sesiunea NU se închide până la deploy verificat green.
+
 ---
 
 ## 11. Ce să faci & ce să nu faci
@@ -359,7 +379,7 @@ Violarea Regulii 8 → rollback sesiune + raport în chat cu remedierea propusă
 
 ---
 
-*CLAUDE.md · v1.2.7 · 2026-05 · CONFIDENȚIAL · Uz Intern*
+*CLAUDE.md · v1.2.8 · 2026-05 · CONFIDENȚIAL · Uz Intern*
 *REVYX — Real Estate Execution Intelligence · © 2026 REVYX · ITPRO SYSTEM SRL*
 
 ---
@@ -377,4 +397,5 @@ Violarea Regulii 8 → rollback sesiune + raport în chat cu remedierea propusă
 | 1.2.4 | 2026-05 | PATCH — **M0.S1 ✅ CLOSED — Design System direct-to-code shift**. Schimbări: (1) §0a Status Execuție LIVE actualizat: sesiune curentă S20 ✅ → M0.S1 ✅ CLOSED; următoarea sesiune M0.S1 → M0.S2 (Clickable Prototype direct-to-code in `apps/web-preview/`); modul Claude activ adăugare FRONTEND WEB DEV early activation; (2) Roadmap ref bump v1.0.0 → v1.0.1 în §1 priority 0.2 (PATCH direct-to-code shift §3.1 + §3.3); (3) Findings lifecycle row ★ 2 CLOSED M0.S1 (F-S20-04 component half + F-S20-10 DP-06 brand parity); (4) NEW row "Open decisions (PM)" cu OD-01 font discrepancy (brand-config Bebas Neue+Montserrat+JetBrains Mono — shipped — vs AC-M0-02 "Inter") + OD-02 spacing grid (8px) + OD-03 dark mode stance (single dark M0-M1); (5) Roadmap macro diagram updated; (6) Gating row updated pentru M0.S2 entry. Trigger: T-M0.S1-01..10 atomic tasks output (direct-to-code path per Roadmap v1.0.1). Backwards compat full cu v1.2.3 (Regulile 1-9 neschimbate). |
 | 1.2.5 | 2026-05 | PATCH — **M0.S2 ✅ CLOSED — Clickable Prototype direct-to-code**. Schimbări: (1) §0a Status Execuție LIVE actualizat — sesiune curentă M0.S1 → ★ M0.S2 ✅ CLOSED; următoarea M0.S2 → ★ M0.S3 (Web Static Demo); modul Claude activ shift de la DESIGNER-primary la FRONTEND WEB DEV-primary; (2) Roadmap ref bump v1.0.1 → v1.0.2 în §0a + §1 priority 0.2 (PATCH M0.S2 close, T-M0.S2-01..05 ☑); (3) Findings lifecycle row sync ★ zero NEW M0.S2 + zero CRIT/HIGH cumulative S10..M0.S2; (4) Open decisions row simplificat (OD-01..03 rămân non-blocant M0.S3); (5) Roadmap macro diagram updated (M0.S2 ✅ next M0.S3); (6) "Următoarele 3 sesiuni programate" shifted (M0.S3/M0.S4/M0.S5); (7) Gating row actualizat pentru M0.S3 entry. Trigger: T-M0.S2-01..05 atomic tasks output (4 user journeys end-to-end clickable per Roadmap v1.0.2 §3.2 ☑) + `next build` pass 13/13 routes. Backwards compat full cu v1.2.4 (Regulile 1-9 neschimbate). |
 | 1.2.6 | 2026-05 | PATCH — **Deploy pipeline online (bring-forward T-M0.S3-14 partial)**. vercel.json + CI gate + runbook v1.0.1. INDEX ref bump v1.1.3 → v1.1.4. Backwards compat full cu v1.2.5. |
-| **1.2.7** | **2026-05** | ★ PATCH — **M0.S3 ✅ CLOSED — Web Static Demo livrat**. Schimbări: (1) §0a Status Execuție LIVE actualizat — sesiune curentă "Deploy pipeline" → ★ "M0.S3 ✅ CLOSED" (T-M0.S3-01..13 ☑; T-M0.S3-14 ◐); macro-milestone bump M0.S2 → M0.S3 CLOSED; următoarea sesiune Deploy → ★ M0.S4 (Pitch Deck + Video Walkthrough); modul Claude activ shift DEVOPS-primary → FRONTEND WEB DEV-primary. (2) §0a "Următoarele 3 sesiuni" shifted (M0.S4 / M0.S5 / M1.S1). (3) §0a "M0.S2 (predecesor)" simplificat ca rolling history. (4) Roadmap ref bump v1.0.2 → v1.0.3 în §0a + §1 priority 0.2 (PATCH M0.S3 close, T-M0.S3-01..13 ☑). (5) Findings lifecycle row sync ★ zero NEW M0.S3 + zero CRIT/HIGH cumulative S10..M0.S3. (6) Roadmap macro diagram updated cu M0.S3 ✅. (7) Gating row actualizat pentru M0.S4 entry. Trigger: T-M0.S3-01..13 atomic tasks output (rename apps/web-preview→apps/web + mock 100/50/20 + i18n RO/RU/EN + drag-drop @dnd-kit + 3 pagini noi /settings, /profile, /notifications + `next build` PASS 16 routes) per Roadmap v1.0.3 §3.3. Backwards compat full cu v1.2.6 (Regulile 1-9 neschimbate). |
+| 1.2.7 | 2026-05 | PATCH — M0.S3 ✅ CLOSED Web Static Demo (first attempt — included git mv apps/web-preview → apps/web; ulterior rolled back când a rupt deploy Vercel Root Directory). |
+| **1.2.8** | **2026-05** | ★ PATCH — **M0.S3 ✅ CLOSED corrected + Regula 10 introduction**. Schimbări: (1) Reverted git mv `apps/web-preview/` → `apps/web/` (workflow rename + vercel.json move + package name change) — physical path retained, semantic upgrade in-place la `@revyx/web-preview@0.2.0`. Toate livrabilele M0.S3 (mock, i18n, drag-drop, 3 pagini noi) păstrate intact. (2) ★ **NEW Regula 10 "Deployment verification mandatory"** în §10b — pre-commit verification (Root Directory match + lockfile sync), test plan executat cu output exact (typecheck + lint + build + dev smoke), interzicere rename path deploy-critical fără UI sync Vercel, post-deploy verification cu remediation imediată la failure. (3) §0a Status Execuție actualizat cu lecția învățată + tests primary/secondary executate (14/14 routes HTTP 200, 100 leads + 50 props + 20 deals + 20 drag handles + lang switcher în DOM). (4) Roadmap v1.0.3 + Runbook demo-deploy v1.0.2 patched cu Regula 10 + rationale. Backwards compat full cu v1.2.6 (Regulile 1-9 neschimbate; Regula 10 e additive). Trigger: PM feedback "deploymentul nu este trecut, build failed" + Regula 4 self-review failure (nu am verificat deploy live înainte de claim ☑). |
