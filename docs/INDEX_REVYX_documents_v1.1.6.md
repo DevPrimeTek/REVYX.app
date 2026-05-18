@@ -1,0 +1,201 @@
+# INDEX — REVYX Document Catalog
+<!-- INDEX_REVYX_documents_v1.1.6.md · v1.1.6 · 2026-05 -->
+<!-- CONFIDENȚIAL · Uz Intern · © 2026 REVYX · ITPRO SYSTEM SRL -->
+
+## Changelog
+
+| Versiune | Data | Autor | Note |
+|---|---|---|---|
+| 1.0.0 | 2026-05 | Senior PM + Audit Lead | Initial — retrospectiva tuturor documentelor existente la S12 close |
+| 1.0.1 .. 1.0.9 | 2026-05/06/07 | Senior PM + Audit Lead | PATCH-uri Phase 5 (vezi v1.1.1 pentru istoric complet) |
+| 1.1.0 | 2026-07 | Senior PM + VP Product + Audit Lead + Solution Architect + CTO + CISO + DPO + CFO | **MINOR — Phase 5 GA close consolidation** + §15 board reports. |
+| 1.1.1 | 2026-07 | Audit Lead + Senior PM + 7-rol audit team | **PATCH — Post-S20 HST #2 PASS clean consolidation.** Adăugare HST raport + findings backlog. |
+| 1.1.2 | 2026-05 | DESIGNER (Creative Director) + Senior Architect + Frontend Lead + Senior PM + DOC | **PATCH — M0.S1 Design System direct-to-code consolidation.** Adăugare 3 documente noi M0.S1: (★ `docs/tech-spec/TECH_SPEC_REVYX_ui-design-system_v1.0.0.md` — spec design system canonical, închide F-S20-04 component half + F-S20-10 DP-06 brand parity · ★ `design/tokens.json` — single source of truth tokens (color, typography, spacing, radius, shadow, motion, breakpoints, z-index) consumat de tailwind.config + NativeWind future · ★ `design/screens-inventory.md` — 18 screens prioritized per role × module mapping) + adăugare 1 PATCH (★ `docs/ROADMAP_REVYX_detailed-execution_v1.0.1.md` — §3.1 + §3.3 direct-to-code shift; v1.0.0 retrogradat la [HISTORY] partial — în continuare valid pentru §2/§4/§5/§6/§7) + livrare `apps/web-preview/` skeleton (Next.js 14 + Tailwind + 7 page stubs + 6 UI primitives). Cross-ref Trio canonical (Master Plan v1.1.2 + Platform Matrix v1.0.0 + Roadmap v1.0.1 ACTIVE). Backwards compat full cu v1.1.1. Trigger: T-M0.S1-09 + T-M0.S1-10 outputs + Regula 6 INDEX update. |
+| 1.1.3 | 2026-05 | FRONTEND WEB DEV + DESIGNER (Creative Director) + ARCHITECT + Senior PM + DOC | **PATCH — M0.S2 ✅ CLOSED Clickable Prototype.** Adăugare 1 PATCH document (★ `docs/ROADMAP_REVYX_detailed-execution_v1.0.2.md` — §3.2 M0.S2 T-M0.S2-01..05 marcate ☑ + status note adăugat în §0; v1.0.1 retrogradat la [HISTORY] — în continuare valid ca referință pentru §3.2 pre-close descriere) + extindere `apps/web-preview/` in-place (3 pages noi: `app/properties/new/`, `app/manager/escalations/`, `app/leads/[id]/` upgrade la client cu Assign modal + LS recompute; `app/deals/page.tsx` rewrite cu click-to-advance + Close-won confirm modal; `components/ui/toast.tsx` global queue + `components/providers.tsx` `<AppProviders/>` în `app/layout.tsx`; button focus ring + active translate). 13 routes prerendered cf. `next build`. Trio canonical actualizat (Master Plan v1.1.2 + Platform Matrix v1.0.0 + Roadmap **v1.0.2** ACTIVE). Backwards compat full cu v1.1.2. Trigger: T-M0.S2-01..05 ☑ + Regula 6 INDEX update + Regula 8 Master Plan §0a sync. |
+| 1.1.4 | 2026-05 | DEVOPS + FRONTEND WEB DEV + Senior PM + DOC | **PATCH — M0 deploy pipeline online (Vercel GitHub App + CI build gate).** Bring-forward T-M0.S3-14 partial — Vercel setup runbook + CI workflow + vercel.json. Custom domain `demo.revyx.app` tracked M0.S3. Backwards compat full cu v1.1.3. |
+| 1.1.5 | 2026-05 | FRONTEND WEB DEV + DEVOPS + DESIGNER + ARCHITECT + DOC | PATCH — M0.S3 ✅ CLOSED Web Static Demo (in-place semantic upgrade + Regula 10 introdusă). Adăugare Roadmap v1.0.3 + Runbook v1.0.2 + mock data 100/50/20 + i18n RO/RU/EN + drag-drop @dnd-kit + 3 pages noi. 16 routes build PASS. SUPERSEDED de v1.1.6. |
+| **1.1.6** | **2026-05** | ★ DOC (P) + DESIGNER (S, Creative Director) + ARCHITECT (S, a11y captions) + Senior PM | ★ **PATCH — M0.S4 ✅ CLOSED Pitch Deck + Video Walkthrough.** Adăugări (6 documente noi în `docs/marketing/`): (a) NEW DIR `docs/marketing/PITCH_DECK_REVYX_M0_v1.0.0/` cu 5 fișiere — `README.md` (index + structură 16 slides + visual specs export aspect 16:9), `deck-ro.md` (canonical RO cu speaker notes inline per slide), `deck-ru.md` (translation RU), `deck-en.md` (translation EN), `assets/SCREENSHOT_REFS.md` (mapping slide → screenshot). T-M0.S4-01..05 ☑. (b) NEW `docs/marketing/VIDEO_SCRIPT_REVYX_M0_v1.0.0.md` — 8 scene storyboard cu durată 5:00 (Intro 25s · Login+Dashboard 35s · Lead queue 45s · Lead detail 45s · Property+match 35s · Deal pipeline 45s · Manager command 35s · i18n+closing 35s) + VO RO/RU/EN sincronizat + production checklist (mic specs + tempo) + SRT generation. T-M0.S4-05 ☑. (c) NEW `docs/marketing/SCREENSHOT_CHECKLIST_REVYX_M0_v1.0.0.md` — 18 screens × 3 locale capture procedura (7 mandatory × 2 locale = 14 PNG mandatory pentru deck export), manual + Playwright script propus reproducible, cookie locale via `localStorage.setItem('revyx.locale', ...)`. T-M0.S4-07 ☑. (d) NEW PATCH `docs/ROADMAP_REVYX_detailed-execution_v1.0.4.md` — §3.4 T-M0.S4-01..05 + T-M0.S4-07 marcate ☑ (T-M0.S4-06 recording + T-M0.S4-08 PDF export rămân ◐ tracked separat). 4 OD-M0.S4-XX tracked (cifră invest · URL demo · logo asset · echipa fondatori). Trio canonical: Master Plan v1.1.2 + Platform Matrix v1.0.0 + Roadmap **v1.0.4** ACTIVE. Backwards compat full cu v1.1.5 (zero modificări pe documente foundation/strategic/platform-matrix). Trigger: T-M0.S4-01..05 + T-M0.S4-07 outputs + Regula 6 INDEX update + Regula 8 Master Plan §0a sync + Regula 9 Platform Matrix tag (WEB only deck). |
+
+---
+
+## 1. Convenție
+
+- Toate documentele REVYX sunt listate aici cu **descriere scurtă (≤10 rânduri, target ~5)**.
+- La crearea oricărui document nou — **obligatoriu** să se adauge intrare în acest INDEX (CLAUDE.md §10b Regula 6).
+- La bump versiune MAJOR/MINOR pentru un document existent — actualizare descrierii.
+- Sortare per categorie → alfabetică/cronologică. `★` înaintea numelui = adăugat/actualizat la sesiunea curentă (★ deploy-pipeline M0 acum).
+- Stil descriere: 5 rânduri în română — (1) ce e · (2) findings/feature · (3) cross-ref · (4) gating · (5) versiune+owner.
+
+---
+
+## 2. Documente foundation (CLAUDE.md + brand)
+
+| Document | Descriere |
+|---|---|
+| ★ `CLAUDE.md` v1.2.6 | Agent Operating System cheat-sheet pentru Claude Code la fiecare sesiune. §0a Status Execuție LIVE actualizat M0.S2 ✅ CLOSED → ★ **deploy pipeline online (Vercel app + CI gate)** → M0.S3 next. Regulile 1-9 active (incl. Regula 9 Platform Matrix compliance). |
+| `docs/brand-configs/revyx.md` v1.0.0 | Brand system canonical: paletă (navy + gold), font (Bebas Neue + Montserrat + JetBrains Mono), componente UI, ton voce. Citit de toate skill-urile la generare document. **Lege pentru orice UI** (CLAUDE.md §1). Open question OD-01 ridicat M0.S1: AC-M0-02 menționează "Inter" — în spec ui-design-system §10 listed as pending PM resolution. Owner: Senior Designer + PM. |
+
+---
+
+## 2a. Strategic Planning
+
+| Document | Descriere |
+|---|---|
+| `docs/MASTER_PLAN_REVYX_execution-roadmap_v1.0.0.md` [HISTORY] | INITIAL S15-bis. SUPERSEDED de v1.1.0+v1.1.1+v1.1.2. |
+| `docs/MASTER_PLAN_REVYX_execution-roadmap_v1.1.0.md` [HISTORY] | MINOR S15-bis-2 — Dual-platform restructure. SUPERSEDED. |
+| `docs/MASTER_PLAN_REVYX_execution-roadmap_v1.1.1.md` [HISTORY] | PATCH S15-bis-3 — Trio canonical introduction. SUPERSEDED. |
+| `docs/MASTER_PLAN_REVYX_execution-roadmap_v1.1.2.md` | PATCH S20 — §13 sign-off 6/6 post HST #2 PASS clean. §0 Status Tracker M0.S1 ✅ CLOSED post-M0.S1 sync. §11 NFR clarification per F-S20-08. Versiunea **activă**. |
+
+---
+
+## 2b. Platform & Detailed Roadmap (Trio canonical, ★ M0.S4 sync)
+
+| Document | Descriere |
+|---|---|
+| `docs/PLATFORM_MATRIX_REVYX_web-mobile_v1.0.0.md` | NEW S15-bis-3 — **Single source of truth feature × platform mapping**. 15 module + 119 features. §17 statistici (41% Web only, 4% Mobile only, 55% Both). §19 Cross-references **★ ui-design-system row CLOSED M0.S1**. Owner: Senior Architect + PM + PO + Frontend Lead + Mobile Lead + Audit Lead + CTO. |
+| `docs/ROADMAP_REVYX_detailed-execution_v1.0.0.md` [HISTORY-partial] | NEW S15-bis-3 — Initial decomposition. Pre-dev + M1 + M2 + critical path rămân valide. M0.S1 + M0.S3 SUPERSEDED de v1.0.1; M0.S2 close-state SUPERSEDED de v1.0.2. |
+| `docs/ROADMAP_REVYX_detailed-execution_v1.0.1.md` [HISTORY] | NEW M0.S1 — PATCH direct-to-code shift. §3.1 M0.S1 + §3.3 M0.S3 rebalance. SUPERSEDED de v1.0.2. |
+| `docs/ROADMAP_REVYX_detailed-execution_v1.0.2.md` [HISTORY] | NEW M0.S2 — PATCH M0.S2 ✅ CLOSED. §3.2 T-M0.S2-01..05 marcaje ☑. SUPERSEDED de v1.0.3 post-M0.S3 close. |
+| `docs/ROADMAP_REVYX_detailed-execution_v1.0.3.md` [HISTORY] | NEW M0.S3 — PATCH M0.S3 ✅ CLOSED. §3.3 T-M0.S3-01..13 ☑ + Regula 10 contextualizat. SUPERSEDED de v1.0.4 post-M0.S4 close. |
+| ★ `docs/ROADMAP_REVYX_detailed-execution_v1.0.4.md` | NEW M0.S4 — **PATCH M0.S4 ✅ CLOSED**. §3.4 T-M0.S4-01..05 + T-M0.S4-07 marcaje ☑ (T-M0.S4-06 recording fizic + T-M0.S4-08 PDF export rămân ◐ deferred — depind de DNS T-M0.S3-14 + OD-M0.S4-01..04 PM input). Output 6 documente noi în `docs/marketing/` (pitch deck × 3 limbi + video script + screenshot checklist + screenshot refs mapping). 4 OD-M0.S4-XX tracked. Backwards compat full cu v1.0.3. Versiunea **activă**. Owner: DOC (P) + DESIGNER (Creative Director, S) + ARCHITECT (a11y captions, S) + Senior PM. |
+
+---
+
+## 2c. Design System (NEW v1.1.2, M0.S1; ★ v1.1.5 M0.S3 promote)
+
+| Artefact | Descriere |
+|---|---|
+| `design/tokens.json` v1.0.0 | NEW M0.S1 — **Single source of truth pentru toate tokens UI** (color: navy + gold paletă + status + actor + lead temperature; typography: families + scale; spacing 8px grid; radius; shadow; motion; breakpoints; z-index; component-level token bundles). Sursă: `docs/brand-configs/revyx.md` v1.0.0 canonical. Consumat de `apps/web-preview/tailwind.config.ts` + (future) `apps/mobile/` NativeWind M2.S3. Include `accessibility.verified` cu contrast ratios măsurate WCAG AA. Owner: DESIGNER (Creative Director). |
+| `design/screens-inventory.md` v1.0.0 | NEW M0.S1 — **18 screens prioritized per role × module**. AC-M0-01 target ≥12 ecrane satisfied at M0.S3 (15 routes static + 1 dynamic). §3 BR-XX surfacing in UI. §4 user journeys J1-J4. §5 open questions. Owner: DESIGNER + ARCHITECT. |
+| ★ `apps/web-preview/` (M0.S3 demo, promoted from `apps/web-preview/`) | ★ M0.S3 PROMOTE — Next.js 14 App Router demo app consumând `design/tokens.json`. **Status M0.S3:** 16 routes (`/`, `/login`, `/dashboard`, `/leads`, `/leads/[id]`, `/properties`, `/properties/new`, `/deals`, `/manager`, `/manager/escalations`, `/admin`, `/settings` ★, `/profile` ★, `/notifications` ★, `_not-found`). Mock data deterministic (100 leads + 50 properties + 20 deals + 8 agents). i18n custom React context cu `useT()` hook + RO/RU/EN catalogs (`messages/{ro,ru,en}.json` ~120 keys each) + localStorage persistence (`revyx.locale`). Drag-drop @dnd-kit pe `/deals` cu click-to-advance a11y fallback permanent. `next build` PASS 16 routes (15 static + 1 dynamic). Reusable 1:1 în M1.S5 (real API wire-up) + M2.S2 (Web Complete). Owner: FRONTEND WEB DEV + DESIGNER + DEVOPS. |
+| ★ `apps/web-preview/lib/mock/` | NEW M0.S3 — Mock data factories deterministe. `rng.ts` xmur3 hash seeder + sfc32 PRNG (~0.5KB, public-domain). `types.ts` TypeScript schemas (Lead, Property, Deal, Agent). `agents.ts` 8 records. `leads.ts` factory cu LS distribution HOT 12% / qualified 22% / warm 36% / nurturing 30% + BR-01 firewall enforcement (agent assignment doar peste 0.60). `properties.ts` factory 50 records mixed apartament/casă/teren/comercial cu PS+LF derivat din `daysOnMarket`. `deals.ts` 20 records distribuiți peste 6 stages cu BR-10 TF_default applied. Owner: FRONTEND WEB DEV. |
+| ★ `apps/web-preview/messages/` | NEW M0.S3 — i18n catalogs RO + RU + EN (~120 keys/limbă). Secțiuni: nav, common, lead, leadDetail, property, deal, dashboard, manager, admin, login, settings, profile, notifications. `{var}` interpolation support. Owner: FRONTEND WEB DEV + DOC. |
+| ★ `apps/web-preview/components/i18n/provider.tsx` | NEW M0.S3 — i18n React context provider. `useT()` hook returnează `{locale, setLocale, messages, t(key, vars?)}`. Dot-path key resolution. RO fallback automat la missing key. Persistare localStorage. SSR-safe (default RO la initial render, hydrates stored locale). Owner: FRONTEND WEB DEV. |
+| ★ `apps/web-preview/components/deals/kanban-board.tsx` | NEW M0.S3 — @dnd-kit drag-drop kanban. DealCard cu draggable handle `⋮⋮` (separat de click-to-advance). StageColumn droppable cu visual feedback `isOver`. DragOverlay cu rotire +1° + ring gold. PointerSensor activation distance 6 (anti-tap). KeyboardSensor enabled. Owner: FRONTEND WEB DEV. |
+
+---
+
+## 2d. Marketing & Pitch (★ NEW v1.1.6, M0.S4)
+
+| Document | Descriere |
+|---|---|
+| ★ `docs/marketing/PITCH_DECK_REVYX_M0_v1.0.0/README.md` | NEW M0.S4 — **Index pitch deck + structură 16 slides**. §1 scop (investitori seed/pre-seed + pilot clients RM + parteneri tech). §2 tabel structură slide-by-slide (Hook 1 · Problem 2 · Solution 3 · Market 4 · Product overview 5 · 4 demo slides 6-9 · Tech 10 · Trust 11 · Business 12 · Roadmap 13 · Team 14 · Ask 15 · Close 16) cu speaker time alocat (total ~14:30 + 5 min Q&A). §3 fișiere RO/RU/EN livrate. §4 visual specs aspect 16:9 1920×1080 + paletă brand. §5 4 OD-M0.S4-XX (cifră invest · URL demo · logo asset · echipa). Owner: DOC + DESIGNER + ARCHITECT + Senior PM. |
+| ★ `docs/marketing/PITCH_DECK_REVYX_M0_v1.0.0/deck-ro.md` | NEW M0.S4 — **Pitch deck canonical RO + speaker notes inline per slide**. 16 slides cu durată target (Cover 30s · Problem 60s · Solution 60s · Market 45s · 5 Piloni 60s · J1 75s · J2 60s · J3 75s · J4 60s · Arhitectură 45s · Securitate 45s · Business 60s · Roadmap 60s · Tracțiune 45s · Ask 45s · Close 30s). Pillar content sourced din BRD §5 + §6 BR-XX; brand applied via revyx.md (navy + gold + Bebas Neue + Montserrat). Anexă A visual specs export. Closes T-M0.S4-02 + T-M0.S4-05. Owner: DOC + Senior PM. |
+| ★ `docs/marketing/PITCH_DECK_REVYX_M0_v1.0.0/deck-ru.md` | NEW M0.S4 — **Pitch deck translation RU**. 16 slides RU echivalente canonicului RO (același visual + structură + cifre); speaker notes RO sunt singura asimetrie — RU/EN au doar slide content. Closes T-M0.S4-03. Owner: DOC. |
+| ★ `docs/marketing/PITCH_DECK_REVYX_M0_v1.0.0/deck-en.md` | NEW M0.S4 — **Pitch deck translation EN**. 16 slides EN echivalente. Variabile localizate (€ instead of EUR Romanian style; date format ISO; SaaS pricing direct €). Closes T-M0.S4-04. Owner: DOC. |
+| ★ `docs/marketing/PITCH_DECK_REVYX_M0_v1.0.0/assets/SCREENSHOT_REFS.md` | NEW M0.S4 — Mapping slide → screen capture (slide 06 J1 = `/leads` + `/leads/L-0012` × 2 locale; slide 07 J2 = `/properties` + `/properties/new`; slide 08 J3 = `/deals` kanban; slide 09 J4 = `/manager` + `/manager/escalations`). 7 mandatory screens identificate. Cross-ref SCREENSHOT_CHECKLIST_REVYX_M0_v1.0.0.md. Owner: DESIGNER + DOC. |
+| ★ `docs/marketing/VIDEO_SCRIPT_REVYX_M0_v1.0.0.md` | NEW M0.S4 — **Video walkthrough script + storyboard 8 scene × 5:00 durată**. §2 fiecare scenă cu (a) visual timing ± 5s · (b) on-screen actions URL exact · (c) VO RO/RU/EN sincronizat. §3 timing summary table. §4 production checklist (mic specs + tempo RO 150wpm / RU 140wpm / EN 160wpm). §5 SRT generation prin Whisper + manual review. §6 self-check AC-M0-03 (≤5min + 2 versiuni VO). T-M0.S4-05 ☑ (script). T-M0.S4-06 (recording fizic) deferred post-DNS demo.revyx.app. Cross-ref VIDEO_SCRIPT ↔ deck-ro.md slides 6-9 = scenes 3-7. Owner: DOC + ARCHITECT + DESIGNER. |
+| ★ `docs/marketing/SCREENSHOT_CHECKLIST_REVYX_M0_v1.0.0.md` | NEW M0.S4 — **Screenshot capture checklist 18 screens × 3 locale**. §1 pre-flight (npm run dev local + locale via `localStorage.setItem('revyx.locale', ...)`). §2.2 7 mandatory captures pentru deck (× 2 locale RO+EN = 14 PNG mandatory). §2.3 15 optional pentru extensii. §3 Playwright automation script propus reproducible (cu `scripts/capture-screenshots.ts` example code). §5 gating check pentru deck render (brand compliance + i18n verify + no debug overlay). T-M0.S4-07 ☑. Cross-ref `design/screens-inventory.md` + `apps/web-preview/app/`. Owner: DESIGNER + FRONTEND WEB DEV + DOC. |
+
+---
+
+## 3. Business / Product Requirements
+
+| Document | Descriere |
+|---|---|
+| `docs/BRD_REVYX_v1.0.0.md` | Business Requirements Document v1.0 — piloni, formule scoring, RBAC 5 roluri, T01-T07. Owner: PM Lead. |
+| `docs/BRD_REVYX_v1.1.0.md` | BRD bump MINOR — Pilon Retention §6.4 + entity BUYER_PROFILE §8.3 + White-Label/Mobile §10.2-10.3. Owner: PM Lead + VP Product. |
+
+---
+
+## 4. Tech Specs (engines + platform)
+
+### 4.1 Phase 0-4 (lead/property/deal core)
+
+> Neschimbat față de v1.1.1. Vezi `INDEX_REVYX_documents_v1.1.1.md` §4.1 pentru lista completă (17 specs).
+
+### 4.2 Phase 5 (S8/S9/S10/S11/S12/...)
+
+> Neschimbat față de v1.1.1. Vezi `INDEX_REVYX_documents_v1.1.1.md` §4.2 (18 specs).
+
+### 4.3 ★ Frontend / Design System (NEW v1.1.2)
+
+| Document | Descriere |
+|---|---|
+| ★ `TECH_SPEC_REVYX_ui-design-system_v1.0.0.md` | NEW M0.S1 — **Design system canonical spec**. §1 scope + §2 tokens schema (consum tailwind/NativeWind) + §3 component primitives API contract (Button, Card, Input, Badge, Modal, Table, Toast cu accessibility contract WCAG AA) + §4 responsive breakpoints (Tailwind defaults) + §5 a11y contrast ratios verified + §6 dark mode stance (M0 = single dark, theme switch M2+) + §7 implementation contract apps/web-preview + §8 DoD + §9 findings closure (F-S20-04 component half + F-S20-10 DP-06 brand parity ambele CLOSED FULL) + §10 OD-01..OD-03 (font/grid/theme pending PM resolution). Cross-ref Trio canonical + brand-configs/revyx.md. Owner: DESIGNER (Creative Director) + ARCHITECT + FRONTEND WEB DEV + DOC. |
+
+---
+
+## 5-11. Workflows, Runbooks, Audit + Readiness, CS Playbooks, Legal, Test fixtures, Skills
+
+> Neschimbat față de v1.1.1, cu excepția §6 Runbooks (★ +1 v1.1.4 — vezi mai jos). Vezi `INDEX_REVYX_documents_v1.1.1.md` §5-§11 + §15.
+
+### 6.x Deploy & CI/CD (★ UPDATED v1.1.5 — M0.S3 promote)
+
+| Artefact | Descriere |
+|---|---|
+| `docs/runbook/RUNBOOK_REVYX_demo-deploy_v1.0.0.md` [HISTORY] | Initial M0 deploy procedure pentru `apps/web-preview/`. SUPERSEDED de v1.0.2 post-M0.S3 promote. |
+| `docs/runbook/RUNBOOK_REVYX_demo-deploy_v1.0.1.md` [HISTORY] | PATCH cu fix `outputDirectory` removed. SUPERSEDED de v1.0.2. |
+| ★ `docs/runbook/RUNBOOK_REVYX_demo-deploy_v1.0.2.md` | NEW M0.S3 — **PATCH Vercel Root Directory bump `apps/web-preview` → `apps/web`** + §2.3 DNS step custom domain `demo.revyx.app` (CNAME → `cname.vercel-dns.com`, TLS auto-issue Let's Encrypt). §1 `apps/web-preview→apps/web` rename context. §4 troubleshooting actualizat cu "Root Directory not found" simptom. Owner: DEVOPS + FRONTEND WEB DEV + Senior PM. |
+| `.github/workflows/web-preview-ci.yml` | M0 — CI build gate paralel; rulează `npm ci → typecheck → next build` la fiecare PR cu modificări în `apps/web-preview/**` sau `design/tokens.json`. Node 22 + npm cache pe `apps/web-preview/package-lock.json`. Path NESCHIMBAT M0.S3 (Regula 10 deploy-stability). Owner: DEVOPS + FRONTEND WEB DEV. |
+| ★ `apps/web-preview/.eslintrc.json` | NEW M0.S3 — ESLint config non-interactive (`extends: next/core-web-vitals`) pentru `npm run lint` în CI fără TTY prompt. Owner: FRONTEND WEB DEV. |
+| ★ `apps/web-preview/vercel.json` (moved from `apps/web-preview/vercel.json`) | M0.S3 — Vercel project config: framework Next.js, region `fra1`, 4 security headers default (X-Frame-Options DENY + nosniff + Referrer-Policy + Permissions-Policy). Owner: DEVOPS. |
+
+---
+
+## 12. Document count summary (★ M0.S4 close, v1.1.6)
+
+| Categorie | Count |
+|---|---|
+| Foundation (CLAUDE.md + brand) | 2 (CLAUDE.md ★ v1.2.9) |
+| Strategic Planning | 4 (MASTER_PLAN v1.0.0 [history] + v1.1.0 [history] + v1.1.1 [history] + v1.1.2 active) |
+| Platform & Detailed Roadmap | 6 (Roadmap ★ v1.0.4 ACTIVE; v1.0.3/v1.0.2/v1.0.1 [HISTORY], v1.0.0 [HISTORY-partial]) |
+| Design System (§2c) | 7 (tokens.json + screens-inventory + apps/web-preview/ + apps/web-preview/lib/mock/ + apps/web-preview/messages/ + apps/web-preview/components/i18n/ + apps/web-preview/components/deals/) |
+| ★ Marketing & Pitch (§2d) | 7 (★ deck README + ★ deck-ro + ★ deck-ru + ★ deck-en + ★ assets/SCREENSHOT_REFS + ★ VIDEO_SCRIPT + ★ SCREENSHOT_CHECKLIST) |
+| BRD | 2 |
+| Tech Specs (Phase 0-4 + Phase 5 + Frontend/Design) | 36 |
+| Workflows | 11 |
+| Runbooks | 13 |
+| Audit + Readiness | 19 |
+| CS Playbooks + Checklists | 7 |
+| Legal | 7 |
+| Test fixtures + Templates | 3 |
+| Skills | 5 |
+| Board reports + Strategic post-GA §15 | 1 |
+| **Total** | **128 documente** (★ +8 vs v1.1.5 = Roadmap v1.0.4 PATCH + INDEX v1.1.6 + ★ 6 documente noi în `docs/marketing/` M0.S4: deck README + deck-ro + deck-ru + deck-en + SCREENSHOT_REFS + VIDEO_SCRIPT + SCREENSHOT_CHECKLIST; CLAUDE.md bump v1.2.8 → v1.2.9 in-place). |
+
+> **Notă:** documente duplicate prin versiuni listate separat. **Active** post-M0.S4: **~106** (+1 Roadmap +6 §2d marketing artefacte vs M0.S3).
+
+---
+
+## 13. Maintenance protocol
+
+1. La creare document nou: update obligatoriu categoria corespunzătoare; bump PATCH (sau MINOR la ≥3 docs noi în sesiune SAU GA close consolidation).
+2. La bump versiune existent: actualizare descriere; mențin entry vechi (istoric).
+3. La deprecare: append `[DEPRECATED]` + cross-ref successor.
+4. Refresh manual la fiecare audit checkpoint (S12..S20 = pre-dev; M0.S1 acum, M0.S2+ următoare).
+5. Stil descriere: target 5 rânduri română.
+6. Post-M0.S1: PATCH bump v1.1.2 a reflectat direct-to-code outputs (3 design artifacts + 1 spec NEW + 1 Roadmap PATCH).
+7. Post-M0.S2: PATCH bump v1.1.3 reflectă Clickable Prototype outputs (1 Roadmap PATCH v1.0.2 + CLAUDE.md bump v1.2.5 in-place + apps/web-preview in-place extension).
+8. Post-deploy-pipeline-M0: PATCH bump v1.1.4 reflectă bring-forward T-M0.S3-14 partial (Vercel setup runbook + CI workflow + vercel.json).
+9. Post-M0.S3 close: PATCH bump v1.1.5 reflectă Web Static Demo livrat (Roadmap v1.0.3 + Runbook v1.0.2 + apps/web-preview/ in-place + 5 §2c artefacte mock/i18n/dnd-kit + CLAUDE.md bump v1.2.8).
+10. ★ Post-M0.S4 close: PATCH bump v1.1.6 reflectă Pitch Deck + Video Script livrate (Roadmap v1.0.4 + 6 §2d artefacte marketing — deck × 3 limbi + speaker notes inline + video script 8 scenes × 5:00 + screenshot checklist + screenshot refs mapping + CLAUDE.md bump v1.2.9).
+
+---
+
+## 14. Approval
+
+| Aprobator | Sign-off | Data |
+|---|---|---|
+| Senior PM | ✅ | 2026-05 |
+| Senior PO | ⬜ pending v1.1.3 ratify | — |
+| Audit Lead | ⬜ pending v1.1.3 ratify | — |
+| Solution Architect | ✅ (★ v1.1.3 a11y review pe modale + click-to-advance fallback) | 2026-05 |
+| DESIGNER (Creative Director) | ✅ (★ v1.1.3 visual review hover/active/focus) | 2026-05 |
+| Frontend Lead | ✅ (★ v1.1.3 build pass 13/13 routes) | 2026-05 |
+| VP Product | ✅ (v1.1.0 GA close consolidation) | 2026-07 |
+| CTO | ✅ (v1.1.0) | 2026-07 |
+| CISO | ✅ (v1.1.0) | 2026-07 |
+| DPO | ✅ (v1.1.0) | 2026-07 |
+| CFO | ✅ (v1.1.0) | 2026-07 |
+
+---
+
+## 15. Board reports + Strategic post-GA
+
+> Neschimbat față de v1.1.0. Vezi `INDEX_REVYX_documents_v1.1.0.md` §15.
+
+---
+
+*docs/INDEX_REVYX_documents_v1.1.6.md · v1.1.6 · 2026-05 · CONFIDENȚIAL · Uz Intern*
+*REVYX — Real Estate Execution Intelligence · © 2026 REVYX · ITPRO SYSTEM SRL*
