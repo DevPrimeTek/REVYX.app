@@ -5,7 +5,7 @@
     "flag": "RO"
   },
   "nav": {
-    "dashboard": "Dashboard",
+    "dashboard": "Panou de bord",
     "leads": "Lead-uri",
     "properties": "Proprietăți",
     "deals": "Tranzacții",
@@ -14,7 +14,7 @@
     "settings": "Setări",
     "profile": "Profil",
     "notifications": "Notificări",
-    "signOut": "Sign out",
+    "signOut": "Deconectare",
     "languageLabel": "Limbă",
     "brandTagline": "Real Estate Execution Intelligence"
   },
@@ -38,9 +38,9 @@
     "demoBadge": "demo · M0.S3"
   },
   "lead": {
-    "queueTitle": "Queue lead-uri",
-    "queueSubtitle": "BR-01 Lead Firewall: doar LS ≥ 0.60 + contact valid devin task-uri active. Lead-urile sub prag rămân în nurturing automat.",
-    "module": "Modul 2 · Lead Queue",
+    "queueTitle": "Listă de așteptare lead-uri",
+    "queueSubtitle": "BR-01 Lead Firewall: doar LS ≥ 0.60 + contact valid devin sarcini active. Lead-urile sub prag rămân în nurturing automat.",
+    "module": "Modul 2 · Listă de așteptare",
     "slaCaption": "SLA: HOT 15m · Calificat 2h · Warm 24h.",
     "countTemplate": "{count} lead-uri",
     "tableHeader": {
@@ -71,9 +71,9 @@
     "budget": "Buget",
     "zone": "Zonă preferată",
     "rooms": "Camere",
-    "matchTitle": "Top 3 proprietăți",
-    "matchSubtitle": "PS+LS+IS combined (match v1).",
-    "matchModule": "Modul 4 · Match suggestions",
+    "matchTitle": "Primele 3 potriviri",
+    "matchSubtitle": "PS+LS+IS combinate (potrivire v1).",
+    "matchModule": "Modul 4 · Sugestii de potrivire",
     "assignModalTitle": "Asignează lead {id}",
     "assignModalDesc": "Agent selectat va primi task activ (BR-04: max 3/agent). Eveniment LEAD_ASSIGNED audit-logged.",
     "agentStateTop": "top",
@@ -83,10 +83,10 @@
     "toastRecompute": "Lead Score recomputat → {score}",
     "toastRecomputeDesc": "Signal-uri proaspete: interacțiune WhatsApp + match P-XXXX actualizat.",
     "toastAssign": "Lead {id} asignat lui {name}",
-    "toastAssignDesc": "Task adăugat în queue. Audit-log eveniment LEAD_ASSIGNED scris (BR-07).",
-    "recomputing": "recomputing…",
-    "matchNeedsReview": "Match needs review",
-    "breadcrumbQueue": "Queue"
+    "toastAssignDesc": "Sarcină adăugată în listă. Audit-log eveniment LEAD_ASSIGNED scris (BR-07).",
+    "recomputing": "recalculez…",
+    "matchNeedsReview": "Potrivire necesită revizuire",
+    "breadcrumbQueue": "Listă"
   },
   "property": {
     "moduleLabel": "Modul 3 · Property",
@@ -94,9 +94,9 @@
     "portfolioSubtitle": "Property Score (PS) §7.2 BRD · Listing Freshness LF = 1 − min(1, zile/90).",
     "addCta": "+ Adaugă proprietate",
     "rooms": "camere",
-    "fresh": "Fresh",
-    "aging": "Aging",
-    "stale": "Stale",
+    "fresh": "Proaspăt",
+    "aging": "Învechire",
+    "stale": "Vechi",
     "kindApartment": "Apartament",
     "kindHouse": "Casă",
     "kindLand": "Teren",
@@ -110,45 +110,45 @@
     "title": "Pipeline kanban",
     "subtitle": "6 stages · DP (Deal Probability) și DHI (Deal Health Index) sub fiecare card. Drag-drop activ — ține apăsat și mută cardul între coloane. Butoanele ← / → rămân ca a11y fallback.",
     "stages": {
-      "discovery": "Discovery",
+      "discovery": "Descoperire",
       "qualified": "Calificat",
       "offer": "Ofertă",
       "negotiation": "Negociere",
       "closing": "Notariat",
-      "won": "Won"
+      "won": "Câștigat"
     },
-    "healthy": "healthy",
-    "review": "review",
-    "risk": "risk",
-    "closeWon": "Close won",
+    "healthy": "sănătos",
+    "review": "de revizuit",
+    "risk": "risc",
+    "closeWon": "Închide câștigat",
     "moveForward": "Avansează →",
     "moveBack": "←",
-    "wonBadge": "Won ✓",
+    "wonBadge": "Câștigat ✓",
     "legendTitle": "Legendă DHI",
     "legendSubtitle": "TF default 0.70 (BR-10) când expected_close_date e necunoscut.",
-    "confirmTitle": "Confirmă închidere Won — {id}",
-    "confirmDesc": "Acțiune ireversibilă în pipeline (rollback necesită override manager). Va emite DEAL_WON + COMMISSION_GENERATED.",
+    "confirmTitle": "Confirmă închidere Câștigat — {id}",
+    "confirmDesc": "Acțiune ireversibilă în pipeline (anulare necesită override manager). Va emite DEAL_WON + COMMISSION_GENERATED.",
     "toastMoved": "{id} mutat → {stage}",
     "toastMovedDesc": "DP recalculat. Eveniment DEAL_STAGE_CHANGED audit-logged (BR-07).",
-    "toastWon": "Felicitări! {id} închis ca Won 🎉",
+    "toastWon": "Felicitări! {id} închis ca Câștigat 🎉",
     "toastWonDesc": "APS agent recalculat + comision generat. Eveniment DEAL_WON scris în audit-log.",
     "dropHere": "Eliberează aici"
   },
   "dashboard": {
-    "moduleLabel": "Modul 4 · NBA · Modul 2 · Lead Queue",
+    "moduleLabel": "Modul 4 · NBA · Modul 2 · Listă lead-uri",
     "greeting": "Bună dimineața, Andrei",
-    "subtitle": "Ai {active} / 3 task-uri active (BR-04). {hot} lead-uri așteaptă decizie în următoarele 15 min (SLA HOT).",
+    "subtitle": "Ai {active} / 3 sarcini active (BR-04). {hot} lead-uri așteaptă decizie în următoarele 15 min (SLA HOT).",
     "slaHot": "SLA HOT · 12:34",
-    "openQueue": "Deschide queue",
+    "openQueue": "Deschide lista",
     "nbaSection": "Next Best Action",
-    "queueToday": "Queue de azi",
+    "queueToday": "Lista de azi",
     "queueTodayDesc": "Lead Firewall (BR-01) filtrează lead-urile sub LS 0.60.",
     "myScores": "Scoruri proprii",
-    "myScoresDesc": "APS_default 0.65 până la 5 deal-uri/30 zile (BR-11)."
+    "myScoresDesc": "APS_default 0.65 până la 5 tranzacții/30 zile (BR-11)."
   },
   "manager": {
     "moduleLabel": "Modul 7 · Manager",
-    "title": "Dashboard Manager",
+    "title": "Panou Manager",
     "subtitle": "APS leaderboard, escalări active, override drepturi (BR-11).",
     "leaderboard": "Leaderboard APS",
     "escalations": "Escalări",
@@ -166,7 +166,7 @@
   },
   "login": {
     "tagline": "Real Estate Execution Intelligence",
-    "demoNotice": "Demo · M0 prezentare · click „Continuă\" pentru a intra în dashboard.",
+    "demoNotice": "Demo · M0 prezentare · apasă „Continuă\" pentru a intra în panoul de bord.",
     "continue": "Continuă",
     "footer": "Single session per agent (BR-12). © 2026 REVYX · ITPRO SYSTEM SRL"
   },
@@ -190,14 +190,14 @@
     "title": "Profilul meu",
     "subtitle": "Statistici personale, APS history, task slots (BR-04).",
     "activeTasks": "Task-uri active",
-    "closed30d": "Deal-uri închise · 30z",
+    "closed30d": "Tranzacții închise · 30z",
     "tenure": "Vechime",
     "trust": "Trust Score"
   },
   "notifications": {
     "moduleLabel": "Notificări",
     "title": "Feed notificări",
-    "subtitle": "Evenimente audit-logged (BR-07) — escalări, re-matching, deal-uri Won.",
+    "subtitle": "Evenimente audit-logged (BR-07) — escalări, re-matching, tranzacții câștigate.",
     "markAllRead": "Marchează ca citite",
     "empty": "Nu ai notificări noi."
   }
