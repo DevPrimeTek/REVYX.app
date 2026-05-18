@@ -1,5 +1,5 @@
 # CLAUDE.md — REVYX Agent Operating System
-<!-- CLAUDE.md · v1.2.9 · 2026-05 -->
+<!-- CLAUDE.md · v1.2.10 · 2026-05 -->
 <!-- CONFIDENȚIAL · Uz Intern · © 2026 REVYX · ITPRO SYSTEM SRL -->
 
 > Acest fișier este citit de Claude Code la **fiecare sesiune** din acest repo.
@@ -7,7 +7,7 @@
 
 ---
 
-## 0a. STATUS EXECUȚIE (LIVE) ★ v1.2.9
+## 0a. STATUS EXECUȚIE (LIVE) ★ v1.2.10
 
 > Single source of truth pentru "unde suntem ACUM". Actualizat la fiecare sesiune `/sN`.
 > Pentru detaliu complet → `docs/MASTER_PLAN_REVYX_execution-roadmap_v1.1.2.md` §0.
@@ -17,7 +17,7 @@
 | **Macro-milestone activ** | ★ **M0 — MVP Prezentare** (M0.S1 ✅ + M0.S2 ✅ + M0.S3 ✅ + ★ **M0.S4 ✅ CLOSED**; M0.S5 next ⚠️ GATE) |
 | **Sesiune curentă** | ★ **M0.S4 ✅ CLOSED — Pitch Deck + Video Walkthrough script livrate**. Livrate atomic: (1) **T-M0.S4-01..05** — `docs/marketing/PITCH_DECK_REVYX_M0_v1.0.0/` cu 5 fișiere: README.md (index + structură 16 slides + visual specs 16:9 1920×1080) + deck-ro.md (canonical RO cu speaker notes inline per slide, durată target 14:30 live + 5min Q&A) + deck-ru.md + deck-en.md + assets/SCREENSHOT_REFS.md. Slide content: Cover · Problem · Solution (4 diferențiatori) · Market RM (~400 agenții, €5M TAM) · 5 Piloni AI · 4 Demo (J1 Lead+Firewall · J2 Property+Match · J3 Deal Pipeline · J4 Manager Command) · Arhitectură Web+Mobile · Securitate+GDPR · Business Model (3 tier €29/49/79) · Roadmap M0→M1→M2 · Tracțiune · Ask · Q&A. (2) **T-M0.S4-05** — `docs/marketing/VIDEO_SCRIPT_REVYX_M0_v1.0.0.md` — 8 scene storyboard × 5:00 durată exactă (Intro 25s · Login+Dashboard 35s · Lead queue 45s · Lead detail 45s · Property+match 35s · Deal pipeline drag-drop 45s · Manager command 35s · i18n+closing 35s) cu VO RO/RU/EN sincronizat pe timing markers + production checklist (mic specs + tempo RO 150wpm/RU 140wpm/EN 160wpm) + SRT generation procedure. (3) **T-M0.S4-07** — `docs/marketing/SCREENSHOT_CHECKLIST_REVYX_M0_v1.0.0.md` — 18 screens × 3 locale capture procedura: 7 mandatory × 2 locale RO+EN = 14 PNG mandatory pentru deck render, manual + Playwright automation script propus reproducible (cu cookie locale via `localStorage.setItem('revyx.locale', ...)`). (4) **T-M0.S4-06** (recording fizic video) + **T-M0.S4-08** (PDF export deck aspect 16:9) rămân ◐ deferred — depind de finalizare DNS demo.revyx.app (T-M0.S3-14) + OD-M0.S4-01..04 PM input. 4 OD-M0.S4-XX tracked non-blocking M0.S5: cifră invest slide 15 · URL demo final slide 01+16 · logo asset path · echipa fondatori nume slide 14. Documente foundation citate: BRD v1.1.0 §5-§7 pentru content piloni · brand-configs/revyx.md pentru visual + ton · PLATFORM_MATRIX v1.0.0 §17 pentru statistici Web/Mobile. Regulile 1, 4, 6, 8, 9 verificate ☑ (Regula 10 N/A — M0.S4 nu atinge deploy pipeline). |
 | **M0.S3 (predecesor)** | ✅ CLOSED prin PR #28 merged. Web Static Demo `apps/web-preview/` cu 16 routes + mock 100/50/20 + i18n RO/RU/EN + drag-drop @dnd-kit. |
-| **Următoarea sesiune** | **M0.S5** — HST M0 ⚠️ GATE. Hats: ARCHITECT + SECURITY + TESTER + DOC. Output: `docs/audit/HST_REVYX_m0_v1.0.0.md` cu findings + closure plan (UX flow + brand compliance + presentation rehearsal + message clarity + demo robustness). **Exit gate:** 0 findings CRIT/HIGH; toate MED triagate; LOW backlog acceptat. Apoi M1.S1 Phase 0 Security Foundation entry. |
+| **Următoarea sesiune** | **M0.S5** — HST M0 ⚠️ GATE. Hats: ARCHITECT + SECURITY + TESTER + DOC + ★ DESIGNER (Creative Director, mandatory pentru Regulile 12+14 audit). Output: `docs/audit/HST_REVYX_m0_v1.0.0.md` cu findings + closure plan (UX flow + brand compliance + presentation rehearsal + message clarity + demo robustness + ★ **Regula 11 puritate i18n audit pe `messages/{ro,ru,en}.json`** + ★ **Regula 12 disciplina interacțiuni audit pe componente `apps/web-preview/components/**`** + ★ **Regula 13 in-app tutorial coverage gap analysis** (probabil va genera findings deoarece `<TutorialOverlay>` nu e încă implementat — task M0.S5 sau M1.S5) + ★ **Regula 14 overlap audit pe 3 viewport-uri × 9 pagini × 3 locale**). **Exit gate:** 0 findings CRIT/HIGH; toate MED triagate; LOW backlog acceptat. Apoi M1.S1 Phase 0 Security Foundation entry. |
 | **Documentație rămasă** | 0 sesiuni doc-only (M0+ development active) |
 | **Hard Stress Test #2** | ✅ PASS clean S20 per `docs/audit/HST_REVYX_pre-dev_v1.0.0.md` §10 sign-off 7-rol |
 | **Modul Claude activ** | DOC (P, deck + video + checklist) + DESIGNER (S, Creative Director, visual specs + storyboard) + ARCHITECT (S, a11y captions + URL refs verify) + Senior PM |
@@ -336,6 +336,92 @@ Orice modificare care atinge deploy pipeline (rename de path sub `apps/*`, modif
 
 Violarea Regulii 10 → rollback automat al modificării + raport în chat cu remedierea aplicată + sesiunea NU se închide până la deploy verificat green.
 
+### ★ Regula 11 — Puritate i18n (NEW v1.2.10)
+
+Toate texte UI (labels, headers, butoane, toast, modal, copy general) **trebuie traduse complet** în limba activă a utilizatorului (RO / RU / EN) **fără anglicisme** atunci când există echivalent autohton în limba respectivă.
+
+**Aplicabilitate:**
+1. **RO:** "dashboard" → **panou de bord** · "queue" → **listă de așteptare** · "deal" → **tranzacție** · "match" → **potrivire** · "filter" → **filtru** · "settings" → **setări** · "notifications" → **notificări** · "login" → **autentificare** · "logout" → **deconectare** · "manager" rămâne (împrumut consacrat în business RM) · termeni tehnici (NBA, LS, DP, APS, DHI, RBAC, JWT, HMAC, SLA) **rămân în EN** ca acronime standard industrie.
+2. **RU:** "dashboard" → **панель управления** · "queue" → **очередь** · "deal" → **сделка** · "match" → **совпадение** · "filter" → **фильтр** · "settings" → **настройки** · "notifications" → **уведомления** · "login" → **вход** · "logout" → **выход**.
+3. **EN:** baseline canonic — orice termen anglo-saxon nativ.
+
+**Verificare obligatorie:**
+- La fiecare commit care atinge `messages/*.json` sau hardcoded strings UI: grep pentru anglicisme în RO/RU și înlocuire.
+- Lista exceptions (termeni EN păstrați): NBA · LS · LF · IS · PS · DP · DHI · APS · TS · TF · UF · RF · RBAC · JWT · HMAC · SLA · GDPR · API · UI · UX · CRM · AOS · M0..M2 · MVP · pgvector · HNSW · Redis · TLS · CNAME · DNS · CI/CD · MD · PR.
+- Termeni de specificare a domeniului (lead/property/agent) care **se păstrează** în EN dacă sunt unitate semantică în spec (cross-doc consistency cu BRD); UI poate localiza la rendering layer.
+
+Violarea Regulii 11 → finding **HIGH** în HST + rollback PR până la corectare. Open Decision OD-i18n-01 (pending PM resolution): glosar oficial RO/RU pentru termenii AOS de scoring (LS=Scor Lead? PS=Scor Proprietate? sau păstrare EN abreviat?).
+
+### ★ Regula 12 — Disciplina interacțiunilor layout (NEW v1.2.10)
+
+**Static stays static. Dynamic responds.**
+
+1. **Elementele statice din layout NU trebuie să reacționeze la mișcarea cursorului** — header bar, footer, side-rail navigation (când nu sunt interactive), background, decorative graphics, text labels read-only, badge-uri pur informative.
+2. **Elementele dinamice interactive REACȚIONEAZĂ la hover/focus/active** conform tokens.json `motion` + brand-config §5.1 (`translateY(-2px)` + border-color shift) — exclusiv: butoane, link-uri, carduri clickabile, input-uri, dropdown-uri, toggle-uri, drag handles, kanban cards mutabile.
+3. **Excluzii explicite (NU au hover/scale/translate):**
+   - Logo + cover hero (decorativ)
+   - Stats panels / numere mari (read-only)
+   - Page headers + breadcrumbs (orientare, NU navigare)
+   - Score badges fără context interactive (ex: LS badge pur informativ pe lead-detail header)
+   - Workflow timeline markers (statice, nu se selectează)
+4. **Pattern auditing:**
+   - `:hover` în CSS doar pe elemente cu `cursor: pointer | grab | text` sau `role="button"`/`role="link"`/`role="checkbox"` etc.
+   - Folosirea `hover:translate-y-*` / `hover:scale-*` / `hover:shadow-*` în Tailwind doar pe componente interactive cu rol semantic.
+   - Card-uri pur statice (read-only) folosesc varianta `Card` fără `hover:` modifiers; varianta interactivă (`InteractiveCard` sau Card cu prop `clickable`) primește hover styling.
+
+Verificare obligatorie pre-commit pe orice modificare în `apps/web-preview/components/**` sau `apps/web/components/**`: grep `hover:` și validare semantică element-by-element. Violarea Regulii 12 → finding **MED** în HST + corectare în PR-ul care a introdus regresia.
+
+### ★ Regula 13 — In-app tutorial / onboarding (NEW v1.2.10)
+
+Fiecare pagină principală (login, dashboard, leads, properties, deals, manager, notifications, profile, settings, admin) **trebuie să aibă element tutorial vizibil** care explică:
+1. Ce vede utilizatorul pe ecran (scopul paginii).
+2. Care sunt elementele cheie interactive (max 3-5 hotspots) și ce fac.
+3. Care este următoarea acțiune recomandată (cross-ref NBA layer când aplicabil).
+
+**Implementare:**
+- **Pattern:** `<TutorialOverlay screenId="dashboard">` componentă reutilizabilă; conținut localizat în `messages/{locale}.json` sub cheia `tutorial.{screenId}`.
+- **Trigger UX:** auto-show la prima vizită per `screenId` (localStorage flag `revyx.tutorial.{screenId}.seen`) + buton "?" persistent în header pentru re-deschidere.
+- **Conținut:** 1 paragraf intro + 3-5 hotspot-uri cu pointer la elemente reale (folosind data-attribute `data-tutorial-anchor="<id>"` pe target).
+- **A11y:** keyboard navigable (Tab/Shift+Tab între hotspots, ESC close, Enter advance), focus trap când deschis, screen-reader announce.
+
+**Update protocol:** la **fiecare adăugare de funcționalitate** pe o pagină existentă (nou widget, nou button, nou flow), Claude trebuie:
+1. Update `messages/{ro,ru,en}.json` cu hotspot nou în `tutorial.{screenId}.steps[]`.
+2. Adaugă `data-tutorial-anchor` pe noul element.
+3. Update `tutorial-coverage.md` (tracker) — list per page steps active.
+
+**Implementare M0.S5+ scope:** componenta `TutorialOverlay` + content RO/RU/EN pentru cele 9 pagini principale = task T-M0.S5-XX (sau split la M1.S5 dacă HST M0 ridică prioritate UX).
+
+Violarea Regulii 13 (pagină nouă fără tutorial) → finding **MED** în HST + tracking item în backlog UX.
+
+### ★ Regula 14 — Verificare overlap layout (NEW v1.2.10)
+
+Layout-ul **NU trebuie să conțină elemente vizuale care se suprapun nedorit** (text peste text, butoane peste carduri, modal-uri parțial obscured, dropdown clipping).
+
+**Verificare obligatorie:**
+1. **Manual smoke test (pre-commit pe modificări UI):** la fiecare modificare în `app/**/page.tsx` sau `components/**`, navighează cele 3 viewport-uri canonice și verifică:
+   - Desktop wide: 1920×1080
+   - Desktop standard: 1440×900
+   - Tablet landscape: 1024×768
+   - (Mobile portrait M2.S3+: 375×667 — N/A pentru M0)
+2. **Visual regression tooling sugerat (M1.S5+):** Playwright + `toHaveScreenshot()` baseline pentru pagini cheie cu threshold 0.5%.
+3. **Pattern audit:**
+   - `position: absolute` + `z-index` interacțiune verifică contra `Modal`, `Toast`, `Dropdown`, `Tooltip` z-stack (constant ordering în `tokens.json` motion/z-index).
+   - Sticky header NU obscure content (folosește `scroll-padding-top` pe `<body>`).
+   - Dropdown-uri ancorate (combobox, language switcher) clip vs viewport edge — folosește positioning library sau detecție manuală flip-up.
+   - Long text content în badges/chips folosește `truncate` sau `line-clamp-N` cu tooltip.
+
+**Findings curent (depistate, requires fix în M0.S5):**
+- (TBD per HST M0 audit step — Claude va popula lista în raportul HST_REVYX_m0_v1.0.0.md §findings)
+
+**Quick-check command (pre-commit):**
+```bash
+cd apps/web-preview && npm run dev &
+# Open Chrome → navigate cele 9 pagini × 3 viewport-uri × 3 locale
+# Capture screenshots → visual diff vs design/screenshots/baseline/
+```
+
+Violarea Regulii 14 (overlap depistat post-merge) → finding **HIGH** în HST + corectare prioritară în PR hotfix.
+
 ---
 
 ## 11. Ce să faci & ce să nu faci
@@ -379,7 +465,7 @@ Violarea Regulii 10 → rollback automat al modificării + raport în chat cu re
 
 ---
 
-*CLAUDE.md · v1.2.9 · 2026-05 · CONFIDENȚIAL · Uz Intern*
+*CLAUDE.md · v1.2.10 · 2026-05 · CONFIDENȚIAL · Uz Intern*
 *REVYX — Real Estate Execution Intelligence · © 2026 REVYX · ITPRO SYSTEM SRL*
 
 ---
@@ -399,4 +485,5 @@ Violarea Regulii 10 → rollback automat al modificării + raport în chat cu re
 | 1.2.6 | 2026-05 | PATCH — **Deploy pipeline online (bring-forward T-M0.S3-14 partial)**. vercel.json + CI gate + runbook v1.0.1. INDEX ref bump v1.1.3 → v1.1.4. Backwards compat full cu v1.2.5. |
 | 1.2.7 | 2026-05 | PATCH — M0.S3 ✅ CLOSED Web Static Demo (first attempt — included git mv apps/web-preview → apps/web; ulterior rolled back când a rupt deploy Vercel Root Directory). |
 | 1.2.8 | 2026-05 | PATCH — M0.S3 ✅ CLOSED corrected + Regula 10 introduction. Reverted git mv `apps/web-preview/` → `apps/web/` (physical path retained, semantic upgrade in-place la `@revyx/web-preview@0.2.0`). Regula 10 "Deployment verification mandatory" adăugată în §10b. |
-| **1.2.9** | **2026-05** | ★ PATCH — **M0.S4 ✅ CLOSED — Pitch Deck + Video Walkthrough script livrate**. Schimbări: (1) §0a Status Execuție LIVE actualizat — sesiune curentă M0.S3 → ★ M0.S4 ✅ CLOSED; următoarea M0.S4 → ★ M0.S5 ⚠️ GATE (HST M0); modul Claude activ shift de la FRONTEND WEB DEV-primary la DOC-primary + DESIGNER (Creative Director) S + ARCHITECT S + Senior PM. (2) Roadmap ref bump v1.0.3 → v1.0.4 în §0a (PATCH M0.S4 close, T-M0.S4-01..05 + T-M0.S4-07 ☑; T-M0.S4-06 video recording + T-M0.S4-08 PDF export deferred). (3) Findings lifecycle row sync ★ zero NEW M0.S4 + zero CRIT/HIGH cumulative S10..M0.S4. (4) Open decisions row adăugat ★ OD-M0.S4-01..04 (cifră invest · URL demo · logo asset · echipa fondatori) — non-blocking M0.S5 entry. (5) Roadmap macro diagram updated (M0.S4 ✅ next M0.S5 ⚠️ GATE). (6) "Următoarele 3 sesiuni programate" shifted (M0.S5/M1.S1/M1.S2). (7) Gating row actualizat pentru M0.S5 entry. (8) Output 6 documente noi `docs/marketing/`: directory `PITCH_DECK_REVYX_M0_v1.0.0/` cu README.md (index + structură 16 slides) + deck-ro.md (canonical + speaker notes inline) + deck-ru.md + deck-en.md + assets/SCREENSHOT_REFS.md, VIDEO_SCRIPT_REVYX_M0_v1.0.0.md (8 scene × 5:00 VO RO/RU/EN), SCREENSHOT_CHECKLIST_REVYX_M0_v1.0.0.md (18 screens × 3 locale procedure). Trigger: T-M0.S4-01..05 + T-M0.S4-07 atomic tasks output per Roadmap v1.0.4 §3.4 ☑. Backwards compat full cu v1.2.8 (Regulile 1-10 neschimbate). |
+| 1.2.9 | 2026-05 | PATCH — M0.S4 ✅ CLOSED Pitch Deck + Video Walkthrough. Roadmap v1.0.4 + INDEX v1.1.6. Output 6 documente `docs/marketing/`. Backwards compat full cu v1.2.8 (Regulile 1-10 neschimbate). |
+| **1.2.10** | **2026-05** | ★ PATCH — **4 reguli operaționale noi (Regulile 11-14)** triggered de PM design+layout feedback post-M0.S4 merge. Schimbări: (1) §10b extins cu ★ **Regula 11 "Puritate i18n"** — RO/RU/EN fără anglicisme când există echivalent autohton (panou de bord vs dashboard, listă de așteptare vs queue, etc.); lista exception acronime tehnice EN păstrate (NBA/LS/DP/APS/RBAC/JWT/HMAC/SLA/GDPR); OD-i18n-01 pending PM (glosar scoring RO/RU). (2) ★ **Regula 12 "Disciplina interacțiunilor layout"** — static stays static, dynamic responds; lista excluzii (logo, hero, stats, badges read-only); pattern audit `:hover` doar pe `cursor: pointer/grab` sau `role="button|link"`; finding MED la violare. (3) ★ **Regula 13 "In-app tutorial / onboarding"** — `<TutorialOverlay screenId="...">` componentă reutilizabilă cu conținut localizat per pagină; auto-show prima vizită + buton "?" persistent; update protocol obligatoriu la fiecare adăugare funcționalitate; implementare task M0.S5+ scope. (4) ★ **Regula 14 "Verificare overlap layout"** — manual smoke test 3 viewport-uri canonice (1920×1080 + 1440×900 + 1024×768) la fiecare modificare UI; visual regression Playwright sugerat M1.S5+; quick-check command pre-commit; finding HIGH la overlap depistat post-merge. (5) §0a Status Execuție actualizat — sesiune curentă reflectă rule introduction; nu există schimbare în macro-milestone (M0.S4 rămâne CLOSED, M0.S5 next). Trigger: PM message "Inca reguli importante legata de design si layout" — 4 reguli + cerere prompt M0.S5. Backwards compat full cu v1.2.9 (Regulile 1-10 neschimbate; 11-14 sunt additive). M0.S5 HST M0 va include audit checkpoints pe Regulile 11-14. |
