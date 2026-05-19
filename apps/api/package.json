@@ -14,6 +14,7 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "test:e2e": "vitest run --config vitest.e2e.config.ts",
+    "test:integration": "vitest run --config vitest.integration.config.ts",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "tsx src/db/migrate.ts",
     "db:studio": "drizzle-kit studio"
@@ -42,6 +43,7 @@
     "@nestjs/cli": "^10.4.5",
     "@nestjs/schematics": "^10.1.4",
     "@nestjs/testing": "^10.4.4",
+    "@testcontainers/postgresql": "^10.28.0",
     "@types/node": "^22.5.5",
     "@types/supertest": "^6.0.2",
     "@typescript-eslint/eslint-plugin": "^8.5.0",
@@ -50,6 +52,7 @@
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^9.1.0",
     "supertest": "^7.0.0",
+    "testcontainers": "^10.28.0",
     "tsx": "^4.19.1",
     "typescript": "^5.5.4",
     "vitest": "^2.1.1"
