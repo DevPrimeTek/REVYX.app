@@ -1,8 +1,6 @@
 'use client';
 
-// M0.S3 · T-M0.S3-04 · Property portfolio wired to 50 mock properties · 🌐 Web only
-// Master Plan ref: docs/MASTER_PLAN_REVYX_execution-roadmap_v1.1.2.md §4.1 (M0.S3)
-// Roadmap ref: docs/ROADMAP_REVYX_detailed-execution_v1.0.3.md §3.3 T-M0.S3-04 + T-M0.S3-06
+// M0.S6 · Properties portfolio · cards link to /properties/[id] · friendly freshness labels.
 
 import Link from 'next/link';
 import { useMemo, useState } from 'react';
@@ -10,10 +8,12 @@ import { SiteNav } from '@/components/site-nav';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { ScorePill } from '@/components/ui/score-badge';
+import { InfoTooltip } from '@/components/ui/info-tooltip';
 import { useT } from '@/components/i18n/provider';
 import { properties } from '@/lib/mock';
 import type { PropertyKind } from '@/lib/mock';
+import { freshnessLabel, freshnessTone } from '@/lib/freshness';
+import { cn } from '@/lib/utils';
 
 type KindFilter = 'all' | PropertyKind;
 const kinds: KindFilter[] = ['all', 'apartment', 'house', 'land', 'commercial'];
@@ -55,55 +55,72 @@ export default function PropertiesPage() {
         <div
           role="tablist"
           aria-label={t('common.filter')}
-          className="flex items-center gap-1 rounded-md border border-border p-1 bg-navy-deep self-start flex-wrap"
+          className="flex items-center gap-1 rounded-md border border-border-light p-1 bg-navy-deep self-start flex-wrap"
         >
-          {kinds.map((k) => (
-            <button
-              key={k}
-              role="tab"
-              type="button"
-              aria-selected={kind === k}
-              onClick={() => setKind(k)}
-              className={
-                'px-sp2 py-1 text-[11px] rounded font-mono uppercase tracking-wider transition-colors duration-fast ' +
-                (kind === k
-                  ? 'bg-gold/10 text-gold'
-                  : 'text-text-secondary hover:bg-navy-hover hover:text-text-h')
-              }
-            >
-              {k === 'all' ? t('property.filterAll') : t(kindLabelKey(k))}
-            </button>
-          ))}
+          {kinds.map((k) => {
+            const isAll = k === 'all';
+            const selected = kind === k;
+            return (
+              <button
+                key={k}
+                role="tab"
+                type="button"
+                aria-selected={selected}
+                onClick={() => setKind(k)}
+                className={cn(
+                  'px-sp3 py-1 text-[12px] rounded transition-colors duration-fast',
+                  selected
+                    ? isAll
+                      ? 'bg-gold text-navy-deep font-semibold'
+                      : 'bg-gold/10 text-gold'
+                    : 'text-text-secondary hover:bg-navy-hover hover:text-text-h'
+                )}
+              >
+                {k === 'all' ? t('property.filterAll') : t(kindLabelKey(k))}
+              </button>
+            );
+          })}
         </div>
 
         <section className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-sp3">
-          {list.map((p) => (
-            <Card key={p.id} variant="elevated" accentTop className="focus-within:border-gold">
-              <CardHeader>
-                <div className="flex items-center justify-between">
-                  <p className="label-mono text-text-secondary">{p.id}</p>
-                  <span className="label-mono text-text-muted">{t(kindLabelKey(p.kind))}</span>
-                </div>
-                <CardTitle className="text-[15px]">{p.addr}</CardTitle>
-                <CardDescription>
-                  {p.city} · {p.zone}
-                  {p.rooms > 0 ? ` · ${p.rooms} ${t('property.rooms')}` : ''} · {p.area} m² · €
-                  {p.priceEur.toLocaleString('ro-MD')}
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="flex items-center justify-between">
-                <div className="flex gap-sp3">
-                  <ScorePill label="PS" value={p.ps} />
-                  <ScorePill label="LF" value={p.lf} />
-                </div>
-                <Badge variant={p.lf > 0.75 ? 'success' : p.lf > 0.5 ? 'warning' : 'critical'}>
-                  {p.lf > 0.75 ? t('property.fresh') : p.lf > 0.5 ? t('property.aging') : t('property.stale')}
-                </Badge>
-              </CardContent>
-            </Card>
-          ))}
+          {list.map((p) => {
+            const fresh = freshnessLabel(p.daysOnMarket, t);
+            return (
+              <Link
+                key={p.id}
+                href={`/properties/${p.id}`}
+                className="block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold rounded-lg"
+              >
+                <Card variant="elevated" accentTop interactive className="h-full focus-within:border-gold">
+                  <CardHeader>
+                    <div className="flex items-center justify-between">
+                      <p className="label-mono text-text-secondary">{p.id}</p>
+                      <span className="label-mono text-text-muted">{t(kindLabelKey(p.kind))}</span>
+                    </div>
+                    <CardTitle className="text-[15px]">{p.addr}</CardTitle>
+                    <CardDescription>
+                      {p.city} · {p.zone}
+                      {p.rooms > 0 ? ` · ${p.rooms} ${t('property.rooms')}` : ''} · {p.area} m² · €
+                      {p.priceEur.toLocaleString('ro-MD')}
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent className="flex items-center justify-between">
+                    <div className="inline-flex items-center gap-sp1">
+                      <Badge variant={freshnessTone(p.daysOnMarket)} size="sm">
+                        {fresh.label}
+                      </Badge>
+                      <InfoTooltip label={fresh.label} body={fresh.desc} />
+                    </div>
+                    <span className="text-[12px] text-gold hover:underline">
+                      {t('property.viewDetails')} →
+                    </span>
+                  </CardContent>
+                </Card>
+              </Link>
+            );
+          })}
         </section>
-        <p className="text-[11px] text-text-muted font-mono text-center">
+        <p className="text-[11px] text-text-muted text-center">
           {list.length} / {properties.length}
         </p>
       </main>

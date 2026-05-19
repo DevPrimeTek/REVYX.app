@@ -1,15 +1,28 @@
 'use client';
 
+// M0.S6 · Primary nav with Tutorial + Cabinet submenu · 🌐 Web only.
+// Static (non-interactive) elements respect Regula 12 — only interactive items get hover.
+
 import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
 import { cn } from '@/lib/utils';
 import { SUPPORTED_LOCALES, useT, type Locale } from '@/components/i18n/provider';
 
-const links = [
+const primaryLinks = [
   { href: '/dashboard', key: 'dashboard' },
   { href: '/leads', key: 'leads' },
   { href: '/properties', key: 'properties' },
   { href: '/deals', key: 'deals' },
+  { href: '/tutorial', key: 'tutorial' },
+] as const;
+
+const cabinetLinks = [
+  { href: '/cabinet/agent', key: 'cabinetAgent' },
+  { href: '/cabinet/agency', key: 'cabinetAgency' },
+  { href: '/cabinet/group', key: 'cabinetGroup' },
+] as const;
+
+const overflowLinks = [
   { href: '/manager', key: 'manager' },
   { href: '/admin', key: 'admin' },
 ] as const;
@@ -19,14 +32,20 @@ const localeLabels: Record<Locale, string> = { ro: 'RO', ru: 'RU', en: 'EN' };
 export function SiteNav({ active }: { active?: string }) {
   const { t, locale, setLocale } = useT();
   const [langOpen, setLangOpen] = useState(false);
+  const [cabinetOpen, setCabinetOpen] = useState(false);
   const langRef = useRef<HTMLDivElement>(null);
+  const cabinetRef = useRef<HTMLLIElement>(null);
 
   useEffect(() => {
     function onDocClick(e: MouseEvent) {
       if (langRef.current && !langRef.current.contains(e.target as Node)) setLangOpen(false);
+      if (cabinetRef.current && !cabinetRef.current.contains(e.target as Node)) setCabinetOpen(false);
     }
     function onEsc(e: KeyboardEvent) {
-      if (e.key === 'Escape') setLangOpen(false);
+      if (e.key === 'Escape') {
+        setLangOpen(false);
+        setCabinetOpen(false);
+      }
     }
     document.addEventListener('mousedown', onDocClick);
     document.addEventListener('keydown', onEsc);
@@ -35,6 +54,8 @@ export function SiteNav({ active }: { active?: string }) {
       document.removeEventListener('keydown', onEsc);
     };
   }, []);
+
+  const cabinetActive = active?.startsWith('/cabinet');
 
   return (
     <nav
@@ -46,7 +67,66 @@ export function SiteNav({ active }: { active?: string }) {
         <span className="label-mono hidden md:inline">{t('nav.brandTagline')}</span>
       </Link>
       <ul className="hidden lg:flex items-center gap-sp1">
-        {links.map((l) => (
+        {primaryLinks.map((l) => (
+          <li key={l.href}>
+            <Link
+              href={l.href}
+              className={cn(
+                'inline-flex h-9 items-center px-sp3 rounded-md text-[13px] transition-colors duration-fast',
+                active === l.href
+                  ? 'bg-navy-hover text-text-h'
+                  : 'text-text-secondary hover:bg-navy-hover hover:text-text-h'
+              )}
+            >
+              {t(`nav.${l.key}`)}
+            </Link>
+          </li>
+        ))}
+
+        {/* Cabinet dropdown */}
+        <li ref={cabinetRef} className="relative">
+          <button
+            type="button"
+            aria-haspopup="menu"
+            aria-expanded={cabinetOpen}
+            onClick={() => setCabinetOpen((o) => !o)}
+            className={cn(
+              'inline-flex h-9 items-center gap-1 px-sp3 rounded-md text-[13px] transition-colors duration-fast',
+              cabinetActive
+                ? 'bg-navy-hover text-text-h'
+                : 'text-text-secondary hover:bg-navy-hover hover:text-text-h'
+            )}
+          >
+            {t('nav.cabinet')}
+            <span aria-hidden className="text-text-muted">▾</span>
+          </button>
+          {cabinetOpen && (
+            <ul
+              role="menu"
+              className="absolute right-0 mt-sp1 min-w-[200px] bg-navy-deep border border-border rounded-md shadow-lg overflow-hidden z-40"
+            >
+              {cabinetLinks.map((l) => (
+                <li key={l.href}>
+                  <Link
+                    href={l.href}
+                    role="menuitem"
+                    onClick={() => setCabinetOpen(false)}
+                    className={cn(
+                      'block px-sp3 py-sp2 text-[13px] transition-colors duration-fast',
+                      active === l.href
+                        ? 'bg-navy-hover text-gold'
+                        : 'text-text-secondary hover:bg-navy-hover hover:text-text-h'
+                    )}
+                  >
+                    {t(`nav.${l.key}`)}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          )}
+        </li>
+
+        {overflowLinks.map((l) => (
           <li key={l.href}>
             <Link
               href={l.href}

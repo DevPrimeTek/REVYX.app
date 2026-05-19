@@ -1,22 +1,29 @@
 'use client';
 
-// M0.S3 · T-M0.S3-04 · Lead queue wired to 100 mock leads · 🌐 Web only
-// Master Plan ref: docs/MASTER_PLAN_REVYX_execution-roadmap_v1.1.2.md §4.1 (M0.S3)
-// Roadmap ref: docs/ROADMAP_REVYX_detailed-execution_v1.0.3.md §3.3 T-M0.S3-04 + T-M0.S3-06
+// M0.S6 · Lead list with column info tooltips + friendly filter UI · 🌐 Web only
 
 import Link from 'next/link';
 import { useMemo, useState } from 'react';
 import { SiteNav } from '@/components/site-nav';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Table, TBody, TD, TH, THead, TR } from '@/components/ui/table';
-import { LeadScoreBadge } from '@/components/ui/score-badge';
+import { LeadPriorityBadge } from '@/components/ui/score-badge';
 import { Badge } from '@/components/ui/badge';
+import { InfoTooltip } from '@/components/ui/info-tooltip';
 import { useT } from '@/components/i18n/provider';
 import { leads } from '@/lib/mock';
 import type { LeadStatus } from '@/lib/mock';
+import { cn } from '@/lib/utils';
 
 type Filter = 'all' | LeadStatus;
 const filters: Filter[] = ['all', 'HOT', 'qualified', 'warm', 'nurturing'];
+const filterHelpKey: Record<LeadStatus | 'all', string> = {
+  all: 'lead.filters.all',
+  HOT: 'lead.filters.urgentHelp',
+  qualified: 'lead.filters.qualifiedHelp',
+  warm: 'lead.filters.warmHelp',
+  nurturing: 'lead.filters.nurturingHelp',
+};
 
 export default function LeadsPage() {
   const { t } = useT();
@@ -61,41 +68,61 @@ export default function LeadsPage() {
                 <div
                   role="tablist"
                   aria-label={t('common.filter')}
-                  className="flex items-center gap-1 rounded-md border border-border p-1 bg-navy-deep"
+                  className="flex items-center gap-1 rounded-md border border-border-light p-1 bg-navy-deep"
                 >
-                  {filters.map((f) => (
-                    <button
-                      key={f}
-                      role="tab"
-                      type="button"
-                      aria-selected={filter === f}
-                      onClick={() => setFilter(f)}
-                      className={
-                        'px-sp2 py-1 text-[11px] rounded font-mono uppercase tracking-wider transition-colors duration-fast ' +
-                        (filter === f
-                          ? 'bg-gold/10 text-gold'
-                          : 'text-text-secondary hover:bg-navy-hover hover:text-text-h')
-                      }
-                    >
-                      {f === 'all' ? t('common.all') : t(`lead.status.${f}`)}
-                    </button>
-                  ))}
+                  {filters.map((f) => {
+                    const isAll = f === 'all';
+                    const selected = filter === f;
+                    return (
+                      <button
+                        key={f}
+                        role="tab"
+                        type="button"
+                        aria-selected={selected}
+                        onClick={() => setFilter(f)}
+                        className={cn(
+                          'px-sp3 py-1 text-[12px] rounded transition-colors duration-fast',
+                          selected
+                            ? isAll
+                              ? 'bg-gold text-navy-deep font-semibold'
+                              : 'bg-gold/10 text-gold'
+                            : 'text-text-secondary hover:bg-navy-hover hover:text-text-h'
+                        )}
+                      >
+                        {isAll ? t('lead.filters.all') : t(`lead.status.${f}`)}
+                      </button>
+                    );
+                  })}
+                  <InfoTooltip
+                    label={t('common.filter')}
+                    body={`${t('lead.filters.urgentHelp')} · ${t('lead.filters.qualifiedHelp')} · ${t('lead.filters.warmHelp')} · ${t('lead.filters.nurturingHelp')}`}
+                    className="ml-sp1"
+                  />
                 </div>
               </div>
             </div>
+            {filter !== 'all' && (
+              <p className="text-[12px] text-text-muted mt-sp2">
+                {t(filterHelpKey[filter])}
+              </p>
+            )}
           </CardHeader>
           <CardContent>
             <div className="max-h-[640px] overflow-auto">
               <Table>
                 <THead>
                   <TR>
-                    <TH>{t('lead.tableHeader.id')}</TH>
-                    <TH>{t('lead.tableHeader.name')}</TH>
-                    <TH>{t('lead.tableHeader.source')}</TH>
-                    <TH>{t('lead.tableHeader.zone')}</TH>
-                    <TH>{t('lead.tableHeader.sla')}</TH>
-                    <TH>{t('lead.tableHeader.ls')}</TH>
-                    <TH>{t('lead.tableHeader.status')}</TH>
+                    {(['id', 'name', 'source', 'zone', 'sla', 'priority', 'status'] as const).map((col) => (
+                      <TH key={col}>
+                        <span className="inline-flex items-center gap-sp1">
+                          {t(`lead.tableHeader.${col}`)}
+                          <InfoTooltip
+                            label={t(`lead.tableHeader.${col}`)}
+                            body={t(`lead.tableHelp.${col}`)}
+                          />
+                        </span>
+                      </TH>
+                    ))}
                   </TR>
                 </THead>
                 <TBody>
@@ -112,8 +139,8 @@ export default function LeadsPage() {
                       </TD>
                       <TD className="text-text-secondary">{l.source}</TD>
                       <TD className="text-text-secondary text-[12px]">{l.zone}</TD>
-                      <TD className="font-mono">{l.sla}</TD>
-                      <TD><LeadScoreBadge ls={l.ls} /></TD>
+                      <TD className="font-mono text-[12px]">{l.sla}</TD>
+                      <TD><LeadPriorityBadge ls={l.ls} t={t} size="xs" /></TD>
                       <TD>
                         {l.status === 'nurturing' ? (
                           <span className="text-text-muted text-[12px]">{t('lead.status.nurturing')}</span>

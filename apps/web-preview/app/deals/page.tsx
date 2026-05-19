@@ -1,15 +1,11 @@
 'use client';
 
-// M0.S3 · T-M0.S3-10 · J3 Deal pipeline drag-drop · 🌐 Web only
-// Master Plan ref: docs/MASTER_PLAN_REVYX_execution-roadmap_v1.1.2.md §4.1 (M0.S3)
-// Roadmap ref: docs/ROADMAP_REVYX_detailed-execution_v1.0.3.md §3.3 T-M0.S3-10
-//
-// Drag-drop @dnd-kit landed at M0.S3. Click-to-advance ← / → buttons retained as
-// keyboard / screen-reader a11y fallback (per ARCHITECT M0.S2 review note).
+// M0.S6 · /deals · pipeline kanban + plain-language legend (no formula leak).
 
 import { SiteNav } from '@/components/site-nav';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { InfoTooltip } from '@/components/ui/info-tooltip';
 import { KanbanBoard } from '@/components/deals/kanban-board';
 import { useT } from '@/components/i18n/provider';
 
@@ -34,9 +30,27 @@ export default function DealsPage() {
             <CardDescription>{t('deal.legendSubtitle')}</CardDescription>
           </CardHeader>
           <CardContent className="flex flex-wrap gap-sp4 text-[12px] text-text-secondary">
-            <span><Badge variant="success" size="xs">{t('deal.healthy')}</Badge> &nbsp;DHI ≥ 0.75</span>
-            <span><Badge variant="warning" size="xs">{t('deal.review')}</Badge> &nbsp;0.55 ≤ DHI &lt; 0.75</span>
-            <span><Badge variant="critical" size="xs">{t('deal.risk')}</Badge> &nbsp;DHI &lt; 0.55</span>
+            <span className="inline-flex items-center gap-sp2">
+              <Badge variant="success" size="xs">{t('deal.healthLabels.healthy')}</Badge>
+              <InfoTooltip
+                label={t('deal.healthLabels.healthy')}
+                body={t('deal.healthHelp.healthy')}
+              />
+            </span>
+            <span className="inline-flex items-center gap-sp2">
+              <Badge variant="warning" size="xs">{t('deal.healthLabels.review')}</Badge>
+              <InfoTooltip
+                label={t('deal.healthLabels.review')}
+                body={t('deal.healthHelp.review')}
+              />
+            </span>
+            <span className="inline-flex items-center gap-sp2">
+              <Badge variant="critical" size="xs">{t('deal.healthLabels.risk')}</Badge>
+              <InfoTooltip
+                label={t('deal.healthLabels.risk')}
+                body={t('deal.healthHelp.risk')}
+              />
+            </span>
           </CardContent>
         </Card>
       </main>
