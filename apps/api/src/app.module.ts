@@ -13,6 +13,14 @@ import { WebhooksModule } from './webhooks/webhooks.module';
 import { GdprModule } from './gdpr/gdpr.module';
 import { HealthController } from './health/health.controller';
 import { CorrelationIdInterceptor } from './common/correlation-id.interceptor';
+// Phase A Foundation (M1.S2) business modules
+import { LeadsModule } from './business/leads/leads.module';
+import { PropertiesModule } from './business/properties/properties.module';
+import { DealsModule } from './business/deals/deals.module';
+import { ActivitiesModule } from './business/activities/activities.module';
+import { TasksModule } from './business/tasks/tasks.module';
+import { OffersModule } from './business/offers/offers.module';
+import { ShowingsModule } from './business/showings/showings.module';
 
 @Module({
   imports: [
@@ -32,6 +40,13 @@ import { CorrelationIdInterceptor } from './common/correlation-id.interceptor';
     AuthModule,
     WebhooksModule,
     GdprModule,
+    LeadsModule,
+    PropertiesModule,
+    DealsModule,
+    ActivitiesModule,
+    TasksModule,
+    OffersModule,
+    ShowingsModule,
   ],
   controllers: [HealthController],
   providers: [
