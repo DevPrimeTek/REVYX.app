@@ -1,15 +1,26 @@
 'use client';
 
-// M0.S3 · T-M0.S3-07 · Agent profile · 🌐 Web only
-// Master Plan ref: docs/MASTER_PLAN_REVYX_execution-roadmap_v1.1.2.md §4.1 (M0.S3)
-// Roadmap ref: docs/ROADMAP_REVYX_detailed-execution_v1.0.3.md §3.3 T-M0.S3-07 + T-M0.S3-13
+// M0.S6 · Agent profile · friendly labels only.
 
 import { SiteNav } from '@/components/site-nav';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { ScorePill } from '@/components/ui/score-badge';
+import { MetricPill } from '@/components/ui/score-badge';
 import { Badge } from '@/components/ui/badge';
+import { InfoTooltip } from '@/components/ui/info-tooltip';
 import { useT } from '@/components/i18n/provider';
 import { agents, deals, leads } from '@/lib/mock';
+
+function priorityTone(v: number): 'positive' | 'neutral' | 'warning' {
+  if (v >= 0.75) return 'positive';
+  if (v >= 0.55) return 'neutral';
+  return 'warning';
+}
+function priorityDots(v: number): string {
+  if (v >= 0.75) return '●●●';
+  if (v >= 0.55) return '●●○';
+  if (v >= 0.35) return '●○○';
+  return '○○○';
+}
 
 export default function ProfilePage() {
   const { t } = useT();
@@ -17,7 +28,6 @@ export default function ProfilePage() {
   const myDeals = deals.filter((d) => d.agentId === me.id);
   const myLeads = leads.filter((l) => l.agentId === me.id);
 
-  // Synthetic 6-month APS sparkline (just numeric chips, no chart lib in M0).
   const apsHistory = [0.62, 0.66, 0.70, 0.73, 0.78, me.aps];
 
   return (
@@ -35,20 +45,26 @@ export default function ProfilePage() {
         <section className="grid grid-cols-1 md:grid-cols-4 gap-sp3">
           <Card variant="elevated" accentTop>
             <CardHeader>
-              <p className="label-mono text-text-secondary">APS</p>
-              <CardTitle>{me.aps.toFixed(2)}</CardTitle>
+              <div className="flex items-center gap-sp1">
+                <p className="label-mono text-text-secondary">{t('dashboard.blocks.perfApsLabel')}</p>
+                <InfoTooltip
+                  label={t('dashboard.blocks.perfApsLabel')}
+                  body={t('dashboard.blocks.perfApsHelp')}
+                />
+              </div>
+              <CardTitle className="font-display">{priorityDots(me.aps)}</CardTitle>
             </CardHeader>
             <CardContent>
-              <ScorePill label="now" value={me.aps} />
+              <MetricPill label="" display={priorityDots(me.aps)} tone={priorityTone(me.aps)} />
             </CardContent>
           </Card>
           <Card>
             <CardHeader>
               <p className="label-mono text-text-secondary">{t('profile.trust')}</p>
-              <CardTitle>{me.trust.toFixed(2)}</CardTitle>
+              <CardTitle className="font-display">{priorityDots(me.trust)}</CardTitle>
             </CardHeader>
             <CardContent>
-              <ScorePill label="TS" value={me.trust} />
+              <MetricPill label="" display={priorityDots(me.trust)} tone={priorityTone(me.trust)} />
             </CardContent>
           </Card>
           <Card>
@@ -57,7 +73,7 @@ export default function ProfilePage() {
               <CardTitle>{me.activeTasks}/3</CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-[12px] text-text-secondary">BR-04 cap</p>
+              <p className="text-[12px] text-text-secondary">{t('dashboard.blocks.tasksDesc')}</p>
             </CardContent>
           </Card>
           <Card>
@@ -66,15 +82,15 @@ export default function ProfilePage() {
               <CardTitle>{me.closedDeals30d}</CardTitle>
             </CardHeader>
             <CardContent>
-              <Badge variant="success" size="xs">peste target 5+</Badge>
+              <Badge variant="success" size="xs">peste 5</Badge>
             </CardContent>
           </Card>
         </section>
 
         <Card>
           <CardHeader>
-            <CardTitle>APS · 6 luni</CardTitle>
-            <CardDescription>Trend lunar (mock M0 — chart lib M1.S5).</CardDescription>
+            <CardTitle>{t('dashboard.blocks.perfApsLabel')} · 6 luni</CardTitle>
+            <CardDescription>{t('dashboard.blocks.perfDesc')}</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="flex items-end gap-sp2 h-[120px]">
@@ -83,9 +99,9 @@ export default function ProfilePage() {
                   <div
                     className="w-full bg-gradient-to-t from-gold-dark to-gold rounded-t"
                     style={{ height: `${v * 100}px` }}
-                    aria-label={`Luna ${i + 1}: APS ${v.toFixed(2)}`}
+                    aria-label={`Luna ${i + 1}: ${priorityDots(v)}`}
                   />
-                  <span className="font-mono text-[10px] text-text-muted">{v.toFixed(2)}</span>
+                  <span className="text-[10px] text-text-muted">{priorityDots(v)}</span>
                 </div>
               ))}
             </div>
@@ -96,7 +112,7 @@ export default function ProfilePage() {
           <Card>
             <CardHeader>
               <CardTitle>Lead-uri asignate</CardTitle>
-              <CardDescription>{myLeads.length} lead-uri active la nivel firewall.</CardDescription>
+              <CardDescription>{myLeads.length} lead-uri active.</CardDescription>
             </CardHeader>
             <CardContent>
               <ul className="flex flex-col gap-sp1 text-[13px]">
@@ -106,7 +122,7 @@ export default function ProfilePage() {
                       <span className="font-mono text-text-secondary text-[11px]">{l.id}</span>{' '}
                       <span className="text-text-h">{l.name}</span>
                     </span>
-                    <span className="font-mono text-gold">{l.ls.toFixed(2)}</span>
+                    <span className="text-text-secondary text-[11px]">{l.zone}</span>
                   </li>
                 ))}
                 {myLeads.length === 0 && (
@@ -118,8 +134,8 @@ export default function ProfilePage() {
 
           <Card>
             <CardHeader>
-              <CardTitle>Deal-uri în pipeline</CardTitle>
-              <CardDescription>{myDeals.length} deal-uri (incl. Won).</CardDescription>
+              <CardTitle>Tranzacții în pipeline</CardTitle>
+              <CardDescription>{myDeals.length} tranzacții (incl. câștigate).</CardDescription>
             </CardHeader>
             <CardContent>
               <ul className="flex flex-col gap-sp1 text-[13px]">
@@ -129,7 +145,7 @@ export default function ProfilePage() {
                       <span className="font-mono text-text-secondary text-[11px]">{d.id}</span>{' '}
                       <span className="text-text-h">{t(`deal.stages.${d.stage}`)}</span>
                     </span>
-                    <span className="font-mono text-gold">{d.dp.toFixed(2)}</span>
+                    <span className="text-gold text-[12px] font-mono">€{d.commissionEur.toLocaleString('ro-MD')}</span>
                   </li>
                 ))}
                 {myDeals.length === 0 && (
