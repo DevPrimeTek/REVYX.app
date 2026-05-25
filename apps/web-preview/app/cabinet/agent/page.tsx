@@ -1,6 +1,6 @@
 'use client';
 
-// M0.S6 · /cabinet/agent · personal cabinet for the logged-in agent.
+// M0.S7 · /cabinet/agent · personal cabinet — avatar + bio + specialty + stats + contact.
 
 import { useState } from 'react';
 import { SiteNav } from '@/components/site-nav';
@@ -17,6 +17,16 @@ import { cn } from '@/lib/utils';
 
 type Tab = 'summary' | 'history' | 'preferences' | 'documents';
 
+function initials(name: string): string {
+  return name
+    .split(/\s+/)
+    .map((p) => p[0])
+    .filter(Boolean)
+    .slice(0, 2)
+    .join('')
+    .toUpperCase();
+}
+
 export default function CabinetAgentPage() {
   const { t } = useT();
   const { toast } = useToast();
@@ -24,31 +34,90 @@ export default function CabinetAgentPage() {
   const me = agents[0];
   const myDealsClosed = deals.filter((d) => d.agentId === me.id && d.stage === 'won');
 
+  // Mock-only enrichment fields. M1.S5 will source these from apps/api/users (extended schema).
+  const specialty = ['Centru', 'Botanica', 'Apartament', 'Casă'];
+  const ratingValue = 4.8;
+  const ratingReviews = 32;
+  const lifetimeDeals = myDealsClosed.length + 47;
+
   function priorityTone(v: number): 'positive' | 'neutral' | 'warning' {
     if (v >= 0.75) return 'positive';
     if (v >= 0.55) return 'neutral';
     return 'warning';
   }
-  function priorityDisplay(label: string, v: number): string {
-    if (v >= 0.75) return t('lead.priorityLabel.hot') + ` · ${label}`;
-    if (v >= 0.55) return t('lead.priorityLabel.qualified') + ` · ${label}`;
-    return t('lead.priorityLabel.warm') + ` · ${label}`;
+  function priorityDots(v: number): string {
+    if (v >= 0.75) return '●●●';
+    if (v >= 0.55) return '●●○';
+    if (v >= 0.35) return '●○○';
+    return '○○○';
   }
 
   return (
     <>
       <SiteNav active="/cabinet/agent" />
       <main id="main" className="px-sp4 py-sp4 lg:px-sp6 max-w-6xl mx-auto flex flex-col gap-sp4">
-        <header className="flex items-start justify-between gap-sp3 flex-wrap">
-          <div>
-            <p className="label-mono text-gold">{t('cabinet.agent.moduleLabel')}</p>
-            <h1 className="text-[28px] mt-sp1">{t('cabinet.agent.title')}</h1>
-            <p className="text-[13px] text-text-secondary mt-sp1">{t('cabinet.agent.subtitle')}</p>
-          </div>
-          <div className="flex items-center gap-sp2">
-            <Badge variant="info" size="xs">{me.id}</Badge>
-          </div>
-        </header>
+        {/* Hero card: avatar + name + bio + contact CTAs */}
+        <Card variant="elevated" accentTop>
+          <CardContent className="pt-sp4 flex flex-col md:flex-row gap-sp4 items-start">
+            <div
+              role="img"
+              aria-label={t('cabinetExtras.agent.bioTitle')}
+              className="w-24 h-24 rounded-full bg-gradient-to-br from-gold to-gold-dark flex items-center justify-center flex-shrink-0"
+            >
+              <span className="font-display text-[36px] text-navy-deep">{initials(me.name)}</span>
+            </div>
+            <div className="flex-1 min-w-0 flex flex-col gap-sp2">
+              <div>
+                <p className="label-mono text-gold">{t('cabinet.agent.moduleLabel')}</p>
+                <h1 className="text-[28px] mt-sp1">{me.name}</h1>
+                <p className="text-[13px] text-text-secondary mt-sp1">
+                  {me.id} · {Math.round(me.tenure / 30)} {t('cabinet.agent.tabs.summary') === 'Sumar' ? 'luni de echipă' : 'мес. в команде'}
+                </p>
+              </div>
+              <p className="text-[13px] text-text-secondary">{t('cabinetExtras.agent.bioPlaceholder')}</p>
+              <div className="flex flex-wrap items-center gap-sp2">
+                <Button size="sm">{t('cabinetExtras.agent.callCta')}</Button>
+                <Button size="sm" variant="secondary">{t('cabinetExtras.agent.messageCta')}</Button>
+                <Button size="sm" variant="ghost">{t('cabinetExtras.agent.shareProfileCta')}</Button>
+              </div>
+            </div>
+            <div className="flex flex-col gap-sp2 text-right items-end">
+              <div className="flex items-center gap-sp1">
+                <span className="font-display text-[24px] text-gold">{ratingValue}</span>
+                <span className="text-[14px] text-text-muted">/ 5</span>
+                <InfoTooltip label={t('cabinetExtras.agent.ratingTitle')} body={t('cabinetExtras.agent.ratingHelp')} />
+              </div>
+              <p className="text-[11px] text-text-muted">{t('cabinetExtras.agent.ratingReviews', { n: ratingReviews })}</p>
+              <div className="text-right mt-sp2">
+                <p className="font-display text-[24px] text-text-h">{lifetimeDeals}</p>
+                <div className="inline-flex items-center gap-sp1">
+                  <p className="text-[11px] text-text-muted">{t('cabinetExtras.agent.lifetimeTitle')}</p>
+                  <InfoTooltip label={t('cabinetExtras.agent.lifetimeTitle')} body={t('cabinetExtras.agent.lifetimeHelp')} />
+                </div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Specialty tags */}
+        <Card>
+          <CardHeader>
+            <div className="flex items-center gap-sp1">
+              <CardTitle className="text-[16px]">{t('cabinetExtras.agent.specialtyTitle')}</CardTitle>
+              <InfoTooltip
+                label={t('cabinetExtras.agent.specialtyTitle')}
+                body={t('cabinetExtras.agent.specialtyHelp')}
+              />
+            </div>
+          </CardHeader>
+          <CardContent className="flex flex-wrap gap-sp2">
+            {specialty.map((s) => (
+              <Badge key={s} variant="info" size="sm">
+                {s}
+              </Badge>
+            ))}
+          </CardContent>
+        </Card>
 
         <nav
           role="tablist"
@@ -100,7 +169,7 @@ export default function CabinetAgentPage() {
                   </div>
                   <div>
                     <dt className="text-text-muted text-[12px]">{t('cabinet.agent.agentSinceLabel')}</dt>
-                    <dd className="text-text-h">{Math.round(me.tenure / 30)} {t('cabinet.agent.tabs.summary') === 'Sumar' ? 'luni' : 'мес.'}</dd>
+                    <dd className="text-text-h">2024-05-15</dd>
                   </div>
                 </dl>
               </CardContent>
@@ -110,18 +179,21 @@ export default function CabinetAgentPage() {
               <CardHeader>
                 <div className="flex items-center gap-sp1">
                   <CardTitle className="text-[16px]">{t('cabinet.agent.performanceTitle')}</CardTitle>
-                  <InfoTooltip label={t('cabinet.agent.performanceTitle')} body={t('cabinet.agent.performanceHelp')} />
+                  <InfoTooltip
+                    label={t('cabinet.agent.performanceTitle')}
+                    body={t('cabinet.agent.performanceHelp')}
+                  />
                 </div>
               </CardHeader>
               <CardContent className="flex flex-col gap-sp2">
                 <MetricPill
                   label={t('dashboard.blocks.perfApsLabel')}
-                  display={priorityDisplay('●●●', me.aps)}
+                  display={priorityDots(me.aps)}
                   tone={priorityTone(me.aps)}
                 />
                 <MetricPill
                   label={t('dashboard.blocks.perfTrustLabel')}
-                  display={priorityDisplay('●●●', me.trust)}
+                  display={priorityDots(me.trust)}
                   tone={priorityTone(me.trust)}
                 />
                 <MetricPill
@@ -159,7 +231,9 @@ export default function CabinetAgentPage() {
                         <span className="font-mono text-text-secondary text-[11px] mr-sp1">{d.id}</span>
                         {t(`deal.stages.${d.stage}`)}
                       </span>
-                      <span className="font-mono text-gold">€{d.commissionEur.toLocaleString('ro-MD')}</span>
+                      <span className="font-mono text-gold">
+                        €{d.commissionEur.toLocaleString('ro-MD')}
+                      </span>
                     </li>
                   ))}
                 </ul>

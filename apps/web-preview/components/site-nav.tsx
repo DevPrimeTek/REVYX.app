@@ -13,6 +13,7 @@ const primaryLinks = [
   { href: '/leads', key: 'leads' },
   { href: '/properties', key: 'properties' },
   { href: '/deals', key: 'deals' },
+  { href: '/tasks', key: 'tasks' },
   { href: '/tutorial', key: 'tutorial' },
 ] as const;
 

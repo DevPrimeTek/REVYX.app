@@ -15,14 +15,11 @@ import { InfoTooltip } from '@/components/ui/info-tooltip';
 import { useToast } from '@/components/ui/toast';
 import { useT } from '@/components/i18n/provider';
 import { agents, leadsById, properties } from '@/lib/mock';
+import { LeadSuggestions } from '@/components/tasks/lead-suggestions';
+import { NotesPanel } from '@/components/leads/notes-panel';
+import { DocumentsPanel } from '@/components/leads/documents-panel';
 
 type Params = { params: { id: string } };
-
-function band(v: number): 'low' | 'medium' | 'high' {
-  if (v >= 0.66) return 'high';
-  if (v >= 0.33) return 'medium';
-  return 'low';
-}
 
 export default function LeadDetailPage({ params }: Params) {
   const router = useRouter();
@@ -97,21 +94,6 @@ export default function LeadDetailPage({ params }: Params) {
     return 'good';
   };
 
-  const isBand = band(lead.is);
-  const winBand = band(ls);
-  const winLabel =
-    winBand === 'high'
-      ? t('leadDetail.winChanceHigh')
-      : winBand === 'medium'
-      ? t('leadDetail.winChanceMedium')
-      : t('leadDetail.winChanceLow');
-  const engagementLabel =
-    isBand === 'high'
-      ? t('leadDetail.engagementHigh')
-      : isBand === 'medium'
-      ? t('leadDetail.engagementMedium')
-      : t('leadDetail.engagementLow');
-
   return (
     <>
       <SiteNav active="/leads" />
@@ -178,21 +160,15 @@ export default function LeadDetailPage({ params }: Params) {
                 </div>
               </dl>
 
-              <div className="mt-sp4 grid grid-cols-1 md:grid-cols-2 gap-sp3">
-                <div className="border border-border rounded-md px-sp3 py-sp3 bg-navy-deep">
-                  <div className="flex items-center gap-sp1">
-                    <p className="label-mono text-text-muted">{t('leadDetail.engagementTitle')}</p>
-                    <InfoTooltip label={t('leadDetail.engagementTitle')} body={t('leadDetail.engagementHelp')} />
-                  </div>
-                  <p className="text-[20px] font-display mt-sp1 text-text-h">{engagementLabel}</p>
+              <div className="mt-sp4">
+                <div className="flex items-center gap-sp1 mb-sp2">
+                  <p className="label-mono text-text-muted">{t('task.suggestion.intro')}</p>
+                  <InfoTooltip
+                    label={t('dashboard.blocks.suggestionsTitle')}
+                    body={t('dashboard.blocks.suggestionsDesc')}
+                  />
                 </div>
-                <div className="border border-border rounded-md px-sp3 py-sp3 bg-navy-deep">
-                  <div className="flex items-center gap-sp1">
-                    <p className="label-mono text-text-muted">{t('leadDetail.winChanceTitle')}</p>
-                    <InfoTooltip label={t('leadDetail.winChanceTitle')} body={t('leadDetail.winChanceHelp')} />
-                  </div>
-                  <p className="text-[20px] font-display mt-sp1 text-text-h">{winLabel}</p>
-                </div>
+                <LeadSuggestions lead={lead} agentId={agents[0].id} />
               </div>
             </CardContent>
           </Card>
@@ -220,6 +196,33 @@ export default function LeadDetailPage({ params }: Params) {
             </CardContent>
           </Card>
         </div>
+
+        <section className="grid grid-cols-1 lg:grid-cols-2 gap-sp3">
+          <Card>
+            <CardHeader>
+              <div className="flex items-center gap-sp1">
+                <CardTitle>{t('leadExtras.notesTitle')}</CardTitle>
+                <InfoTooltip label={t('leadExtras.notesTitle')} body={t('leadExtras.notesDesc')} />
+              </div>
+              <CardDescription>{t('leadExtras.notesDesc')}</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <NotesPanel leadId={lead.id} authorName={agents[0].name} />
+            </CardContent>
+          </Card>
+          <Card>
+            <CardHeader>
+              <div className="flex items-center gap-sp1">
+                <CardTitle>{t('leadExtras.documentsTitle')}</CardTitle>
+                <InfoTooltip label={t('leadExtras.documentsTitle')} body={t('leadExtras.documentsDesc')} />
+              </div>
+              <CardDescription>{t('leadExtras.documentsDesc')}</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <DocumentsPanel leadId={lead.id} uploaderName={agents[0].name} />
+            </CardContent>
+          </Card>
+        </section>
       </main>
 
       <Modal

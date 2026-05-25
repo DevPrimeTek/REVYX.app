@@ -1,39 +1,53 @@
 'use client';
 
-// M0.S6 · Dashboard restructured into clear blocks: tasks · urgent leads · today's list · performance.
-// Acronyms removed from agent-facing UI per Senior PM directive (formulas stay in docs/BRD §7).
+// M0.S7 · Dashboard rework — functional ToDo list + lead suggestions instead of duplicated list.
+//
+// Blocks:
+//   A · Sarcinile mele active (3 slots) → click "Deschide programul" opens /tasks
+//   B · Lead-uri urgente (count + link la /leads?priority=urgent)
+//   C · Performanța mea (dots tonate, no acronyms)
+//   D · Programul de azi (ToDo list real, mark complete / snooze)
+//   E · Sugestii pentru lead-urile mele (per-lead NBA-style next actions, push into tasks)
+//   F · Decisii rapide (4 butoane shortcut)
 
 import Link from 'next/link';
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { SiteNav } from '@/components/site-nav';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { LeadPriorityBadge, MetricPill } from '@/components/ui/score-badge';
+import { MetricPill } from '@/components/ui/score-badge';
 import { InfoTooltip } from '@/components/ui/info-tooltip';
 import { useT } from '@/components/i18n/provider';
+import { TaskList } from '@/components/tasks/task-list';
+import { TaskModal } from '@/components/tasks/task-modal';
+import { LeadSuggestions } from '@/components/tasks/lead-suggestions';
+import { useTasks } from '@/lib/task-store';
 import { leads, agents } from '@/lib/mock';
 
 export default function DashboardPage() {
   const { t } = useT();
-
   const me = agents[0];
-  const activeTasks = me.activeTasks;
-  const freeSlots = Math.max(0, 3 - activeTasks);
+  const tasks = useTasks();
+  const [taskModalOpen, setTaskModalOpen] = useState(false);
+
+  const activeTasksCount = tasks.filter(
+    (task) => task.agentId === me.id && task.status === 'ACTIVE',
+  ).length;
+  const freeSlots = Math.max(0, 3 - activeTasksCount);
 
   const hotLeads = useMemo(
     () => leads.filter((l) => l.status === 'HOT').sort((a, b) => b.ls - a.ls),
-    []
+    [],
   );
   const hotCount = hotLeads.length;
 
-  const queueToday = useMemo(
+  const suggestionLeads = useMemo(
     () =>
       [...leads]
         .filter((l) => l.status === 'HOT' || l.status === 'qualified')
         .sort((a, b) => b.ls - a.ls)
-        .slice(0, 5),
-    []
+        .slice(0, 3),
+    [],
   );
 
   function priorityTone(v: number): 'positive' | 'neutral' | 'warning' {
@@ -69,7 +83,7 @@ export default function DashboardPage() {
           </div>
         </header>
 
-        {/* Block A — My tasks */}
+        {/* Row 1: A · Tasks summary · B · Urgent leads · C · Performance */}
         <section className="grid grid-cols-1 lg:grid-cols-3 gap-sp3">
           <Card variant="elevated" accentTop>
             <CardHeader>
@@ -81,7 +95,9 @@ export default function DashboardPage() {
                   body={t('dashboard.blocks.tasksDesc')}
                 />
               </div>
-              <CardDescription>{t('dashboard.blocks.tasksHint', { active: activeTasks })}</CardDescription>
+              <CardDescription>
+                {t('dashboard.blocks.tasksHint', { active: activeTasksCount })}
+              </CardDescription>
             </CardHeader>
             <CardContent className="flex flex-col gap-sp2">
               <div className="flex items-center gap-1" aria-label="slots">
@@ -89,7 +105,7 @@ export default function DashboardPage() {
                   <span
                     key={i}
                     className={`flex-1 h-2 rounded ${
-                      i < activeTasks ? 'bg-gold' : 'bg-border'
+                      i < activeTasksCount ? 'bg-gold' : 'bg-border'
                     }`}
                   />
                 ))}
@@ -99,10 +115,15 @@ export default function DashboardPage() {
                   ? t('dashboard.blocks.tasksFull')
                   : t('dashboard.blocks.tasksAvailable', { free: freeSlots })}
               </p>
+              <Link
+                href="/tasks"
+                className="text-[12px] text-gold hover:underline underline-offset-4"
+              >
+                {t('dashboard.blocks.openTasksPage')} →
+              </Link>
             </CardContent>
           </Card>
 
-          {/* Block B — Urgent leads */}
           <Card variant="elevated" accentTop>
             <CardHeader>
               <p className="label-mono text-text-secondary">B</p>
@@ -113,10 +134,22 @@ export default function DashboardPage() {
                   body={t('dashboard.blocks.urgentDesc')}
                 />
               </div>
-              <CardDescription>{hotCount === 0 ? t('dashboard.blocks.urgentEmpty') : t('dashboard.blocks.urgentDesc')}</CardDescription>
+              <CardDescription>
+                {hotCount === 0 ? t('dashboard.blocks.urgentEmpty') : t('dashboard.blocks.urgentDesc')}
+              </CardDescription>
             </CardHeader>
             <CardContent className="flex flex-col gap-sp2">
-              <p className="text-[36px] font-display text-gold leading-none">{hotCount}</p>
+              <Link
+                href="/leads?priority=urgent"
+                className="block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold rounded"
+              >
+                <p className="text-[36px] font-display text-gold leading-none hover:underline underline-offset-4">
+                  {hotCount}
+                </p>
+                <p className="text-[12px] text-text-secondary mt-sp1">
+                  {t('dashboard.blocks.urgentDesc')}
+                </p>
+              </Link>
               {hotLeads[0] && (
                 <Link
                   href={`/leads/${hotLeads[0].id}`}
@@ -128,7 +161,6 @@ export default function DashboardPage() {
             </CardContent>
           </Card>
 
-          {/* Block C — Performance */}
           <Card variant="elevated" accentTop>
             <CardHeader>
               <p className="label-mono text-text-secondary">C</p>
@@ -161,70 +193,105 @@ export default function DashboardPage() {
           </Card>
         </section>
 
-        {/* Block D — Today's queue + decisions */}
-        <section className="grid grid-cols-1 lg:grid-cols-2 gap-sp3">
-          <Card>
-            <CardHeader>
+        {/* Row 2: D · Today's to-do (real, interactive) */}
+        <Card>
+          <CardHeader className="flex flex-row items-start justify-between gap-sp2">
+            <div>
               <div className="flex items-center gap-sp1">
-                <CardTitle className="text-[16px]">{t('dashboard.blocks.todayTitle')}</CardTitle>
+                <CardTitle className="text-[16px]">
+                  D · {t('dashboard.blocks.tasksTodayTitle')}
+                </CardTitle>
                 <InfoTooltip
-                  label={t('dashboard.blocks.todayTitle')}
-                  body={t('dashboard.blocks.todayDesc')}
+                  label={t('dashboard.blocks.tasksTodayTitle')}
+                  body={t('dashboard.blocks.tasksTodayDesc')}
                 />
               </div>
-              <CardDescription>{t('dashboard.blocks.todayDesc')}</CardDescription>
-            </CardHeader>
-            <CardContent className="flex flex-col gap-sp2">
-              {queueToday.map((l) => (
-                <Link
-                  key={l.id}
-                  href={`/leads/${l.id}`}
-                  className="flex items-center justify-between border border-border rounded-md px-sp3 py-sp2 hover:bg-navy-hover hover:border-border-light transition-colors duration-fast"
-                >
-                  <div className="min-w-0">
-                    <p className="text-text-h truncate">{l.name}</p>
-                    <p className="text-[12px] text-text-muted">{l.sla} · {l.source}</p>
-                  </div>
-                  <LeadPriorityBadge ls={l.ls} t={t} />
-                </Link>
-              ))}
-              {queueToday.length === 0 && (
-                <p className="text-text-muted text-[12px]">{t('dashboard.blocks.urgentEmpty')}</p>
-              )}
-            </CardContent>
-          </Card>
+              <CardDescription>{t('dashboard.blocks.tasksTodayDesc')}</CardDescription>
+            </div>
+            <div className="flex items-center gap-sp2">
+              <Button size="sm" variant="secondary" onClick={() => setTaskModalOpen(true)}>
+                {t('task.addCta')}
+              </Button>
+              <Link href="/tasks">
+                <Button size="sm" variant="ghost">
+                  {t('dashboard.blocks.openTasksPage')} →
+                </Button>
+              </Link>
+            </div>
+          </CardHeader>
+          <CardContent>
+            <TaskList agentId={me.id} filter="today" maxRows={5} />
+          </CardContent>
+        </Card>
 
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-[16px]">{t('dashboard.decisions.title')}</CardTitle>
-            </CardHeader>
-            <CardContent className="flex flex-col gap-sp2">
-              {hotLeads[0] && (
-                <Link href={`/leads/${hotLeads[0].id}`}>
-                  <Button className="w-full justify-start" variant="primary">
-                    📞 {t('dashboard.decisions.callLead')}
-                  </Button>
-                </Link>
-              )}
-              <Link href="/leads">
-                <Button className="w-full justify-start" variant="secondary">
-                  📋 {t('dashboard.decisions.openQueue')}
+        {/* Row 3: E · Lead suggestions (the system tells the agent what to do per lead) */}
+        <Card>
+          <CardHeader>
+            <div className="flex items-center gap-sp1">
+              <CardTitle className="text-[16px]">
+                E · {t('dashboard.blocks.suggestionsTitle')}
+              </CardTitle>
+              <InfoTooltip
+                label={t('dashboard.blocks.suggestionsTitle')}
+                body={t('dashboard.blocks.suggestionsDesc')}
+              />
+            </div>
+            <CardDescription>{t('dashboard.blocks.suggestionsDesc')}</CardDescription>
+          </CardHeader>
+          <CardContent className="flex flex-col gap-sp3">
+            {suggestionLeads.map((lead) => (
+              <div key={lead.id} className="flex flex-col gap-sp2">
+                <div className="flex items-center justify-between">
+                  <Link
+                    href={`/leads/${lead.id}`}
+                    className="text-text-h hover:text-gold underline-offset-4 hover:underline"
+                  >
+                    <span className="font-mono text-text-muted text-[11px] mr-sp2">
+                      {lead.id}
+                    </span>
+                    {lead.name}
+                  </Link>
+                  <span className="text-[12px] text-text-secondary">{lead.zone}</span>
+                </div>
+                <LeadSuggestions lead={lead} agentId={me.id} compact />
+              </div>
+            ))}
+          </CardContent>
+        </Card>
+
+        {/* Row 4: F · Quick decisions */}
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-[16px]">F · {t('dashboard.decisions.title')}</CardTitle>
+          </CardHeader>
+          <CardContent className="grid grid-cols-1 md:grid-cols-4 gap-sp2">
+            {hotLeads[0] && (
+              <Link href={`/leads/${hotLeads[0].id}`}>
+                <Button className="w-full justify-center" variant="primary">
+                  📞 {t('dashboard.decisions.callLead')}
                 </Button>
               </Link>
-              <Link href="/deals">
-                <Button className="w-full justify-start" variant="secondary">
-                  📈 {t('dashboard.decisions.viewDeals')}
-                </Button>
-              </Link>
-              <Link href="/properties/new">
-                <Button className="w-full justify-start" variant="ghost">
-                  + {t('dashboard.decisions.addProperty')}
-                </Button>
-              </Link>
-            </CardContent>
-          </Card>
-        </section>
+            )}
+            <Link href="/leads">
+              <Button className="w-full justify-center" variant="secondary">
+                📋 {t('dashboard.decisions.openQueue')}
+              </Button>
+            </Link>
+            <Link href="/deals">
+              <Button className="w-full justify-center" variant="secondary">
+                📈 {t('dashboard.decisions.viewDeals')}
+              </Button>
+            </Link>
+            <Link href="/properties/new">
+              <Button className="w-full justify-center" variant="ghost">
+                + {t('dashboard.decisions.addProperty')}
+              </Button>
+            </Link>
+          </CardContent>
+        </Card>
       </main>
+
+      <TaskModal open={taskModalOpen} onClose={() => setTaskModalOpen(false)} agentId={me.id} />
     </>
   );
 }

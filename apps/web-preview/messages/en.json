@@ -12,6 +12,7 @@
     "manager": "Manager",
     "admin": "Admin",
     "tutorial": "Tutorial",
+    "tasks": "My tasks",
     "cabinet": "Cabinet",
     "cabinetAgent": "My cabinet",
     "cabinetAgency": "Agency cabinet",
@@ -267,6 +268,11 @@
       "urgentEmpty": "No urgent leads. Good job!",
       "todayTitle": "Today's list",
       "todayDesc": "Top-priority leads from your queue. Click for details.",
+      "suggestionsTitle": "Lead suggestions",
+      "suggestionsDesc": "The system suggests the next step for each active lead. Click “+ Add to tasks” to put it on today's plan.",
+      "tasksTodayTitle": "My plan for today",
+      "tasksTodayDesc": "Today's to-do list. Mark a task done — your performance updates automatically.",
+      "openTasksPage": "Open full plan",
       "perfTitle": "My performance",
       "perfDesc": "How you're doing in the last 30 days.",
       "perfApsLabel": "Work score",
@@ -432,5 +438,147 @@
     "subtitle": "All important events: escalations, new recommendations, won deals.",
     "markAllRead": "Mark all read",
     "empty": "No new notifications."
+  },
+  "task": {
+    "moduleLabel": "My tasks",
+    "title": "My plan",
+    "subtitle": "All your tasks: ones the system suggests per lead and ones you add manually.",
+    "addCta": "+ Add task",
+    "filters": {
+      "today": "Today",
+      "active": "In progress",
+      "completed": "Done",
+      "all": "All"
+    },
+    "emptyToday": "No tasks for today. Check the dashboard suggestions.",
+    "emptyAll": "No tasks. Hit “+ Add task” or accept a suggestion from the dashboard.",
+    "types": {
+      "first_contact": "First contact",
+      "follow_up": "Client follow-up",
+      "schedule_showing": "Schedule a viewing",
+      "send_property": "Send properties",
+      "request_documents": "Request documents",
+      "draft_offer": "Draft offer",
+      "close_deal": "Close deal",
+      "review_no_show": "Review no-show",
+      "custom": "Custom"
+    },
+    "typeHelp": {
+      "first_contact": "First call or message to a new client. The faster the better.",
+      "follow_up": "Touch-base message when a client has gone silent for a few days.",
+      "schedule_showing": "Set up date and time for a property viewing.",
+      "send_property": "Send the client a list of properties that match their criteria.",
+      "request_documents": "Ask for ID and proof of budget so you can move forward.",
+      "draft_offer": "Write up the offer based on the verbal agreement.",
+      "close_deal": "Confirm the notary booking and final steps.",
+      "review_no_show": "Find out why the client didn't show up for the viewing.",
+      "custom": "Personal task — not factored into the auto priority."
+    },
+    "status": {
+      "PENDING": "Pending",
+      "ACTIVE": "In progress",
+      "COMPLETED": "Done",
+      "SNOOZED": "Snoozed",
+      "CANCELLED": "Cancelled"
+    },
+    "due": {
+      "now": "in 15 min",
+      "today": "today",
+      "tomorrow": "tomorrow",
+      "thisWeek": "this week"
+    },
+    "action": {
+      "complete": "Mark complete",
+      "uncomplete": "Reactivate",
+      "snooze": "Snooze 2h",
+      "activate": "Start now",
+      "delete": "Delete"
+    },
+    "modal": {
+      "title": "Add new task",
+      "description": "Your task lands on today's plan. Active ones (max 3 at a time) are the ones you're working on right now.",
+      "typeLabel": "Task type",
+      "descriptionLabel": "Description",
+      "descriptionPlaceholder": "e.g. Call Maria Popescu to confirm viewing",
+      "dueDateLabel": "Date",
+      "dueTimeLabel": "Time",
+      "submit": "Add task",
+      "maxRule": "Max 3 active tasks at once. The rest wait for a free slot.",
+      "errorLabel": "Add a description for the task."
+    },
+    "suggestion": {
+      "accept": "Add to tasks",
+      "intro": "The system suggests next steps for this lead. Accept them to put them on your plan."
+    },
+    "toast": {
+      "completed": "✓ {label}",
+      "completedDesc": "Your performance updated automatically.",
+      "snoozed": "Snoozed: {label}",
+      "snoozedDesc": "Task returns in 2 hours.",
+      "created": "Task added to plan.",
+      "maxActiveTitle": "Max 3 active tasks",
+      "maxActiveDesc": "Finish one active task before starting this one."
+    }
+  },
+  "leadExtras": {
+    "notesTitle": "Client notes",
+    "notesDesc": "Agent's personal notes — visible only to you and the manager. Use for context that doesn't fit standard fields.",
+    "noteAddCta": "+ Add note",
+    "noteSavedToast": "Note saved.",
+    "notePlaceholder": "e.g. Client prefers upper floors, wants east-facing balcony, has 2 kids.",
+    "notesEmpty": "No notes yet. Add one to keep useful context.",
+    "noteAuthor": "by {author} · {when}",
+    "noteRemove": "Remove",
+    "documentsTitle": "Client documents",
+    "documentsDesc": "Attach the service contract, cadastral acts, ID copy and other relevant docs.",
+    "documentAddCta": "+ Attach document",
+    "documentSavedToast": "Document attached. Will be encrypted and retained per GDPR policy.",
+    "documentsEmpty": "No documents attached. Hit “+ Attach document” to upload the first one.",
+    "documentTypes": {
+      "identity_proof": "ID proof",
+      "cadastre_extract": "Cadastral extract",
+      "contract_preliminary": "Preliminary contract",
+      "energy_certificate": "Energy certificate",
+      "other": "Other document"
+    },
+    "documentSizeKb": "{kb} KB",
+    "documentSizeMb": "{mb} MB",
+    "documentRemove": "Remove",
+    "documentModal": {
+      "title": "Attach new document",
+      "typeLabel": "Document type",
+      "filenameLabel": "Filename",
+      "filenamePlaceholder": "e.g. contract_preliminar_Popescu.pdf",
+      "sizeLabel": "Size (KB)",
+      "submit": "Attach",
+      "warning": "Real files will be uploaded and encrypted in the final version. We're only simulating here."
+    }
+  },
+  "cabinetExtras": {
+    "agent": {
+      "bioTitle": "About me",
+      "bioPlaceholder": "Real-estate agent with 5+ years in Centru and Botanica. Specialty: apartments and new houses.",
+      "specialtyTitle": "Specialty",
+      "specialtyHelp": "Areas and property types where you have the most expertise.",
+      "specialtyEmpty": "—",
+      "contactTitle": "Direct contact",
+      "callCta": "Call",
+      "messageCta": "Message",
+      "shareProfileCta": "Share profile",
+      "ratingTitle": "Client rating",
+      "ratingHelp": "Average score from clients after deals closed in the last 12 months.",
+      "ratingValue": "{value} / 5",
+      "ratingReviews": "{n} reviews",
+      "lifetimeTitle": "Total deals",
+      "lifetimeHelp": "Total deals closed since joining the platform."
+    },
+    "agency": {
+      "introTitle": "What is the agency cabinet",
+      "introBody": "The agency cabinet shows the organisation as a whole: legal info, the full agent roster, global performance and aggregate KPIs. Useful for clients who want to know the company before working with you."
+    },
+    "group": {
+      "introTitle": "What is the group cabinet",
+      "introBody": "A group bundles several agents under a common manager (e.g. “Centru-Botanica Team”). You see the colleagues you work with day-to-day, the internal leaderboard and your share of group results."
+    }
   }
 }
