@@ -1,8 +1,6 @@
 'use client';
 
-// M0.S3 · Manager dashboard wired to 8-agent mock + 100-lead aggregate · 🌐 Web only
-// Master Plan ref: docs/MASTER_PLAN_REVYX_execution-roadmap_v1.1.2.md §4.1 (M0.S3)
-// Roadmap ref: docs/ROADMAP_REVYX_detailed-execution_v1.0.3.md §3.3 T-M0.S3-09 + T-M0.S3-13
+// M0.S7 · Manager dashboard — friendly labels (no acronyms, no formula leak).
 
 import Link from 'next/link';
 import { useMemo } from 'react';
@@ -11,23 +9,34 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { Table, TBody, TD, TH, THead, TR } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { ScorePill } from '@/components/ui/score-badge';
+import { InfoTooltip } from '@/components/ui/info-tooltip';
+import { MetricPill } from '@/components/ui/score-badge';
 import { useT } from '@/components/i18n/provider';
 import { agents, leads, deals } from '@/lib/mock';
+
+function priorityTone(v: number): 'positive' | 'neutral' | 'warning' {
+  if (v >= 0.75) return 'positive';
+  if (v >= 0.55) return 'neutral';
+  return 'warning';
+}
+function priorityDots(v: number): string {
+  if (v >= 0.75) return '●●●';
+  if (v >= 0.55) return '●●○';
+  if (v >= 0.35) return '●○○';
+  return '○○○';
+}
 
 export default function ManagerPage() {
   const { t } = useT();
 
   const sortedAgents = useMemo(() => [...agents].sort((a, b) => b.aps - a.aps), []);
   const teamAvgAps = useMemo(
-    () => Math.round((agents.reduce((s, a) => s + a.aps, 0) / agents.length) * 100) / 100,
+    () => agents.reduce((s, a) => s + a.aps, 0) / agents.length,
     []
   );
   const wonCount = deals.filter((d) => d.stage === 'won').length;
   const conversionPct = Math.round((wonCount / leads.length) * 1000) / 10;
 
-  // Synthetic escalations: pick top-3 HOT leads still unassigned (rare due to firewall)
-  // OR overdue qualified leads.
   const escalations = useMemo(
     () =>
       leads
@@ -36,7 +45,8 @@ export default function ManagerPage() {
         .map((l, i) => ({
           id: `E-${String(300 + i + 1).padStart(3, '0')}`,
           lead: l.name,
-          sla: i === 0 ? 'T+SLA' : i === 1 ? 'T+SLA+30m' : 'T+SLA+2h',
+          window: i === 0 ? '15 min' : i === 1 ? '45 min' : '2 ore 15 min',
+          levelLabel: i === 0 ? 'Atenție' : i === 1 ? 'Urgent' : 'Critic',
           level: (i + 1) as 1 | 2 | 3,
         })),
     []
@@ -55,37 +65,48 @@ export default function ManagerPage() {
         <section className="grid grid-cols-1 lg:grid-cols-3 gap-sp3">
           <Card variant="elevated" accentTop>
             <CardHeader>
-              <p className="label-mono text-gold">APS</p>
-              <CardTitle>Team avg</CardTitle>
+              <div className="flex items-center gap-sp1">
+                <p className="label-mono text-gold">{t('dashboard.blocks.perfApsLabel')}</p>
+                <InfoTooltip
+                  label={t('dashboard.blocks.perfApsLabel')}
+                  body={t('dashboard.blocks.perfApsHelp')}
+                />
+              </div>
+              <CardTitle>Media echipei</CardTitle>
               <CardDescription>{agents.length} agenți · 30 zile.</CardDescription>
             </CardHeader>
             <CardContent>
-              <p className="font-mono text-[32px] text-gold">{teamAvgAps.toFixed(2)}</p>
-              <p className="text-[12px] text-text-secondary mt-sp1">+0.04 vs prev</p>
+              <p className="font-display text-[32px] text-gold">{priorityDots(teamAvgAps)}</p>
+              <p className="text-[12px] text-status-green mt-sp1">↑ în creștere față de perioada precedentă</p>
             </CardContent>
           </Card>
           <Card>
             <CardHeader>
               <p className="label-mono text-text-secondary">Conversie</p>
-              <CardTitle>Lead → Deal won</CardTitle>
-              <CardDescription>BR-13 target ≥ 30%.</CardDescription>
+              <CardTitle>Lead → Tranzacție câștigată</CardTitle>
+              <CardDescription>Țintă recomandată: peste 30%.</CardDescription>
             </CardHeader>
             <CardContent>
-              <p className="font-mono text-[32px] text-text-h">{conversionPct.toFixed(1)}%</p>
-              <p className={'text-[12px] mt-sp1 ' + (conversionPct >= 30 ? 'text-status-green' : 'text-status-amber')}>
-                {wonCount} deal-uri Won · {leads.length} leads totali
+              <p className="font-display text-[32px] text-text-h">{conversionPct.toFixed(1)}%</p>
+              <p
+                className={
+                  'text-[12px] mt-sp1 ' +
+                  (conversionPct >= 30 ? 'text-status-green' : 'text-status-amber')
+                }
+              >
+                {wonCount} tranzacții câștigate · {leads.length} lead-uri totali
               </p>
             </CardContent>
           </Card>
           <Card>
             <CardHeader>
               <p className="label-mono text-text-secondary">{t('manager.escalations')}</p>
-              <CardTitle>{escalations.length} {t('manager.escalations').toLowerCase()}</CardTitle>
-              <CardDescription>BR-03 · 3 niveluri.</CardDescription>
+              <CardTitle>{escalations.length} lead-uri întârziate</CardTitle>
+              <CardDescription>Necesită intervenție manager.</CardDescription>
             </CardHeader>
             <CardContent>
-              <p className="font-mono text-[32px] text-status-amber">{escalations.length}</p>
-              <p className="text-[12px] text-text-secondary mt-sp1">L1 · L2 · L3</p>
+              <p className="font-display text-[32px] text-status-amber">{escalations.length}</p>
+              <p className="text-[12px] text-text-secondary mt-sp1">Sortat după durata depășirii</p>
             </CardContent>
           </Card>
         </section>
@@ -94,19 +115,43 @@ export default function ManagerPage() {
           <CardHeader>
             <CardTitle>{t('manager.leaderboard')}</CardTitle>
             <CardDescription>
-              APS_default = 0.65 pentru agenți cu &lt;5 deal-uri SAU &lt;30 zile (BR-11).
+              Agenții cu mai puțin de 5 tranzacții sau sub 30 zile primesc scor standard până se acumulează istoric suficient.
             </CardDescription>
           </CardHeader>
           <CardContent>
             <Table>
               <THead>
                 <TR>
-                  <TH>ID</TH>
+                  <TH>Cod</TH>
                   <TH>{t('common.name')}</TH>
-                  <TH>APS</TH>
-                  <TH>Trust</TH>
-                  <TH>Slots</TH>
-                  <TH>Deals 30d</TH>
+                  <TH>
+                    <span className="inline-flex items-center gap-sp1">
+                      Scor performanță
+                      <InfoTooltip
+                        label={t('dashboard.blocks.perfApsLabel')}
+                        body={t('dashboard.blocks.perfApsHelp')}
+                      />
+                    </span>
+                  </TH>
+                  <TH>
+                    <span className="inline-flex items-center gap-sp1">
+                      Încredere clienți
+                      <InfoTooltip
+                        label="Încredere clienți"
+                        body="Cât de constant răspunde și își ține promisiunile agentul față de clienți."
+                      />
+                    </span>
+                  </TH>
+                  <TH>
+                    <span className="inline-flex items-center gap-sp1">
+                      Sarcini active
+                      <InfoTooltip
+                        label="Sarcini active"
+                        body="Câte sarcini are agentul în lucru chiar acum. Maximum 3 simultan."
+                      />
+                    </span>
+                  </TH>
+                  <TH>Tranzacții · 30 zile</TH>
                 </TR>
               </THead>
               <TBody>
@@ -114,8 +159,12 @@ export default function ManagerPage() {
                   <TR key={a.id}>
                     <TD className="font-mono text-text-secondary">{a.id}</TD>
                     <TD>{a.name}</TD>
-                    <TD><ScorePill label="APS" value={a.aps} /></TD>
-                    <TD className="font-mono">{a.trust.toFixed(2)}</TD>
+                    <TD>
+                      <MetricPill label="" display={priorityDots(a.aps)} tone={priorityTone(a.aps)} />
+                    </TD>
+                    <TD>
+                      <MetricPill label="" display={priorityDots(a.trust)} tone={priorityTone(a.trust)} />
+                    </TD>
                     <TD className="font-mono">{a.activeTasks}/3</TD>
                     <TD className="font-mono">{a.closedDeals30d}</TD>
                   </TR>
@@ -132,16 +181,18 @@ export default function ManagerPage() {
               <CardDescription>{t('manager.escalationsSubtitle')}</CardDescription>
             </div>
             <Link href="/manager/escalations">
-              <Button size="sm" variant="secondary">{t('manager.openEscalations')}</Button>
+              <Button size="sm" variant="secondary">
+                {t('manager.openEscalations')}
+              </Button>
             </Link>
           </CardHeader>
           <CardContent>
             <Table>
               <THead>
                 <TR>
-                  <TH>ID</TH>
+                  <TH>Cod</TH>
                   <TH>Lead</TH>
-                  <TH>SLA stage</TH>
+                  <TH>Întârziat cu</TH>
                   <TH>Nivel</TH>
                 </TR>
               </THead>
@@ -150,10 +201,10 @@ export default function ManagerPage() {
                   <TR key={e.id}>
                     <TD className="font-mono text-text-secondary">{e.id}</TD>
                     <TD>{e.lead}</TD>
-                    <TD className="font-mono">{e.sla}</TD>
+                    <TD className="font-mono">{e.window}</TD>
                     <TD>
                       <Badge variant={e.level === 1 ? 'warning' : 'critical'} size="xs">
-                        L{e.level}
+                        {e.levelLabel}
                       </Badge>
                     </TD>
                   </TR>

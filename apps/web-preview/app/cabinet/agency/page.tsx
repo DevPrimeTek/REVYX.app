@@ -34,6 +34,17 @@ export default function CabinetAgencyPage() {
           <p className="text-[13px] text-text-secondary mt-sp1">{t('cabinet.agency.subtitle')}</p>
         </header>
 
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-[16px]">{t('cabinetExtras.agency.introTitle')}</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-[13px] text-text-secondary leading-relaxed">
+              {t('cabinetExtras.agency.introBody')}
+            </p>
+          </CardContent>
+        </Card>
+
         <section className="grid grid-cols-1 lg:grid-cols-3 gap-sp3">
           <Card className="lg:col-span-2">
             <CardHeader>

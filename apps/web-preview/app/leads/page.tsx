@@ -3,7 +3,8 @@
 // M0.S6 · Lead list with column info tooltips + friendly filter UI · 🌐 Web only
 
 import Link from 'next/link';
-import { useMemo, useState } from 'react';
+import { useSearchParams } from 'next/navigation';
+import { Suspense, useEffect, useMemo, useState } from 'react';
 import { SiteNav } from '@/components/site-nav';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Table, TBody, TD, TH, THead, TR } from '@/components/ui/table';
@@ -26,9 +27,27 @@ const filterHelpKey: Record<LeadStatus | 'all', string> = {
 };
 
 export default function LeadsPage() {
+  return (
+    <Suspense fallback={null}>
+      <LeadsPageInner />
+    </Suspense>
+  );
+}
+
+function LeadsPageInner() {
   const { t } = useT();
+  const params = useSearchParams();
   const [filter, setFilter] = useState<Filter>('all');
   const [query, setQuery] = useState('');
+
+  // Allow deep links like /leads?priority=urgent (from dashboard hot-leads card).
+  useEffect(() => {
+    const p = params.get('priority');
+    if (p === 'urgent') setFilter('HOT');
+    else if (p === 'qualified') setFilter('qualified');
+    else if (p === 'warm') setFilter('warm');
+    else if (p === 'nurturing') setFilter('nurturing');
+  }, [params]);
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();

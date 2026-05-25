@@ -29,6 +29,17 @@ export default function CabinetGroupPage() {
           <p className="text-[13px] text-text-secondary mt-sp1">{t('cabinet.group.subtitle')}</p>
         </header>
 
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-[16px]">{t('cabinetExtras.group.introTitle')}</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-[13px] text-text-secondary leading-relaxed">
+              {t('cabinetExtras.group.introBody')}
+            </p>
+          </CardContent>
+        </Card>
+
         <section className="grid grid-cols-1 lg:grid-cols-3 gap-sp3">
           <Card>
             <CardHeader>

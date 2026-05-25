@@ -12,6 +12,7 @@
     "manager": "Manager",
     "admin": "Admin",
     "tutorial": "Tutorial",
+    "tasks": "Sarcinile mele",
     "cabinet": "Cabinet",
     "cabinetAgent": "Cabinetul meu",
     "cabinetAgency": "Cabinet agenție",
@@ -267,6 +268,11 @@
       "urgentEmpty": "Nu ai lead-uri urgente acum. Bună treabă!",
       "todayTitle": "Lista de azi",
       "todayDesc": "Cele mai prioritare lead-uri din lista ta. Apasă pentru detalii.",
+      "suggestionsTitle": "Sugestii pentru lead-uri",
+      "suggestionsDesc": "Sistemul îți recomandă următoarea acțiune pentru fiecare lead activ. Apasă „+ Adaugă în sarcini\" ca să o ai în lista de azi.",
+      "tasksTodayTitle": "Programul meu de azi",
+      "tasksTodayDesc": "To-do list pentru ziua curentă. Marchează sarcina finalizată — performanța ta se actualizează automat.",
+      "openTasksPage": "Deschide programul complet",
       "perfTitle": "Performanța mea",
       "perfDesc": "Cum stai în ultimele 30 de zile.",
       "perfApsLabel": "Scor performanță",
@@ -432,5 +438,147 @@
     "subtitle": "Toate evenimentele importante: escalări, recomandări noi, tranzacții câștigate.",
     "markAllRead": "Marchează ca citite",
     "empty": "Nu ai notificări noi."
+  },
+  "task": {
+    "moduleLabel": "Sarcinile mele",
+    "title": "Programul meu",
+    "subtitle": "Toate sarcinile pe care le ai de făcut: cele suggestate de sistem pentru fiecare lead și cele adăugate manual de tine.",
+    "addCta": "+ Adaugă sarcină",
+    "filters": {
+      "today": "Azi",
+      "active": "În lucru",
+      "completed": "Finalizate",
+      "all": "Toate"
+    },
+    "emptyToday": "Nu ai sarcini pentru azi. Verifică sugestiile din panoul de bord.",
+    "emptyAll": "Nu ai nicio sarcină. Apasă „+ Adaugă sarcină\" sau acceptă o sugestie din panoul de bord.",
+    "types": {
+      "first_contact": "Primul contact",
+      "follow_up": "Follow-up client",
+      "schedule_showing": "Programează vizionare",
+      "send_property": "Trimite proprietăți",
+      "request_documents": "Cere documente",
+      "draft_offer": "Pregătește ofertă",
+      "close_deal": "Finalizează tranzacție",
+      "review_no_show": "Verifică no-show",
+      "custom": "Personalizată"
+    },
+    "typeHelp": {
+      "first_contact": "Primul apel sau mesaj către un client nou. Cu cât mai rapid, cu atât mai bine.",
+      "follow_up": "Mesaj de menținere a interesului când clientul nu mai răspunde de câteva zile.",
+      "schedule_showing": "Stabilește data și ora vizionării unei proprietăți.",
+      "send_property": "Trimite clientului o listă de proprietăți care se potrivesc cu cerințele lui.",
+      "request_documents": "Cere acte (identitate, dovada bugetului) ca să poți avansa.",
+      "draft_offer": "Redactează oferta scrisă pe baza condițiilor agreate verbal.",
+      "close_deal": "Confirmă programarea la notar și ultimii pași.",
+      "review_no_show": "Investighează motivul pentru care clientul nu s-a prezentat la vizionare.",
+      "custom": "Sarcină personală — nu intră în calcul automat de prioritate."
+    },
+    "status": {
+      "PENDING": "În așteptare",
+      "ACTIVE": "În lucru",
+      "COMPLETED": "Finalizată",
+      "SNOOZED": "Amânată",
+      "CANCELLED": "Anulată"
+    },
+    "due": {
+      "now": "în 15 min",
+      "today": "azi",
+      "tomorrow": "mâine",
+      "thisWeek": "săptămâna asta"
+    },
+    "action": {
+      "complete": "Marchează finalizată",
+      "uncomplete": "Reactivează",
+      "snooze": "Amână 2h",
+      "activate": "Începe acum",
+      "delete": "Șterge"
+    },
+    "modal": {
+      "title": "Adaugă sarcină nouă",
+      "description": "Sarcina ta apare în lista de azi. Cele active (max 3 simultan) sunt cele la care lucrezi acum.",
+      "typeLabel": "Tip sarcină",
+      "descriptionLabel": "Descriere",
+      "descriptionPlaceholder": "Ex: Sună Maria Popescu pentru confirmare vizionare",
+      "dueDateLabel": "Data",
+      "dueTimeLabel": "Ora",
+      "submit": "Adaugă sarcină",
+      "maxRule": "Maxim 3 sarcini active simultan. Restul rămân în așteptare până eliberezi un slot.",
+      "errorLabel": "Adaugă o descriere pentru sarcină."
+    },
+    "suggestion": {
+      "accept": "Adaugă în sarcini",
+      "intro": "Sistemul îți propune următorii pași pentru acest lead. Acceptă-i ca să-i ai în programul tău."
+    },
+    "toast": {
+      "completed": "✓ {label}",
+      "completedDesc": "Performanța ta a fost actualizată automat.",
+      "snoozed": "Amânat: {label}",
+      "snoozedDesc": "Sarcina revine peste 2 ore.",
+      "created": "Sarcină adăugată în program.",
+      "maxActiveTitle": "Maxim 3 sarcini active simultan",
+      "maxActiveDesc": "Finalizează una din cele active înainte să o pornești pe asta."
+    }
+  },
+  "leadExtras": {
+    "notesTitle": "Note despre client",
+    "notesDesc": "Notițe personale ale agentului — vizibile doar ție și managerului. Folosește pentru detalii care nu intră în câmpurile standard.",
+    "noteAddCta": "+ Adaugă notă",
+    "noteSavedToast": "Nota a fost salvată.",
+    "notePlaceholder": "Ex: Clientul preferă apartament la etaj superior, vrea balcon spre est, are 2 copii.",
+    "notesEmpty": "Nicio notă încă. Adaugă una pentru a păstra context util.",
+    "noteAuthor": "de {author} · {when}",
+    "noteRemove": "Șterge",
+    "documentsTitle": "Documente client",
+    "documentsDesc": "Atașează contractul de prestare servicii, actele cadastrale, copia buletinului și alte documente relevante.",
+    "documentAddCta": "+ Atașează document",
+    "documentSavedToast": "Document atașat. Va fi criptat și păstrat conform politicii GDPR.",
+    "documentsEmpty": "Nu există documente atașate. Apasă „+ Atașează document\" ca să încarci primul.",
+    "documentTypes": {
+      "identity_proof": "Act de identitate",
+      "cadastre_extract": "Extras cadastral",
+      "contract_preliminary": "Contract preliminar",
+      "energy_certificate": "Certificat energetic",
+      "other": "Alt document"
+    },
+    "documentSizeKb": "{kb} KB",
+    "documentSizeMb": "{mb} MB",
+    "documentRemove": "Șterge",
+    "documentModal": {
+      "title": "Atașează document nou",
+      "typeLabel": "Tip document",
+      "filenameLabel": "Denumire fișier",
+      "filenamePlaceholder": "Ex: contract_preliminar_Popescu.pdf",
+      "sizeLabel": "Mărime (KB)",
+      "submit": "Atașează",
+      "warning": "Fișierele reale vor fi încărcate și criptate în versiunea finală. Acum simulăm doar atașarea."
+    }
+  },
+  "cabinetExtras": {
+    "agent": {
+      "bioTitle": "Despre mine",
+      "bioPlaceholder": "Agent imobiliar cu 5+ ani experiență în Centru și Botanica. Specializare apartamente și case noi.",
+      "specialtyTitle": "Specializare",
+      "specialtyHelp": "Zone și tipuri de proprietăți în care ai cea mai mare expertiză.",
+      "specialtyEmpty": "—",
+      "contactTitle": "Contact direct",
+      "callCta": "Sună",
+      "messageCta": "Mesaj",
+      "shareProfileCta": "Distribuie profilul",
+      "ratingTitle": "Rating clienți",
+      "ratingHelp": "Media notelor primite după tranzacții închise în ultimele 12 luni.",
+      "ratingValue": "{value} / 5",
+      "ratingReviews": "{n} recenzii",
+      "lifetimeTitle": "Tranzacții totale",
+      "lifetimeHelp": "Numărul total de tranzacții închise de când ești pe platformă."
+    },
+    "agency": {
+      "introTitle": "Ce este cabinetul agenției",
+      "introBody": "Cabinetul agenției arată organizația ca întreg: datele juridice, echipa completă de agenți, performanța globală și KPI agregat. Util pentru clienți care vor să cunoască compania înainte de a colabora."
+    },
+    "group": {
+      "introTitle": "Ce este cabinetul de grup",
+      "introBody": "Grupul reunește mai mulți agenți sub un manager comun (de exemplu „Echipa Centru-Botanica\"). Vezi colegii cu care lucrezi zi de zi, leaderboard-ul intern și cota ta de contribuție la rezultatele grupului."
+    }
   }
 }
