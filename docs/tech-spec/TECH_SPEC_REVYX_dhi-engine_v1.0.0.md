@@ -616,10 +616,10 @@ Idempotente. Backwards compat: deals existente primesc `dhi=0`, `dhi_alert_state
 
 | Document | Tip impact | Acțiune |
 |---|---|---|
-| BRD_REVYX_v1.0.0.md | None | Implementare formulă §7.8 |
+| BRD_REVYX_v1.1.0.md | None | Implementare formulă §7.8 |
 | TECH_SPEC_REVYX_match-engine (S4) | None | Consumă DP read-only |
 | TECH_SPEC_REVYX_nba-engine_v1.0.0.md | None | Independent (NBA și DHI ambele citesc DP) |
-| TECH_SPEC_REVYX_audit-log_v1.0.0.md | Minor | Catalog event extins (`DEAL_DHI_*`) |
+| TECH_SPEC_REVYX_audit-log_v1.1.1.md | Minor | Catalog event extins (`DEAL_DHI_*`) |
 | TECH_SPEC_REVYX_lead-scoring_v1.0.0.md | None | DHI nu modifică LS |
 | WORKFLOW_REVYX_deal-closure (S4) | Minor | Closure cancelable doar dacă DHI ≥ threshold |
 | WORKFLOW_REVYX_escalation (S4) | None | DHI alerts nu trec prin escalation lead |

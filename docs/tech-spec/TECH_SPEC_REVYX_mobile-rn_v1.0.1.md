@@ -5,7 +5,7 @@
 ## 0. Stage Master Plan
 
 **Acoperă:** M1.S5 (Mobile companion agent UX — push deep-link routing) + post-Phase 5 Stage 1 follow-up (F-S13-01 LOW closure).
-**Master Plan ref:** `MASTER_PLAN_REVYX_execution-roadmap_v1.1.1.md` §5 M1.S5 Mobile companion.
+**Master Plan ref:** `MASTER_PLAN_REVYX_execution-roadmap_v1.1.2.md` §5 M1.S5 Mobile companion.
 **Roadmap ref:** `ROADMAP_REVYX_detailed-execution_v1.0.0.md` §2.1 T-S16-06.
 **Trio canonical citat:** Master Plan v1.1.1 + Platform Matrix v1.0.0 + Detailed Roadmap v1.0.0 (Regula 8 + Regula 9).
 
@@ -281,9 +281,9 @@ Zero schema BD migrations. Backend payload builder extension este **code-only** 
 ## 20. Cross-references
 
 - `PLATFORM_MATRIX_REVYX_web-mobile_v1.0.0.md` §2 Modul 1 Feature 1.5 + §4 Modul 4 Feature 4.5 + §7 Modul 6 Feature 6.3 + §13 Modul 12 Feature 12.5 + §15 Modul 14 Feature 14.7
-- `MASTER_PLAN_REVYX_execution-roadmap_v1.1.1.md` §5 M1.S5 Mobile companion + §6 M2.S3 Mobile companion enhancement
+- `MASTER_PLAN_REVYX_execution-roadmap_v1.1.2.md` §5 M1.S5 Mobile companion + §6 M2.S3 Mobile companion enhancement
 - `ROADMAP_REVYX_detailed-execution_v1.0.0.md` §2.1 T-S16-06
-- `TECH_SPEC_REVYX_mobile-rn_v1.0.0.md` — base spec (toate §1-§18 neschimbate)
+- `TECH_SPEC_REVYX_mobile-rn_v1.0.1.md` — base spec (toate §1-§18 neschimbate)
 - `TECH_SPEC_REVYX_audit-log_v1.1.1.md` §4.4.4 — `MOBILE_PUSH_*` events
 - `TECH_SPEC_REVYX_pii-field-registry_v1.0.0.md` §11 — seed update planificat post-0611
 - `RUNBOOK_REVYX_stage1-mobile-launch_v1.0.0.md` — Stage 1 execution antecedent

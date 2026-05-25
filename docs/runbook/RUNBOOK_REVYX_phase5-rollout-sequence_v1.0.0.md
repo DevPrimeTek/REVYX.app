@@ -18,7 +18,7 @@ Acest runbook este **master gate** pentru rolloutul Phase 5 (deliverable S8/S9/S
 |---|---|
 | Tip rollout | Sequential (un stage la un moment dat) cu overlap controlat (vezi §3) |
 | Owner | VP Product + CTO + Audit Lead (3-eyes la stage transitions) |
-| Trigger inițial | DPIA semnat triple (DPO + Security Lead + CISO) per `DPIA_REVYX_phase5_v1.0.0` |
+| Trigger inițial | DPIA semnat triple (DPO + Security Lead + CISO) per `DPIA_REVYX_phase5_v1.0.1` |
 | Frecvență de gate-review | Săptămânal (luni 10:00 UTC), în plus on-demand la stage transition |
 | Audit checkpoint | CLAUDE.md §10b Regula 3 trigger 2 — pre-rampa 100% per stage |
 
@@ -30,7 +30,7 @@ Acest runbook este **master gate** pentru rolloutul Phase 5 (deliverable S8/S9/S
 
 | Pre-flight check | Owner | Verificare |
 |---|---|---|
-| DPIA Phase 5 sign-off triple | DPO | `docs/legal/DPIA_REVYX_phase5_v1.0.0.md` semnat de DPO + Security Lead + CISO |
+| DPIA Phase 5 sign-off triple | DPO | `docs/legal/DPIA_REVYX_phase5_v1.0.1.md` semnat de DPO + Security Lead + CISO |
 | AUDIT S10 finding F-03..F-09 closed | Audit Lead | `AUDIT_REVYX_s10-external-pass v1.0.0` §2.2 ✅ |
 | `pii_field_registry` seed populat în prod | DPO + Senior DBA | F-S10-04 closed — verificare E2E `assertNoPII(audit_log_compliance_view)` |
 | Migrarile 0500-0544 + 0600 + 0610 aplicate în prod | Senior DBA | Schema audit pass |

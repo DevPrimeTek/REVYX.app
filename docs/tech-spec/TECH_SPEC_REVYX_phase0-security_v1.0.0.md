@@ -8,7 +8,7 @@
 
 **Master Plan ref:** `MASTER_PLAN_REVYX_execution-roadmap_v1.1.2.md` §5.2 M1.S1 + §5.3 M1 DoD.
 **Roadmap ref:** `ROADMAP_REVYX_detailed-execution_v1.0.5.md` §4.1 M1.S1 atomic tasks T-M1.S1-XX.
-**BRD ref:** `BRD_REVYX_v1.0.0.md` §9 Securitate & Conformitate (NFR-05..NFR-09) + §10 RBAC 5 roluri + `BRD_REVYX_v1.1.0.md` §10.1.2 custom roles Phase 5 (out of scope M1.S1 — system roles primă tranșă).
+**BRD ref:** `BRD_REVYX_v1.1.0.md` §9 Securitate & Conformitate (NFR-05..NFR-09) + §10 RBAC 5 roluri + `BRD_REVYX_v1.1.0.md` §10.1.2 custom roles Phase 5 (out of scope M1.S1 — system roles primă tranșă).
 **Audit-log ref:** `TECH_SPEC_REVYX_audit-log_v1.1.1.md` §4.3 catalog Phase 0-4 events + §6 append-only enforcement (autoritativ pentru AUDIT_LOG schema + trigger).
 
 ## 0.1 Platform Matrix
@@ -696,7 +696,7 @@ Toate migrations idempotente unde posibil (`CREATE TABLE IF NOT EXISTS` evitat �
 
 ## 20. Cross-references
 
-- `BRD_REVYX_v1.0.0.md` §9 + §10 + `BRD_REVYX_v1.1.0.md` §10.1
+- `BRD_REVYX_v1.1.0.md` §9 + §10 + `BRD_REVYX_v1.1.0.md` §10.1
 - `TECH_SPEC_REVYX_audit-log_v1.1.1.md` §4.3 + §6 (authoritative AUDIT_LOG)
 - `TECH_SPEC_REVYX_webhook-intake_v1.0.0.md` (provider-specific contract M1.S3 webhooks)
 - `CLAUDE.md` §6 Phase 0 checklist + §3 stack tehnic + §10b Regulile 1-14

@@ -367,7 +367,7 @@ Pre-dev ──→ M0 ──→ HST M0 ──→ M1 ──→ HST M1 ──→ M2
 | Aspect | Valoare |
 |---|---|
 | **Hats active** | IMPLEMENTER (primary), DBA (primary), TESTER (secondary), ARCHITECT (secondary) |
-| **Spec referință** | `TECH_SPEC_REVYX_property_v1.0.0.md`, `TECH_SPEC_REVYX_match-engine_v1.0.0.md`, `TECH_SPEC_REVYX_interaction-strength_v1.0.0.md`, `WORKFLOW_REVYX_property-onboarding_v1.0.0.md` |
+| **Spec referință** | `TECH_SPEC_REVYX_property_v1.0.0.md`, `TECH_SPEC_REVYX_match-engine_v2.0.0.md`, `TECH_SPEC_REVYX_interaction-strength_v1.0.0.md`, `WORKFLOW_REVYX_property-onboarding_v1.0.0.md` |
 | **Sub-tasks** | (a) PROPERTY schema + CRUD · (b) PS scoring §7.2 · (c) LF = 1 − min(1, zile/90) decay · (d) IS engine activitate-based · (e) Match v1 (PS+LS+IS combined) · (f) Re-matching trigger needs_review=true (BR-05) · (g) NU anulare automată deals |
 | **Acceptance** | AC-M1-03 |
 | **Notă** | pgvector HNSW (match v2) este AMÂNAT pentru M2 (Phase G marketplace) |
@@ -478,7 +478,7 @@ Pre-dev ──→ M0 ──→ HST M0 ──→ M1 ──→ HST M1 ──→ M2
 |---|---|
 | **Hats active** | MOBILE DEV (primary), DESIGNER (secondary), BACKEND DEV (secondary), DEVOPS (secondary), TESTER (secondary) |
 | **Platformă** | **MOBILE companion — ~20% workflow în deplasare** |
-| **Spec referință** | `TECH_SPEC_REVYX_mobile-rn_v1.0.0.md` (+ v1.0.1 PATCH F-S13-01 post-S16) |
+| **Spec referință** | `TECH_SPEC_REVYX_mobile-rn_v1.0.1.md` (+ v1.0.1 PATCH F-S13-01 post-S16) |
 | **Scope mobile (FILTERED subset)** | Doar features relevante pentru in-field: lead detail view + call/WhatsApp action, NBA recommendations consum (read), push notifications APNS+FCM, showing check-in (geo-tag + photo upload), property photo gallery upload, voice memo activity log, deal kanban read-only. **EXCLUS din Mobile per DP-05**: RBAC mgmt, white-label config, ML promote, billing, admin panel, reports. |
 | **Sub-tasks** | (a) RN setup expo SDK 51 + expo-router · (b) Auth + RBAC mobile (token + secure storage) · (c) Screens lead/deal/task/NBA · (d) Push APNS + FCM · (e) Deep-link `revyx://leads/{id}` (F-S13-01 spec) · (f) Offline sync optimistic locking cu `version` field · (g) Photo upload (compress + S3 presigned) · (h) Geo-tag showing check-in · (i) TestFlight + Play internal · (j) Public release App Store + Play Store |
 | **Acceptance** | AC-M2-02b |
@@ -490,7 +490,7 @@ Pre-dev ──→ M0 ──→ HST M0 ──→ M1 ──→ HST M1 ──→ M2
 |---|---|
 | **Hats active** | ML ENGINEER (primary), BACKEND DEV (primary), DBA (secondary), TESTER (secondary), SECURITY (secondary) |
 | **Platformă** | Backend + ML; UI promote part în M2.S2 (Web) |
-| **Spec referință** | `TECH_SPEC_REVYX_ml-pricing-ga_v1.0.2.md`, `TECH_SPEC_REVYX_churn-ga_v1.0.1.md`, `RUNBOOK_REVYX_stage3-ml-pricing-launch_v1.0.0.md` |
+| **Spec referință** | `TECH_SPEC_REVYX_ml-pricing-ga_v1.0.4.md`, `TECH_SPEC_REVYX_churn-ga_v1.0.2.md`, `RUNBOOK_REVYX_stage3-ml-pricing-launch_v1.0.0.md` |
 | **Sub-tasks** | (a) Model `pricing-gbm v2.0.0` training + `ml_model_registry` · (b) SHADOW 28 zile · (c) 4-eyes promote CANARY 5% (events PRICING_MODEL_4EYES_*) · (d) Bias monitoring SQL daily 03:00 UTC · (e) Auto-rollback 3× CRIT / 30% MAE · (f) CANARY 25% → GA 100% · (g) Churn scoring engine · (h) CS task generation Prevention Rate ≥30% |
 | **Acceptance** | AC-M2-04 (backend part) + AC-M2-05 (backend part) |
 
@@ -500,7 +500,7 @@ Pre-dev ──→ M0 ──→ HST M0 ──→ M1 ──→ HST M1 ──→ M2
 |---|---|
 | **Hats active** | BACKEND DEV (primary), FRONTEND WEB DEV (primary), DESIGNER (primary), DBA (primary), SECURITY (secondary), TESTER (secondary), DEVOPS (secondary) |
 | **Platformă** | Backend + **WEB primary** (marketplace public Web; admin config Web) |
-| **Spec referință** | `TECH_SPEC_REVYX_marketplace-two-sided_v1.0.0.md`, `TECH_SPEC_REVYX_white-label_v1.0.0.md`, `TECH_SPEC_REVYX_match-engine_v2.0.0.md` (pgvector) |
+| **Spec referință** | `TECH_SPEC_REVYX_marketplace-two-sided_v1.0.1.md`, `TECH_SPEC_REVYX_white-label_v1.0.0.md`, `TECH_SPEC_REVYX_match-engine_v2.0.0.md` (pgvector) |
 | **Sub-tasks Backend** | (a) BUYER_PROFILE entity (BRD §8.3) · (b) Contact-grant rate limiting · (c) Stripe Connect + webhooks idempotency · (d) pgvector HNSW match v2 · (e) White-Label backend (per-tenant config) · (f) Cloudflare edge HMAC |
 | **Sub-tasks Web** | (g) Marketplace public landing `marketplace.revyx.app` · (h) Buyer self-publish form `/marketplace/publish` · (i) Buyer profile browse + filter · (j) Contact-grant request UI · (k) Agent-side contact requests inbox · (l) White-Label admin config `/admin/branding` (custom domain + colors + logo) · (m) DKIM rotation runbook UI helper |
 | **Acceptance** | AC-M2-06 + AC-M2-07 + AC-M2-11 |
@@ -731,7 +731,7 @@ Conform CLAUDE.md §10b Regula 3:
 | `CLAUDE.md` §10b Regula 8 (★ NEW) | "Master Plan compliance" — orice doc/cod nou trebuie să citeze stage-ul Master Plan |
 | `docs/BRD_REVYX_v1.1.0.md` | Acceptance criteria M1 + M2 derivate aici |
 | `docs/INDEX_REVYX_documents_v1.0.4.md` | INDEX listează acest doc în categoria §2a nouă (Strategic Planning) |
-| `docs/audit/READINESS_REVYX_phase5_v1.0.3.md` | Stages 1-5 din Phase 5 = sub-set al pre-dev gating |
+| `docs/audit/READINESS_REVYX_phase5_v1.1.0.md` | Stages 1-5 din Phase 5 = sub-set al pre-dev gating |
 | `docs/runbook/RUNBOOK_REVYX_phase5-rollout-sequence_v1.0.0.md` | Sequence operațional pentru S16-S19 |
 
 ---

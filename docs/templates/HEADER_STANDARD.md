@@ -125,7 +125,7 @@ Ultimul bloc al oricărui document:
 - [ ] Footer prezent
 - [ ] Filename respectă convenția: `[TIP]_REVYX_v[X.Y.Z].md`
 - [ ] Validate cu `docs/brand-configs/revyx.md` (paletă, ton)
-- [ ] Validate cu `docs/BRD_REVYX_v1.0.0.md` (cerințe business)
+- [ ] Validate cu `docs/BRD_REVYX_v1.1.0.md` (cerințe business)
 - [ ] Niciun secret / date reale clienți în exemple
 
 ---

@@ -18,7 +18,7 @@
 
 ## 1–3 (identic cu v1.1.0)
 
-(Vezi `TECH_SPEC_REVYX_audit-log_v1.1.0.md` §1–§3 pentru Executive Summary, Architecture Overview, Stack & Dependencies — neschimbate.)
+(Vezi `TECH_SPEC_REVYX_audit-log_v1.1.1.md` §1–§3 pentru Executive Summary, Architecture Overview, Stack & Dependencies — neschimbate.)
 
 ---
 

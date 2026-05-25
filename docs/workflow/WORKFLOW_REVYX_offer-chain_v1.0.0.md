@@ -462,10 +462,10 @@ sequenceDiagram
 
 | Document | Tip impact | Acțiune |
 |---|---|---|
-| BRD_REVYX_v1.0.0.md | None | Reflectă schema OFFER §8 |
-| TECH_SPEC_REVYX_match-engine_v1.0.0.md | Minor | Re-trigger DP la offer events |
+| BRD_REVYX_v1.1.0.md | None | Reflectă schema OFFER §8 |
+| TECH_SPEC_REVYX_match-engine_v2.0.0.md | Minor | Re-trigger DP la offer events |
 | TECH_SPEC_REVYX_dhi-engine_v1.0.0.md | Minor | Re-trigger DHI |
-| TECH_SPEC_REVYX_audit-log_v1.0.0.md | Minor | Catalog event extins (`OFFER_*`, `DEAL_LONG_NEGOTIATION_FLAGGED`) |
+| TECH_SPEC_REVYX_audit-log_v1.1.1.md | Minor | Catalog event extins (`OFFER_*`, `DEAL_LONG_NEGOTIATION_FLAGGED`) |
 | WORKFLOW_REVYX_deal-closure_v1.0.0.md (S4) | Major handoff | Accept → WON_PENDING_NOTARY preluat de deal-closure |
 | WORKFLOW_REVYX_lead-lifecycle_v1.0.0.md | Minor | Etapa OFFER substituie placeholder |
 

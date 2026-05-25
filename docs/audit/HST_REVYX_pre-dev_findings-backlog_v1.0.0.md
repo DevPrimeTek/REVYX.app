@@ -5,7 +5,7 @@
 ## 0. Stage Master Plan
 
 **Acoperă:** Pre-development / **S20 — HST #2 ⚠️ MANDATORY GATE — output secundar**. Gap closure tracking backlog pentru cele 8 findings NEW S20 (4 MED + 4 LOW) + 3 findings pre-existente reconfirmate TRACKED. Niciun finding CRIT/HIGH → backlog non-blocking M0.S1 entry. Tracking forward pentru reconciliere la M0.S5 HST M0 + M1.S2 + cycle post-GA.
-**Master Plan ref:** `MASTER_PLAN_REVYX_execution-roadmap_v1.1.1.md` §7.2 + §8.3 severity matrix + §10 risk register R-11/R-14.
+**Master Plan ref:** `MASTER_PLAN_REVYX_execution-roadmap_v1.1.2.md` §7.2 + §8.3 severity matrix + §10 risk register R-11/R-14.
 **Roadmap ref:** `ROADMAP_REVYX_detailed-execution_v1.0.0.md` §2.5 T-S20-10 (gap closure backlog output).
 **Trio canonical citat:** Master Plan v1.1.1 + Platform Matrix v1.0.0 + Detailed Roadmap v1.0.0.
 
@@ -69,7 +69,7 @@ Per HST #2 raport principal §9.3, aceste findings rămân **TRACKED unchanged**
 
 ## 4. Triage methodology
 
-Per `MASTER_PLAN_REVYX_execution-roadmap_v1.1.1.md` §8.3 severity matrix:
+Per `MASTER_PLAN_REVYX_execution-roadmap_v1.1.2.md` §8.3 severity matrix:
 
 | Severitate | Acțiune | S20 application |
 |---|---|---|

@@ -618,8 +618,8 @@ Idempotent. Backwards compat: PROPERTY existent (Phase 0) primește `PS=0.50`, `
 
 | Document | Tip impact | Acțiune |
 |---|---|---|
-| BRD_REVYX_v1.0.0.md | None | Formula PS deja documentată |
-| TECH_SPEC_REVYX_audit-log_v1.0.0.md | Minor | Catalog event `PROPERTY_SCORE_UPDATED`, `PROPERTY_LF_RESET` adăugate |
+| BRD_REVYX_v1.1.0.md | None | Formula PS deja documentată |
+| TECH_SPEC_REVYX_audit-log_v1.1.1.md | Minor | Catalog event `PROPERTY_SCORE_UPDATED`, `PROPERTY_LF_RESET` adăugate |
 | TECH_SPEC_REVYX_lead-scoring_v1.0.0.md | Minor | BF (Budget Fit) consumă inventory PROPERTY |
 | TECH_SPEC_REVYX_showcase-links_v1.0.0.md (S3) | Major | Generare token + tracking depinde de PROPERTY |
 | TECH_SPEC_REVYX_match-engine (S4) | Major | DP consumă PS |

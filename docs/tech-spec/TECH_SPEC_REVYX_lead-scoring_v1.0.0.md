@@ -746,8 +746,8 @@ Toate migrările idempotente (`ADD COLUMN IF NOT EXISTS`). Backwards compat: exi
 
 | Document | Tip impact | Acțiune |
 |---|---|---|
-| BRD_REVYX_v1.0.0.md | None | Formule deja documentate · spec doar implementează |
-| TECH_SPEC_REVYX_audit-log_v1.0.0.md | Minor | Catalog event_type extins cu `LEAD_SCORE_UPDATED`, `LEAD_DEDUP_DETECTED`, `ESCALATION_CANCELLED`, `LEAD_INTAKE_REJECTED_NO_CONSENT` |
+| BRD_REVYX_v1.1.0.md | None | Formule deja documentate · spec doar implementează |
+| TECH_SPEC_REVYX_audit-log_v1.1.1.md | Minor | Catalog event_type extins cu `LEAD_SCORE_UPDATED`, `LEAD_DEDUP_DETECTED`, `ESCALATION_CANCELLED`, `LEAD_INTAKE_REJECTED_NO_CONSENT` |
 | TECH_SPEC_REVYX_webhook-intake_v1.0.0.md | Minor | Webhook intake apelează `LeadIntakeService.intakeFromWebhook` |
 | TECH_SPEC_REVYX_property_v1.0.0.md (S3) | Minor | BF (Budget Fit) consumă inventory PROPERTY pentru overlap |
 | TECH_SPEC_REVYX_match-engine (S4) | Major | Match Engine consumă `lead_score`, `interaction_strength` pentru DP |

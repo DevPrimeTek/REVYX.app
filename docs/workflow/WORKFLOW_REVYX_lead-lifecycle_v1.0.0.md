@@ -517,9 +517,9 @@ Validare AC din BRD §12:
 
 | Document | Tip impact | Acțiune |
 |---|---|---|
-| BRD_REVYX_v1.0.0.md | None | Reflectă doar mecanica spec | 
+| BRD_REVYX_v1.1.0.md | None | Reflectă doar mecanica spec | 
 | TECH_SPEC_REVYX_lead-scoring_v1.0.0.md | None | Workflow consumă spec |
-| TECH_SPEC_REVYX_audit-log_v1.0.0.md | Minor | Catalog event extins (`LEAD_INTAKE_REJECTED_NO_CONSENT`, `LEAD_NURTURING_TICK`, `SHOWING_*`, `OFFER_*`, `LEAD_LOST`, `NPS_*`) |
+| TECH_SPEC_REVYX_audit-log_v1.1.1.md | Minor | Catalog event extins (`LEAD_INTAKE_REJECTED_NO_CONSENT`, `LEAD_NURTURING_TICK`, `SHOWING_*`, `OFFER_*`, `LEAD_LOST`, `NPS_*`) |
 | TECH_SPEC_REVYX_webhook-intake_v1.0.0.md | None | Etapa 1 referențiază existing |
 | WORKFLOW_REVYX_property-onboarding_v1.0.0.md (S3) | None | Paralel — supply side |
 | WORKFLOW_REVYX_showing-flow_v1.0.0.md (S3) | Referențiat | Etapa 5 detalii |

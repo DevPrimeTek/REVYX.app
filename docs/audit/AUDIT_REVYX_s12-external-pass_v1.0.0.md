@@ -55,11 +55,11 @@
 
 **F-S11-02 (CLOSED · LOW):** `audit-log` v1.1.1 §4.4.9 `PHASE5_*` family cu 4 events oficiali: `PHASE5_STAGE_ENTRY` / `PHASE5_STAGE_EXIT_PASS` / `PHASE5_STAGE_ROLLBACK` / `PHASE5_GA_DECISION`. Severitate INFO (CRITICAL pentru ROLLBACK), retention COMPLIANCE_84M, alerting hook explicit pe canale Slack/PagerDuty/email. **Verdict:** mutate official din "propunere" la catalog.
 
-**F-S11-03 (CLOSED doc-side · LOW):** `SCC_VENDORS_phase5_v1.0.0.md` (NEW S13) listează inventoriu vendor SCC complet: Apple APNS (§3.1, 🔴 PENDING), Google FCM (§3.2, 🔴 PENDING), Cloudflare (§3.3, 🟢 ON FILE), AWS eu-west-1 (§3.4, 🟢 ON FILE), Stripe (§3.5, 🟢 ON FILE), BSI Group MD (§3.6, 🟡 PENDING audit firm). Plan operațional T-14→T-0 §5 cu owner Mobile Lead + Legal Lead + DPO. **Verdict doc:** complet · `READINESS_REVYX_phase5` §0.14 ☐ legat la signature pre-T-7. **Operational:** signature pending pre-Stage 1 entry T-7.
+**F-S11-03 (CLOSED doc-side · LOW):** `SCC_VENDORS_phase5_v1.0.2.md` (NEW S13) listează inventoriu vendor SCC complet: Apple APNS (§3.1, 🔴 PENDING), Google FCM (§3.2, 🔴 PENDING), Cloudflare (§3.3, 🟢 ON FILE), AWS eu-west-1 (§3.4, 🟢 ON FILE), Stripe (§3.5, 🟢 ON FILE), BSI Group MD (§3.6, 🟡 PENDING audit firm). Plan operațional T-14→T-0 §5 cu owner Mobile Lead + Legal Lead + DPO. **Verdict doc:** complet · `READINESS_REVYX_phase5` §0.14 ☐ legat la signature pre-T-7. **Operational:** signature pending pre-Stage 1 entry T-7.
 
 **F-S11-04 (CLOSED · MED):** `CHECKLIST_pre-pilot_v1.0.0.md` tri-lingual RO+RU+EN cu pași checkbox per task type (5 MEDIUM + 3 HIGH + 1 CRITICAL) + aggregate verifications. **Verdict:** verificat cross-ref cu `CHURN_*` v1.1.0 templates · structural complet.
 
-**F-S11-05 (CLOSED · MED):** `READINESS_REVYX_phase5_v1.0.0.md` single-page sign-off matrix per stage cu Pre-flight (§2 cu 14 gates incl. SCC §0.14) + Stage 1..5 entry/exit gates + GA decision §8. **Verdict:** structural complet · S13 bump v1.0.1 update sign-off date placeholders.
+**F-S11-05 (CLOSED · MED):** `READINESS_REVYX_phase5_v1.1.0.md` single-page sign-off matrix per stage cu Pre-flight (§2 cu 14 gates incl. SCC §0.14) + Stage 1..5 entry/exit gates + GA decision §8. **Verdict:** structural complet · S13 bump v1.0.1 update sign-off date placeholders.
 
 **F-S11-08 (CLOSED doc-side · LOW):** `READINESS_REVYX_phase5` §5.1.9 ★ adaugă explicit "4-eyes E2E smoke-test PASS pe staging: full path REQUEST → APPROVE primary + second" ca entry gate Stage 3. **Verdict doc:** check explicit · operational gating la Stage 3 entry T+35.
 
@@ -150,10 +150,10 @@ Recap final pre-Stage 1:
 |---|---|---|
 | `.github/scripts/audit-catalog-lint.mjs` (extended) | (script update; no version) | F-S11-01 verified + F-S12-01 LOW (multi-spec) |
 | `.github/workflows/audit-catalog-lint.yml` (updated) | (workflow update) | F-S11-01 + F-S12-01 |
-| `docs/legal/SCC_VENDORS_phase5_v1.0.0.md` (NEW) | 1.0.0 | F-S11-03 LOW |
+| `docs/legal/SCC_VENDORS_phase5_v1.0.2.md` (NEW) | 1.0.0 | F-S11-03 LOW |
 | `docs/runbook/RUNBOOK_REVYX_stage1-mobile-launch_v1.0.0.md` (NEW) | 1.0.0 | (operational expansion `phase5-rollout-sequence` §4) |
 | `docs/audit/AUDIT_REVYX_s12-external-pass_v1.0.0.md` (NEW — acest doc) | 1.0.0 | (audit pass acoperind §2-§5) |
-| `docs/audit/READINESS_REVYX_phase5_v1.0.1.md` (PATCH) | 1.0.1 | (sign-off date placeholder + SCC ref + cross-ref S13) |
+| `docs/audit/READINESS_REVYX_phase5_v1.1.0.md` (PATCH) | 1.0.1 | (sign-off date placeholder + SCC ref + cross-ref S13) |
 | `docs/INDEX_REVYX_documents_v1.0.1.md` (PATCH) | 1.0.1 | (Regula 6 — adăugare entries S13) |
 
 ---

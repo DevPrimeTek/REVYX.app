@@ -5,7 +5,7 @@
 ## 0. Stage Master Plan
 
 **Acoperă:** Pre-development / S16 deliverable; Phase 5 Stage 4 operational runbook.
-**Master Plan ref:** `MASTER_PLAN_REVYX_execution-roadmap_v1.1.1.md` §7 Phase 5 staged rollout + §0.3 (S16 deliverables).
+**Master Plan ref:** `MASTER_PLAN_REVYX_execution-roadmap_v1.1.2.md` §7 Phase 5 staged rollout + §0.3 (S16 deliverables).
 **Roadmap ref:** `ROADMAP_REVYX_detailed-execution_v1.0.0.md` §2.1 T-S16-04.
 **Trio canonical citat:** Master Plan v1.1.1 + Platform Matrix v1.0.0 + Detailed Roadmap v1.0.0 (Regula 8 + Regula 9).
 
@@ -368,7 +368,7 @@ Per `PLATFORM_MATRIX_REVYX_web-mobile_v1.0.0.md` §15 + DP-05 (admin = Web only)
 - `tenancy-roles-extension` v1.1.0 §4.5 — `cs_user` + `cs_lead` role definitions + RLS
 - `AUDIT_REVYX_s15-external-pass` v1.0.0 §7 — Stage 4 entry unblocked
 - `PLATFORM_MATRIX_REVYX_web-mobile_v1.0.0.md` §15 — Modul 14 ML Pricing & Churn (canonical)
-- `MASTER_PLAN_REVYX_execution-roadmap_v1.1.1.md` §7 — Phase 5 staged rollout
+- `MASTER_PLAN_REVYX_execution-roadmap_v1.1.2.md` §7 — Phase 5 staged rollout
 - `ROADMAP_REVYX_detailed-execution_v1.0.0.md` §2.1 T-S16-04 — atomic task
 
 ---

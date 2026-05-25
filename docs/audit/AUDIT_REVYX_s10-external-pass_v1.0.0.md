@@ -88,7 +88,7 @@
 
 **Impact:** Risc reglementar (CNPDCP RM + GDPR Art. 35) la un audit extern; imposibilitate de demonstrat balancing test pentru `churn-ga` (legitimate interest) și absența automated decision-making (Art. 22).
 
-**Fix aplicat S11:** `docs/legal/DPIA_REVYX_phase5_v1.0.0.md` introdus în această sesiune, cu sign-off triple (DPO + Security Lead + CISO) și sub-secțiuni dedicate pentru fiecare feature Phase 5.
+**Fix aplicat S11:** `docs/legal/DPIA_REVYX_phase5_v1.0.1.md` introdus în această sesiune, cu sign-off triple (DPO + Security Lead + CISO) și sub-secțiuni dedicate pentru fiecare feature Phase 5.
 
 ### F-S10-02 · HIGH · DKIM rotation calendar nedocumentat operațional
 
@@ -207,7 +207,7 @@ Acoperit prin F-S10-01.
 
 | Document | Versiune | Closes finding |
 |---|---|---|
-| `docs/legal/DPIA_REVYX_phase5_v1.0.0.md` (NEW) | 1.0.0 | F-S10-01 + F-S10-10 |
+| `docs/legal/DPIA_REVYX_phase5_v1.0.1.md` (NEW) | 1.0.0 | F-S10-01 + F-S10-10 |
 | `docs/runbook/RUNBOOK_REVYX_dkim-rotation_v1.0.0.md` (NEW) | 1.0.0 | F-S10-02 |
 | `docs/runbook/RUNBOOK_REVYX_phase5-rollout-sequence_v1.0.0.md` (NEW) | 1.0.0 | F-S10-03 |
 | `.github/workflows/audit-catalog-lint.yml` (NEW) | — | F-S10-05 |

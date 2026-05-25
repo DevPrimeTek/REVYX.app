@@ -603,11 +603,11 @@ Idempotente. **Pre-migration**: bulk job embedding generation pentru toate prope
 
 | Document | Tip impact | Acțiune |
 |---|---|---|
-| TECH_SPEC_REVYX_match-engine_v1.0.0.md | None (coexistă) | v1 rămâne disponibil ca fallback + shadow |
+| TECH_SPEC_REVYX_match-engine_v2.0.0.md | None (coexistă) | v1 rămâne disponibil ca fallback + shadow |
 | TECH_SPEC_REVYX_property_v1.0.0.md | Minor | Activare HNSW index trecută din Phase 3 → Phase 2 (★ commentariu §4.1 actualizat în impl) |
 | TECH_SPEC_REVYX_lead-scoring_v1.0.0.md | Minor | + `lead.embedding` column |
 | TECH_SPEC_REVYX_pricing-ai_v1.0.0.md | None | PS consumat |
-| TECH_SPEC_REVYX_audit-log_v1.0.0.md | Minor | Catalog event `EMBEDDING_*`, `MATCH_*_V2`, `MATCH_AB_*` |
+| TECH_SPEC_REVYX_audit-log_v1.1.1.md | Minor | Catalog event `EMBEDDING_*`, `MATCH_*_V2`, `MATCH_AB_*` |
 | TECH_SPEC_REVYX_concurrency-hardening_v1.0.0.md | Major (paralel) | Redlock pe embedding regen, idempotency |
 
 ### 19.3 Impact pe scoring

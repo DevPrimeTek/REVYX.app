@@ -5,7 +5,7 @@
 ## 0. Stage Master Plan
 
 **Acoperă:** Pre-development / S19 — raport final board consolidat post-Master Phase 5 GA decision T+91 (GO unanimous 6/6 aprobatori) · cumulative metrics cross-stages 1-5 · lessons learned · recomandări M0 entry · scope preview Hard Stress Test #2 (S20 MANDATORY GATE).
-**Master Plan ref:** `MASTER_PLAN_REVYX_execution-roadmap_v1.1.1.md` §0.3 (S19 deliverables) + §7 Phase 5 staged rollout (post-GA close) + §13 approval gate (pending S20).
+**Master Plan ref:** `MASTER_PLAN_REVYX_execution-roadmap_v1.1.2.md` §0.3 (S19 deliverables) + §7 Phase 5 staged rollout (post-GA close) + §13 approval gate (pending S20).
 **Roadmap ref:** `ROADMAP_REVYX_detailed-execution_v1.0.0.md` §2.4 T-S19-01 (acest document, output principal).
 **Trio canonical citat:** Master Plan v1.1.1 + Platform Matrix v1.0.0 + Detailed Roadmap v1.0.0 (Regula 8 + Regula 9).
 

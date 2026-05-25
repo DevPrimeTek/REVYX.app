@@ -411,10 +411,10 @@ Validare AC din BRD §12 + spec edge cases:
 
 | Document | Tip impact | Acțiune |
 |---|---|---|
-| BRD_REVYX_v1.0.0.md | None | Reflectă mecanica spec |
+| BRD_REVYX_v1.1.0.md | None | Reflectă mecanica spec |
 | TECH_SPEC_REVYX_property_v1.0.0.md | None | Workflow consumă spec |
 | TECH_SPEC_REVYX_showcase-links_v1.0.0.md | None | Etapa 4 + 5.5 referențiază |
-| TECH_SPEC_REVYX_audit-log_v1.0.0.md | Minor | Catalog event extins (`PROPERTY_VALIDATION_FAILED`, `PROPERTY_DUPLICATE_DETECTED`, `PROPERTY_PRICING_AI_OVERRIDE`, `PROPERTY_RESERVED`, `PROPERTY_EXPIRED`, `PROPERTY_LF_RESET`) |
+| TECH_SPEC_REVYX_audit-log_v1.1.1.md | Minor | Catalog event extins (`PROPERTY_VALIDATION_FAILED`, `PROPERTY_DUPLICATE_DETECTED`, `PROPERTY_PRICING_AI_OVERRIDE`, `PROPERTY_RESERVED`, `PROPERTY_EXPIRED`, `PROPERTY_LF_RESET`) |
 | WORKFLOW_REVYX_lead-lifecycle_v1.0.0.md | None | Paralel — demand side |
 | WORKFLOW_REVYX_offer-chain (S4) | Referențiat | Etapa 5.4 RESERVED transition |
 

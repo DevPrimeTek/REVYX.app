@@ -69,7 +69,7 @@ CHURN_* events (14 events §4.4.5 audit-log) + KPI Prevention Rate ≥30% + scor
 - `PLATFORM_MATRIX_REVYX_web-mobile_v1.0.0.md` §15 (canonical)
 - `MASTER_PLAN_REVYX_execution-roadmap_v1.1.0.md` §6.2 M2.S2 + M2.S4
 - `ROADMAP_REVYX_detailed-execution_v1.0.0.md` §5.2 T-M2.S2-06 + §5.4 T-M2.S4-11..13
-- `TECH_SPEC_REVYX_churn-ga_v1.0.0.md` + `_v1.0.1.md` (backend specs rămân)
+- `TECH_SPEC_REVYX_churn-ga_v1.0.2.md` + `_v1.0.1.md` (backend specs rămân)
 - `cs-playbooks/CHURN_*.md` (playbooks tri-lingual)
 - `audit-log_v1.1.1` §4.4.5 CHURN_* events
 

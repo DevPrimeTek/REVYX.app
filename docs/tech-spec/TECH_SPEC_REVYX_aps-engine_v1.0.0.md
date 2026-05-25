@@ -712,13 +712,13 @@ Idempotente. Backfill: la flag activ, job `aps.recalc.full_tenant` enqueued în 
 
 | Document | Tip impact | Acțiune |
 |---|---|---|
-| BRD_REVYX_v1.0.0.md | None | Implementare §7.7 |
-| TECH_SPEC_REVYX_match-engine_v1.0.0.md | Minor | `resolveAPS` rămâne (BR-11 fallback compat) — APS calculated când disponibil |
+| BRD_REVYX_v1.1.0.md | None | Implementare §7.7 |
+| TECH_SPEC_REVYX_match-engine_v2.0.0.md | Minor | `resolveAPS` rămâne (BR-11 fallback compat) — APS calculated când disponibil |
 | TECH_SPEC_REVYX_match-engine_v2.0.0.md | None | Consum APS via DP unchanged |
 | TECH_SPEC_REVYX_deal-closure_v1.0.0.md | Major (consumer) | DCR trigger din saga step 7 |
 | TECH_SPEC_REVYX_offer-engine_v1.0.0.md | None (cascade indirect via deal.won) | — |
 | TECH_SPEC_REVYX_lead-scoring_v1.0.0.md | Minor | lead.status WON/LOST → trigger APS |
-| TECH_SPEC_REVYX_audit-log_v1.0.0.md | Minor | + `AGENT_APS_RECALCULATED` cu source, `APS_CONFIG_UPDATED`, `APS_RECALC_FORCED` |
+| TECH_SPEC_REVYX_audit-log_v1.1.1.md | Minor | + `AGENT_APS_RECALCULATED` cu source, `APS_CONFIG_UPDATED`, `APS_RECALC_FORCED` |
 | TECH_SPEC_REVYX_concurrency-hardening_v1.0.0.md | None (consumer) | Idempotent recalc + breaker |
 
 ### 19.3 Impact pe scoring

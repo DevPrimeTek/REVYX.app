@@ -5,7 +5,7 @@
 ## 0. Stage Master Plan
 
 **Acoperă:** Pre-development / **S20 — Hard Stress Test #2 ⚠️ MANDATORY GATE**. Re-validare comprehensivă întregului corpus documentar (106 docs / ~87 active) cu echipa virtuală 7-rol auditori, conform CLAUDE.md §10b Regula 3 + Master Plan v1.1.1 §7.2 + §8 HST methodology. Output: findings table per severity matrix CRIT/HIGH/MED/LOW + triage consolidate + sign-off 7-rol. Exit gate: 0 findings CRIT; toate HIGH closed sau triage cu owner+ETA → unblocks Master Plan §13 sign-off + development M0.S1 entry.
-**Master Plan ref:** `MASTER_PLAN_REVYX_execution-roadmap_v1.1.1.md` §7.2 (HST #2 trigger) + §8 (severity matrix + procese) + §13 (approval gate pending S20).
+**Master Plan ref:** `MASTER_PLAN_REVYX_execution-roadmap_v1.1.2.md` §7.2 (HST #2 trigger) + §8 (severity matrix + procese) + §13 (approval gate pending S20).
 **Roadmap ref:** `ROADMAP_REVYX_detailed-execution_v1.0.0.md` §2.5 T-S20-01..12 (12 atomic tasks: scope definition → 7-rol parallel review → consolidate → triage → re-audit → §13 sign-off).
 **Trio canonical citat:** Master Plan v1.1.1 + Platform Matrix v1.0.0 + Detailed Roadmap v1.0.0 (Regula 8 + Regula 9).
 
@@ -53,7 +53,7 @@ Acest HST acoperă **întreg corpus documentar cross-platform** (Web PRIMARY + M
 |---|---|---|---|
 | 1 | `docs/audit/CHECKLIST_pre-hst2_v1.0.0.md` | v1.0.0 | Scope checklist 5 categorii / 60 items — input principal orchestrare |
 | 2 | `docs/board/RAPORT_FINAL_BOARD_phase5-ga_v1.0.0.md` §2-§3 | v1.0.0 | Cumulative metrics baseline + lessons learned cross-stages 1-5 |
-| 3 | `docs/MASTER_PLAN_REVYX_execution-roadmap_v1.1.1.md` §7.2+§8+§13 | v1.1.1 | HST methodology + severity matrix + approval gate |
+| 3 | `docs/MASTER_PLAN_REVYX_execution-roadmap_v1.1.2.md` §7.2+§8+§13 | v1.1.1 | HST methodology + severity matrix + approval gate |
 | 4 | `docs/ROADMAP_REVYX_detailed-execution_v1.0.0.md` §2.5 | v1.0.0 | T-S20-01..12 atomic tasks structure |
 | 5 | `docs/INDEX_REVYX_documents_v1.1.0.md` | v1.1.0 | Full corpus reference 106 docs |
 | 6 | `CLAUDE.md` §10b Regula 3 | v1.2.2 | Audit checkpoint trigger 1 (final etapă documentație pre-development) |
