@@ -56,7 +56,7 @@
 | `--text-h` / `--t1` | `#F0F4FA` | Headere pe navy |
 | `--text-primary` / `--t2` | `#D8E2F0` | Corp text primar |
 | `--text-sec` / `--t3` | `#8FA8CC` | Etichete secundare |
-| `--text-muted` / `--t4` | `#4A6280` | Text dezactivat / muted |
+| `--text-muted` / `--t4` | `#849AB8` | Text dezactivat / muted (★ v1.0.1 — WCAG AA ≥4.5 pe toate surface-urile navy; era `#4A6280` care pica AA pe navy.card/hover) |
 | `--white` | `#FFFFFF` | Alb pur |
 
 ### 2.4 Status
@@ -65,8 +65,8 @@
 |---|---|---|
 | `--green` | `#0FBA7F` | Succes · Deal sănătos · AC passed |
 | `--amber` | `#E8950A` | Atenție · Review necesar |
-| `--red` | `#E03030` | Eroare · Deal în pericol · Critic |
-| `--blue` | `#3B82F6` | Info · Acțiune sistem AI |
+| `--red` | `#F26565` | Eroare · Deal în pericol · Critic (★ v1.0.1 — lightened pentru WCAG AA pe navy surfaces; era `#E03030`) |
+| `--blue` | `#60A5FA` | Info · Acțiune sistem AI (★ v1.0.1 — lightened pentru WCAG AA pe navy surfaces; era `#3B82F6`) |
 
 ### 2.5 Paletă actori workflow
 
@@ -74,7 +74,7 @@
 |---|---|---|
 | 🏠 Proprietar / Vânzător | `#F59E0B` | `--sel` |
 | 🤝 Agent Imobiliar | `#C9870A` | `--agt` |
-| 🤖 Sistem REVYX AI | `#3B82F6` | `--ai` |
+| 🤖 Sistem REVYX AI | `#60A5FA` | `--ai` |
 | 👤 Client / Cumpărător | `#10B981` | `--buy` |
 | 👔 Manager Agenție | `#EC4899` | `--mgr` |
 | 🏦 Bancă / Finanțator | `#8B5CF6` | `--bnk` |
