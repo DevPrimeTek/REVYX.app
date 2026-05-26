@@ -4,7 +4,7 @@
 // BR-02 LS_initial = 0.30 on creation.
 
 import { makeRng } from './rng';
-import type { Lead, LeadSource, LeadStatus } from './types';
+import type { Lead, LeadSource, LeadStatus, LeadUrgency, LeadType } from './types';
 import { agents } from './agents';
 
 const firstNames = [
@@ -19,6 +19,17 @@ const lastNames = [
   'Munteanu', 'Botnari', 'Andronic', 'Ștefan', 'Iordan', 'Cernei', 'Crudu', 'Cazacu', 'Damian', 'Roșca',
 ];
 const sources: LeadSource[] = ['Meta', 'OLX', 'Google', 'Referral', 'Walk-in', 'Website'];
+const buyerFeatures = [
+  'balcon', 'parcare', 'lift', 'încălzire autonomă', 'aproape de școală',
+  'aproape de metrou', 'etaj superior', 'orientare sud', 'mobilat',
+  'finisaj nou', 'curte proprie', 'liniștit', 'aproape de parc',
+];
+const sellerFeatures = [
+  'apartament reabilitat 2024', 'mobilat complet', 'gata de mutat',
+  'vedere panoramică', 'zonă liniștită', 'aer condiționat',
+  'parchet stejar', 'încălzire în pardoseală', 'geamuri termopan',
+];
+const urgencies: LeadUrgency[] = ['low', 'medium', 'high'];
 const zones = [
   'Chișinău · Centru',
   'Chișinău · Botanica',
@@ -50,6 +61,21 @@ function slaFromStatus(s: LeadStatus): string {
 // - qualified (0.60–0.75): ~22%
 // - warm (0.40–0.60):     ~36%
 // - nurturing (< 0.40):    ~30%  (BR-01 firewall: NOT routed to agents)
+
+/** Generate 4 distinct property IDs from the same seeded pool used by properties.ts (P-1901..P-1950). */
+function pickPropertyId(rng: ReturnType<typeof makeRng>): string {
+  return `P-${String(1900 + rng.int(1, 50)).padStart(4, '0')}`;
+}
+
+function pickFeatures(pool: string[], rng: ReturnType<typeof makeRng>, count: number): string[] {
+  const picked = new Set<string>();
+  let guard = 0;
+  while (picked.size < count && guard < 30) {
+    picked.add(rng.pick(pool));
+    guard += 1;
+  }
+  return Array.from(picked);
+}
 
 function buildLeads(): Lead[] {
   const rng = makeRng('revyx.leads.v1');
@@ -93,6 +119,10 @@ function buildLeads(): Lead[] {
     // Interaction Strength correlates loosely with LS.
     const is = Math.round((rng.clamp01(ls * 0.6 + rng.range(0, 0.35))) * 100) / 100;
 
+    // ~70% buyers, 30% sellers (seller = vine cu o proprietate de vândut).
+    const leadType: LeadType = rng.next() < 0.30 ? 'seller' : 'buyer';
+    const urgency: LeadUrgency = rng.pick(urgencies);
+
     out.push({
       id: `L-${String(1000 + i).padStart(4, '0')}`,
       name: `${first} ${last}`,
@@ -101,6 +131,10 @@ function buildLeads(): Lead[] {
       source,
       sla,
       agentId,
+      leadType,
+      sellingPropertyId: leadType === 'seller' ? pickPropertyId(rng) : null,
+      features: pickFeatures(leadType === 'seller' ? sellerFeatures : buyerFeatures, rng, rng.int(2, 4)),
+      urgency,
       budgetMin,
       budgetMax,
       rooms: roomsKey,

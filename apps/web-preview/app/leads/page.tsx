@@ -34,10 +34,13 @@ export default function LeadsPage() {
   );
 }
 
+type TypeFilter = 'all' | 'buyer' | 'seller';
+
 function LeadsPageInner() {
   const { t } = useT();
   const params = useSearchParams();
   const [filter, setFilter] = useState<Filter>('all');
+  const [typeFilter, setTypeFilter] = useState<TypeFilter>('all');
   const [query, setQuery] = useState('');
 
   // Allow deep links like /leads?priority=urgent (from dashboard hot-leads card).
@@ -47,16 +50,20 @@ function LeadsPageInner() {
     else if (p === 'qualified') setFilter('qualified');
     else if (p === 'warm') setFilter('warm');
     else if (p === 'nurturing') setFilter('nurturing');
+
+    const ty = params.get('type');
+    if (ty === 'buyer' || ty === 'seller') setTypeFilter(ty);
   }, [params]);
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
     return leads.filter((l) => {
       if (filter !== 'all' && l.status !== filter) return false;
+      if (typeFilter !== 'all' && l.leadType !== typeFilter) return false;
       if (q && !(l.name.toLowerCase().includes(q) || l.id.toLowerCase().includes(q))) return false;
       return true;
     });
-  }, [filter, query]);
+  }, [filter, typeFilter, query]);
 
   return (
     <>
@@ -84,6 +91,32 @@ function LeadsPageInner() {
                   aria-label={t('common.search')}
                   className="h-9 px-sp2 bg-navy-deep border border-border rounded-md text-[13px] text-text-h placeholder:text-text-muted focus-visible:outline-none focus-visible:border-gold"
                 />
+                {/* Lead type filter (Regula 19: separare buyer/seller) */}
+                <div
+                  role="tablist"
+                  aria-label={t('lead.typeFilterLabel')}
+                  className="flex items-center gap-1 rounded-md border border-border-light p-1 bg-navy-deep"
+                >
+                  {(['all', 'buyer', 'seller'] as TypeFilter[]).map((tf) => (
+                    <button
+                      key={tf}
+                      role="tab"
+                      type="button"
+                      aria-selected={typeFilter === tf}
+                      onClick={() => setTypeFilter(tf)}
+                      className={cn(
+                        'px-sp3 py-1 text-[12px] rounded transition-colors duration-fast',
+                        typeFilter === tf
+                          ? tf === 'all'
+                            ? 'bg-gold text-navy-deep font-semibold'
+                            : 'bg-gold/10 text-gold'
+                          : 'text-text-secondary hover:bg-navy-hover hover:text-text-h',
+                      )}
+                    >
+                      {tf === 'all' ? t('common.all') : t(`leadType.${tf}`)}
+                    </button>
+                  ))}
+                </div>
                 <div
                   role="tablist"
                   aria-label={t('common.filter')}
@@ -155,6 +188,13 @@ function LeadsPageInner() {
                         >
                           {l.name}
                         </Link>
+                        <Badge
+                          variant={l.leadType === 'buyer' ? 'info' : 'updated'}
+                          size="xs"
+                          className="ml-sp2"
+                        >
+                          {t(`leadType.${l.leadType}`)}
+                        </Badge>
                       </TD>
                       <TD className="text-text-secondary">{l.source}</TD>
                       <TD className="text-text-secondary text-[12px]">{l.zone}</TD>

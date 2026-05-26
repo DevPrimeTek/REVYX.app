@@ -13,6 +13,7 @@ import { MetricPill } from '@/components/ui/score-badge';
 import { useToast } from '@/components/ui/toast';
 import { useT } from '@/components/i18n/provider';
 import { agents, deals } from '@/lib/mock';
+import { AgentRankBadge } from '@/components/agents/rank-badge';
 import { cn } from '@/lib/utils';
 
 type Tab = 'summary' | 'history' | 'preferences' | 'documents';
@@ -69,7 +70,10 @@ export default function CabinetAgentPage() {
             <div className="flex-1 min-w-0 flex flex-col gap-sp2">
               <div>
                 <p className="label-mono text-gold">{t('cabinet.agent.moduleLabel')}</p>
-                <h1 className="text-[28px] mt-sp1">{me.name}</h1>
+                <div className="flex items-center gap-sp2 mt-sp1 flex-wrap">
+                  <h1 className="text-[28px]">{me.name}</h1>
+                  <AgentRankBadge agent={me} size="sm" />
+                </div>
                 <p className="text-[13px] text-text-secondary mt-sp1">
                   {me.id} · {Math.round(me.tenure / 30)} {t('cabinet.agent.tabs.summary') === 'Sumar' ? 'luni de echipă' : 'мес. в команде'}
                 </p>

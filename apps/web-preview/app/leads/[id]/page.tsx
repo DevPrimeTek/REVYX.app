@@ -1,13 +1,14 @@
 'use client';
 
-// M0.S6 · Lead detail · friendly labels only, no scoring acronyms exposed to the agent.
+// M0.S9 · Lead detail rework — separare buyer/seller, MatchPodium Top1/2/3 cu reveal inline,
+// suggestions ca bloc separat, recompute clarificat cu explicație.
 
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useMemo, useState } from 'react';
 import { SiteNav } from '@/components/site-nav';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { LeadPriorityBadge, MetricPill } from '@/components/ui/score-badge';
+import { LeadPriorityBadge } from '@/components/ui/score-badge';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Modal } from '@/components/ui/modal';
@@ -20,7 +21,9 @@ import { NotesPanel } from '@/components/leads/notes-panel';
 import { DocumentsPanel } from '@/components/leads/documents-panel';
 import { ShowingModal } from '@/components/showings/showing-modal';
 import { ShowingList } from '@/components/showings/showing-list';
-import { MatchReasoning } from '@/components/leads/match-reasoning';
+import { MatchPodium } from '@/components/leads/match-podium';
+import { BuyerPreferencesPanel } from '@/components/leads/buyer-preferences-panel';
+import { SellerPropertyPanel } from '@/components/leads/seller-property-panel';
 import { useShowings } from '@/lib/showing-store';
 
 type Params = { params: { id: string } };
@@ -39,15 +42,20 @@ export default function LeadDetailPage({ params }: Params) {
   const [ls, setLs] = useState(baseLs);
   const [recomputing, setRecomputing] = useState(false);
 
-  const matches = useMemo(
-    () => [...properties].sort((a, b) => b.ps - a.ps).slice(0, 3),
-    []
-  );
+  // Top matches — filtered by buyer preferences when applicable.
+  const matches = useMemo(() => {
+    if (!lead) return [];
+    if (lead.leadType === 'seller') return []; // sellers don't need matches
+    return [...properties]
+      .filter((p) => p.priceEur >= lead.budgetMin * 0.85 && p.priceEur <= lead.budgetMax * 1.15)
+      .sort((a, b) => b.ps - a.ps)
+      .slice(0, 6);
+  }, [lead]);
+
   const leadShowings = useMemo(
     () => (lead ? showings.filter((s) => s.leadId === lead.id) : []),
     [lead, showings],
   );
-  const topMatch = matches[0];
 
   function recomputeScore() {
     if (recomputing) return;
@@ -105,6 +113,8 @@ export default function LeadDetailPage({ params }: Params) {
     return 'good';
   };
 
+  const isBuyer = lead.leadType === 'buyer';
+
   return (
     <>
       <SiteNav active="/leads" />
@@ -121,20 +131,31 @@ export default function LeadDetailPage({ params }: Params) {
           <div>
             <p className="label-mono text-gold">{t('leadDetail.moduleLabel')}</p>
             <h1 className="text-[28px] mt-sp1">{lead.name}</h1>
-            <div className="flex items-center gap-sp2 mt-sp2">
+            <div className="flex items-center gap-sp2 mt-sp2 flex-wrap">
+              <Badge variant={isBuyer ? 'info' : 'updated'} size="sm">
+                {t(`leadType.${lead.leadType}`)}
+              </Badge>
               <LeadPriorityBadge ls={ls} t={t} />
               {lead.needsReview && <Badge variant="updated">{t('leadDetail.matchNeedsReview')}</Badge>}
               {recomputing && <Badge variant="info" size="xs">{t('leadDetail.recomputing')}</Badge>}
             </div>
           </div>
           <div className="flex items-center gap-sp2 flex-wrap">
-            <Button variant="ghost" onClick={recomputeScore} disabled={recomputing}>
-              {t('leadDetail.recompute')}
-            </Button>
+            <div className="flex items-center gap-1">
+              <Button variant="ghost" onClick={recomputeScore} disabled={recomputing}>
+                {t('leadDetail.recompute')}
+              </Button>
+              <InfoTooltip
+                label={t('leadDetail.recompute')}
+                body={t('leadDetail.recomputeHelp')}
+              />
+            </div>
             <Button variant="secondary">{t('leadDetail.whatsapp')}</Button>
-            <Button variant="secondary" onClick={() => setShowingOpen(true)}>
-              {t('showing.addCta')}
-            </Button>
+            {isBuyer && (
+              <Button variant="secondary" onClick={() => setShowingOpen(true)}>
+                {t('showing.addCta')}
+              </Button>
+            )}
             <Button onClick={() => setAssignOpen(true)}>{t('leadDetail.assignAgent')}</Button>
           </div>
         </header>
@@ -146,74 +167,72 @@ export default function LeadDetailPage({ params }: Params) {
           />
         )}
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-sp3">
-          <Card className="lg:col-span-2">
-            <CardHeader>
-              <CardTitle>{t('leadDetail.summaryTitle')}</CardTitle>
-              <CardDescription>{t('leadDetail.gdprNote')} · {lead.createdAt}</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <dl className="grid grid-cols-1 md:grid-cols-2 gap-sp3 text-[13px]">
-                <div>
-                  <dt className="label-mono text-text-muted">{t('leadDetail.source')}</dt>
-                  <dd className="text-text-h">{lead.source}</dd>
-                </div>
-                <div>
-                  <dt className="label-mono text-text-muted">{t('leadDetail.budget')}</dt>
-                  <dd className="text-text-h">
-                    €{lead.budgetMin.toLocaleString('ro-MD')} – €{lead.budgetMax.toLocaleString('ro-MD')}
-                  </dd>
-                </div>
-                <div>
-                  <dt className="label-mono text-text-muted">{t('leadDetail.zone')}</dt>
-                  <dd className="text-text-h">{lead.zone}</dd>
-                </div>
-                <div>
-                  <dt className="label-mono text-text-muted">{t('leadDetail.rooms')}</dt>
-                  <dd className="text-text-h">{lead.rooms}</dd>
-                </div>
-              </dl>
-
-              <div className="mt-sp4">
-                <div className="flex items-center gap-sp1 mb-sp2">
-                  <p className="label-mono text-text-muted">{t('task.suggestion.intro')}</p>
-                  <InfoTooltip
-                    label={t('dashboard.blocks.suggestionsTitle')}
-                    body={t('dashboard.blocks.suggestionsDesc')}
-                  />
-                </div>
-                <LeadSuggestions lead={lead} agentId={agents[0].id} />
+        {/* Summary (cleaner — fără suggestions inline; suggestions este bloc separat mai jos) */}
+        <Card>
+          <CardHeader>
+            <CardTitle>{t('leadDetail.summaryTitle')}</CardTitle>
+            <CardDescription>{t('leadDetail.gdprNote')} · {lead.createdAt}</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <dl className="grid grid-cols-1 md:grid-cols-4 gap-sp3 text-[13px]">
+              <div>
+                <dt className="label-mono text-text-muted">{t('leadDetail.source')}</dt>
+                <dd className="text-text-h">{lead.source}</dd>
               </div>
-            </CardContent>
-          </Card>
+              <div>
+                <dt className="label-mono text-text-muted">{t('leadDetail.budget')}</dt>
+                <dd className="text-text-h">
+                  €{lead.budgetMin.toLocaleString('ro-MD')} – €{lead.budgetMax.toLocaleString('ro-MD')}
+                </dd>
+              </div>
+              <div>
+                <dt className="label-mono text-text-muted">{t('leadDetail.zone')}</dt>
+                <dd className="text-text-h">{lead.zone}</dd>
+              </div>
+              <div>
+                <dt className="label-mono text-text-muted">{t('leadDetail.rooms')}</dt>
+                <dd className="text-text-h">{lead.rooms}</dd>
+              </div>
+            </dl>
+          </CardContent>
+        </Card>
 
-          <Card variant="elevated" accentTop>
-            <CardHeader>
-              <p className="label-mono text-gold">{t('leadDetail.matchModule')}</p>
-              <CardTitle>{t('leadDetail.matchTitle')}</CardTitle>
-              <CardDescription>{t('leadDetail.matchSubtitle')}</CardDescription>
-            </CardHeader>
-            <CardContent className="flex flex-col gap-sp2">
-              {matches.map((p) => (
-                <Link
-                  key={p.id}
-                  href={`/properties/${p.id}`}
-                  className="flex items-start justify-between border border-border rounded-md px-sp2 py-sp2 transition-all duration-fast hover:border-gold/60 hover:bg-navy-hover hover:-translate-y-0.5 focus-visible:border-gold focus-visible:outline-none"
-                >
-                  <div>
-                    <p className="font-mono text-[11px] text-text-secondary">{p.id}</p>
-                    <p className="text-text-h text-[13px]">{p.addr}</p>
-                  </div>
-                  <span className="text-gold text-[11px]">→</span>
-                </Link>
-              ))}
-            </CardContent>
-          </Card>
-        </div>
+        {/* Suggestions — bloc separat per PM feedback (2.1) */}
+        <Card variant="elevated" accentTop>
+          <CardHeader>
+            <div className="flex items-center gap-sp1">
+              <CardTitle>{t('leadDetail.suggestionsBlockTitle')}</CardTitle>
+              <InfoTooltip
+                label={t('dashboard.blocks.suggestionsTitle')}
+                body={t('dashboard.blocks.suggestionsDesc')}
+              />
+            </div>
+            <CardDescription>{t('leadDetail.suggestionsBlockDesc')}</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <LeadSuggestions lead={lead} agentId={agents[0].id} />
+          </CardContent>
+        </Card>
 
-        {topMatch && (
-          <section className="grid grid-cols-1 lg:grid-cols-2 gap-sp3">
-            <MatchReasoning lead={lead} property={topMatch} />
+        {/* Buyer vs Seller split (per Regula 19) */}
+        {isBuyer ? (
+          <>
+            {/* Buyer: preferințe + Top3 match podium */}
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-sp3">
+              <div className="lg:col-span-1">
+                <BuyerPreferencesPanel lead={lead} />
+              </div>
+              <Card className="lg:col-span-2" variant="elevated" accentTop>
+                <CardHeader>
+                  <p className="label-mono text-gold">{t('leadDetail.matchModule')}</p>
+                  <CardTitle>{t('leadDetail.matchTitle')}</CardTitle>
+                  <CardDescription>{t('leadDetail.matchSubtitleBuyer')}</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <MatchPodium lead={lead} candidates={matches} />
+                </CardContent>
+              </Card>
+            </div>
             <Card>
               <CardHeader>
                 <CardTitle>{t('dealDetail.showingsTitle')}</CardTitle>
@@ -223,7 +242,12 @@ export default function LeadDetailPage({ params }: Params) {
                 <ShowingList showings={leadShowings} locale={locale} compact />
               </CardContent>
             </Card>
-          </section>
+          </>
+        ) : (
+          <>
+            {/* Seller: proprietatea + beneficii + vizionări programate */}
+            <SellerPropertyPanel lead={lead} locale={locale} />
+          </>
         )}
 
         <section className="grid grid-cols-1 lg:grid-cols-2 gap-sp3">
