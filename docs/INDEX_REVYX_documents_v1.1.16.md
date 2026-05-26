@@ -1,11 +1,12 @@
 # INDEX — REVYX Document Catalog
-<!-- INDEX_REVYX_documents_v1.1.15.md · v1.1.15 · 2026-05 -->
+<!-- INDEX_REVYX_documents_v1.1.16.md · v1.1.16 · 2026-05 -->
 <!-- CONFIDENȚIAL · Uz Intern · © 2026 REVYX · ITPRO SYSTEM SRL -->
 
 ## Changelog
 
 | Versiune | Data | Autor | Note |
 |---|---|---|---|
+| **1.1.16** | **2026-05** | ★ Senior PM + DOC + Audit Lead | ★ **PATCH — Glosar abrevieri consolidat (1 doc nou, foundation category).** Adăugare: ★ `docs/GLOSSARY_REVYX_abbreviations_v1.0.0.md` — lexicon canonical proiect cu 226 termeni unici grupați pe 14 categorii (scoruri AOS, BR-XX, NFR-XX, Reguli R-01..R-19, AC-XX, F-XXX, OD-XX, milestones, document prefixes, roluri, tech stack, canale, Phase 5, GDPR + RM legislation, geo). §16 Quick lookup A-Z. Cross-ref consolidat din BRD §15 + CLAUDE.md §4/§12 + MASTER_PLAN + PLATFORM_MATRIX + 25 TECH_SPEC + 9 WORKFLOW + 11 RUNBOOK + audit reports. Sursă: harvest exhaustiv via grep + scan structurat. Versiunea **activă**. Sesiune docs-only triggered de PM directive "consolidare abrevieri pentru percepere mai bună și mai clară". Backwards compat full cu v1.1.15 (zero modificări pe alte documente). Owner: Senior PM + DOC + Audit Lead. |
 | 1.0.0 | 2026-05 | Senior PM + Audit Lead | Initial — retrospectiva tuturor documentelor existente la S12 close |
 | 1.0.1 .. 1.0.9 | 2026-05/06/07 | Senior PM + Audit Lead | PATCH-uri Phase 5 (vezi v1.1.1 pentru istoric complet) |
 | 1.1.0 | 2026-07 | Senior PM + VP Product + Audit Lead + Solution Architect + CTO + CISO + DPO + CFO | **MINOR — Phase 5 GA close consolidation** + §15 board reports. |
@@ -43,6 +44,7 @@
 |---|---|
 | ★ `CLAUDE.md` v1.2.6 | Agent Operating System cheat-sheet pentru Claude Code la fiecare sesiune. §0a Status Execuție LIVE actualizat M0.S2 ✅ CLOSED → ★ **deploy pipeline online (Vercel app + CI gate)** → M0.S3 next. Regulile 1-9 active (incl. Regula 9 Platform Matrix compliance). |
 | `docs/brand-configs/revyx.md` v1.0.0 | Brand system canonical: paletă (navy + gold), font (Bebas Neue + Montserrat + JetBrains Mono), componente UI, ton voce. Citit de toate skill-urile la generare document. **Lege pentru orice UI** (CLAUDE.md §1). Open question OD-01 ridicat M0.S1: AC-M0-02 menționează "Inter" — în spec ui-design-system §10 listed as pending PM resolution. Owner: Senior Designer + PM. |
+| ★ `docs/GLOSSARY_REVYX_abbreviations_v1.0.0.md` | ★ NEW post-M0.S7 — **Glosar consolidat exhaustiv** al tuturor abrevierilor, acronimelor și codurilor scurte folosite în documentația REVYX. 226 termeni unici grupați pe 14 categorii: scoruri/metrici AOS (LS/PS/IS/DP/NBA/TS/APS/DHI/LF/TF/UF/RF + Churn Score + Prevention Rate), Business Rules (BR-01..24), NFR-01..11, Reguli operaționale Claude R-01..R-19, Acceptance Criteria (AC-M0/M1/M2/BUYER/CHURN/DC/DHI/ESC/LF/LS/SH/SL/WL), Findings (F-S20-XX + F-M0S5-XX), Open Decisions (OD-01..03 + OD-i18n-01 + OD-M0.S4-01..04 + OD-legal-01..05 + OD-cookie-01..03 + OD-mkt-01..08), milestones M0/M1/M2 + sub-stages, document prefixes (BRD/PRD/TECH_SPEC/WORKFLOW/RUNBOOK/HST/INDEX/MASTER_PLAN/ROADMAP/DPIA/SCC), roluri (AOS/PM/DBA/QA/DPO/CTO/CFO/CISO/CMO/DS/CS/CNPDCP), tech stack (JWT/RS256/HMAC/RBAC/RLS/NestJS/Fastify/PostgreSQL/pgvector/HNSW/Redis/BullMQ/Drizzle), canale (WhatsApp/Meta/Google/OLX/IDX/MLS/SMS/OAuth/SSO/MFA/OT), Phase 5 (BUYER_PROFILE/Marketplace/Churn Score/White-Label/leadType R-19), GDPR articles 5/6/15/17/18/20/22/32/35 + RM Legea 133/2011 + 142/2018, geo+currency+TZ (RM/UTC+2/EUR/MDL/USD). §16 quick lookup A-Z. §17 surse + procedură update (R-06+R-18 compliant). Cross-ref BRD §15 + CLAUDE.md §4/§12. Owner: Senior PM + DOC + Audit Lead. |
 
 ---
 
