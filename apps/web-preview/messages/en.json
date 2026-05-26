@@ -22,7 +22,13 @@
     "notifications": "Notifications",
     "signOut": "Sign out",
     "languageLabel": "Language",
-    "brandTagline": "Real Estate Execution Intelligence"
+    "brandTagline": "Real Estate Execution Intelligence",
+    "showings": "Showings",
+    "tools": "More",
+    "marketplace": "Marketplace",
+    "notary": "Notary",
+    "clientPortal": "Client portal",
+    "intake": "New lead intake"
   },
   "common": {
     "open": "Open",

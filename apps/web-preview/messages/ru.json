@@ -22,7 +22,13 @@
     "notifications": "Уведомления",
     "signOut": "Выход",
     "languageLabel": "Язык",
-    "brandTagline": "Real Estate Execution Intelligence"
+    "brandTagline": "Real Estate Execution Intelligence",
+    "showings": "Показы",
+    "tools": "Ещё",
+    "marketplace": "Маркетплейс",
+    "notary": "Нотариус",
+    "clientPortal": "Портал клиента",
+    "intake": "Новый лид"
   },
   "common": {
     "open": "Открыть",

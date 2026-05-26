@@ -108,6 +108,16 @@ function DealCard({
           <span className="text-[11px] text-text-muted">{agent?.name ?? deal.agentId}</span>
           <span className="text-[12px] text-gold font-mono">€{deal.commissionEur.toLocaleString('ro-MD')}</span>
         </div>
+        {!isDragOverlay && (
+          <a
+            href={`/deals/${deal.id}`}
+            onClick={(e) => e.stopPropagation()}
+            onPointerDown={(e) => e.stopPropagation()}
+            className="text-[11px] text-text-muted hover:text-gold inline-flex items-center gap-1 cursor-pointer self-start"
+          >
+            {t('common.open')} →
+          </a>
+        )}
       </div>
     </div>
   );

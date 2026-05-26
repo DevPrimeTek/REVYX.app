@@ -13,14 +13,22 @@ const primaryLinks = [
   { href: '/leads', key: 'leads' },
   { href: '/properties', key: 'properties' },
   { href: '/deals', key: 'deals' },
+  { href: '/showings', key: 'showings' },
   { href: '/tasks', key: 'tasks' },
-  { href: '/tutorial', key: 'tutorial' },
 ] as const;
 
 const cabinetLinks = [
   { href: '/cabinet/agent', key: 'cabinetAgent' },
   { href: '/cabinet/agency', key: 'cabinetAgency' },
   { href: '/cabinet/group', key: 'cabinetGroup' },
+] as const;
+
+const toolsLinks = [
+  { href: '/marketplace', key: 'marketplace' },
+  { href: '/notary', key: 'notary' },
+  { href: '/client', key: 'clientPortal' },
+  { href: '/intake', key: 'intake' },
+  { href: '/tutorial', key: 'tutorial' },
 ] as const;
 
 const overflowLinks = [
@@ -34,18 +42,22 @@ export function SiteNav({ active }: { active?: string }) {
   const { t, locale, setLocale } = useT();
   const [langOpen, setLangOpen] = useState(false);
   const [cabinetOpen, setCabinetOpen] = useState(false);
+  const [toolsOpen, setToolsOpen] = useState(false);
   const langRef = useRef<HTMLDivElement>(null);
   const cabinetRef = useRef<HTMLLIElement>(null);
+  const toolsRef = useRef<HTMLLIElement>(null);
 
   useEffect(() => {
     function onDocClick(e: MouseEvent) {
       if (langRef.current && !langRef.current.contains(e.target as Node)) setLangOpen(false);
       if (cabinetRef.current && !cabinetRef.current.contains(e.target as Node)) setCabinetOpen(false);
+      if (toolsRef.current && !toolsRef.current.contains(e.target as Node)) setToolsOpen(false);
     }
     function onEsc(e: KeyboardEvent) {
       if (e.key === 'Escape') {
         setLangOpen(false);
         setCabinetOpen(false);
+        setToolsOpen(false);
       }
     }
     document.addEventListener('mousedown', onDocClick);
@@ -57,6 +69,7 @@ export function SiteNav({ active }: { active?: string }) {
   }, []);
 
   const cabinetActive = active?.startsWith('/cabinet');
+  const toolsActive = toolsLinks.some((l) => active === l.href);
 
   return (
     <nav
@@ -112,6 +125,49 @@ export function SiteNav({ active }: { active?: string }) {
                     href={l.href}
                     role="menuitem"
                     onClick={() => setCabinetOpen(false)}
+                    className={cn(
+                      'block px-sp3 py-sp2 text-[13px] transition-colors duration-fast',
+                      active === l.href
+                        ? 'bg-navy-hover text-gold'
+                        : 'text-text-secondary hover:bg-navy-hover hover:text-text-h'
+                    )}
+                  >
+                    {t(`nav.${l.key}`)}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          )}
+        </li>
+
+        {/* Tools dropdown */}
+        <li ref={toolsRef} className="relative">
+          <button
+            type="button"
+            aria-haspopup="menu"
+            aria-expanded={toolsOpen}
+            onClick={() => setToolsOpen((o) => !o)}
+            className={cn(
+              'inline-flex h-9 items-center gap-1 px-sp3 rounded-md text-[13px] transition-colors duration-fast',
+              toolsActive
+                ? 'bg-navy-hover text-text-h'
+                : 'text-text-secondary hover:bg-navy-hover hover:text-text-h'
+            )}
+          >
+            {t('nav.tools')}
+            <span aria-hidden className="text-text-muted">▾</span>
+          </button>
+          {toolsOpen && (
+            <ul
+              role="menu"
+              className="absolute right-0 mt-sp1 min-w-[220px] bg-navy-deep border border-border rounded-md shadow-lg overflow-hidden z-40"
+            >
+              {toolsLinks.map((l) => (
+                <li key={l.href}>
+                  <Link
+                    href={l.href}
+                    role="menuitem"
+                    onClick={() => setToolsOpen(false)}
                     className={cn(
                       'block px-sp3 py-sp2 text-[13px] transition-colors duration-fast',
                       active === l.href
