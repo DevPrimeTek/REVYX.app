@@ -132,7 +132,7 @@
 
 **Echipa:** Senior Product Auditor + CS Lead
 
-**Constatare:** `docs/cs-playbooks/CHURN_MEDIUM_v1.0.0.md`, `CHURN_HIGH_v1.0.0.md`, `CHURN_CRITICAL_v1.0.0.md` au templates email/SMS/call în mare parte numai în RO; subject lines RU+EN apar parțial doar în MEDIUM §3, dar body-urile RU + EN lipsesc pe toate trei. Brief-ul S8/S11 cere RO + RU + EN pentru toate trei playbook-urile (piața primară RM are populații RO + RU; tenant-ii Enterprise pot fi EN).
+**Constatare:** `docs/cs-playbooks/CHURN_MEDIUM_v1.1.0.md`, `CHURN_HIGH_v1.1.0.md`, `CHURN_CRITICAL_v1.1.0.md` au templates email/SMS/call în mare parte numai în RO; subject lines RU+EN apar parțial doar în MEDIUM §3, dar body-urile RU + EN lipsesc pe toate trei. Brief-ul S8/S11 cere RO + RU + EN pentru toate trei playbook-urile (piața primară RM are populații RO + RU; tenant-ii Enterprise pot fi EN).
 
 **Fix aplicat S11:** Bump la v1.1.0 pentru toate trei playbook-uri cu secțiuni RU + EN paralele (additive, RO neschimbat).
 

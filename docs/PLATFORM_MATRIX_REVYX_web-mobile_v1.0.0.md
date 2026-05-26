@@ -335,8 +335,8 @@ Restul features Mobile sunt subset din Web (lead view, deal view, NBA), optimiza
 
 | Document | Module afectate | Status update necesar |
 |---|---|---|
-| `WORKFLOW_REVYX_lead-lifecycle_v1.0.0.md` | Modul 2 | 🟡 PATCH v1.0.1 — adăugare platform tags pentru "agent dashboard" |
-| `WORKFLOW_REVYX_offer-chain_v1.0.0.md` | Modul 7 | 🟡 PATCH v1.0.1 — manager review = Web only DP-05 explicit |
+| `WORKFLOW_REVYX_lead-lifecycle_v1.0.1.md` | Modul 2 | 🟡 PATCH v1.0.1 — adăugare platform tags pentru "agent dashboard" |
+| `WORKFLOW_REVYX_offer-chain_v1.0.1.md` | Modul 7 | 🟡 PATCH v1.0.1 — manager review = Web only DP-05 explicit |
 | `WORKFLOW_REVYX_property-onboarding_v1.0.0.md` | Modul 3 | 🟢 OK — workflow backend |
 | `WORKFLOW_REVYX_deal-closure_v1.0.0.md` | Modul 5 | 🟢 OK — workflow generic |
 | `WORKFLOW_REVYX_showing-flow_v1.0.0.md` | Modul 6 | 🟢 OK — already mentions Mobile |

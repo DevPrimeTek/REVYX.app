@@ -805,7 +805,7 @@ Idempotente. Backfill: deals existente cu `offer_price` populat → INSERT 1 off
 | Document | Tip impact | Acțiune |
 |---|---|---|
 | BRD_REVYX_v1.1.0.md | None | Implementare §8 OFFER |
-| WORKFLOW_REVYX_offer-chain_v1.0.0.md | Major (★ followup v1.1) | Referință tabel concret + saga · update §15 cu schema link |
+| WORKFLOW_REVYX_offer-chain_v1.0.1.md | Major (★ followup v1.1) | Referință tabel concret + saga · update §15 cu schema link |
 | WORKFLOW_REVYX_deal-closure_v1.0.0.md | Minor | Handoff WON_PENDING_NOTARY confirmat |
 | TECH_SPEC_REVYX_match-engine_v2.0.0.md | Minor | DP recalc trigger pe offer events |
 | TECH_SPEC_REVYX_dhi-engine_v1.0.0.md | Minor | RF concurență input |

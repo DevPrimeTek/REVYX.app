@@ -649,7 +649,7 @@ Idempotente. Backwards compat: tabel `task` Phase 0 (dacă există) → migrare 
 | TECH_SPEC_REVYX_match-engine (S4) | Major (paralel) | DP source pentru NBA |
 | TECH_SPEC_REVYX_dhi-engine (S4) | None | NBA și DHI consumă DP independent |
 | TECH_SPEC_REVYX_audit-log_v1.1.1.md | Minor | Catalog event extins (`TASK_*`) |
-| WORKFLOW_REVYX_lead-lifecycle_v1.0.0.md | Minor | Task `first_contact` derivat din NBA |
+| WORKFLOW_REVYX_lead-lifecycle_v1.0.1.md | Minor | Task `first_contact` derivat din NBA |
 | WORKFLOW_REVYX_escalation (S4) | Minor | Reassign L3 actualizează NBA |
 
 ### 19.3 Impact pe scoring

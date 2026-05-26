@@ -752,7 +752,7 @@ Toate migrările idempotente (`ADD COLUMN IF NOT EXISTS`). Backwards compat: exi
 | TECH_SPEC_REVYX_property_v1.0.0.md (S3) | Minor | BF (Budget Fit) consumă inventory PROPERTY pentru overlap |
 | TECH_SPEC_REVYX_match-engine (S4) | Major | Match Engine consumă `lead_score`, `interaction_strength` pentru DP |
 | TECH_SPEC_REVYX_nba-engine (S4) | Major | NBA consumă DP + Δt din ACTIVITY |
-| WORKFLOW_REVYX_lead-lifecycle_v1.0.0.md (S3) | None | Reflectă mecanica acestui spec |
+| WORKFLOW_REVYX_lead-lifecycle_v1.0.1.md (S3) | None | Reflectă mecanica acestui spec |
 | WORKFLOW_REVYX_escalation (S4) | Minor | Implementare detaliată BR-03 |
 | brand-configs/revyx.md | None | — |
 

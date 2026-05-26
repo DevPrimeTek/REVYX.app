@@ -357,7 +357,7 @@ Pre-dev ──→ M0 ──→ HST M0 ──→ M1 ──→ HST M1 ──→ M2
 | Aspect | Valoare |
 |---|---|
 | **Hats active** | IMPLEMENTER (primary), TESTER (primary), DBA (secondary), ARCHITECT (secondary) |
-| **Spec referință** | `TECH_SPEC_REVYX_lead-scoring_v1.0.0.md`, `TECH_SPEC_REVYX_webhook-intake_v1.0.0.md`, `WORKFLOW_REVYX_lead-lifecycle_v1.0.0.md`, `WORKFLOW_REVYX_escalation_v1.0.0.md` |
+| **Spec referință** | `TECH_SPEC_REVYX_lead-scoring_v1.0.0.md`, `TECH_SPEC_REVYX_webhook-intake_v1.0.0.md`, `WORKFLOW_REVYX_lead-lifecycle_v1.0.1.md`, `WORKFLOW_REVYX_escalation_v1.0.0.md` |
 | **Sub-tasks** | (a) Webhook parsers Meta/Google/OLX · (b) LS engine formula BRD §7.1 · (c) `LS_initial=0.30` (BR-02) · (d) Lead Firewall LS≥0.60 + contact valid (BR-01) · (e) SLA engine 15min/2h/24h · (f) Escalation Protocol 3-niveluri (BR-03) · (g) Max 3 task active/agent (BR-04) · (h) Nurturing leads <0.40 · (i) Tests T01-T07 + BR-01..07 |
 | **Acceptance** | AC-M1-02; testele T01-T07 PASS 7/7 |
 | **Token strategy** | TESTER scrie întâi vectorii T01-T07 → IMPLEMENTER face cod să facă PASS (TDD strict) |
@@ -378,7 +378,7 @@ Pre-dev ──→ M0 ──→ HST M0 ──→ M1 ──→ HST M1 ──→ M2
 |---|---|
 | **Hats active** | FRONTEND WEB DEV (primary), DESIGNER (primary), TESTER (secondary), ARCHITECT (secondary) |
 | **Platformă** | **WEB ONLY** (Mobile companion amânat la M2.S3) |
-| **Spec referință** | `TECH_SPEC_REVYX_web-platform_v1.0.0.md` (NEW — to be created în S16+) + `WORKFLOW_REVYX_lead-lifecycle_v1.0.0.md` |
+| **Spec referință** | `TECH_SPEC_REVYX_web-platform_v1.0.0.md` (NEW — to be created în S16+) + `WORKFLOW_REVYX_lead-lifecycle_v1.0.1.md` |
 | **Output** | `apps/web/` Next.js 14 App Router cu auth Supabase, dashboard agent: lead queue prioritizat (sorted by LS + SLA expiry), task list max 3 active (BR-04), SLA timer real-time (15min/2h/24h), lead detail page + activity log + IS history, property browse + match suggestions |
 | **Acceptance** | AC-M1-04a + AC-M1-09 + AC-M1-10 |
 | **Token strategy** | Reuse componente design system din M0.S1; Server Components pentru fetching, Client Components doar pentru interactivitate (lead actions, filters); shadcn/ui pre-built |
