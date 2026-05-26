@@ -5,7 +5,7 @@
 ## 0. Stage Master Plan
 
 **Acoperă:** Pre-development / S16 — audit checkpoint post-Stage 3 (ML Pricing CANARY 5%→25%) + deblocaj Stage 4 entry.
-**Master Plan ref:** `MASTER_PLAN_REVYX_execution-roadmap_v1.1.1.md` §0.3 (S16 entry) + §7.1 (pre-dev gates).
+**Master Plan ref:** `MASTER_PLAN_REVYX_execution-roadmap_v1.1.2.md` §0.3 (S16 entry) + §7.1 (pre-dev gates).
 **Roadmap ref:** `ROADMAP_REVYX_detailed-execution_v1.0.0.md` §2.1 T-S16-01..03.
 **Trio canonical citat:** Master Plan v1.1.1 + Platform Matrix v1.0.0 + Detailed Roadmap v1.0.0 (Regula 8 + Regula 9).
 
@@ -328,11 +328,11 @@ Per `READINESS_REVYX_phase5` v1.0.4 §6.1 entry gates 4.1..4.9 + `phase5-rollout
 |---|---|---|
 | `docs/audit/AUDIT_REVYX_s15-external-pass_v1.0.0.md` (NEW — acest doc) | 1.0.0 | Audit pass acoperind §2-§7 + bias monitoring report §3 + Stage 4 entry deblocaj §7 |
 | `docs/runbook/RUNBOOK_REVYX_stage4-churn-launch_v1.0.0.md` (NEW) | 1.0.0 | Operational day-by-day Stage 4 (T+56..T+77) CS dry-run cu 9 task-uri (5 MED + 3 HIGH + 1 CRITICAL) + Platform Matrix §15 Modul 14.6 cross-ref (CS dashboard 🌐 Web only DP-05) |
-| `docs/audit/READINESS_REVYX_phase5_v1.0.4.md` (PATCH) | 1.0.4 | §5.1 entry gates 3.1-3.9 toate ☑ (date 2026-06-01) · §5.2 exit gates 6 metrici măsurate (6/6 PASS) · §6.1 Stage 4 entry gates 4.1-4.9 toate 🟢 GREEN · sign-off date placeholders Stage 3 marcate 2026-06-22 · §10 cross-ref nou AUDIT_s15 + RUNBOOK_stage4-churn |
+| `docs/audit/READINESS_REVYX_phase5_v1.1.0.md` (PATCH) | 1.0.4 | §5.1 entry gates 3.1-3.9 toate ☑ (date 2026-06-01) · §5.2 exit gates 6 metrici măsurate (6/6 PASS) · §6.1 Stage 4 entry gates 4.1-4.9 toate 🟢 GREEN · sign-off date placeholders Stage 3 marcate 2026-06-22 · §10 cross-ref nou AUDIT_s15 + RUNBOOK_stage4-churn |
 | `docs/tech-spec/TECH_SPEC_REVYX_mobile-rn_v1.0.1.md` (PATCH) | 1.0.1 | F-S13-01 closed doc-side · §5 API contract `push_payload.deep_link_url` adăugat · §6 algorithm "Push deep-link routing" · §15 testing snapshot · cross-ref Platform Matrix §2.5 (Auth password reset deep-link) |
 | `docs/INDEX_REVYX_documents_v1.0.7.md` (PATCH) | 1.0.7 | Regula 6 — adăugare entries S16: AUDIT s15, RUNBOOK stage4-churn-launch, READINESS v1.0.4, mobile-rn v1.0.1 |
 | `CLAUDE.md` §0a Status Execuție (PATCH inline) | n/a | Sesiune S15 ✅ CLOSED → S16 ✅ CLOSED · Next session S17 |
-| `MASTER_PLAN_REVYX_execution-roadmap_v1.1.1.md` §0 Status Tracker (PATCH inline) | n/a | S16 ✅ closed; sub-stage activ S17 |
+| `MASTER_PLAN_REVYX_execution-roadmap_v1.1.2.md` §0 Status Tracker (PATCH inline) | n/a | S16 ✅ closed; sub-stage activ S17 |
 
 **Specs și runbook-uri spec-frozen Stage 3 (ml-pricing-ga v1.0.2 + v1.0.3, audit-log v1.1.1, churn-ga v1.0.0/v1.0.1/v1.0.2) NU modificate** — Regula 4 respectată. F-S15-01 spec change `ml-pricing-ga` v1.0.4 e planificat S17 (NU în scope S16).
 

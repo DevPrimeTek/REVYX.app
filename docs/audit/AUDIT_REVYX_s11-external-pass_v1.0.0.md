@@ -125,7 +125,7 @@ Acoperit prin `TECH_SPEC_REVYX_audit-log` v1.1.1 (S12 patch acest sprint). Eveni
 
 **Constatare:** Stakeholders board (VP Product + CTO + CISO + DPO + Audit Lead + CFO per `phase5-rollout-sequence` §9.2) trebuie să sign-off Phase 5 GA la T+91. Pre-T0 (Stage 1 entry) cer alt sign-off — VP Product + CTO + Audit Lead 3-eyes (§2 final). Fără single-page matrix care leagă DPIA + audit S11 + runbook + stage entry/exit gates per stage cu sign-off date placeholder → board review va dura ore + posibilitate omisiuni.
 
-**Fix inline S12:** `READINESS_REVYX_phase5_v1.0.0.md` — single-page table per stage cu gate status, owner, blocker findings active (F-S10-04 explicit pe Stage 5), sign-off date placeholder.
+**Fix inline S12:** `READINESS_REVYX_phase5_v1.1.0.md` — single-page table per stage cu gate status, owner, blocker findings active (F-S10-04 explicit pe Stage 5), sign-off date placeholder.
 
 ### F-S11-06 · LOW · DKIM runbook event reuse
 
@@ -195,7 +195,7 @@ Cosmetic. NO-OP. Un eveniment dedicat `WL_EMAIL_DKIM_KEY_GENERATED` ar fi mai cu
 | `docs/tech-spec/TECH_SPEC_REVYX_audit-log_v1.1.1.md` (PATCH) | 1.1.1 | F-S10-09 LOW + F-S11-02 LOW |
 | `docs/runbook/RUNBOOK_REVYX_partition-maintenance_v1.0.1.md` (PATCH) | 1.0.1 | F-S10-08 LOW |
 | `docs/cs-playbooks/CHECKLIST_pre-pilot_v1.0.0.md` (NEW) | 1.0.0 | F-S11-04 MED |
-| `docs/audit/READINESS_REVYX_phase5_v1.0.0.md` (NEW) | 1.0.0 | F-S11-05 MED + F-S11-03 LOW + F-S11-08 LOW |
+| `docs/audit/READINESS_REVYX_phase5_v1.1.0.md` (NEW) | 1.0.0 | F-S11-05 MED + F-S11-03 LOW + F-S11-08 LOW |
 
 ---
 

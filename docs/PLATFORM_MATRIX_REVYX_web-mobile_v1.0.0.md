@@ -335,20 +335,20 @@ Restul features Mobile sunt subset din Web (lead view, deal view, NBA), optimiza
 
 | Document | Module afectate | Status update necesar |
 |---|---|---|
-| `WORKFLOW_REVYX_lead-lifecycle_v1.0.0.md` | Modul 2 | 🟡 PATCH v1.0.1 — adăugare platform tags pentru "agent dashboard" |
-| `WORKFLOW_REVYX_offer-chain_v1.0.0.md` | Modul 7 | 🟡 PATCH v1.0.1 — manager review = Web only DP-05 explicit |
+| `WORKFLOW_REVYX_lead-lifecycle_v1.0.1.md` | Modul 2 | 🟡 PATCH v1.0.1 — adăugare platform tags pentru "agent dashboard" |
+| `WORKFLOW_REVYX_offer-chain_v1.0.1.md` | Modul 7 | 🟡 PATCH v1.0.1 — manager review = Web only DP-05 explicit |
 | `WORKFLOW_REVYX_property-onboarding_v1.0.0.md` | Modul 3 | 🟢 OK — workflow backend |
 | `WORKFLOW_REVYX_deal-closure_v1.0.0.md` | Modul 5 | 🟢 OK — workflow generic |
 | `WORKFLOW_REVYX_showing-flow_v1.0.0.md` | Modul 6 | 🟢 OK — already mentions Mobile |
 | `WORKFLOW_REVYX_escalation_v1.0.0.md` | Modul 2.11+2.12 | 🟡 PATCH minor — manager queue = Web only |
 | `TECH_SPEC_REVYX_lead-scoring_v1.0.0.md` | Modul 2 | 🟢 OK — backend spec |
 | `TECH_SPEC_REVYX_property_v1.0.0.md` | Modul 3 | 🟢 OK — backend spec |
-| `TECH_SPEC_REVYX_match-engine_v1.0.0.md` | Modul 4 | 🟢 OK — backend spec |
-| `TECH_SPEC_REVYX_marketplace-two-sided_v1.0.0.md` | Modul 12 | 🟡 PATCH v1.0.1 — agent search = Web only inițial; Mobile post-M2 |
+| `TECH_SPEC_REVYX_match-engine_v2.0.0.md` | Modul 4 | 🟢 OK — backend spec |
+| `TECH_SPEC_REVYX_marketplace-two-sided_v1.0.1.md` | Modul 12 | 🟡 PATCH v1.0.1 — agent search = Web only inițial; Mobile post-M2 |
 | `TECH_SPEC_REVYX_white-label_v1.0.0.md` | Modul 13 | 🟢 OK (backend + DP-05 implicit) |
-| `TECH_SPEC_REVYX_ml-pricing-ga_v1.0.2.md` | Modul 14.3+14.4 | 🟡 PATCH v1.0.3 — promote UI = Web only DP-05 explicit |
-| `TECH_SPEC_REVYX_churn-ga_v1.0.1.md` | Modul 14.6+14.7 | 🟡 PATCH v1.0.2 — CS dashboard = Web only |
-| `TECH_SPEC_REVYX_mobile-rn_v1.0.0.md` | Restul Mobile | 🟢 OK — definește subset Mobile |
+| `TECH_SPEC_REVYX_ml-pricing-ga_v1.0.4.md` | Modul 14.3+14.4 | 🟡 PATCH v1.0.3 — promote UI = Web only DP-05 explicit |
+| `TECH_SPEC_REVYX_churn-ga_v1.0.2.md` | Modul 14.6+14.7 | 🟡 PATCH v1.0.2 — CS dashboard = Web only |
+| `TECH_SPEC_REVYX_mobile-rn_v1.0.1.md` | Restul Mobile | 🟢 OK — definește subset Mobile |
 | `TECH_SPEC_REVYX_audit-log_v1.1.1.md` | Modul 15 | 🟢 OK (Web viewer implicit DP-05) |
 | **NEW** `TECH_SPEC_REVYX_web-platform_vX.X.X` | TOATE Web features | 🔴 LIPSEȘTE — gating pentru M1.S5/S6 + M2.S2 |
 | **NEW** `TECH_SPEC_REVYX_ui-design-system_vX.X.X` | Component library Web+Mobile | 🔴 LIPSEȘTE — gating pentru M0.S1 |

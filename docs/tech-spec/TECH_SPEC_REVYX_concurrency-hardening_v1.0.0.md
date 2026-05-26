@@ -753,14 +753,14 @@ PR-uri follow-up integrare per engine S2-S4 (separate, marcate `★ concurrency-
 |---|---|---|
 | TECH_SPEC_REVYX_lead-scoring_v1.0.0.md | Minor (★ patch v1.1) | Integrare idempotency middleware + Redlock pe lead version retry |
 | TECH_SPEC_REVYX_property_v1.0.0.md | Minor (★ patch v1.1) | Idempotency POST /properties + advisory_xact_lock pe pricing |
-| TECH_SPEC_REVYX_match-engine_v1.0.0.md | Minor (★ patch v1.1) | Redlock pe deal cascade · LEAD_REMATCH_SAGA |
+| TECH_SPEC_REVYX_match-engine_v2.0.0.md | Minor (★ patch v1.1) | Redlock pe deal cascade · LEAD_REMATCH_SAGA |
 | TECH_SPEC_REVYX_match-engine_v2.0.0.md | Minor (★ embedded ref §8) | Redlock pe embedding regen |
 | TECH_SPEC_REVYX_pricing-ai_v1.0.0.md | None (pre-referenced) | — |
 | TECH_SPEC_REVYX_interaction-strength_v1.0.0.md | None (pre-referenced) | — |
 | TECH_SPEC_REVYX_offer-engine_v1.0.0.md (S5 #5) | Major (consumer) | OFFER_ACCEPT_SAGA implementat |
 | TECH_SPEC_REVYX_deal-closure_v1.0.0.md (S5 #6) | Major (consumer) | DEAL_CLOSURE_SAGA implementat |
 | TECH_SPEC_REVYX_aps-engine_v1.0.0.md (S5 #7) | Minor (consumer) | Idempotent recalc + breaker pe NPS |
-| TECH_SPEC_REVYX_audit-log_v1.0.0.md | Minor | Catalog event extins (`SAGA_*`, `IDEMPOTENCY_*`, `CIRCUIT_BREAKER_*`, `LOCK_FN_TIMEOUT`) |
+| TECH_SPEC_REVYX_audit-log_v1.1.1.md | Minor | Catalog event extins (`SAGA_*`, `IDEMPOTENCY_*`, `CIRCUIT_BREAKER_*`, `LOCK_FN_TIMEOUT`) |
 | TECH_SPEC_REVYX_showing_v1.0.0.md | Minor (★ patch) | Idempotency POST /showings, /feedback |
 | TECH_SPEC_REVYX_showcase-links_v1.0.0.md | Minor | None — public reads |
 | TECH_SPEC_REVYX_webhook-intake_v1.0.0.md | Minor | Idempotency built-in via webhook signature; saga pe lead ingestion |

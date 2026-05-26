@@ -5,7 +5,7 @@
 ## 0. Stage Master Plan
 
 **Acoperă:** Pre-development / S17 — audit checkpoint post-Stage 4 (Churn pilot CS playbook dry-run intern, T+56 → T+77) + deblocaj Stage 5 entry (White-Label first Enterprise tenant).
-**Master Plan ref:** `MASTER_PLAN_REVYX_execution-roadmap_v1.1.1.md` §0.3 (S17 entry) + §7.1 (pre-dev gates) + §7 Phase 5 staged rollout.
+**Master Plan ref:** `MASTER_PLAN_REVYX_execution-roadmap_v1.1.2.md` §0.3 (S17 entry) + §7.1 (pre-dev gates) + §7 Phase 5 staged rollout.
 **Roadmap ref:** `ROADMAP_REVYX_detailed-execution_v1.0.0.md` §2.2 T-S17-01..03.
 **Trio canonical citat:** Master Plan v1.1.1 + Platform Matrix v1.0.0 + Detailed Roadmap v1.0.0 (Regula 8 + Regula 9).
 
@@ -343,11 +343,11 @@ Per `READINESS_REVYX_phase5` v1.0.5 §7.1 entry gates 5.1..5.17 + `phase5-rollou
 |---|---|---|
 | `docs/audit/AUDIT_REVYX_s16-external-pass_v1.0.0.md` (NEW — acest doc) | 1.0.0 | Audit pass acoperind §2-§8 + BR-18 RLS report §3 + outcome flow time-skip §4 + Stage 5 entry deblocaj §8 |
 | `docs/runbook/RUNBOOK_REVYX_stage5-white-label-launch_v1.0.0.md` (NEW) | 1.0.0 | Operational day-by-day Stage 5 (T+77..T+91) White-Label first Enterprise tenant + Platform Matrix §14 Modul 13 cross-ref (White-Label 🌐 Web only DP-05 complet) + DKIM rotation cross-ref |
-| `docs/audit/READINESS_REVYX_phase5_v1.0.5.md` (PATCH) | 1.0.5 | §6.1 entry gates 4.1-4.9 toate ☑ (date 2026-06-22) · §6.2 exit gates 7 metrici măsurate (7/7 PASS) · §7.1 Stage 5 entry gates 5.1-5.17 toate 🟢 GREEN · sign-off date placeholders Stage 4 marcate 2026-07-13 · §10 cross-ref nou AUDIT_s16 + RUNBOOK_stage5-white-label-launch |
+| `docs/audit/READINESS_REVYX_phase5_v1.1.0.md` (PATCH) | 1.0.5 | §6.1 entry gates 4.1-4.9 toate ☑ (date 2026-06-22) · §6.2 exit gates 7 metrici măsurate (7/7 PASS) · §7.1 Stage 5 entry gates 5.1-5.17 toate 🟢 GREEN · sign-off date placeholders Stage 4 marcate 2026-07-13 · §10 cross-ref nou AUDIT_s16 + RUNBOOK_stage5-white-label-launch |
 | `docs/tech-spec/TECH_SPEC_REVYX_ml-pricing-ga_v1.0.4.md` (PATCH) | 1.0.4 | F-S15-01 closed spec-side · `min_sample_district_n: 30 → 50` config flag bump · DPIA §5.3 cross-ref update minor · Backwards compat full (no code change; JSON config rollout) |
 | `docs/INDEX_REVYX_documents_v1.0.8.md` (PATCH) | 1.0.8 | Regula 6 — adăugare entries S17: AUDIT s16, RUNBOOK stage5-white-label-launch, READINESS v1.0.5, ml-pricing-ga v1.0.4 |
 | `CLAUDE.md` §0a Status Execuție (PATCH inline) | n/a | Sesiune S16 ✅ CLOSED → S17 ✅ CLOSED · Next session S18 |
-| `MASTER_PLAN_REVYX_execution-roadmap_v1.1.1.md` §0 Status Tracker (PATCH inline) | n/a | S17 ✅ closed; sub-stage activ S18 |
+| `MASTER_PLAN_REVYX_execution-roadmap_v1.1.2.md` §0 Status Tracker (PATCH inline) | n/a | S17 ✅ closed; sub-stage activ S18 |
 
 **Specs spec-frozen Stage 4 (`churn-ga` v1.0.0/v1.0.1/v1.0.2 + `audit-log` v1.1.1 + `tenancy-roles-extension` v1.1.0) NU modificate** — Regula 4 respectată.
 

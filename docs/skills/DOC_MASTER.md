@@ -18,7 +18,7 @@
 | **Tip** | Orchestrator skill |
 | **Rol** | Coordonează toate sub-skillurile de documentație REVYX |
 | **Inputuri obligatorii** | `docs/brand-configs/revyx.md` · `docs/templates/HEADER_STANDARD.md` |
-| **Inputuri context** | `docs/BRD_REVYX_v1.0.0.md` · documente versiune anterioară |
+| **Inputuri context** | `docs/BRD_REVYX_v1.1.0.md` · documente versiune anterioară |
 
 ---
 
@@ -48,7 +48,7 @@ DOC_MASTER
 1. **Citește brand-config** (`docs/brand-configs/revyx.md`) — paletă, ton, structură header
 2. **Citește template-ul header** (`docs/templates/HEADER_STANDARD.md`)
 3. **Citește versiunea anterioară** dacă există (pentru changelog & ★ marking)
-4. **Citește BRD-ul curent** (`docs/BRD_REVYX_v1.0.0.md`) — sursa de adevăr business
+4. **Citește BRD-ul curent** (`docs/BRD_REVYX_v1.1.0.md`) — sursa de adevăr business
 5. Apelează sub-skillul potrivit cu contextul agregat
 6. Validează output-ul cu checklist-ul din `HEADER_STANDARD.md` §7
 

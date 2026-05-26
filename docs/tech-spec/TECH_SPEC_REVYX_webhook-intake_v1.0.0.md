@@ -478,8 +478,8 @@ Idempotente. Rollback: DROP cu safety guard (`DROP TABLE IF EXISTS webhook_event
 
 | Document | Tip impact | Acțiune |
 |---|---|---|
-| BRD_REVYX_v1.0.0.md | None | Cerințele deja prezente |
-| TECH_SPEC_REVYX_audit-log_v1.0.0.md | Minor | Add events `WEBHOOK_*` în catalog (deja incluse) |
+| BRD_REVYX_v1.1.0.md | None | Cerințele deja prezente |
+| TECH_SPEC_REVYX_audit-log_v1.1.1.md | Minor | Add events `WEBHOOK_*` în catalog (deja incluse) |
 | WORKFLOW_REVYX_lead-lifecycle (viitor) | Major | Punctul de start = receiver webhook |
 | TECH_SPEC_REVYX_lead-scoring (viitor) | Minor | Consumă `NormalizedLead` ca input |
 

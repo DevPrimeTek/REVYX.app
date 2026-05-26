@@ -17,7 +17,7 @@
 
 ## 1–3 (identic cu v1.0.0)
 
-(Vezi `RUNBOOK_REVYX_partition-maintenance_v1.0.0.md` §1–§3 pentru Scop, Strategie defense-in-depth, Setup pg_partman.)
+(Vezi `RUNBOOK_REVYX_partition-maintenance_v1.0.1.md` §1–§3 pentru Scop, Strategie defense-in-depth, Setup pg_partman.)
 
 ---
 

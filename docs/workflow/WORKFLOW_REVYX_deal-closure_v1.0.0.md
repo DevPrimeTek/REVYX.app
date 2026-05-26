@@ -490,12 +490,12 @@ sequenceDiagram
 
 | Document | Tip impact | Acțiune |
 |---|---|---|
-| BRD_REVYX_v1.0.0.md | None | Reflectă §9.4 GDPR + §7.7 APS |
-| WORKFLOW_REVYX_offer-chain_v1.0.0.md | Major handoff | Accept → WON_PENDING_NOTARY preluat |
+| BRD_REVYX_v1.1.0.md | None | Reflectă §9.4 GDPR + §7.7 APS |
+| WORKFLOW_REVYX_offer-chain_v1.0.1.md | Major handoff | Accept → WON_PENDING_NOTARY preluat |
 | WORKFLOW_REVYX_property-onboarding_v1.0.0.md | Minor | Property → SOLD terminal |
 | TECH_SPEC_REVYX_dhi-engine_v1.0.0.md | None | DHI nu se aplică post-WON (status terminal exit) |
-| TECH_SPEC_REVYX_match-engine_v1.0.0.md | Minor | DEAL terminal → exclude din DP recalc |
-| TECH_SPEC_REVYX_audit-log_v1.0.0.md | Minor | Catalog event extins (`DEAL_CLOSURE_*`, `NPS_*`, `GDPR_PURGE_EXECUTED`) |
+| TECH_SPEC_REVYX_match-engine_v2.0.0.md | Minor | DEAL terminal → exclude din DP recalc |
+| TECH_SPEC_REVYX_audit-log_v1.1.1.md | Minor | Catalog event extins (`DEAL_CLOSURE_*`, `NPS_*`, `GDPR_PURGE_EXECUTED`) |
 | TECH_SPEC_REVYX_lead-scoring_v1.0.0.md | None | Lead status WON terminal |
 
 > **Recomandare:** schema completă deal_closure_step + nps_response + documents storage → TECH_SPEC dedicat S5/S6 (`TECH_SPEC_REVYX_deal-closure_v1.0.0.md`). Pentru S4 workflow oferă specificația contractuală operațională.

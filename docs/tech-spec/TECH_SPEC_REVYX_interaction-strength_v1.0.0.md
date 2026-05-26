@@ -606,7 +606,7 @@ Idempotente. Backfill: la activarea flag-ului, job `is.recalc.lead` enqueued pen
 | TECH_SPEC_REVYX_showing_v1.0.0.md | Minor | Event `showing.attended` → trigger IS |
 | TECH_SPEC_REVYX_showcase-links_v1.0.0.md | Minor | INSERT `showcase_event` → trigger IS RF_show |
 | TECH_SPEC_REVYX_match-engine v1/v2 | None | Consum IS read-only |
-| TECH_SPEC_REVYX_audit-log_v1.0.0.md | Minor | + `LEAD_IS_RECALCULATED` (specializare), `IS_NORMALIZERS_AUTO_TUNED`, `IS_CONFIG_UPDATED` |
+| TECH_SPEC_REVYX_audit-log_v1.1.1.md | Minor | + `LEAD_IS_RECALCULATED` (specializare), `IS_NORMALIZERS_AUTO_TUNED`, `IS_CONFIG_UPDATED` |
 | TECH_SPEC_REVYX_concurrency-hardening_v1.0.0.md | Major (paralel) | Coalesce / Redlock pe IS recalc |
 
 ### 19.3 Impact pe scoring

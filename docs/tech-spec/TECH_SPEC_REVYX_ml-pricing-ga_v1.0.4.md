@@ -5,7 +5,7 @@
 ## 0. Stage Master Plan
 
 **Acoperă:** Pre-development / S17 deliverable; F-S15-01 MED closure spec-side; pre-Stage 5 GA tightening.
-**Master Plan ref:** `MASTER_PLAN_REVYX_execution-roadmap_v1.1.1.md` §6.2 M2.S4 (Phase F ML Pricing backend) + §7 Phase 5 staged rollout.
+**Master Plan ref:** `MASTER_PLAN_REVYX_execution-roadmap_v1.1.2.md` §6.2 M2.S4 (Phase F ML Pricing backend) + §7 Phase 5 staged rollout.
 **Roadmap ref:** `ROADMAP_REVYX_detailed-execution_v1.0.0.md` §2.2 T-S17-06.
 **Trigger:** Finding F-S15-01 MED din `AUDIT_REVYX_s15-external-pass` v1.0.0 §5.2 — DPO + Senior Compliance Auditor recommendation post 49 zile cumulative SHADOW+CANARY: bias rural districts borderline (Sângerei + Cahul + Ungheni mean_err_district ∈ [0.038, 0.041] cu sample n=30..38), sub HIGH threshold 0.05 dar la marginea superioară. Best-practice tightening pre Stage 5 GA + Phase 5 GA decision T+91 (cu volume ~4× mai mare decât CANARY 25%).
 
@@ -103,17 +103,17 @@ Dacă post-deploy observă creștere unexpected rate de fallback baseline (>30% 
 ## 6. Cross-references
 
 - `PLATFORM_MATRIX_REVYX_web-mobile_v1.0.0.md` §15 (canonical, neschimbat)
-- `MASTER_PLAN_REVYX_execution-roadmap_v1.1.1.md` §6.2 M2.S4 + §7 Phase 5 + §0 Status Tracker
+- `MASTER_PLAN_REVYX_execution-roadmap_v1.1.2.md` §6.2 M2.S4 + §7 Phase 5 + §0 Status Tracker
 - `ROADMAP_REVYX_detailed-execution_v1.0.0.md` §2.2 T-S17-06
-- `TECH_SPEC_REVYX_ml-pricing-ga_v1.0.0.md` §6.5 R7 (fallback baseline rule — threshold modified by this PATCH)
-- `TECH_SPEC_REVYX_ml-pricing-ga_v1.0.2.md` (rename `pricing_model_registry → ml_model_registry`)
-- `TECH_SPEC_REVYX_ml-pricing-ga_v1.0.3.md` (DP-05 enforcement clarification)
+- `TECH_SPEC_REVYX_ml-pricing-ga_v1.0.4.md` §6.5 R7 (fallback baseline rule — threshold modified by this PATCH)
+- `TECH_SPEC_REVYX_ml-pricing-ga_v1.0.4.md` (rename `pricing_model_registry → ml_model_registry`)
+- `TECH_SPEC_REVYX_ml-pricing-ga_v1.0.4.md` (DP-05 enforcement clarification)
 - `RUNBOOK_REVYX_stage3-ml-pricing-launch_v1.0.0.md` (operational runbook executed PASS)
 - `AUDIT_REVYX_s15-external-pass_v1.0.0.md` §3 bias monitoring report 28d SHADOW + 21d CANARY + §5.2 F-S15-01 detail
 - `AUDIT_REVYX_s16-external-pass_v1.0.0.md` §5.2 F-S15-01 CLOSED spec-side via acest PATCH
 - `audit-log_v1.1.1` §4.4.1 `PRICING_MODEL_*` events catalog (neschimbat)
-- `DPIA_REVYX_phase5_v1.0.0` §5.3 (cross-ref update minor pending v1.0.1 PATCH S18)
-- `READINESS_REVYX_phase5_v1.0.5` §7.1 gate 5.16 — Stage 5 pre-flight gate (deployed T+76)
+- `DPIA_REVYX_phase5_v1.0.1` §5.3 (cross-ref update minor pending v1.0.1 PATCH S18)
+- `READINESS_REVYX_phase5_v1.1.0` §7.1 gate 5.16 — Stage 5 pre-flight gate (deployed T+76)
 
 ---
 

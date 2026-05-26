@@ -5,7 +5,7 @@
 ## 0. Stage Master Plan
 
 **Acoperă:** Pre-development / S18 — audit checkpoint post-Stage 5 (White-Label first Enterprise tenant, T+77 → T+91) + input pentru Master Phase 5 GA decision T+91 (3-eyes VP Product + CTO + CISO; cumulative metrics §8.1 READINESS v1.0.5 → v1.1.0 MINOR GA close).
-**Master Plan ref:** `MASTER_PLAN_REVYX_execution-roadmap_v1.1.1.md` §0.3 (S18 entry) + §7 Phase 5 staged rollout (Stage 5 exit gate review).
+**Master Plan ref:** `MASTER_PLAN_REVYX_execution-roadmap_v1.1.2.md` §0.3 (S18 entry) + §7 Phase 5 staged rollout (Stage 5 exit gate review).
 **Roadmap ref:** `ROADMAP_REVYX_detailed-execution_v1.0.0.md` §2.3 T-S18-01..02.
 **Trio canonical citat:** Master Plan v1.1.1 + Platform Matrix v1.0.0 + Detailed Roadmap v1.0.0 (Regula 8 + Regula 9).
 
@@ -381,7 +381,7 @@ CS Lead structured survey (8 questions) deployed T+90 10:00 UTC+2 la TENT-ADM-01
 | `docs/audit/READINESS_REVYX_phase5_v1.1.0.md` (MINOR — GA close) | 1.1.0 | §7.2 Stage 5 exit measured 5/5 PASS + ☑ sign-off · §8 Master GA decision T+91 sign-off (3-eyes + DPO + Audit + CFO) · §8.1 cumulative metrics PASS measurement · §11 update protocol bump explicat |
 | `docs/INDEX_REVYX_documents_v1.0.9.md` (PATCH) | 1.0.9 | Regula 6 — adăugare entries S18: AUDIT s17 + DPIA v1.0.1 + SCC v1.0.2 + READINESS v1.1.0 |
 | `CLAUDE.md` §0a Status Execuție (PATCH inline) | n/a | Sesiune S17 ✅ CLOSED → S18 ✅ CLOSED · Phase 5 GA close ✅ · Next session S19 |
-| `MASTER_PLAN_REVYX_execution-roadmap_v1.1.1.md` §0 Status Tracker (PATCH inline) | n/a | S18 ✅ closed; sub-stage activ S19 |
+| `MASTER_PLAN_REVYX_execution-roadmap_v1.1.2.md` §0 Status Tracker (PATCH inline) | n/a | S18 ✅ closed; sub-stage activ S19 |
 
 **Specs spec-frozen Stage 5 (`white-label` v1.0.0 + `audit-log` v1.1.1 + `tenancy-roles-extension` v1.1.0 + `dkim-rotation` v1.0.0) NU modificate** — Regula 4 respectată.
 

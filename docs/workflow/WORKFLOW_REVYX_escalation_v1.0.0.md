@@ -413,11 +413,11 @@ sequenceDiagram
 
 | Document | Tip impact | Acțiune |
 |---|---|---|
-| BRD_REVYX_v1.0.0.md | None | Reflectă mecanica BR-03 |
+| BRD_REVYX_v1.1.0.md | None | Reflectă mecanica BR-03 |
 | TECH_SPEC_REVYX_lead-scoring_v1.0.0.md | None | EscalationWatcher implementare deja documentată |
 | TECH_SPEC_REVYX_nba-engine_v1.0.0.md | Minor | Reasignare actualizează NBA pe agent nou |
-| TECH_SPEC_REVYX_audit-log_v1.0.0.md | Minor | Catalog event extins (`LEAD_UNASSIGNED_NO_AGENT`) |
-| WORKFLOW_REVYX_lead-lifecycle_v1.0.0.md | Minor | Etapa „queue" referențiază acest workflow detaliat |
+| TECH_SPEC_REVYX_audit-log_v1.1.1.md | Minor | Catalog event extins (`LEAD_UNASSIGNED_NO_AGENT`) |
+| WORKFLOW_REVYX_lead-lifecycle_v1.0.1.md | Minor | Etapa „queue" referențiază acest workflow detaliat |
 
 ### 15.3 Impact pe scoring
 

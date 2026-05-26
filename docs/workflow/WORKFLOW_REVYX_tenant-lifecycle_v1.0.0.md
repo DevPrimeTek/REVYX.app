@@ -390,8 +390,8 @@ Toate events păstrate în AUDIT_LOG conform retention policy 7 ani (audit-log �
 
 | Document | Tip impact | Acțiune |
 |---|---|---|
-| TECH_SPEC_REVYX_audit-log_v1.0.0.md | Minor | Events `TENANT_*`, `LEAD_PII_REDACTED`, `AGENT_ANONYMIZED` adăugate în catalog |
-| TECH_SPEC_REVYX_tenancy-roles-extension_v1.0.0.md | None | Last-owner protection deja inclus |
+| TECH_SPEC_REVYX_audit-log_v1.1.1.md | Minor | Events `TENANT_*`, `LEAD_PII_REDACTED`, `AGENT_ANONYMIZED` adăugate în catalog |
+| TECH_SPEC_REVYX_tenancy-roles-extension_v1.1.0.md | None | Last-owner protection deja inclus |
 | TECH_SPEC_REVYX_webhook-intake_v1.0.0.md | Minor | Receiver returnează 503 când tenant SUSPENDED, 410 Gone când DELETED |
 | WORKFLOW_REVYX_gdpr-erasure (viitor) | Major | Reutilizează cascade definit în §7 |
 | docs/legal/privacy-policy.md | Minor | Reflectă timingurile retention (30 + 14 + 84 luni) |

@@ -5,7 +5,7 @@
 ## 0. Stage Master Plan
 
 **Acoperă:** Pre-development / S19 deliverable — scope checklist pre-HST #2 (S20 MANDATORY GATE) cu 5 categories (spec coverage · cross-spec consistency · GDPR/security · ops readiness · Master Plan §13 approval state).
-**Master Plan ref:** `MASTER_PLAN_REVYX_execution-roadmap_v1.1.1.md` §7.2 (Hard Stress Test #2) + §8 HST methodology + §13 approval gate.
+**Master Plan ref:** `MASTER_PLAN_REVYX_execution-roadmap_v1.1.2.md` §7.2 (Hard Stress Test #2) + §8 HST methodology + §13 approval gate.
 **Roadmap ref:** `ROADMAP_REVYX_detailed-execution_v1.0.0.md` §2.5 T-S20-01..12 (HST #2 atomic tasks).
 **Trio canonical citat:** Master Plan v1.1.1 + Platform Matrix v1.0.0 + Detailed Roadmap v1.0.0 (Regula 8 + Regula 9).
 

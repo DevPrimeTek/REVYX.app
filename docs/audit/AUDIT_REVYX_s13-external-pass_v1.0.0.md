@@ -157,7 +157,7 @@ Vault path: `legal-vault/contracts/scc/apple/2026-04/SCC_apple_apns_module3_sign
 
 **Echipa:** Senior Compliance Auditor
 
-**Constatare:** `SCC_VENDORS_phase5_v1.0.0.md` §3.1 (Apple) și §3.2 (Google) au câmpurile `Data semnare: _____________` + `Status @ S13: 🔴 PENDING`. Documentar trebuie bump v1.0.1 PATCH cu valorile reale (2026-04-29, 2026-05-02) + status `🟢 ON FILE`. F-S13 audit a verificat operational (PDF în vault); doc-side bump amânat pentru S14 follow-up pentru a păstra S13 audit focusat pe Stage 1 gating.
+**Constatare:** `SCC_VENDORS_phase5_v1.0.2.md` §3.1 (Apple) și §3.2 (Google) au câmpurile `Data semnare: _____________` + `Status @ S13: 🔴 PENDING`. Documentar trebuie bump v1.0.1 PATCH cu valorile reale (2026-04-29, 2026-05-02) + status `🟢 ON FILE`. F-S13 audit a verificat operational (PDF în vault); doc-side bump amânat pentru S14 follow-up pentru a păstra S13 audit focusat pe Stage 1 gating.
 
 **Remediere:** bump `SCC_VENDORS_phase5` v1.0.1 PATCH programat S14 (sub-tasking explicit). Audit-side: tracked în §6 out-of-scope.
 
@@ -242,7 +242,7 @@ Recap din S12 audit §6 + ajustare S13:
 |---|---|---|
 | `docs/audit/AUDIT_REVYX_s13-external-pass_v1.0.0.md` (NEW — acest doc) | 1.0.0 | Audit pass acoperind §2-§6 |
 | `docs/runbook/RUNBOOK_REVYX_stage2-marketplace-launch_v1.0.0.md` (NEW) | 1.0.0 | Operational day-by-day Stage 2 (T+14..T+35) cu Stripe + GDPR consent + contact-grant rate-limit ops |
-| `docs/audit/READINESS_REVYX_phase5_v1.0.2.md` (PATCH) | 1.0.2 | §3.1 entry gates 1.1-1.10 ☑ + dates · §3.2 exit gates valori măsurate · §4.1 status updates Stage 2 entry (2.1/2.5/2.8 🟢 GREEN) · §0.14 status SCC 🟢 ON FILE post-signature · sign-off date placeholders pentru Stage 1 marcate cu data efectivă |
+| `docs/audit/READINESS_REVYX_phase5_v1.1.0.md` (PATCH) | 1.0.2 | §3.1 entry gates 1.1-1.10 ☑ + dates · §3.2 exit gates valori măsurate · §4.1 status updates Stage 2 entry (2.1/2.5/2.8 🟢 GREEN) · §0.14 status SCC 🟢 ON FILE post-signature · sign-off date placeholders pentru Stage 1 marcate cu data efectivă |
 | `docs/INDEX_REVYX_documents_v1.0.2.md` (PATCH) | 1.0.2 | Regula 6 — adăugare entries S13: AUDIT s13, RUNBOOK stage2-marketplace-launch, READINESS v1.0.2 |
 
 **Specs și runbook-uri spec-frozen Stage 1 (mobile-rn, audit-log v1.1.1) NU modificate** — Regula 4 respectată.

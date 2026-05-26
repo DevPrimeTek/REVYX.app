@@ -116,7 +116,7 @@
 
 ### 3.4 F-S13-03 LOW · SCC field doc-side update — **CLOSED operational (bump v1.0.1 acest sesiune)**
 
-**Status:** ✅ **CLOSED** (doc PATCH `SCC_VENDORS_phase5_v1.0.1.md` produs acest sesiune)
+**Status:** ✅ **CLOSED** (doc PATCH `SCC_VENDORS_phase5_v1.0.2.md` produs acest sesiune)
 
 **Verificare:** §3.1 Apple + §3.2 Google actualizate cu Status `🟢 ON FILE` + Data semnare reală (2026-04-29 + 2026-05-02). §4 summary table refletă status real. Cross-ref §3.5 BSI Group MD adăugat ca pending pre-Stage 5. Bump PATCH per regulă semver (clarificări fără breaking change).
 
@@ -206,7 +206,7 @@
 
 **Echipa:** Senior Compliance Auditor
 
-**Constatare:** DPIA `DPIA_REVYX_phase5_v1.0.0.md` §5.2 marketplace balancing test menționează rate-limiting agent → buyer (3/zi) ca mitigation pentru "agent overreach". Insă verbiage curent nu explicitează "overreach" definition (multiple contact-request to same buyer poate fi legitim în flow normal; doar repeat pattern peste rate-limit constituie overreach). Cohort feedback (CS Lead) sugerează clarificare la sub-section pentru audit firm external review viitor.
+**Constatare:** DPIA `DPIA_REVYX_phase5_v1.0.1.md` §5.2 marketplace balancing test menționează rate-limiting agent → buyer (3/zi) ca mitigation pentru "agent overreach". Insă verbiage curent nu explicitează "overreach" definition (multiple contact-request to same buyer poate fi legitim în flow normal; doar repeat pattern peste rate-limit constituie overreach). Cohort feedback (CS Lead) sugerează clarificare la sub-section pentru audit firm external review viitor.
 
 **Impact:** LOW — operațional respectat (rate-limit live + audit `BUYER_CONTACT_GRANT_RATE_LIMITED` count); doc-side wording.
 
@@ -286,8 +286,8 @@ Recap din S13 audit §7 + ajustare S14:
 |---|---|---|
 | `docs/audit/AUDIT_REVYX_s14-external-pass_v1.0.0.md` (NEW — acest doc) | 1.0.0 | Audit pass acoperind §2-§7 |
 | `docs/runbook/RUNBOOK_REVYX_stage3-ml-pricing-launch_v1.0.0.md` (NEW) | 1.0.0 | Operational day-by-day Stage 3 (T+35..T+56) cu CANARY 5%→25% + 4-eyes + bias monitoring + auto-rollback wiring |
-| `docs/audit/READINESS_REVYX_phase5_v1.0.3.md` (PATCH) | 1.0.3 | §4.1 entry gates 2.1-2.10 toate ☑ + dates · §4.2 exit gates valori măsurate · §5.1 status updates Stage 3 entry (3.1..3.9 toate 🟢 GREEN) · sign-off date placeholders pentru Stage 2 marcate cu data efectivă |
-| `docs/legal/SCC_VENDORS_phase5_v1.0.1.md` (PATCH) | 1.0.1 | §3.1+§3.2 Status 🟢 ON FILE + Data semnare reală (Apple 2026-04-29 + Google 2026-05-02) · §4 summary table updated · §3.6 BSI Group MD DPA status pre-Stage 5 tracked |
+| `docs/audit/READINESS_REVYX_phase5_v1.1.0.md` (PATCH) | 1.0.3 | §4.1 entry gates 2.1-2.10 toate ☑ + dates · §4.2 exit gates valori măsurate · §5.1 status updates Stage 3 entry (3.1..3.9 toate 🟢 GREEN) · sign-off date placeholders pentru Stage 2 marcate cu data efectivă |
+| `docs/legal/SCC_VENDORS_phase5_v1.0.2.md` (PATCH) | 1.0.1 | §3.1+§3.2 Status 🟢 ON FILE + Data semnare reală (Apple 2026-04-29 + Google 2026-05-02) · §4 summary table updated · §3.6 BSI Group MD DPA status pre-Stage 5 tracked |
 | `docs/INDEX_REVYX_documents_v1.0.3.md` (PATCH) | 1.0.3 | Regula 6 — adăugare entries S15: AUDIT s14, RUNBOOK stage3-ml-pricing-launch, READINESS v1.0.3, SCC v1.0.1 |
 
 **Specs și runbook-uri spec-frozen Stage 2 (marketplace-two-sided, audit-log v1.1.1) NU modificate** — Regula 4 respectată. F-S13-01 spec change `mobile-rn` v1.0.1 e PR separat în progres (NU în scope acest sesiune).

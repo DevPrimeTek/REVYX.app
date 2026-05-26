@@ -139,7 +139,7 @@ Spec-ul canonical `audit-log` v1.0.0 nu a fost actualizat cu acest catalog → a
 
 Aplicabil: `mobile_push_log` (90d), `churn_features_snapshot` (365d), `pricing_prediction_audit` (365d).
 
-**Fix propus (S10):** Runbook `RUNBOOK_REVYX_partition-maintenance_v1.0.0.md` cu cron `pg_partman` sau procedură manuală + alerting.
+**Fix propus (S10):** Runbook `RUNBOOK_REVYX_partition-maintenance_v1.0.1.md` cu cron `pg_partman` sau procedură manuală + alerting.
 
 ### F-08 · MED · Snapshot redaction tests not formalized
 

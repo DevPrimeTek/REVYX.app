@@ -617,9 +617,9 @@ Idempotent. PROPERTY existent (din TECH_SPEC property) consumă deja `showcase_t
 
 | Document | Tip impact | Acțiune |
 |---|---|---|
-| BRD_REVYX_v1.0.0.md | None | BR-08 + AC-SL-* deja documentate |
+| BRD_REVYX_v1.1.0.md | None | BR-08 + AC-SL-* deja documentate |
 | TECH_SPEC_REVYX_property_v1.0.0.md | Minor | Câmpurile `showcase_*` definite acolo, consumate aici |
-| TECH_SPEC_REVYX_audit-log_v1.0.0.md | Minor | Catalog event `SHOWCASE_LINK_GENERATED`, `SHOWCASE_TOKEN_REGENERATED`, `SHOWCASE_LINK_WITHDRAWN`, `SHOWCASE_IP_BLOCKED` |
+| TECH_SPEC_REVYX_audit-log_v1.1.1.md | Minor | Catalog event `SHOWCASE_LINK_GENERATED`, `SHOWCASE_TOKEN_REGENERATED`, `SHOWCASE_LINK_WITHDRAWN`, `SHOWCASE_IP_BLOCKED` |
 | TECH_SPEC_REVYX_lead-scoring_v1.0.0.md | Minor | RF_show în IS feed via aggregator |
 | docs/legal/cookie-policy.md | Minor | §7 confirmat: doar cookie session first-party + IP hashed |
 

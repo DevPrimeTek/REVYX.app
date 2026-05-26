@@ -70,7 +70,7 @@ Dacă justificat, viitoare spec `TECH_SPEC_REVYX_buyer-mobile-app_v1.0.0.md` în
 - `PLATFORM_MATRIX_REVYX_web-mobile_v1.0.0.md` §13 (canonical)
 - `MASTER_PLAN_REVYX_execution-roadmap_v1.1.0.md` §6.2 M2.S5
 - `ROADMAP_REVYX_detailed-execution_v1.0.0.md` §5.5 T-M2.S5-*
-- `TECH_SPEC_REVYX_marketplace-two-sided_v1.0.0.md` (backend spec rămâne)
+- `TECH_SPEC_REVYX_marketplace-two-sided_v1.0.1.md` (backend spec rămâne)
 - `WORKFLOW_REVYX_buyer-profile-lifecycle_v1.0.0.md`
 - `BRD_REVYX_v1.1.0.md` §8.3 BUYER_PROFILE
 - `audit-log_v1.1.1` §4.4 BUYER_* events

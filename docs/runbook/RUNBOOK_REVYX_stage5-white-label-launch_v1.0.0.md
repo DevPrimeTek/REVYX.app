@@ -5,7 +5,7 @@
 ## 0. Stage Master Plan
 
 **Acoperă:** Pre-development / S17 deliverable; Phase 5 Stage 5 operational runbook.
-**Master Plan ref:** `MASTER_PLAN_REVYX_execution-roadmap_v1.1.1.md` §7 Phase 5 staged rollout + §0.3 (S17 deliverables).
+**Master Plan ref:** `MASTER_PLAN_REVYX_execution-roadmap_v1.1.2.md` §7 Phase 5 staged rollout + §0.3 (S17 deliverables).
 **Roadmap ref:** `ROADMAP_REVYX_detailed-execution_v1.0.0.md` §2.2 T-S17-03.
 **Trio canonical citat:** Master Plan v1.1.1 + Platform Matrix v1.0.0 + Detailed Roadmap v1.0.0 (Regula 8 + Regula 9).
 
@@ -378,7 +378,7 @@ Per `PLATFORM_MATRIX_REVYX_web-mobile_v1.0.0.md` §14 Modul 13 + DP-05 (**admin 
 - `RUNBOOK_REVYX_incident-response` v1.0.0 §6 — INC P1 protocol security incident
 - `AUDIT_REVYX_s16-external-pass` v1.0.0 §8 — Stage 5 entry unblocked 17/17 gates GREEN
 - `PLATFORM_MATRIX_REVYX_web-mobile_v1.0.0.md` §14 (Modul 13 White-Label Web only complet) + §16 (Modul 15 Audit viewer)
-- `MASTER_PLAN_REVYX_execution-roadmap_v1.1.1.md` §7 — Phase 5 staged rollout
+- `MASTER_PLAN_REVYX_execution-roadmap_v1.1.2.md` §7 — Phase 5 staged rollout
 - `ROADMAP_REVYX_detailed-execution_v1.0.0.md` §2.2 T-S17-03 — atomic task
 
 ---

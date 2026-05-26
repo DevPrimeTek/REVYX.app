@@ -732,13 +732,13 @@ DOWN migration: `0080_down.sql` `DROP TABLE showing CASCADE` doar dacă rows < 1
 
 | Document | Tip impact | Acțiune |
 |---|---|---|
-| BRD_REVYX_v1.0.0.md | None | Schema BRD §8 implementată extensiv |
+| BRD_REVYX_v1.1.0.md | None | Schema BRD §8 implementată extensiv |
 | TECH_SPEC_REVYX_lead-scoring_v1.0.0.md | Minor | Counter `consecutive_no_show_count` consumat indirect via LEAD field |
-| TECH_SPEC_REVYX_audit-log_v1.0.0.md | Minor | Catalog event extins (`SHOWING_*`, `WHATSAPP_TEMPLATE_FAILED`) |
+| TECH_SPEC_REVYX_audit-log_v1.1.1.md | Minor | Catalog event extins (`SHOWING_*`, `WHATSAPP_TEMPLATE_FAILED`) |
 | TECH_SPEC_REVYX_property_v1.0.0.md | None | Read-only consum status property |
 | TECH_SPEC_REVYX_match-engine (S4) | None | Match consumă SF via IS — schema agnostică |
 | WORKFLOW_REVYX_showing-flow_v1.0.0.md | None | Workflow reflectă acum schema concretă |
-| WORKFLOW_REVYX_lead-lifecycle_v1.0.0.md | Minor | Etapa LOST cu reason='cooling_off' triggerată din showing |
+| WORKFLOW_REVYX_lead-lifecycle_v1.0.1.md | Minor | Etapa LOST cu reason='cooling_off' triggerată din showing |
 
 ### 19.3 Impact pe scoring
 

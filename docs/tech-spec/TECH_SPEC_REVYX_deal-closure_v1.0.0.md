@@ -895,13 +895,13 @@ Idempotente. Backfill: deals existente cu status=WON → INSERT 1 deal_closure_s
 
 | Document | Tip impact | Acțiune |
 |---|---|---|
-| BRD_REVYX_v1.0.0.md | None | Implementare §6 Pilon 06 |
+| BRD_REVYX_v1.1.0.md | None | Implementare §6 Pilon 06 |
 | WORKFLOW_REVYX_deal-closure_v1.0.0.md | Major (★ followup v1.1) | Schema concretă + saga + retention enforce |
 | TECH_SPEC_REVYX_offer-engine_v1.0.0.md | None (handoff) | WON_PENDING_NOTARY consumed |
 | TECH_SPEC_REVYX_aps-engine_v1.0.0.md (S5 #7) | Major | DCR/CS triggers |
 | TECH_SPEC_REVYX_property_v1.0.0.md | Minor | property → SOLD via saga |
 | TECH_SPEC_REVYX_lead-scoring_v1.0.0.md | Minor | lead → WON via saga |
-| TECH_SPEC_REVYX_audit-log_v1.0.0.md | Minor | Catalog event extins (`DEAL_CLOSURE_*`, `DOCUMENT_*`, `NPS_*`, `GDPR_RETENTION_SET`, `DEAL_ARCHIVED`) |
+| TECH_SPEC_REVYX_audit-log_v1.1.1.md | Minor | Catalog event extins (`DEAL_CLOSURE_*`, `DOCUMENT_*`, `NPS_*`, `GDPR_RETENTION_SET`, `DEAL_ARCHIVED`) |
 | TECH_SPEC_REVYX_concurrency-hardening_v1.0.0.md | None (consumer) | DEAL_CLOSURE_SAGA used |
 
 ### 19.3 Impact pe scoring

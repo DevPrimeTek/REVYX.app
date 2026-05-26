@@ -721,10 +721,10 @@ Idempotente. Backwards compat: properties existente primesc `pricing_recommendat
 
 | Document | Tip impact | Acțiune |
 |---|---|---|
-| BRD_REVYX_v1.0.0.md | None | Implementare PF real (§7.2) |
+| BRD_REVYX_v1.1.0.md | None | Implementare PF real (§7.2) |
 | TECH_SPEC_REVYX_property_v1.0.0.md | Minor | `IPricingProvider` swap la `RealPricingProvider`; PF function update §6.5 ★ |
-| TECH_SPEC_REVYX_match-engine_v1.0.0.md / v2.0.0.md | None | Consum PS read-only |
-| TECH_SPEC_REVYX_audit-log_v1.0.0.md | Minor | Catalog event extins (`PROPERTY_PRICING_*`, `PROPERTY_PRICE_ALERT_*`) |
+| TECH_SPEC_REVYX_match-engine_v2.0.0.md / v2.0.0.md | None | Consum PS read-only |
+| TECH_SPEC_REVYX_audit-log_v1.1.1.md | Minor | Catalog event extins (`PROPERTY_PRICING_*`, `PROPERTY_PRICE_ALERT_*`) |
 | WORKFLOW_REVYX_property-onboarding | Minor | Etapa „Pricing AI recomandare" devine reală (nu mai Phase 2 placeholder) |
 | TECH_SPEC_REVYX_concurrency-hardening_v1.0.0.md | Major (paralel) | Advisory locks · idempotency · saga pe cascadă |
 

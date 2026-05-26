@@ -33,7 +33,7 @@ Inclus la finalul oricărui document funcțional, înainte de footer:
 
 | Document | Tip impact | Acțiune necesară |
 |---|---|---|
-| BRD_REVYX_v1.0.0.md | None / Minor / Major | [descriere acțiune sau "—"] |
+| BRD_REVYX_v1.1.0.md | None / Minor / Major | [descriere acțiune sau "—"] |
 | TECH_SPEC_REVYX_*.md | ... | ... |
 | WORKFLOW_REVYX_*.md | ... | ... |
 | brand-configs/revyx.md | ... | ... |

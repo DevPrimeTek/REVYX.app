@@ -456,10 +456,10 @@ sequenceDiagram
 
 | Document | Tip impact | Acțiune |
 |---|---|---|
-| BRD_REVYX_v1.0.0.md | None | Reflectă mecanica spec |
+| BRD_REVYX_v1.1.0.md | None | Reflectă mecanica spec |
 | TECH_SPEC_REVYX_lead-scoring_v1.0.0.md | None | Workflow consumă SF în IS |
-| TECH_SPEC_REVYX_audit-log_v1.0.0.md | Minor | Catalog event extins (`SHOWING_REMINDER_SENT`, `SHOWING_FEEDBACK_RECORDED`, `WHATSAPP_TEMPLATE_FAILED`) |
-| WORKFLOW_REVYX_lead-lifecycle_v1.0.0.md | None | Etapa 5 referențiază acest workflow |
+| TECH_SPEC_REVYX_audit-log_v1.1.1.md | Minor | Catalog event extins (`SHOWING_REMINDER_SENT`, `SHOWING_FEEDBACK_RECORDED`, `WHATSAPP_TEMPLATE_FAILED`) |
+| WORKFLOW_REVYX_lead-lifecycle_v1.0.1.md | None | Etapa 5 referențiază acest workflow |
 | WORKFLOW_REVYX_offer-chain (S4) | Minor | Feedback ≥4 → suggest offer |
 
 ### 15.3 Impact pe scoring
