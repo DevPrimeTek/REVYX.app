@@ -10,8 +10,9 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { InfoTooltip } from '@/components/ui/info-tooltip';
 import { useT } from '@/components/i18n/provider';
-import { properties, agents } from '@/lib/mock';
+import { properties, agents, leadsById } from '@/lib/mock';
 import { freshnessLabel, freshnessTone } from '@/lib/freshness';
+import { ShowingModal } from '@/components/showings/showing-modal';
 
 type Params = { params: { id: string } };
 
@@ -39,6 +40,8 @@ export default function PropertyDetailPage({ params }: Params) {
   const { t } = useT();
   const property = useMemo(() => properties.find((p) => p.id === params.id) ?? null, [params.id]);
   const [activePhoto, setActivePhoto] = useState(0);
+  const [showingOpen, setShowingOpen] = useState(false);
+  const sampleLead = Array.from(leadsById.values()).find((l) => l.agentId === agents[0].id) ?? Array.from(leadsById.values())[0];
 
   if (!property) {
     return (
@@ -215,14 +218,31 @@ export default function PropertyDetailPage({ params }: Params) {
                 <CardTitle className="text-[16px]">{t('property.detail.actionsTitle')}</CardTitle>
               </CardHeader>
               <CardContent className="flex flex-col gap-sp2">
-                <Button variant="primary">{t('property.detail.scheduleCta')}</Button>
-                <Button variant="secondary">{t('property.detail.shareCta')}</Button>
+                <Button variant="primary" onClick={() => setShowingOpen(true)}>
+                  {t('property.detail.scheduleCta')}
+                </Button>
+                <a
+                  href={publicLink}
+                  target="_blank"
+                  rel="noreferrer noopener"
+                  className="inline-flex h-10 items-center justify-center px-sp3 rounded-md bg-transparent text-text-h border border-border-light text-[14px] hover:bg-navy-hover transition-colors"
+                >
+                  {t('property.detail.shareCta')}
+                </a>
                 <Button variant="ghost">{t('property.detail.editCta')}</Button>
               </CardContent>
             </Card>
           </aside>
         </section>
       </main>
+
+      <ShowingModal
+        open={showingOpen}
+        onClose={() => setShowingOpen(false)}
+        leadId={sampleLead.id}
+        propertyId={property.id}
+        agentId={agents[0].id}
+      />
     </>
   );
 }

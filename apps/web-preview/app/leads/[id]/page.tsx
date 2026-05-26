@@ -18,16 +18,22 @@ import { agents, leadsById, properties } from '@/lib/mock';
 import { LeadSuggestions } from '@/components/tasks/lead-suggestions';
 import { NotesPanel } from '@/components/leads/notes-panel';
 import { DocumentsPanel } from '@/components/leads/documents-panel';
+import { ShowingModal } from '@/components/showings/showing-modal';
+import { ShowingList } from '@/components/showings/showing-list';
+import { MatchReasoning } from '@/components/leads/match-reasoning';
+import { useShowings } from '@/lib/showing-store';
 
 type Params = { params: { id: string } };
 
 export default function LeadDetailPage({ params }: Params) {
   const router = useRouter();
-  const { t } = useT();
+  const { t, locale } = useT();
   const { toast } = useToast();
   const lead = leadsById.get(params.id);
+  const showings = useShowings();
 
   const [assignOpen, setAssignOpen] = useState(false);
+  const [showingOpen, setShowingOpen] = useState(false);
   const [selectedAgent, setSelectedAgent] = useState<string>(agents[0].id);
   const baseLs = lead?.ls ?? 0.30;
   const [ls, setLs] = useState(baseLs);
@@ -37,6 +43,11 @@ export default function LeadDetailPage({ params }: Params) {
     () => [...properties].sort((a, b) => b.ps - a.ps).slice(0, 3),
     []
   );
+  const leadShowings = useMemo(
+    () => (lead ? showings.filter((s) => s.leadId === lead.id) : []),
+    [lead, showings],
+  );
+  const topMatch = matches[0];
 
   function recomputeScore() {
     if (recomputing) return;
@@ -121,6 +132,9 @@ export default function LeadDetailPage({ params }: Params) {
               {t('leadDetail.recompute')}
             </Button>
             <Button variant="secondary">{t('leadDetail.whatsapp')}</Button>
+            <Button variant="secondary" onClick={() => setShowingOpen(true)}>
+              {t('showing.addCta')}
+            </Button>
             <Button onClick={() => setAssignOpen(true)}>{t('leadDetail.assignAgent')}</Button>
           </div>
         </header>
@@ -197,6 +211,21 @@ export default function LeadDetailPage({ params }: Params) {
           </Card>
         </div>
 
+        {topMatch && (
+          <section className="grid grid-cols-1 lg:grid-cols-2 gap-sp3">
+            <MatchReasoning lead={lead} property={topMatch} />
+            <Card>
+              <CardHeader>
+                <CardTitle>{t('dealDetail.showingsTitle')}</CardTitle>
+                <CardDescription>{t('showing.upcomingDesc')}</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <ShowingList showings={leadShowings} locale={locale} compact />
+              </CardContent>
+            </Card>
+          </section>
+        )}
+
         <section className="grid grid-cols-1 lg:grid-cols-2 gap-sp3">
           <Card>
             <CardHeader>
@@ -224,6 +253,13 @@ export default function LeadDetailPage({ params }: Params) {
           </Card>
         </section>
       </main>
+
+      <ShowingModal
+        open={showingOpen}
+        onClose={() => setShowingOpen(false)}
+        leadId={lead.id}
+        agentId={agents[0].id}
+      />
 
       <Modal
         open={assignOpen}
