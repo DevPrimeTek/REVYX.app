@@ -31,9 +31,25 @@ export interface LeadDocument {
   uploaderName: string;
 }
 
+/** Buyer-only — agent edited preferences (extends base lead fields). */
+export interface BuyerPreferences {
+  features: string[];
+  urgency: 'low' | 'medium' | 'high';
+  preferredFloor: string;   // free-text: "etaj superior", "1-3"
+  rememberedNote: string;   // 1-line memory pin
+}
+
+/** Seller-only — agent curated benefits highlighted on the property listing. */
+export interface SellerBenefits {
+  /** Override / supplement to property-benefits-store for this specific lead. */
+  highlights: string[];
+}
+
 export interface LeadExtras {
   notes: LeadNote[];
   documents: LeadDocument[];
+  preferences?: BuyerPreferences;
+  benefits?: SellerBenefits;
 }
 
 type Store = Record<string, LeadExtras>;
@@ -135,6 +151,26 @@ export function removeDocument(leadId: string, docId: string): void {
   const extras = next[leadId];
   if (!extras) return;
   next[leadId] = { ...extras, documents: extras.documents.filter((d) => d.id !== docId) };
+  cache = next;
+  save(cache);
+  notify();
+}
+
+export function setBuyerPreferences(leadId: string, prefs: BuyerPreferences): void {
+  const cur = ensure();
+  const next = { ...cur };
+  const extras = next[leadId] ?? { notes: [], documents: [] };
+  next[leadId] = { ...extras, preferences: prefs };
+  cache = next;
+  save(cache);
+  notify();
+}
+
+export function setSellerBenefits(leadId: string, b: SellerBenefits): void {
+  const cur = ensure();
+  const next = { ...cur };
+  const extras = next[leadId] ?? { notes: [], documents: [] };
+  next[leadId] = { ...extras, benefits: b };
   cache = next;
   save(cache);
   notify();

@@ -4,6 +4,8 @@
 
 export type LeadSource = 'Meta' | 'OLX' | 'Google' | 'Referral' | 'Walk-in' | 'Website';
 export type LeadStatus = 'HOT' | 'qualified' | 'warm' | 'nurturing';
+export type LeadType = 'buyer' | 'seller';
+export type LeadUrgency = 'low' | 'medium' | 'high';
 export type DealStage = 'discovery' | 'qualified' | 'offer' | 'negotiation' | 'closing' | 'won';
 export type PropertyKind = 'apartment' | 'house' | 'land' | 'commercial';
 
@@ -25,6 +27,13 @@ export type Lead = {
   source: LeadSource;
   sla: string;           // formatted: "15m" | "2h" | "24h" | "—"
   agentId: string | null;
+  /** buyer = caută proprietate · seller = are proprietate de vândut */
+  leadType: LeadType;
+  /** Pentru seller — proprietatea pe care o vinde (din mock properties) */
+  sellingPropertyId: string | null;
+  /** Buyer preferences (extras peste budget/zonă/camere) */
+  features: string[];
+  urgency: LeadUrgency;
   budgetMin: number;     // EUR
   budgetMax: number;
   rooms: string;         // "1" | "2" | "3" | "3+"

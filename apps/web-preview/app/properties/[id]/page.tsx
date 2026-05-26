@@ -13,6 +13,7 @@ import { useT } from '@/components/i18n/provider';
 import { properties, agents, leadsById } from '@/lib/mock';
 import { freshnessLabel, freshnessTone } from '@/lib/freshness';
 import { ShowingModal } from '@/components/showings/showing-modal';
+import { PropertyBenefitsPanel } from '@/components/properties/benefits-panel';
 
 type Params = { params: { id: string } };
 
@@ -132,6 +133,8 @@ export default function PropertyDetailPage({ params }: Params) {
                 </div>
               </CardContent>
             </Card>
+
+            <PropertyBenefitsPanel property={property} />
 
             <Card>
               <CardHeader>
