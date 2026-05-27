@@ -29,6 +29,18 @@ const sellerFeatures = [
   'vedere panoramică', 'zonă liniștită', 'aer condiționat',
   'parchet stejar', 'încălzire în pardoseală', 'geamuri termopan',
 ];
+// Regula 20 — chiriaș (tenant): preferințe orientate spre confort imediat + flexibilitate.
+const tenantFeatures = [
+  'mobilat complet', 'utilități incluse', 'permite animale', 'aproape de transport',
+  'aproape de universitate', 'parcare proprie', 'internet inclus',
+  'aer condiționat', 'mașină de spălat', 'aproape de centru',
+];
+// Regula 20 — proprietar (landlord): puncte forte ale ofertei de chirie.
+const landlordFeatures = [
+  'mobilat complet', 'utilități parțial incluse', 'parcare în curte',
+  'liniștit · vecini calmi', 'apartament renovat 2025', 'aer condiționat',
+  'mașină de spălat + uscător', 'aproape de școală + parc',
+];
 const urgencies: LeadUrgency[] = ['low', 'medium', 'high'];
 const zones = [
   'Chișinău · Centru',
@@ -98,14 +110,39 @@ function buildLeads(): Lead[] {
     const source = rng.pick(sources);
     const zone = rng.pick(zones);
 
-    // Budget bands derived loosely from rooms preference.
+    // Lead type distribution (Regula 20):
+    //   buyer    ~48%  · seller  ~22%  · tenant ~22%  · landlord ~8%
+    // Sale market e mai mare în piața RM; chiria reprezintă ~30% din volum total.
+    const typeRoll = rng.next();
+    const leadType: LeadType =
+      typeRoll < 0.48 ? 'buyer' :
+      typeRoll < 0.70 ? 'seller' :
+      typeRoll < 0.92 ? 'tenant' :
+      'landlord';
+
+    const isRent = leadType === 'tenant' || leadType === 'landlord';
+
+    // Budget bands derived from rooms preference. Semantics:
+    //   sale (buyer/seller):   preț total EUR
+    //   rent (tenant/landlord): chirie lunară EUR/lună
     const roomsKey = rng.pick(['1', '2', '3', '3+']);
-    const baseMin =
-      roomsKey === '1' ? 30000 :
-      roomsKey === '2' ? 50000 :
-      roomsKey === '3' ? 70000 : 90000;
-    const budgetMin = baseMin + rng.int(0, 10000);
-    const budgetMax = budgetMin + rng.int(10000, 25000);
+    let budgetMin: number;
+    let budgetMax: number;
+    if (isRent) {
+      const baseRent =
+        roomsKey === '1' ? 250 :
+        roomsKey === '2' ? 380 :
+        roomsKey === '3' ? 520 : 700;
+      budgetMin = baseRent + rng.int(0, 100);
+      budgetMax = budgetMin + rng.int(80, 250);
+    } else {
+      const baseMin =
+        roomsKey === '1' ? 30000 :
+        roomsKey === '2' ? 50000 :
+        roomsKey === '3' ? 70000 : 90000;
+      budgetMin = baseMin + rng.int(0, 10000);
+      budgetMax = budgetMin + rng.int(10000, 25000);
+    }
 
     // Agent assignment: only LS >= 0.60 routed to agents (BR-01 firewall).
     const agentId = status === 'nurturing' || status === 'warm' ? null :
@@ -119,9 +156,23 @@ function buildLeads(): Lead[] {
     // Interaction Strength correlates loosely with LS.
     const is = Math.round((rng.clamp01(ls * 0.6 + rng.range(0, 0.35))) * 100) / 100;
 
-    // ~70% buyers, 30% sellers (seller = vine cu o proprietate de vândut).
-    const leadType: LeadType = rng.next() < 0.30 ? 'seller' : 'buyer';
     const urgency: LeadUrgency = rng.pick(urgencies);
+
+    // Pick feature pool per lead kind.
+    const featurePool =
+      leadType === 'buyer' ? buyerFeatures :
+      leadType === 'seller' ? sellerFeatures :
+      leadType === 'tenant' ? tenantFeatures :
+      landlordFeatures;
+
+    // sellingPropertyId obligatoriu pentru supply (seller/landlord).
+    const isSupply = leadType === 'seller' || leadType === 'landlord';
+
+    // Rent period (luni): tenant alege 6/12/24; landlord oferă tipic 12.
+    const rentPeriodMonths: number | null =
+      leadType === 'tenant' ? rng.pick([6, 12, 12, 24]) :
+      leadType === 'landlord' ? 12 :
+      null;
 
     out.push({
       id: `L-${String(1000 + i).padStart(4, '0')}`,
@@ -132,11 +183,12 @@ function buildLeads(): Lead[] {
       sla,
       agentId,
       leadType,
-      sellingPropertyId: leadType === 'seller' ? pickPropertyId(rng) : null,
-      features: pickFeatures(leadType === 'seller' ? sellerFeatures : buyerFeatures, rng, rng.int(2, 4)),
+      sellingPropertyId: isSupply ? pickPropertyId(rng) : null,
+      features: pickFeatures(featurePool, rng, rng.int(2, 4)),
       urgency,
       budgetMin,
       budgetMax,
+      rentPeriodMonths,
       rooms: roomsKey,
       zone,
       createdAt,

@@ -6,15 +6,19 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { useT } from '@/components/i18n/provider';
+import { transactionIntent } from '@/lib/transaction-intent';
 import type { Lead, Property } from '@/lib/mock';
 
-function budgetFit(lead: Lead, property: Property): { ok: boolean; reason: string } {
-  if (property.priceEur >= lead.budgetMin && property.priceEur <= lead.budgetMax) {
-    return { ok: true, reason: 'inside' };
+function budgetFit(lead: Lead, property: Property): { ok: boolean; reason: string; amount: number } {
+  // Regula 20: pentru rent compari cu monthlyRentEur; pentru sale compari cu priceEur.
+  const isRent = transactionIntent(lead.leadType) === 'rent';
+  const amount = isRent ? (property.monthlyRentEur ?? 0) : property.priceEur;
+  if (amount >= lead.budgetMin && amount <= lead.budgetMax) {
+    return { ok: true, reason: 'inside', amount };
   }
-  if (property.priceEur < lead.budgetMin) return { ok: true, reason: 'below' };
-  if (property.priceEur <= lead.budgetMax * 1.1) return { ok: false, reason: 'above_10' };
-  return { ok: false, reason: 'above_30' };
+  if (amount < lead.budgetMin) return { ok: true, reason: 'below', amount };
+  if (amount <= lead.budgetMax * 1.1) return { ok: false, reason: 'above_10', amount };
+  return { ok: false, reason: 'above_30', amount };
 }
 
 function zoneFit(lead: Lead, property: Property): 'exact' | 'city' | 'mismatch' {
@@ -61,7 +65,7 @@ export function MatchReasoning({
             <p className="font-semibold">{t('matchReason.budgetTitle')}</p>
             <p className="text-text-secondary">
               {t(`matchReason.budget.${bf.reason}`, {
-                price: `€${property.priceEur.toLocaleString('ro-MD')}`,
+                price: `€${bf.amount.toLocaleString('ro-MD')}`,
                 min: `€${lead.budgetMin.toLocaleString('ro-MD')}`,
                 max: `€${lead.budgetMax.toLocaleString('ro-MD')}`,
               })}

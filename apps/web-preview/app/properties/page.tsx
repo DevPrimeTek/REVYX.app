@@ -11,12 +11,16 @@ import { Button } from '@/components/ui/button';
 import { InfoTooltip } from '@/components/ui/info-tooltip';
 import { useT } from '@/components/i18n/provider';
 import { properties } from '@/lib/mock';
-import type { PropertyKind } from '@/lib/mock';
+import type { PropertyKind, ListingType } from '@/lib/mock';
 import { freshnessLabel, freshnessTone } from '@/lib/freshness';
 import { cn } from '@/lib/utils';
 
 type KindFilter = 'all' | PropertyKind;
 const kinds: KindFilter[] = ['all', 'apartment', 'house', 'land', 'commercial'];
+
+// Regula 20: filter listing type (sale / rent / both).
+type ListingFilter = 'all' | ListingType;
+const listingFilters: ListingFilter[] = ['all', 'sale', 'rent', 'both'];
 
 function kindLabelKey(k: PropertyKind): string {
   return k === 'apartment'
@@ -31,10 +35,19 @@ function kindLabelKey(k: PropertyKind): string {
 export default function PropertiesPage() {
   const { t } = useT();
   const [kind, setKind] = useState<KindFilter>('all');
+  const [listing, setListing] = useState<ListingFilter>('all');
 
   const list = useMemo(
-    () => properties.filter((p) => (kind === 'all' ? true : p.kind === kind)).slice(0, 36),
-    [kind]
+    () => properties
+      .filter((p) => (kind === 'all' ? true : p.kind === kind))
+      .filter((p) => {
+        if (listing === 'all') return true;
+        if (listing === 'both') return p.listingType === 'both';
+        // sale tab include both; rent tab include both.
+        return p.listingType === listing || p.listingType === 'both';
+      })
+      .slice(0, 36),
+    [kind, listing]
   );
 
   return (
@@ -51,6 +64,39 @@ export default function PropertiesPage() {
             <Button>{t('property.addCta')}</Button>
           </Link>
         </header>
+
+        <div className="flex items-center gap-sp2 flex-wrap">
+          {/* Regula 20: filter listingType (sale / rent / both) */}
+          <div
+            role="tablist"
+            aria-label={t('property.listingTypeFilterLabel')}
+            className="flex items-center gap-1 rounded-md border border-border-light p-1 bg-navy-deep flex-wrap"
+          >
+            {listingFilters.map((lt) => {
+              const isAll = lt === 'all';
+              const selected = listing === lt;
+              return (
+                <button
+                  key={lt}
+                  role="tab"
+                  type="button"
+                  aria-selected={selected}
+                  onClick={() => setListing(lt)}
+                  className={cn(
+                    'px-sp3 py-1 text-[12px] rounded transition-colors duration-fast',
+                    selected
+                      ? isAll
+                        ? 'bg-gold text-navy-deep font-semibold'
+                        : 'bg-gold/10 text-gold'
+                      : 'text-text-secondary hover:bg-navy-hover hover:text-text-h'
+                  )}
+                >
+                  {lt === 'all' ? t('common.all') : t(`property.listingType.${lt}`)}
+                </button>
+              );
+            })}
+          </div>
+        </div>
 
         <div
           role="tablist"
@@ -95,13 +141,24 @@ export default function PropertiesPage() {
                   <CardHeader>
                     <div className="flex items-center justify-between">
                       <p className="label-mono text-text-secondary">{p.id}</p>
-                      <span className="label-mono text-text-muted">{t(kindLabelKey(p.kind))}</span>
+                      <span className="inline-flex items-center gap-1">
+                        <Badge
+                          variant={p.listingType === 'sale' ? 'info' : p.listingType === 'rent' ? 'success' : 'warning'}
+                          size="xs"
+                        >
+                          {t(`property.listingType.${p.listingType}`)}
+                        </Badge>
+                        <span className="label-mono text-text-muted">{t(kindLabelKey(p.kind))}</span>
+                      </span>
                     </div>
                     <CardTitle className="text-[15px]">{p.addr}</CardTitle>
                     <CardDescription>
                       {p.city} · {p.zone}
-                      {p.rooms > 0 ? ` · ${p.rooms} ${t('property.rooms')}` : ''} · {p.area} m² · €
-                      {p.priceEur.toLocaleString('ro-MD')}
+                      {p.rooms > 0 ? ` · ${p.rooms} ${t('property.rooms')}` : ''} · {p.area} m²
+                      {p.priceEur > 0 && <> · €{p.priceEur.toLocaleString('ro-MD')}</>}
+                      {p.monthlyRentEur && p.monthlyRentEur > 0 && (
+                        <> · €{p.monthlyRentEur.toLocaleString('ro-MD')}/{t('landlord.month')}</>
+                      )}
                     </CardDescription>
                   </CardHeader>
                   <CardContent className="flex items-center justify-between">

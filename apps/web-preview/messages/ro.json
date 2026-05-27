@@ -57,7 +57,23 @@
   },
   "leadType": {
     "buyer": "Cumpărător",
-    "seller": "Vânzător"
+    "seller": "Vânzător",
+    "tenant": "Chiriaș",
+    "landlord": "Proprietar (chirie)"
+  },
+  "transactionIntent": {
+    "sale": "Vânzare",
+    "rent": "Închiriere"
+  },
+  "landlord": {
+    "listingLabel": "Proprietatea pentru închiriere",
+    "noPropertyTitle": "Nicio proprietate asociată",
+    "noPropertyDesc": "Lead-ul proprietar nu are încă o proprietate listată pentru închiriere. Adaugă una din portofoliu.",
+    "monthlyRentLabel": "Chirie lunară",
+    "perMonth": "/lună",
+    "month": "lună",
+    "months": "luni",
+    "rentPeriodLabel": "Perioadă contract"
   },
   "rank": {
     "top1": "Top 1 agent",
@@ -69,6 +85,8 @@
   "preferences": {
     "title": "Preferințele clientului",
     "desc": "Detalii pe care clientul le caută. Sistemul filtrează potrivirile pe baza lor.",
+    "titleRent": "Preferințele chiriașului",
+    "descRent": "Ce caută clientul pentru închiriere — zone, perioadă, mobilier, condiții. Folosite la filtrarea ofertelor de chirie.",
     "editCta": "Editează preferințe",
     "savedToast": "Preferințe salvate.",
     "urgencyLabel": "Urgență",
@@ -166,10 +184,12 @@
     "suggestionsBlockTitle": "Sugestii pentru acest lead",
     "suggestionsBlockDesc": "Sistemul îți recomandă următorii pași. Apasă „+ Adaugă în sarcini\" ca să-i ai în programul tău.",
     "matchSubtitleBuyer": "Top 3 proprietăți care se potrivesc cerințelor. Apasă pe Top 1/2/3 pentru a vedea de ce este o potrivire bună.",
+    "matchSubtitleTenant": "Top 3 oferte de chirie care se potrivesc cerințelor. Apasă pe Top 1/2/3 pentru a vedea de ce este o potrivire bună.",
     "whatsapp": "Trimite WhatsApp",
     "assignAgent": "Atribuie unui agent",
     "source": "De unde a venit",
     "budget": "Buget disponibil",
+    "budgetRent": "Buget chirie lunară",
     "zone": "Zonă preferată",
     "rooms": "Camere dorite",
     "matchTitle": "Cele mai bune 3 potriviri",
@@ -220,6 +240,12 @@
     "kindLand": "Teren",
     "kindCommercial": "Comercial",
     "filterAll": "Toate tipurile",
+    "listingTypeFilterLabel": "Filtru tip listare",
+    "listingType": {
+      "sale": "De vânzare",
+      "rent": "De închiriat",
+      "both": "Vânzare + chirie"
+    },
     "newFormTitle": "Proprietate nouă",
     "newFormSubtitle": "Completează datele de bază. Mai poți adăuga poze și video după salvare.",
     "viewDetails": "Vezi detalii",
@@ -239,7 +265,9 @@
       "areaLabel": "Suprafață",
       "roomsLabel": "Camere",
       "floorLabel": "Etaj",
-      "priceLabel": "Preț",
+      "priceLabel": "Preț de vânzare",
+      "monthlyRentLabel": "Chirie lunară",
+      "listingTypeLabel": "Tip listare",
       "yearLabel": "An construcție",
       "agentLabel": "Agent responsabil",
       "addedLabel": "Publicat",

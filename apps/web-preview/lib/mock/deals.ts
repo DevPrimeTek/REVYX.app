@@ -22,6 +22,7 @@ const stageDistribution: DealStage[] = [
 function buildDeals(): Deal[] {
   const rng = makeRng('revyx.deals.v1');
   // Only consider qualified/HOT leads as candidates for deals (Lead Firewall).
+  // Deals există pe ambele profiles (sale + rent); commission differs per profile.
   const candidateLeads = leads.filter((l) => l.status === 'HOT' || l.status === 'qualified');
   const out: Deal[] = [];
 
@@ -37,17 +38,34 @@ function buildDeals(): Deal[] {
       Math.round(Math.max(0.45, Math.min(0.92, 0.6 + stageIdx * 0.04 + rng.range(-0.15, 0.18))) * 100) / 100;
 
     const lead = candidateLeads[i % candidateLeads.length];
-    const property = properties[rng.int(0, properties.length - 1)];
+
+    // Regula 20: Match property la intent-ul lead-ului.
+    // sale (buyer/seller) ↔ priceEur>0 (sale|both)
+    // rent (tenant/landlord) ↔ monthlyRentEur>0 (rent|both)
+    const isRent = lead.leadType === 'tenant' || lead.leadType === 'landlord';
+    const compatibleProps = properties.filter((p) =>
+      isRent
+        ? (p.listingType === 'rent' || p.listingType === 'both')
+        : (p.listingType === 'sale' || p.listingType === 'both'),
+    );
+    const property = compatibleProps[rng.int(0, compatibleProps.length - 1)] ?? properties[0];
 
     // Expected close date: NULL for early stages (TF_default 0.70 applies per BR-10).
+    // Rent profile: ciclu ~21 zile (vs 90 zile sale).
+    const closeDateRange = isRent ? [3, 25] : [7, 90];
     const expectedCloseDate = stageIdx < 2 ? null :
       (() => {
         const d = new Date('2026-05-17');
-        d.setDate(d.getDate() + rng.int(7, 90));
+        d.setDate(d.getDate() + rng.int(closeDateRange[0], closeDateRange[1]));
         return d.toISOString().slice(0, 10);
       })();
 
-    const commissionEur = Math.round((property.priceEur * 0.025) / 100) * 100;
+    // Commission profile:
+    //   sale: 2.5% din priceEur
+    //   rent: 1 lună chirie (commission_model = rent_profile)
+    const commissionEur = isRent
+      ? (property.monthlyRentEur ?? 0)
+      : Math.round((property.priceEur * 0.025) / 100) * 100;
 
     out.push({
       id: `D-${String(1000 + i).padStart(4, '0')}`,

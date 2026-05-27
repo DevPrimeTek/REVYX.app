@@ -11,6 +11,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { useT } from '@/components/i18n/provider';
 import { MatchReasoning } from '@/components/leads/match-reasoning';
+import { transactionIntent } from '@/lib/transaction-intent';
 import type { Lead, Property } from '@/lib/mock';
 
 const PODIUM_STYLE = [
@@ -30,6 +31,7 @@ export function MatchPodium({
   const top3 = candidates.slice(0, 3);
   const [selectedIdx, setSelectedIdx] = useState<number>(0);
   const selected = top3[selectedIdx];
+  const isRent = transactionIntent(lead.leadType) === 'rent';
 
   if (top3.length === 0) {
     return <p className="text-text-muted text-[12px]">{t('matchReason.noMatches')}</p>;
@@ -64,7 +66,11 @@ export function MatchPodium({
               <p className="text-[11px] text-text-secondary mt-sp1">
                 {p.zone} · {p.area} m²
               </p>
-              <p className="text-[12px] text-gold mt-sp1 font-mono">€{p.priceEur.toLocaleString('ro-MD')}</p>
+              <p className="text-[12px] text-gold mt-sp1 font-mono">
+                {isRent
+                  ? `€${(p.monthlyRentEur ?? 0).toLocaleString('ro-MD')}/${t('landlord.month')}`
+                  : `€${p.priceEur.toLocaleString('ro-MD')}`}
+              </p>
             </button>
           );
         })}
