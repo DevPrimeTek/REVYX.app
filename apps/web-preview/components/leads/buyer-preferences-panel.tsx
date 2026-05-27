@@ -1,7 +1,7 @@
 'use client';
 
-// M0.S9 · Buyer preferences — agent editează preferințele cumpărătorului (zone bonus, etaj, features, urgență).
-// Lead-ul are deja budget/zone/rooms ca date de bază. Aici extindem cu detalii editabile.
+// M0.S9 · Demand-side preferences — agent editează preferințele clientului care caută.
+// Suportă DOUĂ intent-uri (Regula 20): buyer (sale) și tenant (rent). UI adaptiv la intent.
 
 import { useState, type FormEvent } from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
@@ -11,18 +11,28 @@ import { Badge } from '@/components/ui/badge';
 import { useToast } from '@/components/ui/toast';
 import { useT } from '@/components/i18n/provider';
 import { setBuyerPreferences, useLeadExtras } from '@/lib/lead-extras-store';
+import { transactionIntent } from '@/lib/transaction-intent';
 import type { Lead } from '@/lib/mock';
 
-const FEATURE_POOL = [
+const BUYER_FEATURES = [
   'balcon', 'parcare', 'lift', 'încălzire autonomă', 'aproape de școală',
   'aproape de metrou', 'etaj superior', 'orientare sud', 'mobilat',
   'finisaj nou', 'curte proprie', 'liniștit', 'aproape de parc',
+];
+const TENANT_FEATURES = [
+  'mobilat complet', 'utilități incluse', 'permite animale', 'aproape de transport',
+  'aproape de universitate', 'parcare proprie', 'internet inclus',
+  'aer condiționat', 'mașină de spălat', 'aproape de centru',
 ];
 
 export function BuyerPreferencesPanel({ lead }: { lead: Lead }) {
   const { t } = useT();
   const { toast } = useToast();
   const extras = useLeadExtras(lead.id);
+
+  const intent = transactionIntent(lead.leadType);
+  const isRent = intent === 'rent';
+  const FEATURE_POOL = isRent ? TENANT_FEATURES : BUYER_FEATURES;
 
   const prefs = extras.preferences ?? {
     features: lead.features ?? [],
@@ -52,8 +62,8 @@ export function BuyerPreferencesPanel({ lead }: { lead: Lead }) {
     <Card>
       <CardHeader className="flex flex-row items-start justify-between gap-sp2">
         <div>
-          <CardTitle>{t('preferences.title')}</CardTitle>
-          <CardDescription>{t('preferences.desc')}</CardDescription>
+          <CardTitle>{t(isRent ? 'preferences.titleRent' : 'preferences.title')}</CardTitle>
+          <CardDescription>{t(isRent ? 'preferences.descRent' : 'preferences.desc')}</CardDescription>
         </div>
         {!editing ? (
           <Button size="sm" variant="secondary" onClick={() => setEditing(true)}>

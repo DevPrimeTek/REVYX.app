@@ -3,7 +3,7 @@
 // LF (Listing Freshness) = 1 - min(1, days / 90)  per BRD §7.
 
 import { makeRng } from './rng';
-import type { Property, PropertyKind } from './types';
+import type { Property, PropertyKind, ListingType } from './types';
 import { agents } from './agents';
 
 const streets = [
@@ -62,6 +62,24 @@ function buildProperties(): Property[] {
     const ap = kind === 'apartment' ? `, ap. ${rng.int(1, 80)}` : '';
     const addr = `${street} ${num}${ap}`;
 
+    // Regula 20 — listingType distribution: 60% sale, 25% rent, 15% both.
+    // Land + commercial gravitează spre sale; apartment + house pot fi orice.
+    const ltRoll = rng.next();
+    let listingType: ListingType;
+    if (kind === 'land') {
+      listingType = 'sale';
+    } else if (kind === 'commercial') {
+      listingType = ltRoll < 0.55 ? 'sale' : ltRoll < 0.90 ? 'rent' : 'both';
+    } else {
+      listingType = ltRoll < 0.60 ? 'sale' : ltRoll < 0.85 ? 'rent' : 'both';
+    }
+
+    // Chirie lunară estimată ~0.7% din preț (heuristic RM); ajustat per zonă.
+    // Aplicăm doar dacă listingType include rent.
+    const monthlyRentEur = (listingType === 'rent' || listingType === 'both')
+      ? Math.round((priceEur * 0.0065 + rng.int(-30, 50)) / 10) * 10
+      : null;
+
     out.push({
       id: `P-${String(1900 + i).padStart(4, '0')}`,
       addr,
@@ -70,7 +88,9 @@ function buildProperties(): Property[] {
       kind,
       rooms,
       area,
-      priceEur,
+      priceEur: listingType === 'rent' ? 0 : priceEur,
+      monthlyRentEur,
+      listingType,
       ps,
       lf,
       daysOnMarket,

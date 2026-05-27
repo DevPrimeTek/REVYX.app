@@ -4,10 +4,17 @@
 
 export type LeadSource = 'Meta' | 'OLX' | 'Google' | 'Referral' | 'Walk-in' | 'Website';
 export type LeadStatus = 'HOT' | 'qualified' | 'warm' | 'nurturing';
-export type LeadType = 'buyer' | 'seller';
+/** Regula 19 + Regula 20: 4 enum flat + helper transactionIntent() derivat (lib/transaction-intent.ts). */
+export type LeadType = 'buyer' | 'seller' | 'tenant' | 'landlord';
+/** Regula 20: helper derivat — sale (buyer/seller) sau rent (tenant/landlord). Calibration_profile pe scoring. */
+export type TransactionIntent = 'sale' | 'rent';
+/** Regula 20: latura logică — demand (buyer/tenant) sau supply (seller/landlord). */
+export type LeadSide = 'demand' | 'supply';
 export type LeadUrgency = 'low' | 'medium' | 'high';
 export type DealStage = 'discovery' | 'qualified' | 'offer' | 'negotiation' | 'closing' | 'won';
 export type PropertyKind = 'apartment' | 'house' | 'land' | 'commercial';
+/** Regula 20: ce listare are proprietatea — vânzare, închiriere sau ambele. */
+export type ListingType = 'sale' | 'rent' | 'both';
 
 export type Agent = {
   id: string;
@@ -27,15 +34,28 @@ export type Lead = {
   source: LeadSource;
   sla: string;           // formatted: "15m" | "2h" | "24h" | "—"
   agentId: string | null;
-  /** buyer = caută proprietate · seller = are proprietate de vândut */
+  /**
+   * Regula 19+20: 4 tipuri de lead. buyer/tenant = demand side; seller/landlord = supply side.
+   * - buyer    → caută proprietate de cumpărat (intent=sale)
+   * - seller   → are proprietate de vândut (intent=sale)
+   * - tenant   → caută proprietate de închiriat (intent=rent)
+   * - landlord → are proprietate de dat în chirie (intent=rent)
+   */
   leadType: LeadType;
-  /** Pentru seller — proprietatea pe care o vinde (din mock properties) */
+  /** Pentru seller/landlord — proprietatea pe care o vinde sau o închiriază (din mock properties) */
   sellingPropertyId: string | null;
-  /** Buyer preferences (extras peste budget/zonă/camere) */
+  /** Preferences pe care agentul le vede (buyer/tenant) sau pe care le promovează (seller/landlord). */
   features: string[];
   urgency: LeadUrgency;
-  budgetMin: number;     // EUR
+  /**
+   * Buget — semantica diferă în funcție de transactionIntent:
+   * - sale (buyer/seller): preț total în EUR
+   * - rent (tenant/landlord): chirie lunară în EUR/lună
+   */
+  budgetMin: number;
   budgetMax: number;
+  /** Regula 20: pentru tenant — durata dorită a contractului de chirie (6/12/24 luni). */
+  rentPeriodMonths: number | null;
   rooms: string;         // "1" | "2" | "3" | "3+"
   zone: string;
   createdAt: string;     // ISO YYYY-MM-DD
@@ -52,7 +72,11 @@ export type Property = {
   kind: PropertyKind;
   rooms: number;
   area: number;          // m²
-  priceEur: number;
+  priceEur: number;      // sale price (EUR) — 0 if listingType === 'rent'
+  /** Regula 20: chirie lunară (EUR/lună) — completat pentru listingType ∈ {'rent', 'both'}. */
+  monthlyRentEur: number | null;
+  /** Regula 20: tipul listării — vânzare, închiriere sau dual (same property listed pentru ambele). */
+  listingType: ListingType;
   ps: number;            // Property Score [0,1]
   lf: number;            // Listing Freshness [0,1]
   daysOnMarket: number;

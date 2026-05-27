@@ -162,9 +162,31 @@ export default function PropertyDetailPage({ params }: Params) {
                     <dt className="text-text-muted text-[12px]">{t('property.detail.roomsLabel')}</dt>
                     <dd className="text-text-h">{property.rooms || '—'}</dd>
                   </div>
+                  {property.priceEur > 0 && (
+                    <div>
+                      <dt className="text-text-muted text-[12px]">{t('property.detail.priceLabel')}</dt>
+                      <dd className="text-text-h font-semibold">€{property.priceEur.toLocaleString('ro-MD')}</dd>
+                    </div>
+                  )}
+                  {property.monthlyRentEur && property.monthlyRentEur > 0 && (
+                    <div>
+                      <dt className="text-text-muted text-[12px]">{t('property.detail.monthlyRentLabel')}</dt>
+                      <dd className="text-text-h font-semibold">
+                        €{property.monthlyRentEur.toLocaleString('ro-MD')}
+                        <span className="text-text-secondary text-[12px] ml-1">/{t('landlord.month')}</span>
+                      </dd>
+                    </div>
+                  )}
                   <div>
-                    <dt className="text-text-muted text-[12px]">{t('property.detail.priceLabel')}</dt>
-                    <dd className="text-text-h font-semibold">€{property.priceEur.toLocaleString('ro-MD')}</dd>
+                    <dt className="text-text-muted text-[12px]">{t('property.detail.listingTypeLabel')}</dt>
+                    <dd>
+                      <Badge
+                        variant={property.listingType === 'sale' ? 'info' : property.listingType === 'rent' ? 'success' : 'warning'}
+                        size="xs"
+                      >
+                        {t(`property.listingType.${property.listingType}`)}
+                      </Badge>
+                    </dd>
                   </div>
                   <div>
                     <dt className="text-text-muted text-[12px]">{t('property.detail.agentLabel')}</dt>

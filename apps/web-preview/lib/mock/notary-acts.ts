@@ -19,6 +19,10 @@ export function buildSeedNotaryActs(): NotaryAct[] {
     const lead = leadsById.get(deal.leadId);
     const prop = propertiesById.get(deal.propertyId);
     if (!lead || !prop) continue;
+    // Regula 20: notary acts apar doar pe sale flow. Rental deals folosesc lease agreement
+    // (artifact diferit, scope M1.S6+).
+    if (lead.leadType === 'tenant' || lead.leadType === 'landlord') continue;
+    if (prop.listingType === 'rent') continue;
 
     if (deal.stage === 'closing') {
       out.push({

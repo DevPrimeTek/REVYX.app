@@ -34,7 +34,16 @@ export default function LeadsPage() {
   );
 }
 
-type TypeFilter = 'all' | 'buyer' | 'seller';
+// Regula 20: 4 tipuri lead + 'all'. Hybrid (4 enum flat) + helper transactionIntent.
+type TypeFilter = 'all' | 'buyer' | 'seller' | 'tenant' | 'landlord';
+const TYPE_FILTERS: TypeFilter[] = ['all', 'buyer', 'tenant', 'seller', 'landlord'];
+
+function leadTypeBadgeVariant(t: 'buyer' | 'seller' | 'tenant' | 'landlord'): 'info' | 'updated' | 'success' | 'warning' {
+  if (t === 'buyer') return 'info';
+  if (t === 'tenant') return 'success';
+  if (t === 'seller') return 'updated';
+  return 'warning'; // landlord
+}
 
 function LeadsPageInner() {
   const { t } = useT();
@@ -52,7 +61,7 @@ function LeadsPageInner() {
     else if (p === 'nurturing') setFilter('nurturing');
 
     const ty = params.get('type');
-    if (ty === 'buyer' || ty === 'seller') setTypeFilter(ty);
+    if (ty === 'buyer' || ty === 'seller' || ty === 'tenant' || ty === 'landlord') setTypeFilter(ty);
   }, [params]);
 
   const filtered = useMemo(() => {
@@ -91,13 +100,13 @@ function LeadsPageInner() {
                   aria-label={t('common.search')}
                   className="h-9 px-sp2 bg-navy-deep border border-border rounded-md text-[13px] text-text-h placeholder:text-text-muted focus-visible:outline-none focus-visible:border-gold"
                 />
-                {/* Lead type filter (Regula 19: separare buyer/seller) */}
+                {/* Lead type filter (Regula 19+20: 4 tipuri — buyer/seller/tenant/landlord) */}
                 <div
                   role="tablist"
                   aria-label={t('lead.typeFilterLabel')}
                   className="flex items-center gap-1 rounded-md border border-border-light p-1 bg-navy-deep"
                 >
-                  {(['all', 'buyer', 'seller'] as TypeFilter[]).map((tf) => (
+                  {TYPE_FILTERS.map((tf) => (
                     <button
                       key={tf}
                       role="tab"
@@ -189,7 +198,7 @@ function LeadsPageInner() {
                           {l.name}
                         </Link>
                         <Badge
-                          variant={l.leadType === 'buyer' ? 'info' : 'updated'}
+                          variant={leadTypeBadgeVariant(l.leadType)}
                           size="xs"
                           className="ml-sp2"
                         >

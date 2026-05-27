@@ -25,6 +25,7 @@ import { MatchPodium } from '@/components/leads/match-podium';
 import { BuyerPreferencesPanel } from '@/components/leads/buyer-preferences-panel';
 import { SellerPropertyPanel } from '@/components/leads/seller-property-panel';
 import { useShowings } from '@/lib/showing-store';
+import { isDemandSide, transactionIntent, isListingMatchForLead } from '@/lib/transaction-intent';
 
 type Params = { params: { id: string } };
 
@@ -42,12 +43,18 @@ export default function LeadDetailPage({ params }: Params) {
   const [ls, setLs] = useState(baseLs);
   const [recomputing, setRecomputing] = useState(false);
 
-  // Top matches — filtered by buyer preferences when applicable.
+  // Top matches — pentru demand-side leads (buyer + tenant). Supply-side (seller/landlord) nu primesc match-uri.
+  // Regula 20: comparăm pe priceEur pentru sale și pe monthlyRentEur pentru rent.
   const matches = useMemo(() => {
     if (!lead) return [];
-    if (lead.leadType === 'seller') return []; // sellers don't need matches
+    if (!isDemandSide(lead.leadType)) return [];
+    const isRent = transactionIntent(lead.leadType) === 'rent';
     return [...properties]
-      .filter((p) => p.priceEur >= lead.budgetMin * 0.85 && p.priceEur <= lead.budgetMax * 1.15)
+      .filter((p) => isListingMatchForLead(lead, p.listingType))
+      .filter((p) => {
+        const amount = isRent ? (p.monthlyRentEur ?? 0) : p.priceEur;
+        return amount >= lead.budgetMin * 0.85 && amount <= lead.budgetMax * 1.15;
+      })
       .sort((a, b) => b.ps - a.ps)
       .slice(0, 6);
   }, [lead]);
@@ -113,7 +120,13 @@ export default function LeadDetailPage({ params }: Params) {
     return 'good';
   };
 
-  const isBuyer = lead.leadType === 'buyer';
+  const isDemand = isDemandSide(lead.leadType);
+  const isRent = transactionIntent(lead.leadType) === 'rent';
+  const typeBadgeVariant =
+    lead.leadType === 'buyer' ? 'info' :
+    lead.leadType === 'tenant' ? 'success' :
+    lead.leadType === 'seller' ? 'updated' :
+    'warning'; // landlord
 
   return (
     <>
@@ -132,8 +145,11 @@ export default function LeadDetailPage({ params }: Params) {
             <p className="label-mono text-gold">{t('leadDetail.moduleLabel')}</p>
             <h1 className="text-[28px] mt-sp1">{lead.name}</h1>
             <div className="flex items-center gap-sp2 mt-sp2 flex-wrap">
-              <Badge variant={isBuyer ? 'info' : 'updated'} size="sm">
+              <Badge variant={typeBadgeVariant} size="sm">
                 {t(`leadType.${lead.leadType}`)}
+              </Badge>
+              <Badge variant={isRent ? 'success' : 'info'} size="xs">
+                {t(`transactionIntent.${transactionIntent(lead.leadType)}`)}
               </Badge>
               <LeadPriorityBadge ls={ls} t={t} />
               {lead.needsReview && <Badge variant="updated">{t('leadDetail.matchNeedsReview')}</Badge>}
@@ -151,7 +167,7 @@ export default function LeadDetailPage({ params }: Params) {
               />
             </div>
             <Button variant="secondary">{t('leadDetail.whatsapp')}</Button>
-            {isBuyer && (
+            {isDemand && (
               <Button variant="secondary" onClick={() => setShowingOpen(true)}>
                 {t('showing.addCta')}
               </Button>
@@ -180,9 +196,10 @@ export default function LeadDetailPage({ params }: Params) {
                 <dd className="text-text-h">{lead.source}</dd>
               </div>
               <div>
-                <dt className="label-mono text-text-muted">{t('leadDetail.budget')}</dt>
+                <dt className="label-mono text-text-muted">{t(isRent ? 'leadDetail.budgetRent' : 'leadDetail.budget')}</dt>
                 <dd className="text-text-h">
                   €{lead.budgetMin.toLocaleString('ro-MD')} – €{lead.budgetMax.toLocaleString('ro-MD')}
+                  {isRent && <span className="text-text-secondary text-[11px] ml-1">/{t('landlord.month')}</span>}
                 </dd>
               </div>
               <div>
@@ -214,10 +231,10 @@ export default function LeadDetailPage({ params }: Params) {
           </CardContent>
         </Card>
 
-        {/* Buyer vs Seller split (per Regula 19) */}
-        {isBuyer ? (
+        {/* Demand vs Supply split (Regula 19 + Regula 20 — buyer/tenant vs seller/landlord) */}
+        {isDemand ? (
           <>
-            {/* Buyer: preferințe + Top3 match podium */}
+            {/* Demand side (buyer + tenant): preferințe + Top3 match podium */}
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-sp3">
               <div className="lg:col-span-1">
                 <BuyerPreferencesPanel lead={lead} />
@@ -226,7 +243,7 @@ export default function LeadDetailPage({ params }: Params) {
                 <CardHeader>
                   <p className="label-mono text-gold">{t('leadDetail.matchModule')}</p>
                   <CardTitle>{t('leadDetail.matchTitle')}</CardTitle>
-                  <CardDescription>{t('leadDetail.matchSubtitleBuyer')}</CardDescription>
+                  <CardDescription>{t(isRent ? 'leadDetail.matchSubtitleTenant' : 'leadDetail.matchSubtitleBuyer')}</CardDescription>
                 </CardHeader>
                 <CardContent>
                   <MatchPodium lead={lead} candidates={matches} />
@@ -245,7 +262,7 @@ export default function LeadDetailPage({ params }: Params) {
           </>
         ) : (
           <>
-            {/* Seller: proprietatea + beneficii + vizionări programate */}
+            {/* Supply side (seller + landlord): proprietatea + beneficii + vizionări programate */}
             <SellerPropertyPanel lead={lead} locale={locale} />
           </>
         )}
