@@ -27,6 +27,9 @@ import { useToast } from '@/components/ui/toast';
 import { useT } from '@/components/i18n/provider';
 import { deals as seedDeals, stageOrder, leadsById, properties, agents } from '@/lib/mock';
 import type { Deal, DealStage } from '@/lib/mock';
+import { transactionIntent } from '@/lib/transaction-intent';
+
+export type IntentFilter = 'all' | 'sale' | 'rent';
 
 // Per-stage accent (header + card border). Stays within brand tokens.
 const STAGE_COLOR: Record<DealStage, { dot: string; bar: string; ring: string }> = {
@@ -55,6 +58,8 @@ function DealCard({
   const lead = leadsById.get(deal.leadId);
   const property = properties.find((p) => p.id === deal.propertyId);
   const agent = agents.find((a) => a.id === deal.agentId);
+  const intent = lead ? transactionIntent(lead.leadType) : 'sale';
+  const isRent = intent === 'rent';
 
   const { attributes, listeners, setNodeRef, isDragging } = useDraggable({
     id: deal.id,
@@ -86,8 +91,13 @@ function DealCard({
       {/* stage colour bar */}
       <div className={`h-1 ${stageColor.bar} rounded-t-lg`} />
       <div className="px-sp3 py-sp2 flex flex-col gap-sp2">
-        <div className="flex items-center justify-between">
-          <span className="label-mono text-text-secondary">{deal.id}</span>
+        <div className="flex items-center justify-between gap-sp1">
+          <div className="flex items-center gap-sp1 min-w-0">
+            <span className="label-mono text-text-secondary">{deal.id}</span>
+            <Badge variant={isRent ? 'success' : 'info'} size="xs">
+              {t(`transactionIntent.${intent}`)}
+            </Badge>
+          </div>
           <Badge variant={healthVariant} size="xs">
             {t(`deal.healthLabels.${health}`)}
           </Badge>
@@ -106,7 +116,10 @@ function DealCard({
 
         <div className="flex items-center justify-between pt-sp1 border-t border-border">
           <span className="text-[11px] text-text-muted">{agent?.name ?? deal.agentId}</span>
-          <span className="text-[12px] text-gold font-mono">€{deal.commissionEur.toLocaleString('ro-MD')}</span>
+          <span className="text-[12px] text-gold font-mono">
+            €{deal.commissionEur.toLocaleString('ro-MD')}
+            {isRent && <span className="text-text-muted text-[10px] ml-1">({t('deal.rentCommissionHint')})</span>}
+          </span>
         </div>
         {!isDragOverlay && (
           <a
@@ -171,7 +184,7 @@ function StageColumn({
   );
 }
 
-export function KanbanBoard() {
+export function KanbanBoard({ intentFilter = 'all' }: { intentFilter?: IntentFilter } = {}) {
   const { t } = useT();
   const { toast } = useToast();
   const [deals, setDeals] = useState<Deal[]>([...seedDeals]);
@@ -183,13 +196,24 @@ export function KanbanBoard() {
     useSensor(KeyboardSensor)
   );
 
+  // Regula 20: filtru intent — separare sale vs rent pipeline.
+  const visibleDeals = useMemo(
+    () => deals.filter((d) => {
+      if (intentFilter === 'all') return true;
+      const lead = leadsById.get(d.leadId);
+      if (!lead) return false;
+      return transactionIntent(lead.leadType) === intentFilter;
+    }),
+    [deals, intentFilter],
+  );
+
   const dealsByStage = useMemo(() => {
     const map: Record<DealStage, Deal[]> = {
       discovery: [], qualified: [], offer: [], negotiation: [], closing: [], won: [],
     };
-    deals.forEach((d) => map[d.stage].push(d));
+    visibleDeals.forEach((d) => map[d.stage].push(d));
     return map;
-  }, [deals]);
+  }, [visibleDeals]);
 
   const activeDeal = activeId ? deals.find((d) => d.id === activeId) ?? null : null;
 

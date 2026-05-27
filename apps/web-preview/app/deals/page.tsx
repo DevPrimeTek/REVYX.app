@@ -1,28 +1,75 @@
 'use client';
 
-// M0.S6 · /deals · pipeline kanban + plain-language legend (no formula leak).
+// M0.S8 · /deals · pipeline kanban cu tab toggle pe transactionIntent (sale | rent | all).
+// Regula 20: tranzacțiile au workflow diferit per profile — sale folosește notariat,
+// rent folosește contract chirie (vezi /notary tab Contracte chirie).
 
+import { useState } from 'react';
 import { SiteNav } from '@/components/site-nav';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { InfoTooltip } from '@/components/ui/info-tooltip';
-import { KanbanBoard } from '@/components/deals/kanban-board';
+import { KanbanBoard, type IntentFilter } from '@/components/deals/kanban-board';
 import { useT } from '@/components/i18n/provider';
+import { cn } from '@/lib/utils';
+
+const TABS: IntentFilter[] = ['all', 'sale', 'rent'];
 
 export default function DealsPage() {
   const { t } = useT();
+  const [intent, setIntent] = useState<IntentFilter>('all');
 
   return (
     <>
       <SiteNav active="/deals" />
       <main id="main" className="px-sp4 py-sp4 lg:px-sp6 max-w-[1600px] mx-auto flex flex-col gap-sp4">
-        <header>
-          <p className="label-mono text-gold">{t('deal.moduleLabel')}</p>
-          <h1 className="text-[28px] mt-sp1">{t('deal.title')}</h1>
-          <p className="text-[13px] text-text-secondary mt-sp1">{t('deal.subtitle')}</p>
+        <header className="flex items-start justify-between gap-sp3 flex-wrap">
+          <div>
+            <p className="label-mono text-gold">{t('deal.moduleLabel')}</p>
+            <h1 className="text-[28px] mt-sp1">{t('deal.title')}</h1>
+            <p className="text-[13px] text-text-secondary mt-sp1">
+              {intent === 'all'
+                ? t('deal.subtitle')
+                : intent === 'sale'
+                ? t('deal.subtitleSale')
+                : t('deal.subtitleRent')}
+            </p>
+          </div>
+          {/* Tab toggle: Toate / Vânzare / Închiriere */}
+          <div
+            role="tablist"
+            aria-label={t('deal.intentFilterLabel')}
+            className="inline-flex items-center gap-sp1 rounded-md border border-border-light p-1 bg-navy-deep"
+          >
+            {TABS.map((tab) => (
+              <button
+                key={tab}
+                role="tab"
+                type="button"
+                aria-selected={intent === tab}
+                onClick={() => setIntent(tab)}
+                className={cn(
+                  'px-sp3 py-1.5 text-[12px] rounded transition-colors duration-fast',
+                  intent === tab
+                    ? tab === 'all'
+                      ? 'bg-gold text-navy-deep font-semibold'
+                      : 'bg-gold/10 text-gold'
+                    : 'text-text-secondary hover:bg-navy-hover hover:text-text-h',
+                )}
+              >
+                {tab === 'all' ? t('common.all') : t(`transactionIntent.${tab}`)}
+              </button>
+            ))}
+          </div>
         </header>
 
-        <KanbanBoard />
+        {intent === 'rent' && (
+          <div className="bg-status-green/10 border border-status-green/30 rounded-lg px-sp3 py-sp2 text-[13px] text-text-h">
+            {t('deal.rentBanner')}
+          </div>
+        )}
+
+        <KanbanBoard intentFilter={intent} />
 
         <Card>
           <CardHeader>

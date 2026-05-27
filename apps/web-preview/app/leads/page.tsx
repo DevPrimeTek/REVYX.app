@@ -35,8 +35,8 @@ export default function LeadsPage() {
 }
 
 // Regula 20: 4 tipuri lead + 'all'. Hybrid (4 enum flat) + helper transactionIntent.
+// UI grupează vizual pe intent: Vânzare (buyer+seller) vs Închiriere (tenant+landlord).
 type TypeFilter = 'all' | 'buyer' | 'seller' | 'tenant' | 'landlord';
-const TYPE_FILTERS: TypeFilter[] = ['all', 'buyer', 'tenant', 'seller', 'landlord'];
 
 function leadTypeBadgeVariant(t: 'buyer' | 'seller' | 'tenant' | 'landlord'): 'info' | 'updated' | 'success' | 'warning' {
   if (t === 'buyer') return 'info';
@@ -100,31 +100,72 @@ function LeadsPageInner() {
                   aria-label={t('common.search')}
                   className="h-9 px-sp2 bg-navy-deep border border-border rounded-md text-[13px] text-text-h placeholder:text-text-muted focus-visible:outline-none focus-visible:border-gold"
                 />
-                {/* Lead type filter (Regula 19+20: 4 tipuri — buyer/seller/tenant/landlord) */}
+                {/* Lead type filter (Regula 20: grupare vizuală pe transactionIntent — Vânzare vs Închiriere) */}
                 <div
                   role="tablist"
                   aria-label={t('lead.typeFilterLabel')}
-                  className="flex items-center gap-1 rounded-md border border-border-light p-1 bg-navy-deep"
+                  className="flex items-center gap-sp1 flex-wrap"
                 >
-                  {TYPE_FILTERS.map((tf) => (
-                    <button
-                      key={tf}
-                      role="tab"
-                      type="button"
-                      aria-selected={typeFilter === tf}
-                      onClick={() => setTypeFilter(tf)}
-                      className={cn(
-                        'px-sp3 py-1 text-[12px] rounded transition-colors duration-fast',
-                        typeFilter === tf
-                          ? tf === 'all'
-                            ? 'bg-gold text-navy-deep font-semibold'
-                            : 'bg-gold/10 text-gold'
-                          : 'text-text-secondary hover:bg-navy-hover hover:text-text-h',
-                      )}
-                    >
-                      {tf === 'all' ? t('common.all') : t(`leadType.${tf}`)}
-                    </button>
-                  ))}
+                  <button
+                    role="tab"
+                    type="button"
+                    aria-selected={typeFilter === 'all'}
+                    onClick={() => setTypeFilter('all')}
+                    className={cn(
+                      'h-9 px-sp3 rounded-md border text-[12px] transition-colors duration-fast',
+                      typeFilter === 'all'
+                        ? 'bg-gold text-navy-deep border-gold font-semibold'
+                        : 'border-border bg-navy-deep text-text-secondary hover:bg-navy-hover hover:text-text-h',
+                    )}
+                  >
+                    {t('common.all')}
+                  </button>
+                  {/* Grup Vânzare: buyer + seller */}
+                  <div className="inline-flex items-center gap-sp1 rounded-md border border-border-light p-1 bg-navy-deep">
+                    <span className="label-mono text-[10px] text-text-muted px-sp1 select-none">
+                      {t('transactionIntent.sale')}
+                    </span>
+                    {(['buyer', 'seller'] as const).map((tf) => (
+                      <button
+                        key={tf}
+                        role="tab"
+                        type="button"
+                        aria-selected={typeFilter === tf}
+                        onClick={() => setTypeFilter(tf)}
+                        className={cn(
+                          'px-sp3 py-1 text-[12px] rounded transition-colors duration-fast',
+                          typeFilter === tf
+                            ? 'bg-gold/10 text-gold'
+                            : 'text-text-secondary hover:bg-navy-hover hover:text-text-h',
+                        )}
+                      >
+                        {t(`leadType.${tf}`)}
+                      </button>
+                    ))}
+                  </div>
+                  {/* Grup Închiriere: tenant + landlord */}
+                  <div className="inline-flex items-center gap-sp1 rounded-md border border-border-light p-1 bg-navy-deep">
+                    <span className="label-mono text-[10px] text-text-muted px-sp1 select-none">
+                      {t('transactionIntent.rent')}
+                    </span>
+                    {(['tenant', 'landlord'] as const).map((tf) => (
+                      <button
+                        key={tf}
+                        role="tab"
+                        type="button"
+                        aria-selected={typeFilter === tf}
+                        onClick={() => setTypeFilter(tf)}
+                        className={cn(
+                          'px-sp3 py-1 text-[12px] rounded transition-colors duration-fast',
+                          typeFilter === tf
+                            ? 'bg-gold/10 text-gold'
+                            : 'text-text-secondary hover:bg-navy-hover hover:text-text-h',
+                        )}
+                      >
+                        {t(`leadType.${tf}`)}
+                      </button>
+                    ))}
+                  </div>
                 </div>
                 <div
                   role="tablist"

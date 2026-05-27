@@ -21,6 +21,8 @@ export type {
   GrantStatus,
   NotaryAct,
   NotaryActStatus,
+  LeaseAgreement,
+  LeaseAgreementStatus,
   GdprConsent,
 } from './transactions-types';
 
@@ -33,3 +35,4 @@ export { buildSeedShowings } from './showings';
 export { buildSeedOffers } from './offers';
 export { buildSeedClosureStates } from './closure-states';
 export { buildSeedNotaryActs } from './notary-acts';
+export { buildSeedLeaseAgreements } from './lease-agreements';
