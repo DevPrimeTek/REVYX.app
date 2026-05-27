@@ -244,7 +244,8 @@
     "listingType": {
       "sale": "De vânzare",
       "rent": "De închiriat",
-      "both": "Vânzare + chirie"
+      "both": "Vânzare + chirie",
+      "bothHelp": "Proprietarul este flexibil: acceptă fie vânzare, fie închiriere. Va decide în funcție de cea mai bună ofertă primită."
     },
     "newFormTitle": "Proprietate nouă",
     "newFormSubtitle": "Completează datele de bază. Mai poți adăuga poze și video după salvare.",
@@ -279,6 +280,13 @@
       "scheduleCta": "Programează vizionare"
     },
     "form": {
+      "listingTypeTitle": "Tipul listării",
+      "listingTypeDesc": "Alege intenția proprietarului. Decide ce câmpuri sunt obligatorii (preț de vânzare, chirie lunară sau ambele) și pe ce piață apare proprietatea.",
+      "listingTypeHelp": {
+        "sale": "Proprietarul vrea doar să vândă. Va apărea cumpărătorilor.",
+        "rent": "Proprietarul vrea doar să închirieze. Va apărea chiriașilor.",
+        "both": "Proprietarul acceptă ambele opțiuni. Apare în ambele piețe."
+      },
       "essentials": "Detalii esențiale",
       "essentialsDesc": "Adresa, suprafața și prețul sunt obligatorii pentru a publica.",
       "mediaTitle": "Poze și video",
@@ -295,9 +303,15 @@
       "districtHelp": "Folosit pentru a propune lead-uri din aceeași zonă.",
       "roomsLabel": "Camere",
       "areaLabel": "Suprafață (m²)",
-      "priceLabel": "Preț (€)",
+      "priceLabel": "Preț de vânzare (€)",
+      "monthlyRentLabel": "Chirie lunară (€)",
+      "monthlyRentHelp": "Suma cerută per lună. Standardul RM include de obicei un depozit egal cu o chirie lunară.",
       "yearLabel": "An construcție",
       "floorLabel": "Etaj / Etaje totale",
+      "benefitsTitle": "Beneficii (puncte forte)",
+      "benefitsDesc": "Adaugă 3-5 beneficii pe care le vei evidenția în anunț și la vizionare. Ex: balcon mare, vedere panoramică, mobilier nou, vecinătate liniștită.",
+      "benefitsEmpty": "Niciun beneficiu adăugat încă. Adaugă cel puțin 3 pentru a crește atractivitatea anunțului.",
+      "benefitAddLabel": "Beneficiu",
       "successInfo": "După salvare verificăm lead-urile care caută proprietăți similare și le propunem agentului responsabil.",
       "submitCta": "Salvează și propune lead-uri"
     }
@@ -306,6 +320,11 @@
     "moduleLabel": "Modul · Tranzacții",
     "title": "Pipeline tranzacții",
     "subtitle": "Trage cardurile între coloane pentru a avansa tranzacția în etapa următoare. Fiecare etapă are propria culoare ca să te poți orienta rapid.",
+    "subtitleSale": "Tranzacții de vânzare. Pipeline-ul se închide la notar (vezi Cabinet notar · Acte notariale).",
+    "subtitleRent": "Tranzacții de închiriere. Pipeline-ul se închide cu contractul de chirie (vezi Cabinet notar · Contracte chirie).",
+    "intentFilterLabel": "Filtru tip tranzacție",
+    "rentBanner": "Tranzacțiile de închiriere folosesc contract de chirie (NU notar). La etapa de finalizare deschide secțiunea „Contracte chirie\" din Cabinet notar.",
+    "rentCommissionHint": "1× chirie",
     "stages": {
       "discovery": "Descoperire",
       "qualified": "Calificat",
@@ -921,6 +940,9 @@
     "moduleLabel": "Modul · Cabinet notar",
     "title": "Cabinet notar",
     "subtitle": "Tranzacții programate la notariat. Aici notarul gestionează programările, semnează actul și înregistrează la cadastru.",
+    "tabsLabel": "Tip workflow",
+    "tabSale": "Acte notariale (vânzare)",
+    "tabRent": "Contracte chirie",
     "kpiPending": "În așteptare",
     "kpiCompleted": "Finalizate",
     "kpiVolume": "Volum lunar",
@@ -1066,5 +1088,46 @@
     "tagErased": "anonimizat",
     "requestErase": "Cere ștergere",
     "completeErase": "Finalizează ștergere"
+  },
+  "lease": {
+    "subtitle": "Contracte de închiriere. Workflow simplificat: contract pre-completat → semnături → depozit → contract activ.",
+    "banner": "Pentru chiriile sub 36 luni în RM nu este nevoie de notar. Contractul devine oficial după semnarea ambelor părți și transferul depozitului. Sistemul păstrează versiunea semnată ca document atașat tranzacției.",
+    "kpiDraft": "Contracte în pregătire",
+    "kpiPending": "Așteaptă depozit",
+    "kpiActive": "Contracte active",
+    "draftTitle": "În pregătire",
+    "draftDesc": "Contracte pre-completate de agent. Așteaptă verificare și semnături.",
+    "pendingTitle": "Așteaptă depozit + chirie primă lună",
+    "pendingDesc": "Ambele părți au semnat. La transferul depozitului contractul devine activ.",
+    "activeTitle": "Contracte active",
+    "activeDesc": "Chiriași mutați, contracte în derulare. Renewals / rezilieri sunt gestionate aici.",
+    "emptyDraft": "Niciun contract în pregătire acum.",
+    "emptyActive": "Niciun contract activ momentan.",
+    "parties": "Chiriaș: {tenant} · Proprietar: {landlord}",
+    "periodLabel": "Perioadă",
+    "depositLabel": "Depozit",
+    "depositPaidLabel": "Depozit transferat",
+    "contractNoLabel": "Număr contract",
+    "status": {
+      "DRAFTED": "Pre-completat",
+      "REVIEWED": "Verificat",
+      "SIGNED_TENANT": "Semnat de chiriaș",
+      "SIGNED_LANDLORD": "Semnat de ambele părți",
+      "DEPOSIT_PAID": "Depozit transferat",
+      "ACTIVE": "Activ",
+      "ENDED": "Încheiat",
+      "CANCELLED": "Anulat"
+    },
+    "draftedHelp": "Verifică termenii cu ambele părți. Apoi cere semnătura chiriașului mai întâi.",
+    "signedTenantHelp": "Chiriașul a semnat. Trimite contractul la proprietar pentru semnătură.",
+    "signedBothHelp": "Ambele părți au semnat. Așteaptă confirmarea transferului depozitului ca să activezi contractul.",
+    "reviewCta": "Marchează verificat",
+    "signTenantCta": "Înregistrează semnătura chiriașului",
+    "signLandlordCta": "Înregistrează semnătura proprietarului",
+    "confirmDepositCta": "Confirmă depozit transferat",
+    "toastReview": "Contract marcat ca verificat.",
+    "toastSignTenant": "Semnătura chiriașului înregistrată.",
+    "toastSignLandlord": "Semnătura proprietarului înregistrată. Contract complet semnat.",
+    "toastDepositPaid": "Depozit confirmat. Contractul este acum activ."
   }
 }

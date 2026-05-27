@@ -13,15 +13,32 @@ import { Badge } from '@/components/ui/badge';
 import { useToast } from '@/components/ui/toast';
 import { useT } from '@/components/i18n/provider';
 
+type ListingChoice = 'sale' | 'rent' | 'both';
+
 export default function NewPropertyPage() {
   const router = useRouter();
   const { toast } = useToast();
   const { t } = useT();
   const [submitting, setSubmitting] = useState(false);
   const [photoCount, setPhotoCount] = useState(0);
+  // Regula 20: listing type obligatoriu la create.
+  const [listingType, setListingType] = useState<ListingChoice>('sale');
+  // Punct 5: lista beneficii la create (sync cu PropertyBenefitsPanel logic).
+  const [benefits, setBenefits] = useState<string[]>([]);
+  const [benefitDraft, setBenefitDraft] = useState('');
 
   function onPhotoFakePick() {
     setPhotoCount((c) => Math.min(12, c + Math.max(1, Math.floor(Math.random() * 4))));
+  }
+
+  function addBenefit() {
+    const v = benefitDraft.trim();
+    if (!v) return;
+    setBenefits((cur) => (cur.includes(v) ? cur : [...cur, v]));
+    setBenefitDraft('');
+  }
+  function removeBenefit(b: string) {
+    setBenefits((cur) => cur.filter((x) => x !== b));
   }
 
   function onSubmit(e: FormEvent<HTMLFormElement>) {
@@ -61,6 +78,39 @@ export default function NewPropertyPage() {
         </header>
 
         <form onSubmit={onSubmit} className="flex flex-col gap-sp4">
+          {/* Regula 20: Listing type selector (sale / rent / both) la create. */}
+          <Card variant="elevated" accentTop>
+            <CardHeader>
+              <CardTitle>{t('property.form.listingTypeTitle')}</CardTitle>
+              <CardDescription>{t('property.form.listingTypeDesc')}</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <fieldset className="flex flex-wrap gap-sp2">
+                <legend className="sr-only">{t('property.form.listingTypeTitle')}</legend>
+                {(['sale', 'rent', 'both'] as ListingChoice[]).map((lt) => {
+                  const selected = listingType === lt;
+                  return (
+                    <button
+                      key={lt}
+                      type="button"
+                      onClick={() => setListingType(lt)}
+                      aria-pressed={selected}
+                      className={
+                        'flex flex-col items-start gap-1 rounded-md border-2 px-sp3 py-sp2 transition-all cursor-pointer min-w-[180px] ' +
+                        (selected
+                          ? 'border-gold bg-gold/10 text-gold'
+                          : 'border-border bg-navy-deep text-text-secondary hover:border-border-light')
+                      }
+                    >
+                      <span className="text-[13px] font-semibold">{t(`property.listingType.${lt}`)}</span>
+                      <span className="text-[11px] text-text-muted">{t(`property.form.listingTypeHelp.${lt}`)}</span>
+                    </button>
+                  );
+                })}
+              </fieldset>
+            </CardContent>
+          </Card>
+
           <Card variant="elevated" accentTop>
             <CardHeader>
               <CardTitle>{t('property.form.essentials')}</CardTitle>
@@ -105,15 +155,31 @@ export default function NewPropertyPage() {
                   defaultValue={58}
                   required
                 />
-                <Input
-                  label={t('property.form.priceLabel')}
-                  name="price"
-                  type="number"
-                  min={1000}
-                  step={500}
-                  defaultValue={64000}
-                  required
-                />
+                {/* Regula 20: preț de vânzare condiționat de listingType */}
+                {(listingType === 'sale' || listingType === 'both') && (
+                  <Input
+                    label={t('property.form.priceLabel')}
+                    name="price"
+                    type="number"
+                    min={1000}
+                    step={500}
+                    defaultValue={64000}
+                    required
+                  />
+                )}
+                {/* Regula 20: chirie lunară condiționată de listingType */}
+                {(listingType === 'rent' || listingType === 'both') && (
+                  <Input
+                    label={t('property.form.monthlyRentLabel')}
+                    name="monthlyRent"
+                    type="number"
+                    min={50}
+                    step={10}
+                    defaultValue={420}
+                    hint={t('property.form.monthlyRentHelp')}
+                    required
+                  />
+                )}
                 <Input
                   label={t('property.form.yearLabel')}
                   name="year"
@@ -128,6 +194,51 @@ export default function NewPropertyPage() {
                   placeholder="3/9"
                   defaultValue="3/9"
                 />
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Punct 5: lista de beneficii la create — agentul evidențiază punctele forte. */}
+          <Card>
+            <CardHeader>
+              <CardTitle>{t('property.form.benefitsTitle')}</CardTitle>
+              <CardDescription>{t('property.form.benefitsDesc')}</CardDescription>
+            </CardHeader>
+            <CardContent className="flex flex-col gap-sp2">
+              {benefits.length === 0 ? (
+                <p className="text-text-muted text-[12px]">{t('property.form.benefitsEmpty')}</p>
+              ) : (
+                <ul className="flex flex-col gap-sp1">
+                  {benefits.map((b, i) => (
+                    <li key={i} className="flex items-center justify-between gap-sp2 px-sp3 py-sp1 bg-navy-deep border border-border rounded-md">
+                      <span className="flex items-center gap-sp2 text-[13px] text-text-h">
+                        <span aria-hidden className="text-gold">✓</span>{b}
+                      </span>
+                      <button
+                        type="button"
+                        onClick={() => removeBenefit(b)}
+                        className="text-[11px] text-text-muted hover:text-status-amber cursor-pointer"
+                      >
+                        {t('common.remove')}
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              )}
+              <div className="flex items-end gap-sp2">
+                <Input
+                  label={t('property.form.benefitAddLabel')}
+                  value={benefitDraft}
+                  onChange={(e) => setBenefitDraft(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') { e.preventDefault(); addBenefit(); }
+                  }}
+                  placeholder={t('benefits.addPlaceholder')}
+                  className="flex-1"
+                />
+                <Button type="button" size="sm" variant="secondary" onClick={addBenefit}>
+                  {t('common.add')}
+                </Button>
               </div>
             </CardContent>
           </Card>

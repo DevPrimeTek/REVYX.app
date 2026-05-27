@@ -129,6 +129,38 @@ export interface NotaryAct {
   amountEur: number;
 }
 
+// Regula 20: rental flow folosește lease agreement în loc de notary act.
+// Workflow simplificat (nu necesită notar real în RM pentru chirii sub 36 luni):
+// DRAFTED → REVIEWED → SIGNED_TENANT → SIGNED_LANDLORD → DEPOSIT_PAID → ACTIVE → ENDED.
+export type LeaseAgreementStatus =
+  | 'DRAFTED'           // contract pre-completat de agent
+  | 'REVIEWED'          // ambele părți au verificat termenii
+  | 'SIGNED_TENANT'     // chiriaș a semnat
+  | 'SIGNED_LANDLORD'   // proprietar a semnat
+  | 'DEPOSIT_PAID'      // depozit + chirie prima lună transferate
+  | 'ACTIVE'            // contract activ (chiriaș s-a mutat)
+  | 'ENDED'             // contract încheiat / reziliat
+  | 'CANCELLED';
+
+export interface LeaseAgreement {
+  id: string;
+  dealId: string;
+  agentName: string;
+  draftedAt: string | null;
+  signedAt: string | null;          // ambele părți semnate
+  contractNumber: string | null;
+  status: LeaseAgreementStatus;
+  tenantName: string;
+  landlordName: string;
+  propertyAddr: string;
+  monthlyRentEur: number;
+  depositEur: number;               // tipic 1× chirie (RM standard)
+  periodMonths: number;             // 6 / 12 / 24
+  startDate: string | null;         // data începerii contractului
+  endDate: string | null;           // calculată automat
+  depositPaidAt: string | null;
+}
+
 export interface GdprConsent {
   leadId: string;
   baseConsent: boolean;       // contact for this transaction

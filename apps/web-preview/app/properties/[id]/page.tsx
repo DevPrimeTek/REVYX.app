@@ -178,7 +178,15 @@ export default function PropertyDetailPage({ params }: Params) {
                     </div>
                   )}
                   <div>
-                    <dt className="text-text-muted text-[12px]">{t('property.detail.listingTypeLabel')}</dt>
+                    <dt className="text-text-muted text-[12px] inline-flex items-center gap-1">
+                      {t('property.detail.listingTypeLabel')}
+                      {property.listingType === 'both' && (
+                        <InfoTooltip
+                          label={t('property.listingType.both')}
+                          body={t('property.listingType.bothHelp')}
+                        />
+                      )}
+                    </dt>
                     <dd>
                       <Badge
                         variant={property.listingType === 'sale' ? 'info' : property.listingType === 'rent' ? 'success' : 'warning'}

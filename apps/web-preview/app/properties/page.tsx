@@ -148,6 +148,12 @@ export default function PropertiesPage() {
                         >
                           {t(`property.listingType.${p.listingType}`)}
                         </Badge>
+                        {p.listingType === 'both' && (
+                          <InfoTooltip
+                            label={t('property.listingType.both')}
+                            body={t('property.listingType.bothHelp')}
+                          />
+                        )}
                         <span className="label-mono text-text-muted">{t(kindLabelKey(p.kind))}</span>
                       </span>
                     </div>
