@@ -1129,5 +1129,28 @@
     "toastSignTenant": "Semnătura chiriașului înregistrată.",
     "toastSignLandlord": "Semnătura proprietarului înregistrată. Contract complet semnat.",
     "toastDepositPaid": "Depozit confirmat. Contractul este acum activ."
+  },
+  "workspace": {
+    "title": "Direcția de lucru",
+    "help": "Alege ce piață folosești. Platforma ascunde automat anunțurile, lead-urile și funcționalitățile care nu corespund direcției alese — ca să vezi doar ce e relevant pentru tine.",
+    "scopeDesc": {
+      "agent": "Direcția ta personală de lucru. Filtrează tot ce vezi în platformă.",
+      "agency": "Direcția implicită a agenției. Se aplică membrilor care nu au o setare proprie.",
+      "group": "Direcția grupului. Cadrul general pentru toate agențiile din grup."
+    },
+    "option": {
+      "sale": "Vânzare",
+      "rent": "Închiriere",
+      "both": "Ambele"
+    },
+    "optionHelp": {
+      "sale": "Doar cumpărători, vânzători și proprietăți de vânzare.",
+      "rent": "Doar chiriași, proprietari și anunțuri de închiriere.",
+      "both": "Toate tipurile — vânzare și închiriere împreună."
+    },
+    "effectNote": "Schimbarea se aplică imediat în toată platforma: Lead-uri, Proprietăți, Tranzacții și Cabinet notar afișează doar ce corespunde direcției alese.",
+    "prodNote": "Notă: în versiunea de producție direcția va fi ierarhică (companie → grup → agent), fiecare nivel putând îngusta — dar nu lărgi — direcția nivelului superior.",
+    "savedToast": "Direcție de lucru salvată: {dir}.",
+    "activeBadge": "Direcție: {dir}"
   }
 }

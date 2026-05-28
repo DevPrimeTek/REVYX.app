@@ -254,7 +254,7 @@ Toate sunt în `CLAUDE.md §10b`. Listate aici pentru reference rapidă.
 
 ### 8.4 Atomic tasks (T-XXX)
 
-Format: `T-<MILESTONE>.<SUBSTAGE>-<INDEX>` (ex: `T-M1.S2-03`). Listate per sub-stage în `ROADMAP_REVYX_detailed-execution_v1.0.11.md`. Total: ~308 tasks · ~122-164 sesiuni estimate.
+Format: `T-<MILESTONE>.<SUBSTAGE>-<INDEX>` (ex: `T-M1.S2-03`). Listate per sub-stage în `ROADMAP_REVYX_detailed-execution_v1.0.12.md`. Total: ~308 tasks · ~122-164 sesiuni estimate.
 
 Status legend:
 - ☑ = done
@@ -282,10 +282,10 @@ Status legend:
 | **WORKFLOW** | Workflow & Process Maps | `docs/workflow/` | 9 workflows (lead-lifecycle, escalation, deal-closure, showing-flow, etc.) |
 | **RUNBOOK** | Operational playbook | `docs/runbook/` | 11 runbooks (demo-deploy, dr-test, incident-response, phase5-rollout-sequence, etc.) |
 | **HST** | Hard Stress Test report | `docs/audit/` | `HST_REVYX_m0_v1.0.0.md` (audit 9 categorii, findings F-M0S5-01..17) |
-| **INDEX** | Document Catalog | `docs/INDEX_*.md` | `INDEX_REVYX_documents_v1.1.17.md` (living catalog 11 categorii) |
+| **INDEX** | Document Catalog | `docs/INDEX_*.md` | `INDEX_REVYX_documents_v1.1.18.md` (living catalog 11 categorii) |
 | **GLOSSARY** | Lexicon proiect | `docs/GLOSSARY_*.md` | **acest document** — consolidare termeni |
 | **MASTER_PLAN** | Execution roadmap | `docs/MASTER_PLAN_*.md` | `MASTER_PLAN_REVYX_execution-roadmap_v1.1.2.md` |
-| **ROADMAP** | Detailed atomic tasks | `docs/ROADMAP_*.md` | `ROADMAP_REVYX_detailed-execution_v1.0.11.md` |
+| **ROADMAP** | Detailed atomic tasks | `docs/ROADMAP_*.md` | `ROADMAP_REVYX_detailed-execution_v1.0.12.md` |
 | **PLATFORM_MATRIX** | Feature × platform mapping | `docs/PLATFORM_MATRIX_*.md` | `PLATFORM_MATRIX_REVYX_web-mobile_v1.0.0.md` |
 | **DPIA** | Data Protection Impact Assessment | `docs/legal/` | (Phase 5) Art. 35 GDPR mandatory pre-launch |
 | **SCC** | Standard Contractual Clauses | `docs/legal/` | (Phase 5) vendor DPA |
@@ -604,8 +604,8 @@ Status legend:
 | `docs/BRD_REVYX_v1.1.0.md` | §6 BR-01..24 · §7 formule scoring · §9 NFR/securitate · §10 RBAC · §15 Glosar v1.1 deltas |
 | `docs/MASTER_PLAN_REVYX_execution-roadmap_v1.1.2.md` | M0/M1/M2 sub-stages · §11 NFR · §13 sign-off |
 | `docs/PLATFORM_MATRIX_REVYX_web-mobile_v1.0.0.md` | 119 features × Web/Mobile · DP-01..07 reguli platform |
-| `docs/ROADMAP_REVYX_detailed-execution_v1.0.11.md` | T-XXX atomic tasks · Mkt-M1 marketing track |
-| `docs/INDEX_REVYX_documents_v1.1.17.md` | Catalog documente · changelog historic |
+| `docs/ROADMAP_REVYX_detailed-execution_v1.0.12.md` | T-XXX atomic tasks · Mkt-M1 marketing track |
+| `docs/INDEX_REVYX_documents_v1.1.18.md` | Catalog documente · changelog historic |
 | `docs/tech-spec/*.md` (25 specs) | NFR-XX per modul · AC-XX per engine · acronime tehnice |
 | `docs/workflow/*.md` (9 workflows) | AC-DC/ESC/SH/etc · cross-spec consistency |
 | `docs/runbook/*.md` (11 runbooks) | DR/RPO/RTO · stage rollout sequences |
@@ -632,7 +632,7 @@ Conform R-06 (INDEX update) + R-18 (Single living document):
 
 - BR-08 lipsește din BRD v1.1.0 (probabil rezervat sau deprecated între v1.0.0 și v1.1.0 — git history v1.0.0 a fost șters per R-18 consolidation, deci verificare imposibilă fără git log archeology).
 - AC-XX intervale exacte (AC-M1-01..AC-M1-10) sunt aproximative — listele complete trăiesc în MASTER_PLAN §3-§5 și specs individuale.
-- T-XXX listing nu este exhaustiv aici (308+ tasks) — sursă autoritativă rămâne ROADMAP v1.0.11.
+- T-XXX listing nu este exhaustiv aici (308+ tasks) — sursă autoritativă rămâne ROADMAP v1.0.12.
 - OD-legal-01..05 + OD-cookie-01..03 descrierile sunt sumarizate; texte complete în drafts legal v0.1.0.
 
 ---

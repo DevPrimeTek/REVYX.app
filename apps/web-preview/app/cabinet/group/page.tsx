@@ -9,6 +9,7 @@ import { Badge } from '@/components/ui/badge';
 import { InfoTooltip } from '@/components/ui/info-tooltip';
 import { useT } from '@/components/i18n/provider';
 import { agents, deals } from '@/lib/mock';
+import { WorkspaceDirectionSelector } from '@/components/cabinet/workspace-direction-selector';
 
 export default function CabinetGroupPage() {
   const { t } = useT();
@@ -124,6 +125,8 @@ export default function CabinetGroupPage() {
             </ul>
           </CardContent>
         </Card>
+
+        <WorkspaceDirectionSelector scope="group" />
       </main>
     </>
   );

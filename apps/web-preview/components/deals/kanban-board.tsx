@@ -1,10 +1,12 @@
 'use client';
 
-// M0.S6 · Kanban board redesign:
-//  - Full-card drag (no separate handle, no advance/back buttons per Senior PM directive).
-//  - Per-stage column color + thicker delimiter so the pipeline reads instantly.
-//  - Cards show Client name + Property address + health label (no DP / DHI / cryptic IDs).
-//  - Keyboard accessibility kept via dnd-kit KeyboardSensor.
+// M0.S8.2 · Kanban redesign — Creative Director + Senior UI/UX directive.
+// Concept "Card cu 2 zone clare":
+//  - Zonă sus: client (bold) + adresă proprietate (muted). Informația umană primară.
+//  - Divider subtil.
+//  - Zonă jos: rând metrici compact (dot intent · dot sănătate · comision auriu).
+//  - Culoarea de stage trăiește DOAR pe headerul coloanei (nu pe card) → zero zgomot cromatic per card.
+//  - Deal ID + agent mutate la subtil (footer mic), nu mai concurează cu informația cheie.
 
 import { useMemo, useState } from 'react';
 import {
@@ -31,7 +33,7 @@ import { transactionIntent } from '@/lib/transaction-intent';
 
 export type IntentFilter = 'all' | 'sale' | 'rent';
 
-// Per-stage accent (header + card border). Stays within brand tokens.
+// Per-stage accent — trăiește DOAR pe headerul coloanei (dot + bar + drop ring).
 const STAGE_COLOR: Record<DealStage, { dot: string; bar: string; ring: string }> = {
   discovery:    { dot: 'bg-status-blue',  bar: 'bg-status-blue/40',  ring: 'ring-status-blue/30' },
   qualified:    { dot: 'bg-lead-qualified', bar: 'bg-lead-qualified/40', ring: 'ring-lead-qualified/30' },
@@ -39,6 +41,13 @@ const STAGE_COLOR: Record<DealStage, { dot: string; bar: string; ring: string }>
   negotiation:  { dot: 'bg-gold',         bar: 'bg-gold/40',         ring: 'ring-gold/30' },
   closing:      { dot: 'bg-status-green', bar: 'bg-status-green/40', ring: 'ring-status-green/30' },
   won:          { dot: 'bg-status-green', bar: 'bg-status-green/60', ring: 'ring-status-green/40' },
+};
+
+// Health dot color (sănătate deal) — semantic, nu legat de stage.
+const HEALTH_DOT: Record<'healthy' | 'review' | 'risk', string> = {
+  healthy: 'bg-status-green',
+  review: 'bg-status-amber',
+  risk: 'bg-status-red',
 };
 
 function healthBucket(dhi: number): 'healthy' | 'review' | 'risk' {
@@ -67,9 +76,6 @@ function DealCard({
   });
 
   const health = healthBucket(deal.dhi);
-  const healthVariant =
-    health === 'healthy' ? 'success' : health === 'review' ? 'warning' : 'critical';
-  const stageColor = STAGE_COLOR[deal.stage];
 
   return (
     <div
@@ -78,60 +84,59 @@ function DealCard({
       {...(isDragOverlay ? {} : listeners)}
       tabIndex={isDragOverlay ? undefined : 0}
       role={isDragOverlay ? undefined : 'button'}
-      aria-label={isDragOverlay ? undefined : `${t('deal.dragHint')}: ${deal.id}`}
+      aria-label={isDragOverlay ? undefined : `${t('deal.dragHint')}: ${lead?.name ?? deal.id}`}
       className={
-        'group rounded-lg border bg-navy-card shadow-md transition-opacity select-none ' +
+        'group rounded-lg border bg-navy-card shadow-sm transition-opacity select-none border-border ' +
         (isDragging && !isDragOverlay ? 'opacity-30 ' : '') +
         (isDragOverlay
           ? 'rotate-1 shadow-2xl ring-2 ring-gold/70 cursor-grabbing '
-          : 'cursor-grab active:cursor-grabbing hover:border-border-light focus-visible:border-gold focus-visible:outline-none ') +
-        'border-border'
+          : 'cursor-grab active:cursor-grabbing hover:border-border-light focus-visible:border-gold focus-visible:outline-none ')
       }
     >
-      {/* stage colour bar */}
-      <div className={`h-1 ${stageColor.bar} rounded-t-lg`} />
-      <div className="px-sp3 py-sp2 flex flex-col gap-sp2">
-        <div className="flex items-center justify-between gap-sp1">
-          <div className="flex items-center gap-sp1 min-w-0">
-            <span className="label-mono text-text-secondary">{deal.id}</span>
-            <Badge variant={isRent ? 'success' : 'info'} size="xs">
-              {t(`transactionIntent.${intent}`)}
-            </Badge>
-          </div>
-          <Badge variant={healthVariant} size="xs">
+      {/* ── Zonă sus: informația umană (client + proprietate) ── */}
+      <div className="px-sp3 pt-sp3 pb-sp2">
+        <p className="text-[14px] text-text-h font-semibold leading-tight truncate">
+          {lead?.name ?? deal.leadId}
+        </p>
+        <p className="text-[12px] text-text-secondary truncate mt-0.5">
+          {property?.addr ?? deal.propertyId}
+        </p>
+      </div>
+
+      {/* divider subtil */}
+      <div className="h-px bg-border mx-sp3" />
+
+      {/* ── Zonă jos: rând metrici compact ── */}
+      <div className="px-sp3 py-sp2 flex items-center justify-between gap-sp2">
+        <div className="flex items-center gap-sp2 min-w-0">
+          <span className="inline-flex items-center gap-1 text-[11px] text-text-secondary">
+            <span className={`w-2 h-2 rounded-full ${isRent ? 'bg-status-green' : 'bg-status-blue'}`} aria-hidden />
+            {t(`transactionIntent.${intent}`)}
+          </span>
+          <span className="inline-flex items-center gap-1 text-[11px] text-text-secondary">
+            <span className={`w-2 h-2 rounded-full ${HEALTH_DOT[health]}`} aria-hidden />
             {t(`deal.healthLabels.${health}`)}
-          </Badge>
-        </div>
-
-        <dl className="flex flex-col gap-sp1 text-[12px]">
-          <div className="flex items-baseline gap-sp1">
-            <dt className="text-text-muted w-[60px] flex-shrink-0">{t('deal.cardLeadLabel')}</dt>
-            <dd className="text-text-h truncate">{lead?.name ?? deal.leadId}</dd>
-          </div>
-          <div className="flex items-baseline gap-sp1">
-            <dt className="text-text-muted w-[60px] flex-shrink-0">{t('deal.cardPropertyLabel')}</dt>
-            <dd className="text-text-h truncate">{property?.addr ?? deal.propertyId}</dd>
-          </div>
-        </dl>
-
-        <div className="flex items-center justify-between pt-sp1 border-t border-border">
-          <span className="text-[11px] text-text-muted">{agent?.name ?? deal.agentId}</span>
-          <span className="text-[12px] text-gold font-mono">
-            €{deal.commissionEur.toLocaleString('ro-MD')}
-            {isRent && <span className="text-text-muted text-[10px] ml-1">({t('deal.rentCommissionHint')})</span>}
           </span>
         </div>
-        {!isDragOverlay && (
+        <span className="text-[13px] text-gold font-mono font-semibold whitespace-nowrap">
+          €{deal.commissionEur.toLocaleString('ro-MD')}
+        </span>
+      </div>
+
+      {/* footer subtil: agent + id + open (apare discret) */}
+      {!isDragOverlay && (
+        <div className="px-sp3 pb-sp2 flex items-center justify-between text-[10px] text-text-muted">
+          <span className="truncate">{agent?.name ?? deal.agentId}</span>
           <a
             href={`/deals/${deal.id}`}
             onClick={(e) => e.stopPropagation()}
             onPointerDown={(e) => e.stopPropagation()}
-            className="text-[11px] text-text-muted hover:text-gold inline-flex items-center gap-1 cursor-pointer self-start"
+            className="hover:text-gold cursor-pointer whitespace-nowrap ml-sp2"
           >
-            {t('common.open')} →
+            {deal.id} →
           </a>
-        )}
-      </div>
+        </div>
+      )}
     </div>
   );
 }
@@ -196,7 +201,8 @@ export function KanbanBoard({ intentFilter = 'all' }: { intentFilter?: IntentFil
     useSensor(KeyboardSensor)
   );
 
-  // Regula 20: filtru intent — separare sale vs rent pipeline.
+  // Regula 20: filtru intent — separare sale vs rent pipeline (tab toggle local).
+  // Regula 20/21: workspace direction (global) îngustează suplimentar — vezi DealsPage.
   const visibleDeals = useMemo(
     () => deals.filter((d) => {
       if (intentFilter === 'all') return true;

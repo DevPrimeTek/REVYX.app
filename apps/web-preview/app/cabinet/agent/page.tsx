@@ -14,6 +14,7 @@ import { useToast } from '@/components/ui/toast';
 import { useT } from '@/components/i18n/provider';
 import { agents, deals } from '@/lib/mock';
 import { AgentRankBadge } from '@/components/agents/rank-badge';
+import { WorkspaceDirectionSelector } from '@/components/cabinet/workspace-direction-selector';
 import { cn } from '@/lib/utils';
 
 type Tab = 'summary' | 'history' | 'preferences' | 'documents';
@@ -292,6 +293,8 @@ export default function CabinetAgentPage() {
             </CardContent>
           </Card>
         )}
+
+        <WorkspaceDirectionSelector scope="agent" />
       </main>
     </>
   );

@@ -5,7 +5,7 @@
 //  - Contracte chirie (închiriere): drafted → signed → deposit paid → active.
 
 import Link from 'next/link';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { SiteNav } from '@/components/site-nav';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -16,6 +16,7 @@ import { useT } from '@/components/i18n/provider';
 import { buildSeedNotaryActs, buildSeedLeaseAgreements } from '@/lib/mock';
 import { useClosure, useClosureActions } from '@/lib/closure-store';
 import type { NotaryAct, LeaseAgreement } from '@/lib/mock';
+import { useWorkspaceDirection } from '@/lib/workspace-store';
 import { cn } from '@/lib/utils';
 
 type WorkflowTab = 'sale' | 'rent';
@@ -201,7 +202,13 @@ function LeaseRow({ lease, locale }: { lease: LeaseAgreement; locale: string }) 
 
 export default function NotaryPage() {
   const { t, locale } = useT();
-  const [tab, setTab] = useState<WorkflowTab>('sale');
+  const direction = useWorkspaceDirection();
+  // Regula 20/21: direcția workspace fixă forțează tab-ul corespunzător.
+  const [tab, setTab] = useState<WorkflowTab>(direction === 'rent' ? 'rent' : 'sale');
+  useEffect(() => {
+    if (direction === 'sale') setTab('sale');
+    else if (direction === 'rent') setTab('rent');
+  }, [direction]);
   const acts = useMemo(() => buildSeedNotaryActs(), []);
   const leases = useMemo(() => buildSeedLeaseAgreements(), []);
 
@@ -223,7 +230,9 @@ export default function NotaryPage() {
           </p>
         </header>
 
-        {/* Tab toggle: Acte notariale (vânzare) / Contracte chirie */}
+        {/* Tab toggle: Acte notariale (vânzare) / Contracte chirie.
+            Regula 20/21: când direcția workspace e fixă, afișăm doar tab-ul corespunzător. */}
+        {direction === 'both' && (
         <div
           role="tablist"
           aria-label={t('notary.tabsLabel')}
@@ -258,6 +267,7 @@ export default function NotaryPage() {
             {t('notary.tabRent')}
           </button>
         </div>
+        )}
 
         {tab === 'sale' ? (
           <>

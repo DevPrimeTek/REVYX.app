@@ -14,6 +14,8 @@ import { InfoTooltip } from '@/components/ui/info-tooltip';
 import { useT } from '@/components/i18n/provider';
 import { leads } from '@/lib/mock';
 import type { LeadStatus } from '@/lib/mock';
+import { transactionIntent } from '@/lib/transaction-intent';
+import { useWorkspaceDirection, isIntentVisible } from '@/lib/workspace-store';
 import { cn } from '@/lib/utils';
 
 type Filter = 'all' | LeadStatus;
@@ -48,6 +50,7 @@ function leadTypeBadgeVariant(t: 'buyer' | 'seller' | 'tenant' | 'landlord'): 'i
 function LeadsPageInner() {
   const { t } = useT();
   const params = useSearchParams();
+  const direction = useWorkspaceDirection();
   const [filter, setFilter] = useState<Filter>('all');
   const [typeFilter, setTypeFilter] = useState<TypeFilter>('all');
   const [query, setQuery] = useState('');
@@ -67,12 +70,14 @@ function LeadsPageInner() {
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
     return leads.filter((l) => {
+      // Regula 20/21: workspace direction ascunde lead-urile care nu corespund direcției.
+      if (!isIntentVisible(direction, transactionIntent(l.leadType))) return false;
       if (filter !== 'all' && l.status !== filter) return false;
       if (typeFilter !== 'all' && l.leadType !== typeFilter) return false;
       if (q && !(l.name.toLowerCase().includes(q) || l.id.toLowerCase().includes(q))) return false;
       return true;
     });
-  }, [filter, typeFilter, query]);
+  }, [filter, typeFilter, query, direction]);
 
   return (
     <>
@@ -120,7 +125,8 @@ function LeadsPageInner() {
                   >
                     {t('common.all')}
                   </button>
-                  {/* Grup Vânzare: buyer + seller */}
+                  {/* Grup Vânzare: buyer + seller (ascuns când direcția workspace e rent) */}
+                  {isIntentVisible(direction, 'sale') && (
                   <div className="inline-flex items-center gap-sp1 rounded-md border border-border-light p-1 bg-navy-deep">
                     <span className="label-mono text-[10px] text-text-muted px-sp1 select-none">
                       {t('transactionIntent.sale')}
@@ -143,7 +149,9 @@ function LeadsPageInner() {
                       </button>
                     ))}
                   </div>
-                  {/* Grup Închiriere: tenant + landlord */}
+                  )}
+                  {/* Grup Închiriere: tenant + landlord (ascuns când direcția workspace e sale) */}
+                  {isIntentVisible(direction, 'rent') && (
                   <div className="inline-flex items-center gap-sp1 rounded-md border border-border-light p-1 bg-navy-deep">
                     <span className="label-mono text-[10px] text-text-muted px-sp1 select-none">
                       {t('transactionIntent.rent')}
@@ -166,6 +174,7 @@ function LeadsPageInner() {
                       </button>
                     ))}
                   </div>
+                  )}
                 </div>
                 <div
                   role="tablist"
