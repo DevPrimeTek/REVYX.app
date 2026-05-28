@@ -93,47 +93,55 @@ function DealCard({
           : 'cursor-grab active:cursor-grabbing hover:border-border-light focus-visible:border-gold focus-visible:outline-none ')
       }
     >
-      {/* ── Zonă sus: informația umană (client + proprietate) ── */}
-      <div className="px-sp3 pt-sp3 pb-sp2">
-        <p className="text-[14px] text-text-h font-semibold leading-tight truncate">
+      {/* ── Zonă sus: ID + client + adresă completă ── */}
+      <div className="px-sp3 pt-sp3 pb-sp2 min-w-0">
+        <span className="label-mono text-[10px] text-text-muted block">{deal.id}</span>
+        <p className="text-[14px] text-text-h font-semibold leading-tight truncate mt-0.5">
           {lead?.name ?? deal.leadId}
         </p>
-        <p className="text-[12px] text-text-secondary truncate mt-0.5">
-          {property?.addr ?? deal.propertyId}
-        </p>
+        {property ? (
+          <div className="mt-1 min-w-0">
+            <p className="text-[12px] text-text-secondary truncate">{property.addr}</p>
+            <p className="text-[11px] text-text-muted truncate">
+              {property.city} · {property.zone}
+            </p>
+          </div>
+        ) : (
+          <p className="text-[12px] text-text-secondary truncate mt-1">{deal.propertyId}</p>
+        )}
       </div>
 
       {/* divider subtil */}
       <div className="h-px bg-border mx-sp3" />
 
-      {/* ── Zonă jos: rând metrici compact ── */}
-      <div className="px-sp3 py-sp2 flex items-center justify-between gap-sp2">
-        <div className="flex items-center gap-sp2 min-w-0">
-          <span className="inline-flex items-center gap-1 text-[11px] text-text-secondary">
-            <span className={`w-2 h-2 rounded-full ${isRent ? 'bg-status-green' : 'bg-status-blue'}`} aria-hidden />
+      {/* ── Zonă jos: rând metrici compact (sumă fixă dreapta, nu se suprapune) ── */}
+      <div className="px-sp3 py-sp2 flex items-center gap-sp2">
+        <div className="flex items-center gap-sp2 min-w-0 flex-1">
+          <span className="inline-flex items-center gap-1 text-[11px] text-text-secondary whitespace-nowrap">
+            <span className={`w-2 h-2 rounded-full flex-shrink-0 ${isRent ? 'bg-status-green' : 'bg-status-blue'}`} aria-hidden />
             {t(`transactionIntent.${intent}`)}
           </span>
-          <span className="inline-flex items-center gap-1 text-[11px] text-text-secondary">
-            <span className={`w-2 h-2 rounded-full ${HEALTH_DOT[health]}`} aria-hidden />
-            {t(`deal.healthLabels.${health}`)}
+          <span className="inline-flex items-center gap-1 text-[11px] text-text-secondary truncate">
+            <span className={`w-2 h-2 rounded-full flex-shrink-0 ${HEALTH_DOT[health]}`} aria-hidden />
+            <span className="truncate">{t(`deal.healthLabels.${health}`)}</span>
           </span>
         </div>
-        <span className="text-[13px] text-gold font-mono font-semibold whitespace-nowrap">
+        <span className="text-[13px] text-gold font-mono font-semibold whitespace-nowrap flex-shrink-0">
           €{deal.commissionEur.toLocaleString('ro-MD')}
         </span>
       </div>
 
-      {/* footer subtil: agent + id + open (apare discret) */}
+      {/* footer subtil: agent + deschide */}
       {!isDragOverlay && (
-        <div className="px-sp3 pb-sp2 flex items-center justify-between text-[10px] text-text-muted">
-          <span className="truncate">{agent?.name ?? deal.agentId}</span>
+        <div className="px-sp3 pb-sp2 flex items-center justify-between text-[10px] text-text-muted gap-sp2">
+          <span className="truncate min-w-0">{agent?.name ?? deal.agentId}</span>
           <a
             href={`/deals/${deal.id}`}
             onClick={(e) => e.stopPropagation()}
             onPointerDown={(e) => e.stopPropagation()}
-            className="hover:text-gold cursor-pointer whitespace-nowrap ml-sp2"
+            className="hover:text-gold cursor-pointer whitespace-nowrap flex-shrink-0"
           >
-            {deal.id} →
+            {t('common.open')} →
           </a>
         </div>
       )}
