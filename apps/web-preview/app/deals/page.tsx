@@ -4,20 +4,29 @@
 // Regula 20: tranzacțiile au workflow diferit per profile — sale folosește notariat,
 // rent folosește contract chirie (vezi /notary tab Contracte chirie).
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { SiteNav } from '@/components/site-nav';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { InfoTooltip } from '@/components/ui/info-tooltip';
 import { KanbanBoard, type IntentFilter } from '@/components/deals/kanban-board';
 import { useT } from '@/components/i18n/provider';
+import { useWorkspaceDirection } from '@/lib/workspace-store';
 import { cn } from '@/lib/utils';
 
-const TABS: IntentFilter[] = ['all', 'sale', 'rent'];
+const ALL_TABS: IntentFilter[] = ['all', 'sale', 'rent'];
 
 export default function DealsPage() {
   const { t } = useT();
+  const direction = useWorkspaceDirection();
   const [intent, setIntent] = useState<IntentFilter>('all');
+
+  // Regula 20/21: când direcția workspace e sale/rent, forțăm intent-ul și ascundem tab-urile irelevante.
+  const tabs: IntentFilter[] = direction === 'both' ? ALL_TABS : [direction];
+  useEffect(() => {
+    if (direction !== 'both') setIntent(direction);
+    else setIntent('all');
+  }, [direction]);
 
   return (
     <>
@@ -35,13 +44,14 @@ export default function DealsPage() {
                 : t('deal.subtitleRent')}
             </p>
           </div>
-          {/* Tab toggle: Toate / Vânzare / Închiriere */}
+          {/* Tab toggle: Toate / Vânzare / Închiriere (ascuns când direcția workspace e fixă) */}
+          {direction === 'both' && (
           <div
             role="tablist"
             aria-label={t('deal.intentFilterLabel')}
             className="inline-flex items-center gap-sp1 rounded-md border border-border-light p-1 bg-navy-deep"
           >
-            {TABS.map((tab) => (
+            {tabs.map((tab) => (
               <button
                 key={tab}
                 role="tab"
@@ -61,6 +71,12 @@ export default function DealsPage() {
               </button>
             ))}
           </div>
+          )}
+          {direction !== 'both' && (
+            <Badge variant={direction === 'rent' ? 'success' : 'info'} size="sm">
+              {t('workspace.activeBadge', { dir: t(`transactionIntent.${direction}`) })}
+            </Badge>
+          )}
         </header>
 
         {intent === 'rent' && (

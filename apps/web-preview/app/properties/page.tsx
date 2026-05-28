@@ -13,6 +13,7 @@ import { useT } from '@/components/i18n/provider';
 import { properties } from '@/lib/mock';
 import type { PropertyKind, ListingType } from '@/lib/mock';
 import { freshnessLabel, freshnessTone } from '@/lib/freshness';
+import { useWorkspaceDirection } from '@/lib/workspace-store';
 import { cn } from '@/lib/utils';
 
 type KindFilter = 'all' | PropertyKind;
@@ -20,7 +21,7 @@ const kinds: KindFilter[] = ['all', 'apartment', 'house', 'land', 'commercial'];
 
 // Regula 20: filter listing type (sale / rent / both).
 type ListingFilter = 'all' | ListingType;
-const listingFilters: ListingFilter[] = ['all', 'sale', 'rent', 'both'];
+const ALL_LISTING_FILTERS: ListingFilter[] = ['all', 'sale', 'rent', 'both'];
 
 function kindLabelKey(k: PropertyKind): string {
   return k === 'apartment'
@@ -34,11 +35,24 @@ function kindLabelKey(k: PropertyKind): string {
 
 export default function PropertiesPage() {
   const { t } = useT();
+  const direction = useWorkspaceDirection();
   const [kind, setKind] = useState<KindFilter>('all');
   const [listing, setListing] = useState<ListingFilter>('all');
 
+  // Regula 20/21: când direcția workspace e fixă, ascundem tab-urile listing irelevante.
+  const listingFilters: ListingFilter[] =
+    direction === 'sale' ? ['all', 'sale', 'both'] :
+    direction === 'rent' ? ['all', 'rent', 'both'] :
+    ALL_LISTING_FILTERS;
+
   const list = useMemo(
     () => properties
+      // Regula 20/21: ascunde proprietățile care nu corespund direcției workspace.
+      .filter((p) => {
+        if (direction === 'sale') return p.listingType === 'sale' || p.listingType === 'both';
+        if (direction === 'rent') return p.listingType === 'rent' || p.listingType === 'both';
+        return true;
+      })
       .filter((p) => (kind === 'all' ? true : p.kind === kind))
       .filter((p) => {
         if (listing === 'all') return true;
@@ -47,7 +61,7 @@ export default function PropertiesPage() {
         return p.listingType === listing || p.listingType === 'both';
       })
       .slice(0, 36),
-    [kind, listing]
+    [kind, listing, direction]
   );
 
   return (
