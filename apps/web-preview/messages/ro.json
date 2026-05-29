@@ -268,6 +268,7 @@
       "floorLabel": "Etaj",
       "priceLabel": "Preț de vânzare",
       "monthlyRentLabel": "Chirie lunară",
+      "commissionLabel": "Comision (vizibil clientului)",
       "listingTypeLabel": "Tip listare",
       "yearLabel": "An construcție",
       "agentLabel": "Agent responsabil",
@@ -306,6 +307,12 @@
       "priceLabel": "Preț de vânzare (€)",
       "monthlyRentLabel": "Chirie lunară (€)",
       "monthlyRentHelp": "Suma cerută per lună. Standardul RM include de obicei un depozit egal cu o chirie lunară.",
+      "commissionPctTitle": "Comision (%)",
+      "commissionPctDesc": "Procentul tău din prețul de vânzare. Suma se calculează automat și este vizibilă atât clientului, cât și ție în fluxul de tranzacții. Standardul pieței RM: 2.0–3.0%.",
+      "commissionPctLabel": "Procent comision",
+      "commissionPctHint": "Introdu între 0.5% și 6%. Suma totală apare alături.",
+      "commissionPctAmount": "Suma estimată",
+      "commissionPctRentNote": "Pentru închiriere comisionul este standard 1× chirie lunară.",
       "yearLabel": "An construcție",
       "floorLabel": "Etaj / Etaje totale",
       "benefitsTitle": "Beneficii (puncte forte)",
@@ -318,10 +325,10 @@
   },
   "deal": {
     "moduleLabel": "Modul · Tranzacții",
-    "title": "Pipeline tranzacții",
+    "title": "Flux tranzacții",
     "subtitle": "Trage cardurile între coloane pentru a avansa tranzacția în etapa următoare. Fiecare etapă are propria culoare ca să te poți orienta rapid.",
-    "subtitleSale": "Tranzacții de vânzare. Pipeline-ul se închide la notar (vezi Cabinet notar · Acte notariale).",
-    "subtitleRent": "Tranzacții de închiriere. Pipeline-ul se închide cu contractul de chirie (vezi Cabinet notar · Contracte chirie).",
+    "subtitleSale": "Tranzacții de vânzare. Fluxul se închide la notar (vezi Cabinet notar · Acte notariale).",
+    "subtitleRent": "Tranzacții de închiriere. Fluxul se închide cu contractul de chirie (vezi Cabinet notar · Contracte chirie).",
     "intentFilterLabel": "Filtru tip tranzacție",
     "rentBanner": "Tranzacțiile de închiriere folosesc contract de chirie (NU notar). La etapa de finalizare deschide secțiunea „Contracte chirie\" din Cabinet notar.",
     "rentCommissionHint": "1× chirie",
@@ -371,7 +378,12 @@
     "commissionLabel": "Comision",
     "agentLabel": "Agent",
     "detailsLink": "Detalii",
-    "perMonth": "/lună"
+    "perMonth": "/lună",
+    "intentShort": {
+      "sale": "Vânzare",
+      "rent": "Chirie"
+    },
+    "rentCommissionShort": "1× chirie"
   },
   "dashboard": {
     "moduleLabel": "Panou de bord",
@@ -439,7 +451,7 @@
         "body": "Toate proprietățile publicate. Apasă pe oricare pentru a vedea pozele, video-ul și caracteristicile complete. Pentru a adăuga una nouă folosește butonul „+ Adaugă proprietate”."
       },
       "deals": {
-        "title": "Pipeline tranzacții",
+        "title": "Flux tranzacții",
         "body": "Trage cardurile între coloane pentru a avansa tranzacțiile prin etape: Descoperire → Calificat → Ofertă → Negociere → Notariat → Câștigat. Culoarea fiecărei etape te ajută să te orientezi rapid."
       },
       "cabinet": {
