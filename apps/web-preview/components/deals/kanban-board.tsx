@@ -93,48 +93,58 @@ function DealCard({
           : 'cursor-grab active:cursor-grabbing hover:border-border-light focus-visible:border-gold focus-visible:outline-none ')
       }
     >
-      {/* ── Zona 1: ID + statut tranzacție / client / adresă, regiune ── */}
-      <div className="px-sp3 pt-sp3 pb-sp2 min-w-0">
-        <div className="flex items-center justify-between gap-sp2">
-          <span className="label-mono text-[10px] text-text-muted truncate">{deal.id}</span>
-          <span className="inline-flex items-center gap-1 text-[11px] text-text-secondary whitespace-nowrap flex-shrink-0">
-            <span className={`w-2 h-2 rounded-full ${HEALTH_DOT[health]}`} aria-hidden />
-            {t(`deal.healthLabels.${health}`)}
-          </span>
-        </div>
-        <p className="text-[14px] text-text-h font-semibold leading-tight truncate mt-1">
-          {lead?.name ?? deal.leadId}
-        </p>
-        <p className="text-[12px] text-text-secondary truncate mt-0.5">
-          {property ? `${property.addr}, ${property.city} · ${property.zone}` : deal.propertyId}
-        </p>
+      {/* ── Zona 1: ID + statut tranzacție ── */}
+      <div className="px-sp3 pt-sp3 pb-sp2 flex items-center justify-between gap-sp2">
+        <span className="label-mono text-[10px] text-text-muted truncate">{deal.id}</span>
+        <span className="inline-flex items-center gap-1 text-[11px] text-text-secondary whitespace-nowrap flex-shrink-0">
+          <span className={`w-2 h-2 rounded-full ${HEALTH_DOT[health]}`} aria-hidden />
+          {t(`deal.healthLabels.${health}`)}
+        </span>
       </div>
 
       <div className="h-px bg-border mx-sp3" />
 
-      {/* ── Zona 2: tip ofertă + preț / agent + comision ── */}
-      <div className="px-sp3 py-sp2 flex flex-col gap-1">
-        <div className="flex items-center justify-between gap-sp2">
-          <span className="inline-flex items-center gap-1 text-[12px] text-text-secondary whitespace-nowrap min-w-0">
-            <span className={`w-2 h-2 rounded-full flex-shrink-0 ${isRent ? 'bg-status-green' : 'bg-status-blue'}`} aria-hidden />
-            <span className="truncate">{t(`transactionIntent.${intent}`)}</span>
-          </span>
-          <span className="text-[13px] text-text-h font-mono font-semibold whitespace-nowrap flex-shrink-0">
-            €{((isRent ? property?.monthlyRentEur : property?.priceEur) ?? 0).toLocaleString('ro-MD')}
-            {isRent && <span className="text-text-muted text-[10px]"> {t('deal.perMonth')}</span>}
-          </span>
-        </div>
-        <div className="flex items-center justify-between gap-sp2 text-[11px]">
-          <span className="text-text-muted truncate min-w-0">
-            {t('deal.agentLabel')}: <span className="text-text-secondary">{agent?.name ?? deal.agentId}</span>
-          </span>
-          <span className="text-gold font-mono whitespace-nowrap flex-shrink-0">
-            {t('deal.commissionLabel')} €{deal.commissionEur.toLocaleString('ro-MD')}
-          </span>
-        </div>
+      {/* ── Zona 2: client / adresă / regiune ── */}
+      <div className="px-sp3 py-sp2 min-w-0">
+        <p className="text-[14px] text-text-h font-semibold leading-tight truncate">
+          {lead?.name ?? deal.leadId}
+        </p>
+        {property && (
+          <>
+            <p className="text-[12px] text-text-secondary truncate mt-0.5">{property.addr}</p>
+            <p className="text-[11px] text-text-muted truncate mt-0.5">{property.city} · {property.zone}</p>
+          </>
+        )}
+        {!property && (
+          <p className="text-[12px] text-text-secondary truncate mt-0.5">{deal.propertyId}</p>
+        )}
       </div>
 
-      {/* ── Zona 3: detalii ── */}
+      <div className="h-px bg-border mx-sp3" />
+
+      {/* ── Zona 3: tip ofertă + preț ── */}
+      <div className="px-sp3 py-sp2 flex items-center justify-between gap-sp2">
+        <span className="inline-flex items-center gap-1 text-[12px] text-text-secondary whitespace-nowrap min-w-0">
+          <span className={`w-2 h-2 rounded-full flex-shrink-0 ${isRent ? 'bg-status-green' : 'bg-status-blue'}`} aria-hidden />
+          <span className="truncate">{t(`transactionIntent.${intent}`)}</span>
+        </span>
+        <span className="text-[13px] text-text-h font-mono font-semibold whitespace-nowrap flex-shrink-0">
+          €{((isRent ? property?.monthlyRentEur : property?.priceEur) ?? 0).toLocaleString('ro-MD')}
+          {isRent && <span className="text-text-muted text-[10px]"> {t('deal.perMonth')}</span>}
+        </span>
+      </div>
+
+      <div className="h-px bg-border mx-sp3" />
+
+      {/* ── Zona 4: agent + comision ── */}
+      <div className="px-sp3 py-sp2 flex items-center justify-between gap-sp2 text-[11px]">
+        <span className="text-text-secondary truncate min-w-0">{agent?.name ?? deal.agentId}</span>
+        <span className="text-gold font-mono whitespace-nowrap flex-shrink-0">
+          {t('deal.commissionLabel')} €{deal.commissionEur.toLocaleString('ro-MD')}
+        </span>
+      </div>
+
+      {/* ── Zona 5: detalii ── */}
       {!isDragOverlay && (
         <>
           <div className="h-px bg-border mx-sp3" />
