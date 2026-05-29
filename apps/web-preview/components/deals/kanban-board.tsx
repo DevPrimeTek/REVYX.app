@@ -122,41 +122,47 @@ function DealCard({
 
       <div className="h-px bg-border mx-sp3" />
 
-      {/* ── Zona 3: tip ofertă + preț ── */}
-      <div className="px-sp3 py-sp2 flex items-center justify-between gap-sp2">
-        <span className="inline-flex items-center gap-1 text-[12px] text-text-secondary whitespace-nowrap min-w-0">
-          <span className={`w-2 h-2 rounded-full flex-shrink-0 ${isRent ? 'bg-status-green' : 'bg-status-blue'}`} aria-hidden />
-          <span className="truncate">{t(`transactionIntent.${intent}`)}</span>
-        </span>
-        <span className="text-[13px] text-text-h font-mono font-semibold whitespace-nowrap flex-shrink-0">
-          €{((isRent ? property?.monthlyRentEur : property?.priceEur) ?? 0).toLocaleString('ro-MD')}
-          {isRent && <span className="text-text-muted text-[10px]"> {t('deal.perMonth')}</span>}
-        </span>
+      {/* ── Zona 3: tip ofertă + preț / comision dedesubt ── */}
+      <div className="px-sp3 py-sp2 flex flex-col gap-1">
+        <div className="flex items-center justify-between gap-sp2">
+          <span className="inline-flex items-center gap-1 text-[12px] text-text-secondary whitespace-nowrap min-w-0">
+            <span className={`w-2 h-2 rounded-full flex-shrink-0 ${isRent ? 'bg-status-green' : 'bg-status-blue'}`} aria-hidden />
+            <span className="truncate">{t(`transactionIntent.${intent}`)}</span>
+          </span>
+          <span className="text-[13px] text-text-h font-mono font-semibold whitespace-nowrap flex-shrink-0">
+            €{((isRent ? property?.monthlyRentEur : property?.priceEur) ?? 0).toLocaleString('ro-MD')}
+            {isRent && <span className="text-text-muted text-[10px]"> {t('deal.perMonth')}</span>}
+          </span>
+        </div>
+        <div className="flex items-center justify-end text-[11px]">
+          <span className="text-gold font-mono whitespace-nowrap">
+            {t('deal.commissionLabel')} €{deal.commissionEur.toLocaleString('ro-MD')}
+          </span>
+        </div>
       </div>
 
-      <div className="h-px bg-border mx-sp3" />
-
-      {/* ── Zona 4: agent + comision ── */}
-      <div className="px-sp3 py-sp2 flex items-center justify-between gap-sp2 text-[11px]">
-        <span className="text-text-secondary truncate min-w-0">{agent?.name ?? deal.agentId}</span>
-        <span className="text-gold font-mono whitespace-nowrap flex-shrink-0">
-          {t('deal.commissionLabel')} €{deal.commissionEur.toLocaleString('ro-MD')}
-        </span>
-      </div>
-
-      {/* ── Zona 5: detalii ── */}
+      {/* ── Zona 4: agent + detalii ── */}
       {!isDragOverlay && (
         <>
           <div className="h-px bg-border mx-sp3" />
-          <div className="px-sp3 py-sp2 flex justify-end">
+          <div className="px-sp3 py-sp2 flex items-center justify-between gap-sp2 text-[11px]">
+            <span className="text-text-secondary truncate min-w-0">{agent?.name ?? deal.agentId}</span>
             <a
               href={`/deals/${deal.id}`}
               onClick={(e) => e.stopPropagation()}
               onPointerDown={(e) => e.stopPropagation()}
-              className="text-[11px] text-text-secondary hover:text-gold cursor-pointer whitespace-nowrap"
+              className="text-text-secondary hover:text-gold cursor-pointer whitespace-nowrap flex-shrink-0"
             >
               {t('deal.detailsLink')} →
             </a>
+          </div>
+        </>
+      )}
+      {isDragOverlay && (
+        <>
+          <div className="h-px bg-border mx-sp3" />
+          <div className="px-sp3 py-sp2 text-[11px]">
+            <span className="text-text-secondary truncate">{agent?.name ?? deal.agentId}</span>
           </div>
         </>
       )}
