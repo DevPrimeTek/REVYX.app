@@ -76,6 +76,12 @@ function DealCard({
   });
 
   const health = healthBucket(deal.dhi);
+  const agentInitials = (agent?.name ?? deal.agentId)
+    .split(/\s+/)
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((p) => p[0]?.toUpperCase() ?? '')
+    .join('') || '?';
 
   return (
     <div
@@ -122,44 +128,45 @@ function DealCard({
 
       <div className="h-px bg-border mx-sp3" />
 
-      {/* ── Zona 3: tip ofertă + preț ── */}
-      <div className="px-sp3 py-sp2 flex items-center justify-between gap-sp2">
-        <span className="inline-flex items-center gap-1 text-[12px] text-text-secondary whitespace-nowrap min-w-0">
-          <span className={`w-2 h-2 rounded-full flex-shrink-0 ${isRent ? 'bg-status-green' : 'bg-status-blue'}`} aria-hidden />
-          <span className="truncate">{t(`transactionIntent.${intent}`)}</span>
-        </span>
-        <span className="text-[13px] text-text-h font-mono font-semibold whitespace-nowrap flex-shrink-0">
-          €{((isRent ? property?.monthlyRentEur : property?.priceEur) ?? 0).toLocaleString('ro-MD')}
-          {isRent && <span className="text-text-muted text-[10px]"> {t('deal.perMonth')}</span>}
-        </span>
-      </div>
-
-      <div className="h-px bg-border mx-sp3" />
-
-      {/* ── Zona 4: agent + comision ── */}
-      <div className="px-sp3 py-sp2 flex items-center justify-between gap-sp2 text-[11px]">
-        <span className="text-text-secondary truncate min-w-0">{agent?.name ?? deal.agentId}</span>
-        <span className="text-gold font-mono whitespace-nowrap flex-shrink-0">
-          {t('deal.commissionLabel')} €{deal.commissionEur.toLocaleString('ro-MD')}
-        </span>
-      </div>
-
-      {/* ── Zona 5: detalii ── */}
-      {!isDragOverlay && (
-        <>
-          <div className="h-px bg-border mx-sp3" />
-          <div className="px-sp3 py-sp2 flex justify-end">
+      {/* ── Zona 3: tip ofertă + preț / agent + comision / buton detalii ── */}
+      <div className="px-sp3 py-sp2 flex flex-col gap-1.5">
+        <div className="flex items-center justify-between gap-sp2">
+          <span className="inline-flex items-center gap-1 text-[12px] text-text-secondary whitespace-nowrap min-w-0">
+            <span className={`w-2 h-2 rounded-full flex-shrink-0 ${isRent ? 'bg-status-green' : 'bg-status-blue'}`} aria-hidden />
+            <span className="truncate">{t(`transactionIntent.${intent}`)}</span>
+          </span>
+          <span className="text-[13px] text-text-h font-mono font-semibold whitespace-nowrap flex-shrink-0">
+            €{((isRent ? property?.monthlyRentEur : property?.priceEur) ?? 0).toLocaleString('ro-MD')}
+            {isRent && <span className="text-text-muted text-[10px]"> {t('deal.perMonth')}</span>}
+          </span>
+        </div>
+        <div className="flex items-center justify-between gap-sp2 text-[11px]">
+          <span className="inline-flex items-center gap-1.5 min-w-0">
+            <span
+              className="w-5 h-5 rounded-full bg-navy-deep border border-border text-[9px] text-text-secondary font-semibold flex items-center justify-center flex-shrink-0"
+              aria-hidden
+            >
+              {agentInitials}
+            </span>
+            <span className="text-text-secondary truncate">{agent?.name ?? deal.agentId}</span>
+          </span>
+          <span className="text-gold font-mono whitespace-nowrap flex-shrink-0">
+            {t('deal.commissionLabel')} €{deal.commissionEur.toLocaleString('ro-MD')}
+          </span>
+        </div>
+        {!isDragOverlay && (
+          <div className="flex justify-end pt-0.5">
             <a
               href={`/deals/${deal.id}`}
               onClick={(e) => e.stopPropagation()}
               onPointerDown={(e) => e.stopPropagation()}
-              className="text-[11px] text-text-secondary hover:text-gold cursor-pointer whitespace-nowrap"
+              className="inline-flex items-center text-[11px] text-gold hover:text-gold-light border border-gold/40 hover:border-gold rounded-md px-sp2 py-0.5 transition-colors whitespace-nowrap"
             >
               {t('deal.detailsLink')} →
             </a>
           </div>
-        </>
-      )}
+        )}
+      </div>
     </div>
   );
 }
