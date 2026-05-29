@@ -232,9 +232,9 @@
       "won": "Deal complete. Commission generated."
     },
     "healthLabels": {
-      "healthy": "Good",
-      "review": "Check it",
-      "risk": "Attention"
+      "healthy": "Going well",
+      "review": "Needs a check",
+      "risk": "High risk"
     },
     "healthHelp": {
       "healthy": "Deal on schedule, no recent negative signals.",
@@ -255,7 +255,13 @@
     "cardLeadLabel": "Client",
     "cardPropertyLabel": "Property",
     "cardCommissionLabel": "Expected commission",
-    "dragHint": "Drag the card to the next column"
+    "dragHint": "Drag the card to the next column",
+    "offerTypeLabel": "Offer type",
+    "priceLabel": "Price",
+    "commissionLabel": "Commission",
+    "agentLabel": "Agent",
+    "detailsLink": "Details",
+    "perMonth": "/mo"
   },
   "dashboard": {
     "moduleLabel": "Dashboard",

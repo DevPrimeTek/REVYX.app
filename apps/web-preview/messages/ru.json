@@ -232,9 +232,9 @@
       "won": "Сделка завершена. Комиссия начислена."
     },
     "healthLabels": {
-      "healthy": "Хорошо",
-      "review": "Проверь",
-      "risk": "Внимание"
+      "healthy": "Идёт хорошо",
+      "review": "Нужна проверка",
+      "risk": "Высокий риск"
     },
     "healthHelp": {
       "healthy": "Сделка в графике, никаких негативных сигналов.",
@@ -255,7 +255,13 @@
     "cardLeadLabel": "Клиент",
     "cardPropertyLabel": "Объект",
     "cardCommissionLabel": "Ожидаемая комиссия",
-    "dragHint": "Перетащите карточку в следующую колонку"
+    "dragHint": "Перетащите карточку в следующую колонку",
+    "offerTypeLabel": "Тип сделки",
+    "priceLabel": "Цена",
+    "commissionLabel": "Комиссия",
+    "agentLabel": "Агент",
+    "detailsLink": "Подробнее",
+    "perMonth": "/мес"
   },
   "dashboard": {
     "moduleLabel": "Панель управления",
