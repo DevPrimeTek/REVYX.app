@@ -176,7 +176,8 @@
       "areaLabel": "Surface",
       "roomsLabel": "Rooms",
       "floorLabel": "Floor",
-      "priceLabel": "Price",
+      "priceLabel": "Sale price",
+      "commissionLabel": "Commission (visible to client)",
       "yearLabel": "Year built",
       "agentLabel": "Listing agent",
       "addedLabel": "Published",
@@ -204,7 +205,13 @@
       "districtHelp": "Used to match leads from the same area.",
       "roomsLabel": "Rooms",
       "areaLabel": "Surface (m²)",
-      "priceLabel": "Price (€)",
+      "priceLabel": "Sale price (€)",
+      "commissionPctTitle": "Commission (%)",
+      "commissionPctDesc": "Your percent of the sale price. The amount is calculated automatically and is visible to both client and you in the deal flow. MD market standard: 2.0–3.0%.",
+      "commissionPctLabel": "Commission percent",
+      "commissionPctHint": "Enter between 0.5% and 6%. The total amount appears next to it.",
+      "commissionPctAmount": "Estimated amount",
+      "commissionPctRentNote": "For rentals the commission is the standard 1× monthly rent.",
       "yearLabel": "Year built",
       "floorLabel": "Floor / Total floors",
       "successInfo": "After saving we'll check for leads searching similar properties and hand them off to the listing agent.",
@@ -261,7 +268,12 @@
     "commissionLabel": "Commission",
     "agentLabel": "Agent",
     "detailsLink": "Details",
-    "perMonth": "/mo"
+    "perMonth": "/mo",
+    "intentShort": {
+      "sale": "Sale",
+      "rent": "Rent"
+    },
+    "rentCommissionShort": "1× rent"
   },
   "dashboard": {
     "moduleLabel": "Dashboard",

@@ -75,6 +75,12 @@ export type Property = {
   priceEur: number;      // sale price (EUR) — 0 if listingType === 'rent'
   /** Regula 20: chirie lunară (EUR/lună) — completat pentru listingType ∈ {'rent', 'both'}. */
   monthlyRentEur: number | null;
+  /**
+   * Regula 20: procentul de comision negociat de agent pentru listingType ∈ {'sale','both'}.
+   * Vizibil agentului ȘI clientului. Default 2.5% (calibration_profile sale).
+   * Pentru rent comisionul rămâne fix `1× chirie lunară` (vezi `Deal.commissionEur`).
+   */
+  commissionPct: number | null;
   /** Regula 20: tipul listării — vânzare, închiriere sau dual (same property listed pentru ambele). */
   listingType: ListingType;
   ps: number;            // Property Score [0,1]
