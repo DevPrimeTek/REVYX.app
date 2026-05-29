@@ -342,9 +342,9 @@
       "won": "Tranzacție finalizată. Comision generat."
     },
     "healthLabels": {
-      "healthy": "Bun",
-      "review": "Verifică",
-      "risk": "Atenție"
+      "healthy": "Merge bine",
+      "review": "De verificat",
+      "risk": "Risc mare"
     },
     "healthHelp": {
       "healthy": "Tranzacție în grafic, niciun semn negativ recent.",
@@ -365,7 +365,13 @@
     "cardLeadLabel": "Client",
     "cardPropertyLabel": "Proprietate",
     "cardCommissionLabel": "Comision estimat",
-    "dragHint": "Trage cardul în coloana următoare"
+    "dragHint": "Trage cardul în coloana următoare",
+    "offerTypeLabel": "Tip ofertă",
+    "priceLabel": "Preț",
+    "commissionLabel": "Comision",
+    "agentLabel": "Agent",
+    "detailsLink": "Detalii",
+    "perMonth": "/lună"
   },
   "dashboard": {
     "moduleLabel": "Panou de bord",
