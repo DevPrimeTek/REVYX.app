@@ -375,6 +375,7 @@
     "dragHint": "Trage cardul în coloana următoare",
     "offerTypeLabel": "Tip ofertă",
     "priceLabel": "Preț",
+    "costLabel": "Cost",
     "commissionLabel": "Comision",
     "agentLabel": "Agent",
     "detailsLink": "Detalii",

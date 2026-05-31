@@ -265,6 +265,7 @@
     "dragHint": "Drag the card to the next column",
     "offerTypeLabel": "Offer type",
     "priceLabel": "Price",
+    "costLabel": "Cost",
     "commissionLabel": "Commission",
     "agentLabel": "Agent",
     "detailsLink": "Details",
