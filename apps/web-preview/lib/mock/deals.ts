@@ -61,12 +61,11 @@ function buildDeals(): Deal[] {
       })();
 
     // Commission profile (Regula 20):
-    //   sale: property.commissionPct% din priceEur (negociat de agent la create; default 2.5)
-    //   rent: 1 lună chirie (commission_model = rent_profile, fix)
-    const salePct = (property.commissionPct ?? 2.5) / 100;
-    const commissionEur = isRent
-      ? (property.monthlyRentEur ?? 0)
-      : Math.round((property.priceEur * salePct) / 100) * 100;
+    //   sale: property.commissionPct% din priceEur (negociat la create; default 2.5%)
+    //   rent: property.commissionPct% din monthlyRentEur (negociat la create; default 100% = 1× chirie)
+    const pct = (property.commissionPct ?? (isRent ? 100 : 2.5)) / 100;
+    const baseAmount = isRent ? (property.monthlyRentEur ?? 0) : property.priceEur;
+    const commissionEur = Math.round((baseAmount * pct) / 10) * 10;
 
     out.push({
       id: `D-${String(1000 + i).padStart(4, '0')}`,

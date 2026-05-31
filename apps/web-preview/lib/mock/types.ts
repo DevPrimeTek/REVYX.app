@@ -76,9 +76,10 @@ export type Property = {
   /** Regula 20: chirie lunară (EUR/lună) — completat pentru listingType ∈ {'rent', 'both'}. */
   monthlyRentEur: number | null;
   /**
-   * Regula 20: procentul de comision negociat de agent pentru listingType ∈ {'sale','both'}.
-   * Vizibil agentului ȘI clientului. Default 2.5% (calibration_profile sale).
-   * Pentru rent comisionul rămâne fix `1× chirie lunară` (vezi `Deal.commissionEur`).
+   * Regula 20: procentul de comision negociat de agent.
+   * Pentru `listingType ∈ {'sale','both'}` → % din `priceEur` (standard RM 2.0-3.0%).
+   * Pentru `listingType === 'rent'` → % din `monthlyRentEur` (standard RM 50-150%; 100% = 1× chirie).
+   * Vizibil agentului ȘI clientului. NULL doar pentru listări fără preț calculabil.
    */
   commissionPct: number | null;
   /** Regula 20: tipul listării — vânzare, închiriere sau dual (same property listed pentru ambele). */
