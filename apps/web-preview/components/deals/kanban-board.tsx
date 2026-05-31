@@ -137,12 +137,8 @@ function DealCard({
         </div>
         <div className="flex items-baseline justify-between gap-sp2 min-w-0">
           <span className="text-[11px] text-text-muted flex-shrink-0">{t('deal.commissionLabel')}</span>
-          <span className="inline-flex items-baseline gap-1 text-[12px] text-gold font-mono whitespace-nowrap truncate">
-            {isRent || property?.commissionPct == null ? (
-              <span>{t('deal.rentCommissionShort')} · €{deal.commissionEur.toLocaleString('ro-MD')}</span>
-            ) : (
-              <span>{property.commissionPct}% · €{deal.commissionEur.toLocaleString('ro-MD')}</span>
-            )}
+          <span className="text-[12px] text-gold font-mono whitespace-nowrap truncate">
+            {property?.commissionPct ?? (isRent ? 100 : 2.5)}% · €{deal.commissionEur.toLocaleString('ro-MD')}
           </span>
         </div>
       </div>
