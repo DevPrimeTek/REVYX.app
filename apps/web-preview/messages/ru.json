@@ -265,6 +265,7 @@
     "dragHint": "Перетащите карточку в следующую колонку",
     "offerTypeLabel": "Тип сделки",
     "priceLabel": "Цена",
+    "costLabel": "Цена",
     "commissionLabel": "Комиссия",
     "agentLabel": "Агент",
     "detailsLink": "Подробнее",
