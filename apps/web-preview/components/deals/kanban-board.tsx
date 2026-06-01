@@ -3,9 +3,12 @@
 // M0.S8.4 · Kanban card — Creative Director + Senior UI/UX directive (5 zone explicite).
 // Zone 1 (header): ID stânga + Stare tranzacție dreapta (single line; status text whitespace-nowrap).
 // Zone 2 (identity): nume client (bold) / adresă completă (wrap max 2 linii — afișare integrală) / oraș · zonă.
-// Zone 3 (money): linia 1 = `Cost: €sumă` (sau €/lună rent); linia 2 = `Comision: pct% · €sumă` (sau `1× chirie · €`).
+// Zone 3 (money): linia 1 = preț (alb, mare); linia 2 = chip gold `pct% · €sumă` (comision).
+//   Fără etichete text Cost/Comision — culoarea + formatul comunică sensul; layout-ul rămâne
+//   universal în RO/RU/EN (eliminat collision RU "Цена:" / "Комиссия:" + valori lungi).
 // Zone 4 (agent): doar numele agentului (fără avatar, compact).
 // Zone 5 (action): tip tranzacție (dot intent + Vânzare/Chirie) stânga + buton Detalii dreapta.
+// Status (Z1) folosește `title` (tooltip browser) pentru text complet la overflow.
 // Culoarea de stage trăiește DOAR pe headerul coloanei.
 
 import { useMemo, useState } from 'react';
@@ -93,10 +96,13 @@ function DealCard({
           : 'cursor-grab active:cursor-grabbing hover:border-border-light focus-visible:border-gold focus-visible:outline-none ')
       }
     >
-      {/* ── Zona 1 — ID + Stare tranzacție (single line) ── */}
+      {/* ── Zona 1 — ID + Stare tranzacție (cu title pentru tooltip browser la overflow) ── */}
       <div className="px-sp2 pt-sp2 pb-1.5 flex items-center justify-between gap-sp2 min-w-0">
         <span className="label-mono text-[10px] text-text-muted flex-shrink-0">{deal.id}</span>
-        <span className="inline-flex items-center gap-1 text-[11px] text-text-secondary whitespace-nowrap min-w-0">
+        <span
+          className="inline-flex items-center gap-1 text-[11px] text-text-secondary min-w-0"
+          title={t(`deal.healthLabels.${health}`)}
+        >
           <span className={`w-2 h-2 rounded-full flex-shrink-0 ${HEALTH_DOT[health]}`} aria-hidden />
           <span className="truncate">{t(`deal.healthLabels.${health}`)}</span>
         </span>
@@ -126,21 +132,15 @@ function DealCard({
 
       <div className="h-px bg-border mx-sp2" />
 
-      {/* ── Zona 3 — money: Cost (linia 1) + Comision (linia 2) ── */}
-      <div className="px-sp2 py-1.5 flex flex-col gap-0.5">
-        <div className="flex items-baseline justify-between gap-sp2 min-w-0">
-          <span className="text-[11px] text-text-muted flex-shrink-0">{t('deal.costLabel')}</span>
-          <span className="text-[13px] text-text-h font-mono font-semibold whitespace-nowrap truncate">
-            €{((isRent ? property?.monthlyRentEur : property?.priceEur) ?? 0).toLocaleString('ro-MD')}
-            {isRent && <span className="text-text-muted text-[10px] font-sans"> {t('deal.perMonth')}</span>}
-          </span>
-        </div>
-        <div className="flex items-baseline justify-between gap-sp2 min-w-0">
-          <span className="text-[11px] text-text-muted flex-shrink-0">{t('deal.commissionLabel')}</span>
-          <span className="text-[12px] text-gold font-mono whitespace-nowrap truncate">
-            {property?.commissionPct ?? (isRent ? 100 : 2.5)}% · €{deal.commissionEur.toLocaleString('ro-MD')}
-          </span>
-        </div>
+      {/* ── Zona 3 — money: preț (linia 1, alb) + chip comision gold (linia 2). Fără etichete text. ── */}
+      <div className="px-sp2 py-1.5 flex flex-col items-end gap-1 min-w-0">
+        <span className="text-[14px] text-text-h font-mono font-semibold whitespace-nowrap truncate max-w-full">
+          €{((isRent ? property?.monthlyRentEur : property?.priceEur) ?? 0).toLocaleString('ro-MD')}
+          {isRent && <span className="text-text-muted text-[10px] font-sans"> {t('deal.perMonth')}</span>}
+        </span>
+        <span className="text-[11px] text-gold font-mono whitespace-nowrap truncate max-w-full bg-gold/10 border border-gold/20 rounded-full px-sp2 py-0.5">
+          {property?.commissionPct ?? (isRent ? 100 : 2.5)}% · €{deal.commissionEur.toLocaleString('ro-MD')}
+        </span>
       </div>
 
       <div className="h-px bg-border mx-sp2" />
