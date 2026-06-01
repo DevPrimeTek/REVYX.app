@@ -97,7 +97,7 @@ function DealCard({
       }
     >
       {/* ── Zona 1 — ID + Stare tranzacție (cu title pentru tooltip browser la overflow) ── */}
-      <div className="px-sp3 pt-sp3 pb-2 flex items-center justify-between gap-sp2 min-w-0">
+      <div className="px-sp3 pt-sp3 pb-sp3 flex items-center justify-between gap-sp2 min-w-0">
         <span className="label-mono text-[10px] text-text-muted flex-shrink-0">{deal.id}</span>
         <span
           className="inline-flex items-center gap-1 text-[11px] text-text-secondary min-w-0"
@@ -111,7 +111,7 @@ function DealCard({
       <div className="h-px bg-border mx-sp3" />
 
       {/* ── Zona 2 — identity: client / adresă deplină (max 2 linii) / regiune ── */}
-      <div className="px-sp3 py-2 min-w-0">
+      <div className="px-sp3 py-sp3 min-w-0">
         <p className="text-[14px] text-text-h font-semibold leading-tight truncate">
           {lead?.name ?? deal.leadId}
         </p>
@@ -133,7 +133,7 @@ function DealCard({
       <div className="h-px bg-border mx-sp3" />
 
       {/* ── Zona 3 — money: Cost (linia 1) + Comision (linia 2) ── */}
-      <div className="px-sp3 py-2 flex flex-col gap-0.5">
+      <div className="px-sp3 py-sp3 flex flex-col gap-0.5">
         <div className="flex items-baseline justify-between gap-sp2 min-w-0">
           <span className="text-[11px] text-text-muted flex-shrink-0">{t('deal.costLabel')}</span>
           <span className="text-[13px] text-text-h font-mono font-semibold whitespace-nowrap truncate">
@@ -152,7 +152,7 @@ function DealCard({
       <div className="h-px bg-border mx-sp3" />
 
       {/* ── Zona 4 — agent: label stânga + nume bold dreapta (pattern Zone 3) ── */}
-      <div className="px-sp3 py-2 min-w-0">
+      <div className="px-sp3 py-sp3 min-w-0">
         <div className="flex items-baseline justify-between gap-sp2 min-w-0">
           <span className="text-[11px] text-text-muted flex-shrink-0">{t('deal.agentLabel')}</span>
           <span className="text-[12px] text-text-h font-semibold whitespace-nowrap truncate">{agent?.name ?? deal.agentId}</span>
@@ -163,7 +163,7 @@ function DealCard({
       {!isDragOverlay && (
         <>
           <div className="h-px bg-border mx-sp3" />
-          <div className="px-sp3 py-2 flex items-center justify-between gap-x-sp2 min-w-0">
+          <div className="px-sp3 py-sp3 flex items-center justify-between gap-x-sp2 min-w-0">
             <span className="inline-flex items-center gap-1.5 text-[12px] text-text-h font-medium min-w-0">
               <span className={`w-2 h-2 rounded-full flex-shrink-0 ${isRent ? 'bg-status-green' : 'bg-status-blue'}`} aria-hidden />
               <span className="truncate">{t(`deal.intentShort.${intent}`)}</span>
