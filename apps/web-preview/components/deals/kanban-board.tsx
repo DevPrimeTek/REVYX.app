@@ -151,9 +151,12 @@ function DealCard({
 
       <div className="h-px bg-border mx-sp2" />
 
-      {/* ── Zona 4 — agent (doar numele) ── */}
+      {/* ── Zona 4 — agent (label "Agent" + nume bold) ── */}
       <div className="px-sp2 py-1.5 min-w-0">
-        <p className="text-[12px] text-text-secondary truncate">{agent?.name ?? deal.agentId}</p>
+        <p className="text-[12px] text-text-secondary truncate">
+          <span className="text-text-muted">{t('deal.agentLabel')}: </span>
+          <span className="text-text-h font-semibold">{agent?.name ?? deal.agentId}</span>
+        </p>
       </div>
 
       {/* ── Zona 5 — tip tranzacție + buton detalii ── */}
