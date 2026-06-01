@@ -132,15 +132,21 @@ function DealCard({
 
       <div className="h-px bg-border mx-sp2" />
 
-      {/* ── Zona 3 — money: preț (linia 1, alb) + chip comision gold (linia 2). Fără etichete text. ── */}
-      <div className="px-sp2 py-1.5 flex flex-col items-end gap-1 min-w-0">
-        <span className="text-[14px] text-text-h font-mono font-semibold whitespace-nowrap truncate max-w-full">
-          €{((isRent ? property?.monthlyRentEur : property?.priceEur) ?? 0).toLocaleString('ro-MD')}
-          {isRent && <span className="text-text-muted text-[10px] font-sans"> {t('deal.perMonth')}</span>}
-        </span>
-        <span className="text-[11px] text-gold font-mono whitespace-nowrap truncate max-w-full bg-gold/10 border border-gold/20 rounded-full px-sp2 py-0.5">
-          {property?.commissionPct ?? (isRent ? 100 : 2.5)}% · €{deal.commissionEur.toLocaleString('ro-MD')}
-        </span>
+      {/* ── Zona 3 — money: Cost (linia 1) + Comision (linia 2) ── */}
+      <div className="px-sp2 py-1.5 flex flex-col gap-0.5">
+        <div className="flex items-baseline justify-between gap-sp2 min-w-0">
+          <span className="text-[11px] text-text-muted flex-shrink-0">{t('deal.costLabel')}</span>
+          <span className="text-[13px] text-text-h font-mono font-semibold whitespace-nowrap truncate">
+            €{((isRent ? property?.monthlyRentEur : property?.priceEur) ?? 0).toLocaleString('ro-MD')}
+            {isRent && <span className="text-text-muted text-[10px] font-sans"> {t('deal.perMonth')}</span>}
+          </span>
+        </div>
+        <div className="flex items-baseline justify-between gap-sp2 min-w-0">
+          <span className="text-[11px] text-text-muted flex-shrink-0">{t('deal.commissionLabel')}</span>
+          <span className="text-[12px] text-gold font-mono whitespace-nowrap truncate">
+            {property?.commissionPct ?? (isRent ? 100 : 2.5)}% · €{deal.commissionEur.toLocaleString('ro-MD')}
+          </span>
+        </div>
       </div>
 
       <div className="h-px bg-border mx-sp2" />
@@ -154,10 +160,10 @@ function DealCard({
       {!isDragOverlay && (
         <>
           <div className="h-px bg-border mx-sp2" />
-          <div className="px-sp2 py-1.5 flex items-center justify-between gap-sp2 min-w-0">
-            <span className="inline-flex items-center gap-1.5 text-[12px] text-text-h font-medium min-w-0 truncate">
+          <div className="px-sp2 py-1.5 flex flex-wrap items-center justify-between gap-x-sp2 gap-y-1 min-w-0">
+            <span className="inline-flex items-center gap-1.5 text-[12px] text-text-h font-medium">
               <span className={`w-2 h-2 rounded-full flex-shrink-0 ${isRent ? 'bg-status-green' : 'bg-status-blue'}`} aria-hidden />
-              <span className="truncate">{t(`deal.intentShort.${intent}`)}</span>
+              <span>{t(`deal.intentShort.${intent}`)}</span>
             </span>
             <a
               href={`/deals/${deal.id}`}
