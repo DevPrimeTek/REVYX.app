@@ -50,12 +50,14 @@ function makeInitial(): Escalation[] {
   });
 }
 
-const reassignTargets = mockAgents.slice(0, 4).map((a) => ({
-  id: a.id,
-  name: a.name,
-  load: `${a.activeTasks}/3 active`,
-  aps: a.aps,
-}));
+function buildReassignTargets(formatLoad: (tasks: number) => string) {
+  return mockAgents.slice(0, 4).map((a) => ({
+    id: a.id,
+    name: a.name,
+    load: formatLoad(a.activeTasks),
+    aps: a.aps,
+  }));
+}
 
 export default function EscalationsPage() {
   const { toast } = useToast();
@@ -64,6 +66,10 @@ export default function EscalationsPage() {
   const [items, setItems] = useState<Escalation[]>(initial);
   const [selected, setSelected] = useState<Set<string>>(new Set());
   const [reassignOpen, setReassignOpen] = useState(false);
+  const reassignTargets = useMemo(
+    () => buildReassignTargets((tasks) => t('escalations.agentLoad', { tasks: String(tasks) })),
+    [t]
+  );
   const [target, setTarget] = useState<string>(reassignTargets[0]?.id ?? 'A-001');
 
   const allChecked = items.length > 0 && selected.size === items.length;
@@ -90,7 +96,7 @@ export default function EscalationsPage() {
 
   function openReassign() {
     if (selected.size === 0) {
-      toast({ variant: 'warning', title: t('common.filter') + '…' });
+      toast({ variant: 'warning', title: t('escalations.modalSelectFirst') });
       return;
     }
     setReassignOpen(true);
@@ -105,8 +111,8 @@ export default function EscalationsPage() {
     setSelected(new Set());
     toast({
       variant: 'success',
-      title: `${count} escalări reasignate către ${agent?.name ?? target}`,
-      description: `Audit-log: ${count} × ESCALATION_REASSIGNED scris (BR-07). IDs: ${ids.join(', ')}.`,
+      title: t('escalations.toastSuccess', { count: String(count), agent: agent?.name ?? target }),
+      description: t('escalations.toastSuccessDesc', { count: String(count), ids: ids.join(', ') }),
       duration: 6000,
     });
   }
@@ -116,37 +122,35 @@ export default function EscalationsPage() {
       <SiteNav active="/manager" />
       <main id="main" className="px-sp4 py-sp4 lg:px-sp6 max-w-7xl mx-auto flex flex-col gap-sp4">
         <nav aria-label="Breadcrumb" className="text-[12px] text-text-secondary">
-          <Link href="/manager" className="hover:text-text-h">Manager</Link>
+          <Link href="/manager" className="hover:text-text-h">{t('escalations.breadcrumb')}</Link>
           <span className="mx-sp1 text-text-muted">/</span>
-          <span className="text-text-h">Escalări</span>
+          <span className="text-text-h">{t('manager.escalations')}</span>
         </nav>
 
         <header className="flex items-start justify-between gap-sp3 flex-wrap">
           <div>
             <div className="flex items-center gap-sp2">
-              <p className="label-mono text-gold">Modul 2.12 · Escalations</p>
-              <Badge variant="critical" size="xs">Web only · DP-05</Badge>
+              <p className="label-mono text-gold">{t('escalations.moduleLabel')}</p>
+              <Badge variant="critical" size="xs">{t('escalations.webOnly')}</Badge>
             </div>
-            <h1 className="text-[28px] mt-sp1">Coadă escalări active</h1>
+            <h1 className="text-[28px] mt-sp1">{t('escalations.title')}</h1>
             <p className="text-[13px] text-text-secondary mt-sp1">
-              BR-03 protocolul de escalare 3 niveluri: T+SLA · T+SLA+30min · T+SLA+2h. Bulk reassign emite
-              <span className="font-mono text-gold"> ESCALATION_REASSIGNED</span> per item în audit-log.
+              {t('escalations.subtitle')}
             </p>
           </div>
           <div className="flex items-center gap-sp2">
-            <Badge variant="info" size="sm">{items.length} active</Badge>
+            <Badge variant="info" size="sm">{t('escalations.activeBadge', { count: String(items.length) })}</Badge>
             <Button onClick={openReassign} disabled={selected.size === 0}>
-              Bulk reassign ({selected.size})
+              {t('escalations.bulkReassign', { count: String(selected.size) })}
             </Button>
           </div>
         </header>
 
         <Card>
           <CardHeader>
-            <CardTitle>Queue</CardTitle>
+            <CardTitle>{t('escalations.queueTitle')}</CardTitle>
             <CardDescription>
-              Selectează checkbox-uri (sau header pentru toate) → apasă &quot;Bulk reassign&quot;. Manager
-              override = audit-logged automat.
+              {t('escalations.queueDesc')}
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -157,7 +161,7 @@ export default function EscalationsPage() {
                     <th className="px-sp3 py-sp2 w-10">
                       <input
                         type="checkbox"
-                        aria-label="Selectează toate escalările"
+                        aria-label={t('escalations.selectAll')}
                         className="accent-gold"
                         checked={allChecked}
                         ref={(el) => {
@@ -166,19 +170,19 @@ export default function EscalationsPage() {
                         onChange={toggleAll}
                       />
                     </th>
-                    <th className="px-sp3 py-sp2">ID</th>
-                    <th className="px-sp3 py-sp2">Lead</th>
-                    <th className="px-sp3 py-sp2">Agent curent</th>
-                    <th className="px-sp3 py-sp2">SLA stage</th>
-                    <th className="px-sp3 py-sp2">Vârsta</th>
-                    <th className="px-sp3 py-sp2">Nivel</th>
+                    <th className="px-sp3 py-sp2">{t('escalations.colId')}</th>
+                    <th className="px-sp3 py-sp2">{t('escalations.colLead')}</th>
+                    <th className="px-sp3 py-sp2">{t('escalations.colAgent')}</th>
+                    <th className="px-sp3 py-sp2">{t('escalations.colSlaStage')}</th>
+                    <th className="px-sp3 py-sp2">{t('escalations.colAge')}</th>
+                    <th className="px-sp3 py-sp2">{t('escalations.colLevel')}</th>
                   </tr>
                 </thead>
                 <tbody className="[&_tr:nth-child(odd)]:bg-navy [&_tr:nth-child(even)]:bg-navy-mid">
                   {items.length === 0 && (
                     <tr>
                       <td colSpan={7} className="px-sp3 py-sp8 text-center text-text-muted">
-                        Nicio escalare activă. ✓ Toate lead-urile sunt în SLA.
+                        {t('escalations.empty')}
                       </td>
                     </tr>
                   )}
@@ -195,7 +199,7 @@ export default function EscalationsPage() {
                         <td className="px-sp3 py-sp2 align-middle">
                           <input
                             type="checkbox"
-                            aria-label={`Selectează ${e.id}`}
+                            aria-label={t('escalations.selectOne', { id: e.id })}
                             className="accent-gold"
                             checked={isChecked}
                             onChange={() => toggle(e.id)}
@@ -224,11 +228,11 @@ export default function EscalationsPage() {
       <Modal
         open={reassignOpen}
         onClose={() => setReassignOpen(false)}
-        title={`Bulk reassign — ${selected.size} escalări`}
-        description="Acțiune audit-logged (BR-07). Notificare automată WhatsApp template T3 spre agentul-țintă."
+        title={t('escalations.modalTitle', { count: String(selected.size) })}
+        description={t('escalations.modalDesc')}
         size="md"
       >
-        <p className="text-[12px] text-text-secondary">Items selectate:</p>
+        <p className="text-[12px] text-text-secondary">{t('escalations.modalItems')}</p>
         <ul className="mt-sp1 mb-sp3 text-[12px] font-mono text-text-h flex flex-wrap gap-sp1">
           {selectedItems.map((i) => (
             <li key={i.id} className="bg-navy-deep border border-border rounded-md px-sp2 py-1">
@@ -238,7 +242,7 @@ export default function EscalationsPage() {
         </ul>
 
         <fieldset className="flex flex-col gap-sp2">
-          <legend className="label-mono text-text-secondary mb-sp1">Reasignează către</legend>
+          <legend className="label-mono text-text-secondary mb-sp1">{t('escalations.modalReassignTo')}</legend>
           {reassignTargets.map((a) => {
             const checked = target === a.id;
             return (
@@ -263,7 +267,7 @@ export default function EscalationsPage() {
                   <span>
                     <span className="text-text-h text-[13px] block">{a.name}</span>
                     <span className="text-text-muted text-[11px] font-mono">
-                      {a.id} · APS {a.aps.toFixed(2)} · {a.load}
+                      {t('escalations.agentMeta', { id: a.id, aps: a.aps.toFixed(2), load: a.load })}
                     </span>
                   </span>
                 </span>
@@ -274,9 +278,9 @@ export default function EscalationsPage() {
 
         <div className="flex items-center justify-end gap-sp2 mt-sp4 pt-sp3 border-t border-border">
           <Button variant="ghost" onClick={() => setReassignOpen(false)}>
-            Renunță
+            {t('escalations.modalCancel')}
           </Button>
-          <Button onClick={confirmReassign}>Confirmă reassign</Button>
+          <Button onClick={confirmReassign}>{t('escalations.modalConfirm')}</Button>
         </div>
       </Modal>
     </>

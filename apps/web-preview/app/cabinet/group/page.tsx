@@ -47,7 +47,7 @@ export default function CabinetGroupPage() {
               <CardTitle className="text-[16px]">{t('cabinet.group.groupNameLabel')}</CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-text-h text-[15px]">Echipa Centru-Botanica</p>
+              <p className="text-text-h text-[15px]">{t('cabinet.group.groupName')}</p>
             </CardContent>
           </Card>
 
@@ -56,8 +56,8 @@ export default function CabinetGroupPage() {
               <CardTitle className="text-[16px]">{t('cabinet.group.managerLabel')}</CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-text-h text-[15px]">Mihaela Gîscă</p>
-              <p className="text-text-muted text-[12px] font-mono mt-sp1">A-008</p>
+              <p className="text-text-h text-[15px]">{t('cabinet.group.managerName')}</p>
+              <p className="text-text-muted text-[12px] font-mono mt-sp1">{t('cabinet.group.managerCode')}</p>
             </CardContent>
           </Card>
 
@@ -70,7 +70,7 @@ export default function CabinetGroupPage() {
             </CardHeader>
             <CardContent>
               <p className="text-[28px] font-display text-gold leading-none">{mySharePct}%</p>
-              <p className="text-[12px] text-text-secondary mt-sp1">{groupClosed} tranzacții · 30 zile</p>
+              <p className="text-[12px] text-text-secondary mt-sp1">{t('cabinet.group.shareFootnote', { count: String(groupClosed) })}</p>
             </CardContent>
           </Card>
         </section>
