@@ -151,22 +151,22 @@ function DealCard({
 
       <div className="h-px bg-border mx-sp2" />
 
-      {/* ── Zona 4 — agent (label "Agent" + nume bold) ── */}
+      {/* ── Zona 4 — agent: label "Agent" + spațiu mic + nume bold ── */}
       <div className="px-sp2 py-1.5 min-w-0">
-        <p className="text-[12px] text-text-secondary truncate">
-          <span className="text-text-muted">{t('deal.agentLabel')}: </span>
-          <span className="text-text-h font-semibold">{agent?.name ?? deal.agentId}</span>
+        <p className="text-[12px] truncate flex items-center gap-1.5">
+          <span className="text-text-muted flex-shrink-0">{t('deal.agentLabel')}</span>
+          <span className="text-text-h font-semibold truncate">{agent?.name ?? deal.agentId}</span>
         </p>
       </div>
 
-      {/* ── Zona 5 — tip tranzacție + buton detalii ── */}
+      {/* ── Zona 5 — tip tranzacție + buton detalii (un singur rând, fără wrap) ── */}
       {!isDragOverlay && (
         <>
           <div className="h-px bg-border mx-sp2" />
-          <div className="px-sp2 py-1.5 flex flex-wrap items-center justify-between gap-x-sp2 gap-y-1 min-w-0">
-            <span className="inline-flex items-center gap-1.5 text-[12px] text-text-h font-medium">
+          <div className="px-sp2 py-1.5 flex items-center justify-between gap-x-sp2 min-w-0">
+            <span className="inline-flex items-center gap-1.5 text-[12px] text-text-h font-medium min-w-0">
               <span className={`w-2 h-2 rounded-full flex-shrink-0 ${isRent ? 'bg-status-green' : 'bg-status-blue'}`} aria-hidden />
-              <span>{t(`deal.intentShort.${intent}`)}</span>
+              <span className="truncate">{t(`deal.intentShort.${intent}`)}</span>
             </span>
             <a
               href={`/deals/${deal.id}`}
