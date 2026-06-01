@@ -45,8 +45,8 @@ export default function ManagerPage() {
         .map((l, i) => ({
           id: `E-${String(300 + i + 1).padStart(3, '0')}`,
           lead: l.name,
-          window: i === 0 ? '15 min' : i === 1 ? '45 min' : '2 ore 15 min',
-          levelLabel: i === 0 ? 'Atenție' : i === 1 ? 'Urgent' : 'Critic',
+          windowKey: (['w1', 'w2', 'w3'] as const)[i],
+          levelKey: (['attention', 'urgent', 'critical'] as const)[i],
           level: (i + 1) as 1 | 2 | 3,
         })),
     []
@@ -72,19 +72,19 @@ export default function ManagerPage() {
                   body={t('dashboard.blocks.perfApsHelp')}
                 />
               </div>
-              <CardTitle>Media echipei</CardTitle>
-              <CardDescription>{agents.length} agenți · 30 zile.</CardDescription>
+              <CardTitle>{t('manager.kpiTeamAvgTitle')}</CardTitle>
+              <CardDescription>{t('manager.kpiTeamAvgDesc', { count: String(agents.length) })}</CardDescription>
             </CardHeader>
             <CardContent>
               <p className="font-display text-[32px] text-gold">{priorityDots(teamAvgAps)}</p>
-              <p className="text-[12px] text-status-green mt-sp1">↑ în creștere față de perioada precedentă</p>
+              <p className="text-[12px] text-status-green mt-sp1">{t('manager.kpiTeamAvgTrend')}</p>
             </CardContent>
           </Card>
           <Card>
             <CardHeader>
-              <p className="label-mono text-text-secondary">Conversie</p>
-              <CardTitle>Lead → Tranzacție câștigată</CardTitle>
-              <CardDescription>Țintă recomandată: peste 30%.</CardDescription>
+              <p className="label-mono text-text-secondary">{t('manager.kpiConversionLabel')}</p>
+              <CardTitle>{t('manager.kpiConversionTitle')}</CardTitle>
+              <CardDescription>{t('manager.kpiConversionDesc')}</CardDescription>
             </CardHeader>
             <CardContent>
               <p className="font-display text-[32px] text-text-h">{conversionPct.toFixed(1)}%</p>
@@ -94,19 +94,19 @@ export default function ManagerPage() {
                   (conversionPct >= 30 ? 'text-status-green' : 'text-status-amber')
                 }
               >
-                {wonCount} tranzacții câștigate · {leads.length} lead-uri totali
+                {t('manager.kpiConversionFootnote', { won: String(wonCount), total: String(leads.length) })}
               </p>
             </CardContent>
           </Card>
           <Card>
             <CardHeader>
               <p className="label-mono text-text-secondary">{t('manager.escalations')}</p>
-              <CardTitle>{escalations.length} lead-uri întârziate</CardTitle>
-              <CardDescription>Necesită intervenție manager.</CardDescription>
+              <CardTitle>{t('manager.kpiEscDelayed', { count: String(escalations.length) })}</CardTitle>
+              <CardDescription>{t('manager.kpiEscDesc')}</CardDescription>
             </CardHeader>
             <CardContent>
               <p className="font-display text-[32px] text-status-amber">{escalations.length}</p>
-              <p className="text-[12px] text-text-secondary mt-sp1">Sortat după durata depășirii</p>
+              <p className="text-[12px] text-text-secondary mt-sp1">{t('manager.kpiEscSort')}</p>
             </CardContent>
           </Card>
         </section>
@@ -114,19 +114,17 @@ export default function ManagerPage() {
         <Card>
           <CardHeader>
             <CardTitle>{t('manager.leaderboard')}</CardTitle>
-            <CardDescription>
-              Agenții cu mai puțin de 5 tranzacții sau sub 30 zile primesc scor standard până se acumulează istoric suficient.
-            </CardDescription>
+            <CardDescription>{t('manager.leaderboardDesc')}</CardDescription>
           </CardHeader>
           <CardContent>
             <Table>
               <THead>
                 <TR>
-                  <TH>Cod</TH>
+                  <TH>{t('manager.colCode')}</TH>
                   <TH>{t('common.name')}</TH>
                   <TH>
                     <span className="inline-flex items-center gap-sp1">
-                      Scor performanță
+                      {t('manager.colPerf')}
                       <InfoTooltip
                         label={t('dashboard.blocks.perfApsLabel')}
                         body={t('dashboard.blocks.perfApsHelp')}
@@ -135,23 +133,23 @@ export default function ManagerPage() {
                   </TH>
                   <TH>
                     <span className="inline-flex items-center gap-sp1">
-                      Încredere clienți
+                      {t('manager.colTrust')}
                       <InfoTooltip
-                        label="Încredere clienți"
-                        body="Cât de constant răspunde și își ține promisiunile agentul față de clienți."
+                        label={t('manager.colTrust')}
+                        body={t('manager.colTrustHelp')}
                       />
                     </span>
                   </TH>
                   <TH>
                     <span className="inline-flex items-center gap-sp1">
-                      Sarcini active
+                      {t('manager.colActiveTasks')}
                       <InfoTooltip
-                        label="Sarcini active"
-                        body="Câte sarcini are agentul în lucru chiar acum. Maximum 3 simultan."
+                        label={t('manager.colActiveTasks')}
+                        body={t('manager.colActiveTasksHelp')}
                       />
                     </span>
                   </TH>
-                  <TH>Tranzacții · 30 zile</TH>
+                  <TH>{t('manager.colDeals30d')}</TH>
                 </TR>
               </THead>
               <TBody>
@@ -190,10 +188,10 @@ export default function ManagerPage() {
             <Table>
               <THead>
                 <TR>
-                  <TH>Cod</TH>
-                  <TH>Lead</TH>
-                  <TH>Întârziat cu</TH>
-                  <TH>Nivel</TH>
+                  <TH>{t('manager.colCode')}</TH>
+                  <TH>{t('manager.colLead')}</TH>
+                  <TH>{t('manager.colDelayedBy')}</TH>
+                  <TH>{t('manager.colLevel')}</TH>
                 </TR>
               </THead>
               <TBody>
@@ -201,10 +199,10 @@ export default function ManagerPage() {
                   <TR key={e.id}>
                     <TD className="font-mono text-text-secondary">{e.id}</TD>
                     <TD>{e.lead}</TD>
-                    <TD className="font-mono">{e.window}</TD>
+                    <TD className="font-mono">{t(`manager.windows.${e.windowKey}`)}</TD>
                     <TD>
                       <Badge variant={e.level === 1 ? 'warning' : 'critical'} size="xs">
-                        {e.levelLabel}
+                        {t(`manager.levelLabels.${e.levelKey}`)}
                       </Badge>
                     </TD>
                   </TR>

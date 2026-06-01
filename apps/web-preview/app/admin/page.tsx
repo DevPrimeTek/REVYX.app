@@ -11,11 +11,11 @@ import { Badge } from '@/components/ui/badge';
 import { useT } from '@/components/i18n/provider';
 
 const roles = [
-  { code: 'agent',        label: 'Agent',        web: true, mobile: true,  note: 'Operațional in-field + Web' },
-  { code: 'senior_agent', label: 'Senior Agent', web: true, mobile: true,  note: 'Agent + override propriu' },
-  { code: 'team_lead',    label: 'Team Lead',    web: true, mobile: 'ro',  note: 'Mobile read-only' },
-  { code: 'manager',      label: 'Manager',      web: true, mobile: 'ro',  note: 'Mobile read-only · escalări = Web' },
-  { code: 'admin',        label: 'Admin',        web: true, mobile: false, note: 'DP-05 · Web only' },
+  { code: 'agent',        web: true, mobile: true  },
+  { code: 'senior_agent', web: true, mobile: true  },
+  { code: 'team_lead',    web: true, mobile: 'ro'  },
+  { code: 'manager',      web: true, mobile: 'ro'  },
+  { code: 'admin',        web: true, mobile: false },
 ] as const;
 
 const tenants = [
@@ -35,7 +35,7 @@ export default function AdminPage() {
         <header>
           <div className="flex items-center gap-sp2">
             <p className="label-mono text-gold">{t('admin.moduleLabel')}</p>
-            <Badge variant="critical" size="xs">Web only · DP-05</Badge>
+            <Badge variant="critical" size="xs">{t('admin.webOnly')}</Badge>
           </div>
           <h1 className="text-[28px] mt-sp1">{t('admin.title')}</h1>
           <p className="text-[13px] text-text-secondary mt-sp1">{t('admin.subtitle')}</p>
@@ -43,9 +43,9 @@ export default function AdminPage() {
 
         <section className="grid grid-cols-1 lg:grid-cols-3 gap-sp3">
           {[
-            { title: 'Users & RBAC', desc: 'Invită, suspendă, schimbă roluri.', count: '24 active' },
-            { title: 'Audit log',    desc: 'Append-only · CSV export.',        count: '108.4k events' },
-            { title: 'Branding',     desc: 'White-label preview (Enterprise).', count: '2 tenanți' },
+            { title: t('admin.cardUsersTitle'), desc: t('admin.cardUsersDesc'), count: t('admin.cardUsersCount', { count: '24' }) },
+            { title: t('admin.cardAuditTitle'), desc: t('admin.cardAuditDesc'), count: t('admin.cardAuditCount', { count: '108.4k' }) },
+            { title: t('admin.cardBrandingTitle'), desc: t('admin.cardBrandingDesc'), count: t('admin.cardBrandingCount', { count: '2' }) },
           ].map((card) => (
             <Card key={card.title} variant="elevated" accentTop>
               <CardHeader>
@@ -62,16 +62,16 @@ export default function AdminPage() {
         <Card>
           <CardHeader>
             <CardTitle>{t('admin.tenants')}</CardTitle>
-            <CardDescription>Multi-tenant overview · Starter / Pro / Enterprise plans.</CardDescription>
+            <CardDescription>{t('admin.tenantsDesc')}</CardDescription>
           </CardHeader>
           <CardContent>
             <Table>
               <THead>
                 <TR>
-                  <TH>ID</TH>
+                  <TH>{t('admin.colId')}</TH>
                   <TH>{t('common.name')}</TH>
-                  <TH>Plan</TH>
-                  <TH>Agenți</TH>
+                  <TH>{t('admin.colPlan')}</TH>
+                  <TH>{t('admin.colAgents')}</TH>
                   <TH>{t('common.status')}</TH>
                 </TR>
               </THead>
@@ -87,7 +87,7 @@ export default function AdminPage() {
                         variant={tn.status === 'active' ? 'success' : tn.status === 'trial' ? 'info' : 'warning'}
                         size="xs"
                       >
-                        {tn.status}
+                        {t(`admin.tenantStatus.${tn.status}`)}
                       </Badge>
                     </TD>
                   </TR>
@@ -99,34 +99,34 @@ export default function AdminPage() {
 
         <Card>
           <CardHeader>
-            <CardTitle>{t('admin.rbac')} (preview)</CardTitle>
-            <CardDescription>5 roluri core (BRD §10.1). Roluri custom Phase 5 la M1.S6.</CardDescription>
+            <CardTitle>{t('admin.rbac')}</CardTitle>
+            <CardDescription>{t('admin.rbacDesc')}</CardDescription>
           </CardHeader>
           <CardContent>
             <Table>
               <THead>
                 <TR>
-                  <TH>Cod</TH>
-                  <TH>Rol</TH>
-                  <TH>🌐 Web</TH>
-                  <TH>📱 Mobile</TH>
-                  <TH>Note</TH>
+                  <TH>{t('admin.colCode')}</TH>
+                  <TH>{t('admin.colRole')}</TH>
+                  <TH>{t('admin.colWeb')}</TH>
+                  <TH>{t('admin.colMobile')}</TH>
+                  <TH>{t('admin.colNote')}</TH>
                 </TR>
               </THead>
               <TBody>
                 {roles.map((r) => (
                   <TR key={r.code}>
                     <TD className="font-mono text-text-secondary">{r.code}</TD>
-                    <TD>{r.label}</TD>
+                    <TD>{t(`admin.role.${r.code}`)}</TD>
                     <TD>
-                      <Badge variant="success" size="xs">access</Badge>
+                      <Badge variant="success" size="xs">{t('admin.accessTag')}</Badge>
                     </TD>
                     <TD>
-                      {r.mobile === true && <Badge variant="success" size="xs">access</Badge>}
-                      {r.mobile === 'ro' && <Badge variant="warning" size="xs">read-only</Badge>}
-                      {r.mobile === false && <Badge variant="critical" size="xs">⛔ DP-05</Badge>}
+                      {r.mobile === true && <Badge variant="success" size="xs">{t('admin.accessTag')}</Badge>}
+                      {r.mobile === 'ro' && <Badge variant="warning" size="xs">{t('admin.readOnlyTag')}</Badge>}
+                      {r.mobile === false && <Badge variant="critical" size="xs">⛔ {t('admin.noAccessTag')}</Badge>}
                     </TD>
-                    <TD className="text-[12px] text-text-secondary">{r.note}</TD>
+                    <TD className="text-[12px] text-text-secondary">{t(`admin.roleNote.${r.code}`)}</TD>
                   </TR>
                 ))}
               </TBody>

@@ -21,7 +21,7 @@ export default function CabinetAgencyPage() {
   const KPIs = [
     { label: t('cabinet.agency.kpiClosed'), value: String(closed30), help: t('dashboard.blocks.perfClosedLabel') },
     { label: t('cabinet.agency.kpiVolume'), value: `€${volume30.toLocaleString('ro-MD')}`, help: t('cabinet.agency.kpiTitle') },
-    { label: t('cabinet.agency.kpiAvgClose'), value: '38 d', help: t('cabinet.agency.kpiTitle') },
+    { label: t('cabinet.agency.kpiAvgClose'), value: t('cabinet.agency.kpiAvgCloseValue'), help: t('cabinet.agency.kpiTitle') },
     { label: t('cabinet.agency.kpiActiveLeads'), value: String(activeLeads), help: t('lead.queueTitle') },
   ];
 
@@ -55,19 +55,19 @@ export default function CabinetAgencyPage() {
               <dl className="grid grid-cols-1 md:grid-cols-2 gap-sp3 text-[13px]">
                 <div>
                   <dt className="text-text-muted text-[12px]">{t('cabinet.agency.agencyNameLabel')}</dt>
-                  <dd className="text-text-h">REVYX Demo Agency</dd>
+                  <dd className="text-text-h">{t('cabinet.agency.agencyName')}</dd>
                 </div>
                 <div>
                   <dt className="text-text-muted text-[12px]">{t('cabinet.agency.agencyCodeLabel')}</dt>
-                  <dd className="text-text-h font-mono">1003600000000</dd>
+                  <dd className="text-text-h font-mono">{t('cabinet.agency.agencyCode')}</dd>
                 </div>
                 <div>
                   <dt className="text-text-muted text-[12px]">{t('cabinet.agency.agencyAddressLabel')}</dt>
-                  <dd className="text-text-h">Bd. Ștefan cel Mare 73, Chișinău</dd>
+                  <dd className="text-text-h">{t('cabinet.agency.agencyAddress')}</dd>
                 </div>
                 <div>
                   <dt className="text-text-muted text-[12px]">{t('cabinet.agency.agencyContactLabel')}</dt>
-                  <dd className="text-text-h">contact@revyx.demo · +373 22 000 000</dd>
+                  <dd className="text-text-h">{t('cabinet.agency.agencyContact')}</dd>
                 </div>
               </dl>
             </CardContent>

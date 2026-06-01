@@ -36,14 +36,14 @@ export default function SettingsPage() {
         <header>
           <div className="flex items-center gap-sp2">
             <p className="label-mono text-gold">{t('settings.moduleLabel')}</p>
-            <Badge variant="critical" size="xs">Web only · DP-05</Badge>
+            <Badge variant="critical" size="xs">{t('settings.webOnly')}</Badge>
           </div>
           <h1 className="text-[28px] mt-sp1">{t('settings.title')}</h1>
           <p className="text-[13px] text-text-secondary mt-sp1">{t('settings.subtitle')}</p>
         </header>
 
         <div className="grid grid-cols-1 lg:grid-cols-[220px_1fr] gap-sp4">
-          <nav aria-label="Settings sections" className="flex lg:flex-col gap-1">
+          <nav aria-label={t('settings.sectionsAria')} className="flex lg:flex-col gap-1">
             {sections.map((s) => (
               <button
                 key={s}
@@ -67,7 +67,7 @@ export default function SettingsPage() {
               <Card>
                 <CardHeader>
                   <CardTitle>{t('settings.sections.general')}</CardTitle>
-                  <CardDescription>Tenant defaults · BR-12 single session policy.</CardDescription>
+                  <CardDescription>{t('settings.generalDesc')}</CardDescription>
                 </CardHeader>
                 <CardContent className="flex flex-col gap-sp3">
                   <div>
@@ -121,13 +121,13 @@ export default function SettingsPage() {
               <Card>
                 <CardHeader>
                   <CardTitle>{t('settings.sections.notifications')}</CardTitle>
-                  <CardDescription>BR-07 audit-logged events surface here.</CardDescription>
+                  <CardDescription>{t('settings.notificationsDesc')}</CardDescription>
                 </CardHeader>
                 <CardContent className="flex flex-col gap-sp2">
                   {[
-                    { id: 'email', label: 'Email', state: notifEmail, set: setNotifEmail },
-                    { id: 'wa', label: 'WhatsApp', state: notifWa, set: setNotifWa },
-                    { id: 'esc', label: 'Escalări (manager-only)', state: notifEsc, set: setNotifEsc },
+                    { id: 'email', label: t('settings.notifEmailLabel'), state: notifEmail, set: setNotifEmail },
+                    { id: 'wa', label: t('settings.notifWhatsAppLabel'), state: notifWa, set: setNotifWa },
+                    { id: 'esc', label: t('settings.notifEscalationsLabel'), state: notifEsc, set: setNotifEsc },
                   ].map((opt) => (
                     <label
                       key={opt.id}
@@ -153,21 +153,21 @@ export default function SettingsPage() {
               <Card>
                 <CardHeader>
                   <CardTitle>{t('settings.sections.integrations')}</CardTitle>
-                  <CardDescription>5 WhatsApp templates pre-aprobate Meta + webhook sources.</CardDescription>
+                  <CardDescription>{t('settings.integrationsDesc')}</CardDescription>
                 </CardHeader>
                 <CardContent className="flex flex-col gap-sp2 text-[13px]">
                   {[
-                    { label: 'WhatsApp Business API', state: 'connected', color: 'success' as const },
-                    { label: 'Meta Lead Ads webhook', state: 'connected', color: 'success' as const },
-                    { label: 'OLX webhook', state: 'connected', color: 'success' as const },
-                    { label: 'Google Forms webhook', state: 'pending', color: 'warning' as const },
+                    { label: t('settings.intWaApi'), stateKey: 'intStateConnected' as const, color: 'success' as const },
+                    { label: t('settings.intMetaWebhook'), stateKey: 'intStateConnected' as const, color: 'success' as const },
+                    { label: t('settings.intOlxWebhook'), stateKey: 'intStateConnected' as const, color: 'success' as const },
+                    { label: t('settings.intGoogleWebhook'), stateKey: 'intStatePending' as const, color: 'warning' as const },
                   ].map((row) => (
                     <div
                       key={row.label}
                       className="flex items-center justify-between border border-border rounded-md px-sp3 py-sp2"
                     >
                       <span className="text-text-h">{row.label}</span>
-                      <Badge variant={row.color} size="xs">{row.state}</Badge>
+                      <Badge variant={row.color} size="xs">{t(`settings.${row.stateKey}`)}</Badge>
                     </div>
                   ))}
                 </CardContent>
@@ -178,12 +178,12 @@ export default function SettingsPage() {
               <Card>
                 <CardHeader>
                   <CardTitle>{t('settings.sections.security')}</CardTitle>
-                  <CardDescription>BR-12 single session · BR-07 audit-log append-only.</CardDescription>
+                  <CardDescription>{t('settings.securityDesc')}</CardDescription>
                 </CardHeader>
                 <CardContent className="flex flex-col gap-sp2 text-[13px] text-text-secondary">
-                  <p>JWT RS256 · access 15 min · refresh 7 zile cu rotație.</p>
-                  <p>GDPR retention 24 luni · DPIA semnat.</p>
-                  <p>Webhook HMAC-SHA256 verification activă pe toate sursele.</p>
+                  <p>{t('settings.securityJwt')}</p>
+                  <p>{t('settings.securityRetention')}</p>
+                  <p>{t('settings.securityWebhook')}</p>
                 </CardContent>
               </Card>
             )}
