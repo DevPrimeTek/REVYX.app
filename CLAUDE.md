@@ -1,5 +1,5 @@
 # CLAUDE.md — REVYX Agent Operating System
-<!-- CLAUDE.md · v1.2.23 · 2026-05 -->
+<!-- CLAUDE.md · v1.2.26 · 2026-06 -->
 <!-- CONFIDENȚIAL · Uz Intern · © 2026 REVYX · ITPRO SYSTEM SRL -->
 
 > Acest fișier este citit de Claude Code la **fiecare sesiune** din acest repo.
@@ -7,7 +7,7 @@
 
 ---
 
-## 0a. STATUS EXECUȚIE (LIVE) ★ v1.2.23
+## 0a. STATUS EXECUȚIE (LIVE) ★ v1.2.26
 
 > Single source of truth pentru "unde suntem ACUM". Actualizat la fiecare sesiune `/sN`.
 > Pentru detaliu complet → `docs/MASTER_PLAN_REVYX_execution-roadmap_v1.1.2.md` §0.
@@ -23,6 +23,7 @@
 | **Hard Stress Test #2 (pre-dev)** | ✅ PASS clean S20 per `docs/audit/HST_REVYX_pre-dev_v1.0.0.md` §10 sign-off 7-rol |
 | **Phase 0 Security checklist** | ✅ **COMPLETE M1.S1 ☑** — JWT RS256 + RBAC 5 roluri + GDPR Art. 15/17/18/20 + AUDIT_LOG append-only (trigger BD + REVOKE rol app) + HMAC-SHA256 webhook + Throttler NFR-05/06 + Privacy/Cookie drafts (legal review pending). Phase 0 BLOCANT lifted. |
 | **Phase A Foundation checklist** | ✅ **COMPLETE M1.S2 ☑** — 9 entități business (LEAD/PROPERTY/DEAL/ACTIVITY/TASK/OFFER/SHOWING/AGENT-as-USER-extension/SCORING_STATE) cu migrations + Drizzle schemas + REST CRUD modules + scoring fixtures T01..T07 + integration test infra. Phase A entry închisă. |
+| **★ Moldova market specifics** | ★ Documentate în BRD §17 v1.2.0 — 6 insight-uri [MOLDOVA-SPECIFIC]: buget declarat vs confirmat (divergență 15-25%) · tipuri întâlnire calificare (office/public_place/on_site — on_site auto-SHOWING) · pre-aprobare bancară cvasi-inexistentă (MoldIndConBank/Victoriabank/Mobiasbancă) · 90% modificare preferințe post-vizionare (preference_history JSONB[] + feedback 5 dim) · mandat exclusivitate sellers (30-90 zile, status tracking + cron) · property_class RM (soviet_era/post_soviet/new_build/premium). Roadmap T-MD-01..05 planificate M1.S3. |
 | **Modul Claude activ** | M0.S7 ☑: DESIGNER (Creative Director, P) + FRONTEND WEB DEV (P) + ARCHITECT (S, framework alignment) + DOC + Senior PM. **M1.S3 next:** BACKEND DEV (P) + ML ENGINEER (P) + DBA (S) + TESTER (S) + DOC. |
 | **Plan tariff** | Claude.ai Pro $20/lună (sustained M0 ☑; ★ Max $100/lună anticipat M1.S3 entry per F-S20-09 tracking — CFO sign-off pending la M1.S2 close) |
 | **Master Plan status** | v1.1.2 active (Trio canonical: Master Plan v1.1.2 + Platform Matrix v1.0.0 + ★ **Detailed Roadmap v1.0.9** post-M0.S7) · §13 approval ✅ SIGNED 6/6 + §0 LIVE TRACKER sync M0.S7 ☑ |
@@ -703,7 +704,7 @@ Violarea Regulii 21 (PR cu funcționalitate/condiție nouă fără actualizare d
 
 ---
 
-*CLAUDE.md · v1.2.23 · 2026-05 · CONFIDENȚIAL · Uz Intern*
+*CLAUDE.md · v1.2.26 · 2026-06 · CONFIDENȚIAL · Uz Intern*
 *REVYX — Real Estate Execution Intelligence · © 2026 REVYX · ITPRO SYSTEM SRL*
 
 ---
@@ -712,6 +713,7 @@ Violarea Regulii 21 (PR cu funcționalitate/condiție nouă fără actualizare d
 
 | Versiune | Data | Note |
 |---|---|---|
+| **1.2.26** | **2026-06** | ★ MINOR — **Moldova market-specific specs documentate — BRD §17 (6 insight-uri [MOLDOVA-SPECIFIC]).** Senior BA + Software Architect + Senior PM. Schimbări docs-only (zero cod `apps/`): (1) **BRD v1.1.0 → v1.2.0** (`git mv`) — NEW §17 `Specificații piață Republica Moldova` cu 6 sub-secțiuni: §17.1 buget declarat vs confirmat (câmpuri `declared_budget_eur/confirmed_budget_eur/budget_confirmed_at`, RF impact DHI); §17.2 tipuri locație calificare (`meeting_location_type ENUM office/public_place/on_site`, trigger `activity_on_site_create_showing` auto-creare SHOWING, GDPR `verbal_pending_digital`); §17.3 pre-aprobare bancară cvasi-inexistentă (câmpuri `bank_preapproval_status/amount/bank/expires_at`, bănci principale RM); §17.4 modificare preferințe post-vizionare 90% (`preference_history JSONB[]`, `showing.feedback` 5 dimensiuni, trigger `showing_feedback_update_preferences`); §17.5 mandat exclusivitate sellers (`mandate_status ENUM none/pending/signed/expired`, cron `mandate-expiry-checker`); §17.6 clasa proprietate RM (`property_class ENUM soviet_era/post_soviet/new_build/premium`, distribuție ~55/10/30/5%). Toate câmpurile noi marcate `[MOLDOVA-SPECIFIC]` — BRD §7 formule INTACTE. (2) **Roadmap v1.0.13 → v1.0.14** (mv) — NEW §4.3.MD cu tasks T-MD-01..05 (migrations 0016-0020), dependențe pe M1.S2, ordine implementare recomandată. (3) **INDEX v1.1.19 → v1.1.20** (mv) — entry actualizat. (4) **CLAUDE.md v1.2.25 → v1.2.26** — §0a NEW row `★ Moldova market specifics` + changelog. Backend `apps/api/` + BRD §7 + Master Plan INTACTE (Regula 8 + 18 + 21). |
 | 1.0.0 | 2026-05 | Initial — identitate proiect, documente referință, BR critice, Phase 0 checklist, §10b Regulile 1-6 |
 | 1.1.0 | 2026-05 | MINOR — adăugare Regula 7 (10 hats Claude) |
 | 1.2.0 | 2026-06 | MINOR — adăugare §0a Status Execuție LIVE + Master Plan ca priority 0 în §1 + Regula 8 (Master Plan compliance) + footer changelog. Triggered de decizie strategică: Claude Code = singura forță execuție; necesită roadmap structurat M0/M1/M2 + HST mandatory pre-fiecare milestone. |
