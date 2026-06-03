@@ -30,6 +30,9 @@ export function buildSeedShowings(): Showing[] {
       feedbackBody: null,
       cancelReason: null,
       createdAt: isoOffset(-1, 9, 0),
+      // [MOLDOVA-SPECIFIC] Întâlnire calificare la proprietate — calificare + vizionare simultane.
+      isQualificationMeeting: true,
+      meetingLocationType: 'on_site',
     },
     {
       id: 'S-3002',
@@ -44,6 +47,8 @@ export function buildSeedShowings(): Showing[] {
       feedbackBody: null,
       cancelReason: null,
       createdAt: isoOffset(-2, 10, 30),
+      isQualificationMeeting: false,
+      meetingLocationType: 'on_site',
     },
     {
       id: 'S-3003',
@@ -53,11 +58,14 @@ export function buildSeedShowings(): Showing[] {
       scheduledAt: isoOffset(1, 10, 0),
       durationMin: 60,
       status: 'SCHEDULED',
-      notes: 'Vine cu soțul. Discuție despre finanțare după.',
+      // [MOLDOVA-SPECIFIC] Întâlnire calificare la oficiu — discuție preferințe + documente înainte de vizionare.
+      notes: 'Vine cu soțul. Discuție despre finanțare după. Calificare inițială la oficiu.',
       feedbackScore: null,
       feedbackBody: null,
       cancelReason: null,
       createdAt: isoOffset(-1, 14, 0),
+      isQualificationMeeting: true,
+      meetingLocationType: 'office',
     },
     {
       id: 'S-3004',
@@ -72,6 +80,8 @@ export function buildSeedShowings(): Showing[] {
       feedbackBody: 'Clientul foarte interesat. Vrea să facă ofertă imediat.',
       cancelReason: null,
       createdAt: isoOffset(-3, 9, 0),
+      isQualificationMeeting: false,
+      meetingLocationType: 'on_site',
     },
     {
       id: 'S-3005',
@@ -81,11 +91,14 @@ export function buildSeedShowings(): Showing[] {
       scheduledAt: isoOffset(-2, 15, 30),
       durationMin: 30,
       status: 'ATTENDED',
-      notes: '',
+      // [MOLDOVA-SPECIFIC] Calificare la loc public (cafenea) — practică frecventă în RM.
+      notes: 'Calificare la cafenea Centru — a discutat buget și preferințe.',
       feedbackScore: 3,
       feedbackBody: 'Etajul prea jos, vrea ceva mai sus. Trimit alternative.',
       cancelReason: null,
       createdAt: isoOffset(-4, 11, 0),
+      isQualificationMeeting: true,
+      meetingLocationType: 'public_place',
     },
     {
       id: 'S-3006',
@@ -100,6 +113,8 @@ export function buildSeedShowings(): Showing[] {
       feedbackBody: null,
       cancelReason: null,
       createdAt: isoOffset(-5, 10, 0),
+      isQualificationMeeting: false,
+      meetingLocationType: 'on_site',
     },
   ];
 }

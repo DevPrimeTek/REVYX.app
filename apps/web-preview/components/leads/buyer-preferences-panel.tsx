@@ -8,6 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
+import { InfoTooltip } from '@/components/ui/info-tooltip';
 import { useToast } from '@/components/ui/toast';
 import { useT } from '@/components/i18n/provider';
 import { setBuyerPreferences, useLeadExtras } from '@/lib/lead-extras-store';
@@ -74,6 +75,32 @@ export function BuyerPreferencesPanel({ lead }: { lead: Lead }) {
       <CardContent>
         {!editing ? (
           <dl className="flex flex-col gap-sp2 text-[13px]">
+            {/* [MOLDOVA-SPECIFIC] Buget confirmat față-în-față vs declarat la telefon */}
+            <div className="border border-border rounded-md px-sp2 py-sp2 bg-navy-deep/50">
+              <dt className="text-text-muted text-[11px] inline-flex items-center gap-1">
+                {t('preferences.confirmedBudget')}
+                <InfoTooltip
+                  label={t('preferences.confirmedBudget')}
+                  body={t('preferences.confirmedBudgetMoldovaNote')}
+                />
+              </dt>
+              <dd className="mt-sp1">
+                {lead.confirmedBudgetMax != null ? (
+                  <div className="flex items-center gap-sp2">
+                    <span className="text-text-h font-semibold">
+                      €{lead.confirmedBudgetMax.toLocaleString('ro-MD')}
+                      {isRent ? <span className="text-text-secondary text-[11px] ml-1">/lună</span> : null}
+                    </span>
+                    <Badge variant="success" size="xs">{t('preferences.confirmedBudgetVerified')}</Badge>
+                  </div>
+                ) : (
+                  <div className="flex items-center gap-sp2">
+                    <Badge variant="warning" size="xs">{t('preferences.confirmedBudgetUnconfirmed')}</Badge>
+                    <span className="text-text-muted text-[11px]">— programează întâlnire</span>
+                  </div>
+                )}
+              </dd>
+            </div>
             <div>
               <dt className="text-text-muted text-[11px]">{t('preferences.urgencyLabel')}</dt>
               <dd>

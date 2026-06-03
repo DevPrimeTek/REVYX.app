@@ -136,7 +136,12 @@
     "winChanceLow": "Low",
     "winChanceMedium": "Medium",
     "winChanceHigh": "High",
-    "agentInfo": "{tasks} active tasks of 3 available"
+    "agentInfo": "{tasks} active tasks of 3 available",
+    "preferenceHistory": "Preference History",
+    "preferenceHistoryCount": "{n} changes",
+    "preferenceHistoryEmpty": "No changes recorded",
+    "preferenceHistoryMoldovaNote": "~90% of clients change preferences after showings (Moldova market specific)",
+    "preferenceInitial": "Initial preferences"
   },
   "property": {
     "moduleLabel": "Module · Properties",
@@ -185,7 +190,8 @@
       "actionsTitle": "Quick actions",
       "shareCta": "Share link",
       "editCta": "Edit details",
-      "scheduleCta": "Schedule viewing"
+      "scheduleCta": "Schedule viewing",
+      "propertyClassLabel": "Property Class"
     },
     "form": {
       "essentials": "Essential details",
@@ -209,6 +215,13 @@
       "floorLabel": "Floor / Total floors",
       "successInfo": "After saving we'll check for leads searching similar properties and hand them off to the listing agent.",
       "submitCta": "Save and find leads"
+    },
+    "propertyClass": {
+      "soviet_era": "Soviet-era (pre-1990)",
+      "post_soviet": "Post-Soviet",
+      "new_build": "New Build",
+      "premium": "Premium",
+      "moldovaNote": "Classification specific to Moldova market. Influences matching criteria."
     }
   },
   "deal": {
@@ -592,5 +605,20 @@
       "introTitle": "What is the group cabinet",
       "introBody": "A group bundles several agents under a common manager (e.g. “Centru-Botanica Team”). You see the colleagues you work with day-to-day, the internal leaderboard and your share of group results."
     }
+  },
+  "preferences": {
+    "confirmedBudget": "Confirmed Budget (in-person)",
+    "confirmedBudgetVerified": "Verified",
+    "confirmedBudgetUnconfirmed": "Unconfirmed",
+    "confirmedBudgetMoldovaNote": "Moldova-specific: declared budget often differs from actual confirmed in-person budget."
+  },
+  "showing": {
+    "meetingLocationType": {
+      "office": "Office",
+      "public_place": "Public Place",
+      "on_site": "On-site"
+    },
+    "isQualificationMeeting": "Qualification",
+    "onSiteNote": "Combined qualification & showing — counted as showing"
   }
 }

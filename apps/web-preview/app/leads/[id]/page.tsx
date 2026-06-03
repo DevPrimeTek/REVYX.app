@@ -250,6 +250,49 @@ export default function LeadDetailPage({ params }: Params) {
                 </CardContent>
               </Card>
             </div>
+            {/* [MOLDOVA-SPECIFIC] Evoluția preferințelor — afișat doar dacă există istoric */}
+            {lead.preferenceHistory.length > 0 && (
+              <Card>
+                <CardHeader>
+                  <div className="flex items-center gap-sp1">
+                    <CardTitle>
+                      {t('leadDetail.preferenceHistory')}
+                      <span className="ml-sp2 text-[12px] font-normal text-text-muted">
+                        {t('leadDetail.preferenceHistoryCount', { n: lead.preferenceHistory.length })}
+                      </span>
+                    </CardTitle>
+                    <InfoTooltip
+                      label={t('leadDetail.preferenceHistory')}
+                      body={t('leadDetail.preferenceHistoryMoldovaNote')}
+                    />
+                  </div>
+                </CardHeader>
+                <CardContent>
+                  <ol className="flex flex-col gap-sp2">
+                    {lead.preferenceHistory.map((snap, idx) => (
+                      <li key={snap.date + idx} className="flex gap-sp3 text-[12px]">
+                        <div className="flex flex-col items-center gap-1 flex-shrink-0">
+                          <div className={`w-2 h-2 rounded-full mt-1 ${idx === 0 ? 'bg-text-muted' : 'bg-gold'}`} />
+                          {idx < lead.preferenceHistory.length - 1 && (
+                            <div className="w-px flex-1 bg-border min-h-[16px]" />
+                          )}
+                        </div>
+                        <div className="pb-sp2">
+                          <p className="text-text-muted text-[11px] font-mono">{snap.date}</p>
+                          <p className="text-text-h mt-px">
+                            {idx === 0 ? t('leadDetail.preferenceInitial') : snap.changeNote}
+                          </p>
+                          <p className="text-text-secondary mt-px">
+                            {snap.zone} · {snap.rooms} cam. · €{snap.budgetMax.toLocaleString('ro-MD')}
+                            {isRent ? <span className="text-text-muted text-[11px]">/lună</span> : null}
+                          </p>
+                        </div>
+                      </li>
+                    ))}
+                  </ol>
+                </CardContent>
+              </Card>
+            )}
             <Card>
               <CardHeader>
                 <CardTitle>{t('dealDetail.showingsTitle')}</CardTitle>

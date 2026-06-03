@@ -3,7 +3,7 @@
 // LF (Listing Freshness) = 1 - min(1, days / 90)  per BRD §7.
 
 import { makeRng } from './rng';
-import type { Property, PropertyKind, ListingType } from './types';
+import type { Property, PropertyKind, ListingType, PropertyClass } from './types';
 import { agents } from './agents';
 
 const streets = [
@@ -80,6 +80,17 @@ function buildProperties(): Property[] {
       ? Math.round((priceEur * 0.0065 + rng.int(-30, 50)) / 10) * 10
       : null;
 
+    // [MOLDOVA-SPECIFIC] PropertyClass: clasă fond locativ bazată pe priceEur — distribuție realistă RM.
+    // Logică deterministă (nu random) pentru consistență cross-render.
+    const salePrice = listingType === 'rent' ? (monthlyRentEur ?? 0) / 0.0065 : priceEur;
+    const propertyClass: PropertyClass =
+      kind === 'land' || kind === 'commercial' ? 'post_soviet' :
+      salePrice < 55000 ? 'soviet_era' :
+      salePrice < 80000 ? (i % 2 === 0 ? 'soviet_era' : 'post_soviet') :
+      salePrice < 150000 ? (i % 3 === 0 ? 'new_build' : 'post_soviet') :
+      salePrice < 250000 ? 'new_build' :
+      'premium';
+
     out.push({
       id: `P-${String(1900 + i).padStart(4, '0')}`,
       addr,
@@ -90,6 +101,7 @@ function buildProperties(): Property[] {
       area,
       priceEur: listingType === 'rent' ? 0 : priceEur,
       monthlyRentEur,
+      propertyClass,
       listingType,
       ps,
       lf,

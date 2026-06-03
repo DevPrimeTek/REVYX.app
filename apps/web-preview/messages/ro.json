@@ -101,7 +101,11 @@
     "floorHint": "Ex: „etaj 3-7\" sau „nu parter\". Folosit doar la filtrarea potrivirilor.",
     "noteLabel": "Notă cheie",
     "notePlaceholder": "Ex: vrea balcon mare; soțul lucrează de acasă.",
-    "noteHint": "O linie pe care agentul vrea s-o vadă mereu."
+    "noteHint": "O linie pe care agentul vrea s-o vadă mereu.",
+    "confirmedBudget": "Buget confirmat (față-în-față)",
+    "confirmedBudgetVerified": "Verificat",
+    "confirmedBudgetUnconfirmed": "Neconfirmat",
+    "confirmedBudgetMoldovaNote": "Specific Moldova: bugetul declarat telefonic diferă adesea de cel real confirmat față-în-față."
   },
   "benefits": {
     "title": "Beneficiile proprietății",
@@ -219,7 +223,12 @@
     "winChanceLow": "Scăzută",
     "winChanceMedium": "Medie",
     "winChanceHigh": "Înaltă",
-    "agentInfo": "{tasks} sarcini active din 3 disponibile"
+    "agentInfo": "{tasks} sarcini active din 3 disponibile",
+    "preferenceHistory": "Evoluția preferințelor",
+    "preferenceHistoryCount": "{n} modificări",
+    "preferenceHistoryEmpty": "Nicio modificare înregistrată",
+    "preferenceHistoryMoldovaNote": "~90% din clienți modifică preferințele după vizionări (specific piață Moldova)",
+    "preferenceInitial": "Preferințe inițiale"
   },
   "property": {
     "moduleLabel": "Modul · Proprietăți",
@@ -277,7 +286,8 @@
       "actionsTitle": "Acțiuni rapide",
       "shareCta": "Distribuie link",
       "editCta": "Editează detalii",
-      "scheduleCta": "Programează vizionare"
+      "scheduleCta": "Programează vizionare",
+      "propertyClassLabel": "Clasă imobil"
     },
     "form": {
       "listingTypeTitle": "Tipul listării",
@@ -314,6 +324,13 @@
       "benefitAddLabel": "Beneficiu",
       "successInfo": "După salvare verificăm lead-urile care caută proprietăți similare și le propunem agentului responsabil.",
       "submitCta": "Salvează și propune lead-uri"
+    },
+    "propertyClass": {
+      "soviet_era": "Fond vechi (pre-1990)",
+      "post_soviet": "Fond post-sovietic",
+      "new_build": "Bloc nou",
+      "premium": "Premium",
+      "moldovaNote": "Clasificare specifică pieței din Republica Moldova. Influențează criteriile de potrivire."
     }
   },
   "deal": {
@@ -760,7 +777,14 @@
     "scoreHelp2": "Slab interes — proprietate nepotrivită, trimit alternative.",
     "scoreHelp3": "Interes neutru — încerc altă proprietate.",
     "scoreHelp4": "Bun interes — programează a doua vizionare sau pregătește oferta.",
-    "scoreHelp5": "Foarte interesat — pregătește oferta imediat."
+    "scoreHelp5": "Foarte interesat — pregătește oferta imediat.",
+    "meetingLocationType": {
+      "office": "Oficiu",
+      "public_place": "Loc public",
+      "on_site": "La proprietate"
+    },
+    "isQualificationMeeting": "Calificare",
+    "onSiteNote": "Calificare și vizionare simultane — contorizat ca vizionare"
   },
   "offer": {
     "moduleLabel": "Ofertă",

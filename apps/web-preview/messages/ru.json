@@ -136,7 +136,12 @@
     "winChanceLow": "Низкий",
     "winChanceMedium": "Средний",
     "winChanceHigh": "Высокий",
-    "agentInfo": "{tasks} активных задач из 3 доступных"
+    "agentInfo": "{tasks} активных задач из 3 доступных",
+    "preferenceHistory": "История предпочтений",
+    "preferenceHistoryCount": "{n} изменений",
+    "preferenceHistoryEmpty": "Изменений не зарегистрировано",
+    "preferenceHistoryMoldovaNote": "~90% клиентов меняют предпочтения после показов (специфика Молдовы)",
+    "preferenceInitial": "Начальные предпочтения"
   },
   "property": {
     "moduleLabel": "Модуль · Объекты",
@@ -185,7 +190,8 @@
       "actionsTitle": "Быстрые действия",
       "shareCta": "Поделиться ссылкой",
       "editCta": "Редактировать",
-      "scheduleCta": "Запланировать просмотр"
+      "scheduleCta": "Запланировать просмотр",
+      "propertyClassLabel": "Класс недвижимости"
     },
     "form": {
       "essentials": "Основные данные",
@@ -209,6 +215,13 @@
       "floorLabel": "Этаж / Всего этажей",
       "successInfo": "После сохранения мы найдём лидов, ищущих похожие объекты, и передадим их ответственному агенту.",
       "submitCta": "Сохранить и подобрать лидов"
+    },
+    "propertyClass": {
+      "soviet_era": "Старый фонд (до 1990)",
+      "post_soviet": "Постсоветский фонд",
+      "new_build": "Новостройка",
+      "premium": "Премиум",
+      "moldovaNote": "Классификация специфична для рынка РМ. Влияет на критерии подбора."
     }
   },
   "deal": {
@@ -592,5 +605,20 @@
       "introTitle": "Что такое кабинет группы",
       "introBody": "Группа объединяет нескольких агентов под общим менеджером (например, «Команда Центр-Ботаника»). Видите коллег по работе, внутренний leaderboard и вашу долю в результатах группы."
     }
+  },
+  "preferences": {
+    "confirmedBudget": "Подтверждённый бюджет (лично)",
+    "confirmedBudgetVerified": "Подтверждён",
+    "confirmedBudgetUnconfirmed": "Не подтверждён",
+    "confirmedBudgetMoldovaNote": "Специфика Молдовы: декларируемый бюджет часто отличается от реального."
+  },
+  "showing": {
+    "meetingLocationType": {
+      "office": "Офис",
+      "public_place": "Публичное место",
+      "on_site": "На объекте"
+    },
+    "isQualificationMeeting": "Квалификация",
+    "onSiteNote": "Квалификация и показ совмещены — учитывается как показ"
   }
 }
