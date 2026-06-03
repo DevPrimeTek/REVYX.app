@@ -26,6 +26,17 @@ export default function NewPropertyPage() {
   // Punct 5: lista beneficii la create (sync cu PropertyBenefitsPanel logic).
   const [benefits, setBenefits] = useState<string[]>([]);
   const [benefitDraft, setBenefitDraft] = useState('');
+  // M0.S8.3 · Regula 20+21: commission % negociat de agent la create (vizibil client + agent).
+  const [priceEur, setPriceEur] = useState(64000);
+  const [monthlyRentEur, setMonthlyRentEur] = useState(420);
+  // Sale|both: 0.5-6% din priceEur (default 2.5%). Rent: 25-200% din chirie (default 100% = 1× chirie).
+  const isRentOnly = listingType === 'rent';
+  const [saleCommissionPct, setSaleCommissionPct] = useState(2.5);
+  const [rentCommissionPct, setRentCommissionPct] = useState(100);
+  const commissionPct = isRentOnly ? rentCommissionPct : saleCommissionPct;
+  const setCommissionPct = isRentOnly ? setRentCommissionPct : setSaleCommissionPct;
+  const commissionBase = isRentOnly ? monthlyRentEur : priceEur;
+  const commissionAmount = Math.round((commissionBase * commissionPct) / 100 / 10) * 10;
 
   function onPhotoFakePick() {
     setPhotoCount((c) => Math.min(12, c + Math.max(1, Math.floor(Math.random() * 4))));
@@ -162,8 +173,10 @@ export default function NewPropertyPage() {
                     name="price"
                     type="number"
                     min={1000}
+                    max={10000000}
                     step={500}
-                    defaultValue={64000}
+                    value={priceEur}
+                    onChange={(e) => setPriceEur(Math.max(0, Number(e.target.value) || 0))}
                     required
                   />
                 )}
@@ -175,7 +188,8 @@ export default function NewPropertyPage() {
                     type="number"
                     min={50}
                     step={10}
-                    defaultValue={420}
+                    value={monthlyRentEur}
+                    onChange={(e) => setMonthlyRentEur(Math.max(0, Number(e.target.value) || 0))}
                     hint={t('property.form.monthlyRentHelp')}
                     required
                   />
@@ -195,6 +209,61 @@ export default function NewPropertyPage() {
                   defaultValue="3/9"
                 />
               </div>
+            </CardContent>
+          </Card>
+
+          {/* M0.S8.3+ · Regula 20+21: comision negociat la create — aplicabil sale (% preț) ȘI rent (% chirie). */}
+          <Card>
+            <CardHeader>
+              <CardTitle>{t('property.form.commissionPctTitle')}</CardTitle>
+              <CardDescription>
+                {isRentOnly
+                  ? t('property.form.commissionPctDescRent')
+                  : t('property.form.commissionPctDesc')}
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-sp3 items-end">
+                <Input
+                  label={t('property.form.commissionPctLabel')}
+                  name="commissionPct"
+                  type="number"
+                  min={isRentOnly ? 25 : 0.5}
+                  max={isRentOnly ? 200 : 6}
+                  step={isRentOnly ? 5 : 0.1}
+                  value={commissionPct}
+                  onChange={(e) => {
+                    const raw = Number(e.target.value) || 0;
+                    const lo = isRentOnly ? 25 : 0.5;
+                    const hi = isRentOnly ? 200 : 6;
+                    setCommissionPct(Math.min(hi, Math.max(lo, raw)));
+                  }}
+                  hint={
+                    isRentOnly
+                      ? t('property.form.commissionPctHintRent')
+                      : t('property.form.commissionPctHint')
+                  }
+                  required
+                />
+                <div className="bg-navy-deep border border-border rounded-md px-sp3 py-sp2">
+                  <p className="text-[12px] text-text-muted">
+                    {t('property.form.commissionPctAmount')}
+                  </p>
+                  <p className="text-[20px] text-gold font-mono font-semibold mt-sp1">
+                    €{commissionAmount.toLocaleString('ro-MD')}
+                    {isRentOnly && <span className="text-text-muted text-[12px] ml-1">{t('deal.perMonth')}</span>}
+                  </p>
+                  <p className="text-[11px] text-text-muted mt-sp1">
+                    {commissionPct}% × €{commissionBase.toLocaleString('ro-MD')}
+                    {isRentOnly && <span> {t('deal.perMonth')}</span>}
+                  </p>
+                </div>
+              </div>
+              {listingType === 'both' && (
+                <p className="text-[11px] text-text-muted mt-sp2">
+                  {t('property.form.commissionPctRentNote')}
+                </p>
+              )}
             </CardContent>
           </Card>
 

@@ -1,12 +1,15 @@
 'use client';
 
-// M0.S8.2 · Kanban redesign — Creative Director + Senior UI/UX directive.
-// Concept "Card cu 2 zone clare":
-//  - Zonă sus: client (bold) + adresă proprietate (muted). Informația umană primară.
-//  - Divider subtil.
-//  - Zonă jos: rând metrici compact (dot intent · dot sănătate · comision auriu).
-//  - Culoarea de stage trăiește DOAR pe headerul coloanei (nu pe card) → zero zgomot cromatic per card.
-//  - Deal ID + agent mutate la subtil (footer mic), nu mai concurează cu informația cheie.
+// M0.S8.4 · Kanban card — Creative Director + Senior UI/UX directive (5 zone explicite).
+// Zone 1 (header): ID stânga + Stare tranzacție dreapta (single line; status text whitespace-nowrap).
+// Zone 2 (identity): nume client (bold) / adresă completă (wrap max 2 linii — afișare integrală) / oraș · zonă.
+// Zone 3 (money): linia 1 = preț (alb, mare); linia 2 = chip gold `pct% · €sumă` (comision).
+//   Fără etichete text Cost/Comision — culoarea + formatul comunică sensul; layout-ul rămâne
+//   universal în RO/RU/EN (eliminat collision RU "Цена:" / "Комиссия:" + valori lungi).
+// Zone 4 (agent): doar numele agentului (fără avatar, compact).
+// Zone 5 (action): tip tranzacție (dot intent + Vânzare/Chirie) stânga + buton Detalii dreapta.
+// Status (Z1) folosește `title` (tooltip browser) pentru text complet la overflow.
+// Culoarea de stage trăiește DOAR pe headerul coloanei.
 
 import { useMemo, useState } from 'react';
 import {
@@ -76,12 +79,6 @@ function DealCard({
   });
 
   const health = healthBucket(deal.dhi);
-  const agentInitials = (agent?.name ?? deal.agentId)
-    .split(/\s+/)
-    .filter(Boolean)
-    .slice(0, 2)
-    .map((p) => p[0]?.toUpperCase() ?? '')
-    .join('') || '?';
 
   return (
     <div
@@ -99,26 +96,33 @@ function DealCard({
           : 'cursor-grab active:cursor-grabbing hover:border-border-light focus-visible:border-gold focus-visible:outline-none ')
       }
     >
-      {/* ── Zona 1: ID + statut tranzacție ── */}
-      <div className="px-sp3 pt-sp3 pb-sp2 flex items-center justify-between gap-sp2">
-        <span className="label-mono text-[10px] text-text-muted truncate">{deal.id}</span>
-        <span className="inline-flex items-center gap-1 text-[11px] text-text-secondary whitespace-nowrap flex-shrink-0">
-          <span className={`w-2 h-2 rounded-full ${HEALTH_DOT[health]}`} aria-hidden />
-          {t(`deal.healthLabels.${health}`)}
+      {/* ── Zona 1 — ID + Stare tranzacție (cu title pentru tooltip browser la overflow) ── */}
+      <div className="px-2 pt-1.5 pb-1.5 flex items-center justify-between gap-sp2 min-w-0">
+        <span className="label-mono text-[10px] text-text-muted flex-shrink-0">{deal.id}</span>
+        <span
+          className="inline-flex items-center gap-1 text-[11px] text-text-secondary min-w-0"
+          title={t(`deal.healthLabels.${health}`)}
+        >
+          <span className={`w-2 h-2 rounded-full flex-shrink-0 ${HEALTH_DOT[health]}`} aria-hidden />
+          <span className="truncate">{t(`deal.healthLabels.${health}`)}</span>
         </span>
       </div>
 
-      <div className="h-px bg-border mx-sp3" />
+      <div className="h-px bg-border mx-2" />
 
-      {/* ── Zona 2: client / adresă / regiune ── */}
-      <div className="px-sp3 py-sp2 min-w-0">
+      {/* ── Zona 2 — identity: client / adresă deplină (max 2 linii) / regiune ── */}
+      <div className="px-2 py-1.5 min-w-0">
         <p className="text-[14px] text-text-h font-semibold leading-tight truncate">
           {lead?.name ?? deal.leadId}
         </p>
         {property && (
           <>
-            <p className="text-[12px] text-text-secondary truncate mt-0.5">{property.addr}</p>
-            <p className="text-[11px] text-text-muted truncate mt-0.5">{property.city} · {property.zone}</p>
+            <p className="text-[12px] text-text-secondary leading-snug mt-0.5 break-words line-clamp-2">
+              {property.addr}
+            </p>
+            <p className="text-[11px] text-text-muted truncate mt-0.5">
+              {property.city} · {property.zone}
+            </p>
           </>
         )}
         {!property && (
@@ -126,47 +130,55 @@ function DealCard({
         )}
       </div>
 
-      <div className="h-px bg-border mx-sp3" />
+      <div className="h-px bg-border mx-2" />
 
-      {/* ── Zona 3: tip ofertă + preț / agent + comision / buton detalii ── */}
-      <div className="px-sp3 py-sp2 flex flex-col gap-1.5">
-        <div className="flex items-center justify-between gap-sp2">
-          <span className="inline-flex items-center gap-1 text-[12px] text-text-secondary whitespace-nowrap min-w-0">
-            <span className={`w-2 h-2 rounded-full flex-shrink-0 ${isRent ? 'bg-status-green' : 'bg-status-blue'}`} aria-hidden />
-            <span className="truncate">{t(`transactionIntent.${intent}`)}</span>
-          </span>
-          <span className="text-[13px] text-text-h font-mono font-semibold whitespace-nowrap flex-shrink-0">
+      {/* ── Zona 3 — money: Cost (linia 1) + Comision (linia 2) ── */}
+      <div className="px-2 py-1.5 flex flex-col gap-0.5">
+        <div className="flex items-baseline justify-between gap-sp2 min-w-0">
+          <span className="text-[11px] text-text-muted flex-shrink-0">{t('deal.costLabel')}</span>
+          <span className="text-[13px] text-text-h font-mono font-semibold whitespace-nowrap truncate">
             €{((isRent ? property?.monthlyRentEur : property?.priceEur) ?? 0).toLocaleString('ro-MD')}
-            {isRent && <span className="text-text-muted text-[10px]"> {t('deal.perMonth')}</span>}
+            {isRent && <span className="text-text-muted text-[10px] font-sans"> {t('deal.perMonth')}</span>}
           </span>
         </div>
-        <div className="flex items-center justify-between gap-sp2 text-[11px]">
-          <span className="inline-flex items-center gap-1.5 min-w-0">
-            <span
-              className="w-5 h-5 rounded-full bg-navy-deep border border-border text-[9px] text-text-secondary font-semibold flex items-center justify-center flex-shrink-0"
-              aria-hidden
-            >
-              {agentInitials}
+        <div className="flex items-baseline justify-between gap-sp2 min-w-0">
+          <span className="text-[11px] text-text-muted flex-shrink-0">{t('deal.commissionLabel')}</span>
+          <span className="text-[12px] text-gold font-mono whitespace-nowrap truncate">
+            {property?.commissionPct ?? (isRent ? 100 : 2.5)}% · €{deal.commissionEur.toLocaleString('ro-MD')}
+          </span>
+        </div>
+      </div>
+
+      <div className="h-px bg-border mx-2" />
+
+      {/* ── Zona 4 — agent: label stânga + nume bold dreapta (pattern Zone 3) ── */}
+      <div className="px-2 py-1.5 min-w-0">
+        <div className="flex items-baseline justify-between gap-sp2 min-w-0">
+          <span className="text-[11px] text-text-muted flex-shrink-0">{t('deal.agentLabel')}</span>
+          <span className="text-[12px] text-text-h font-semibold whitespace-nowrap truncate">{agent?.name ?? deal.agentId}</span>
+        </div>
+      </div>
+
+      {/* ── Zona 5 — tip tranzacție + buton detalii (un singur rând, fără wrap) ── */}
+      {!isDragOverlay && (
+        <>
+          <div className="h-px bg-border mx-2" />
+          <div className="px-2 py-1.5 flex items-center justify-between gap-x-sp2 min-w-0">
+            <span className="inline-flex items-center gap-1.5 text-[12px] text-text-h font-medium min-w-0">
+              <span className={`w-2 h-2 rounded-full flex-shrink-0 ${isRent ? 'bg-status-green' : 'bg-status-blue'}`} aria-hidden />
+              <span className="truncate">{t(`deal.intentShort.${intent}`)}</span>
             </span>
-            <span className="text-text-secondary truncate">{agent?.name ?? deal.agentId}</span>
-          </span>
-          <span className="text-gold font-mono whitespace-nowrap flex-shrink-0">
-            {t('deal.commissionLabel')} €{deal.commissionEur.toLocaleString('ro-MD')}
-          </span>
-        </div>
-        {!isDragOverlay && (
-          <div className="flex justify-end pt-0.5">
             <a
               href={`/deals/${deal.id}`}
               onClick={(e) => e.stopPropagation()}
               onPointerDown={(e) => e.stopPropagation()}
-              className="inline-flex items-center text-[11px] text-gold hover:text-gold-light border border-gold/40 hover:border-gold rounded-md px-sp2 py-0.5 transition-colors whitespace-nowrap"
+              className="inline-flex items-center text-[11px] text-gold hover:text-gold-light border border-gold/40 hover:border-gold rounded-md px-sp2 py-0.5 transition-colors whitespace-nowrap flex-shrink-0"
             >
               {t('deal.detailsLink')} →
             </a>
           </div>
-        )}
-      </div>
+        </>
+      )}
     </div>
   );
 }

@@ -60,12 +60,12 @@ function buildDeals(): Deal[] {
         return d.toISOString().slice(0, 10);
       })();
 
-    // Commission profile:
-    //   sale: 2.5% din priceEur
-    //   rent: 1 lună chirie (commission_model = rent_profile)
-    const commissionEur = isRent
-      ? (property.monthlyRentEur ?? 0)
-      : Math.round((property.priceEur * 0.025) / 100) * 100;
+    // Commission profile (Regula 20):
+    //   sale: property.commissionPct% din priceEur (negociat la create; default 2.5%)
+    //   rent: property.commissionPct% din monthlyRentEur (negociat la create; default 100% = 1× chirie)
+    const pct = (property.commissionPct ?? (isRent ? 100 : 2.5)) / 100;
+    const baseAmount = isRent ? (property.monthlyRentEur ?? 0) : property.priceEur;
+    const commissionEur = Math.round((baseAmount * pct) / 10) * 10;
 
     out.push({
       id: `D-${String(1000 + i).padStart(4, '0')}`,

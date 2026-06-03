@@ -168,6 +168,22 @@ export default function PropertyDetailPage({ params }: Params) {
                       <dd className="text-text-h font-semibold">€{property.priceEur.toLocaleString('ro-MD')}</dd>
                     </div>
                   )}
+                  {property.commissionPct != null && (
+                    <div>
+                      <dt className="text-text-muted text-[12px]">{t('property.detail.commissionLabel')}</dt>
+                      <dd className="text-text-h font-semibold">
+                        {property.commissionPct}%
+                        <span className="text-text-secondary text-[12px] ml-1">
+                          {(() => {
+                            const isRentDetail = property.listingType === 'rent';
+                            const base = isRentDetail ? (property.monthlyRentEur ?? 0) : property.priceEur;
+                            const amount = Math.round((base * property.commissionPct!) / 10) * 10;
+                            return `· €${amount.toLocaleString('ro-MD')}`;
+                          })()}
+                        </span>
+                      </dd>
+                    </div>
+                  )}
                   {property.monthlyRentEur && property.monthlyRentEur > 0 && (
                     <div>
                       <dt className="text-text-muted text-[12px]">{t('property.detail.monthlyRentLabel')}</dt>
