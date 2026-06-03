@@ -35,8 +35,21 @@ export interface LeadDocument {
 export interface BuyerPreferences {
   features: string[];
   urgency: 'low' | 'medium' | 'high';
-  preferredFloor: string;   // free-text: "etaj superior", "1-3"
-  rememberedNote: string;   // 1-line memory pin
+  preferredFloor: string;
+  rememberedNote: string;
+  /** [MOLDOVA-SPECIFIC] Buget confirmat față-în-față (override față de declarat). */
+  confirmedBudgetMax?: number | null;
+}
+
+/** [MOLDOVA-SPECIFIC] Intrare adăugată manual de agent în istoricul preferințelor. */
+export interface PreferenceHistoryEntry {
+  id: string;
+  date: string;           // ISO YYYY-MM-DD
+  budgetMax: number;
+  zone: string;
+  rooms: string;
+  changeNote: string;
+  createdAt: string;
 }
 
 /** Seller-only — agent curated benefits highlighted on the property listing. */
@@ -50,6 +63,8 @@ export interface LeadExtras {
   documents: LeadDocument[];
   preferences?: BuyerPreferences;
   benefits?: SellerBenefits;
+  /** [MOLDOVA-SPECIFIC] Intrări adăugate manual de agent în istoricul preferințelor. */
+  preferenceHistory?: PreferenceHistoryEntry[];
 }
 
 type Store = Record<string, LeadExtras>;
@@ -171,6 +186,27 @@ export function setSellerBenefits(leadId: string, b: SellerBenefits): void {
   const next = { ...cur };
   const extras = next[leadId] ?? { notes: [], documents: [] };
   next[leadId] = { ...extras, benefits: b };
+  cache = next;
+  save(cache);
+  notify();
+}
+
+export function addPreferenceHistoryEntry(
+  leadId: string,
+  entry: Omit<PreferenceHistoryEntry, 'id' | 'createdAt'>,
+): void {
+  const cur = ensure();
+  const next = { ...cur };
+  const extras = next[leadId] ?? { notes: [], documents: [] };
+  const newEntry: PreferenceHistoryEntry = {
+    ...entry,
+    id: `ph-${Date.now()}`,
+    createdAt: new Date().toISOString(),
+  };
+  next[leadId] = {
+    ...extras,
+    preferenceHistory: [newEntry, ...(extras.preferenceHistory ?? [])],
+  };
   cache = next;
   save(cache);
   notify();

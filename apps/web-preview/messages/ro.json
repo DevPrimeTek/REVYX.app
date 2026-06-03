@@ -105,7 +105,40 @@
     "confirmedBudget": "Buget confirmat (față-în-față)",
     "confirmedBudgetVerified": "Verificat",
     "confirmedBudgetUnconfirmed": "Neconfirmat",
-    "confirmedBudgetMoldovaNote": "Specific Moldova: bugetul declarat telefonic diferă adesea de cel real confirmat față-în-față."
+    "confirmedBudgetMoldovaNote": "Specific Moldova: bugetul declarat telefonic diferă adesea de cel real confirmat față-în-față.",
+    "budgetMaxLabel": "Buget maxim (€)",
+    "zoneLabel": "Zona preferată",
+    "roomsLabel": "Camere"
+  },
+  "legend": {
+    "title": "Legendă",
+    "leadStatus": "Starea lead-ului",
+    "leadType": "Tipul clientului",
+    "propertyClass": "Clasă imobil",
+    "freshness": "Vechimea anunțului",
+    "status": {
+      "HOT": "Prioritar — răspuns în max. 15 minute",
+      "qualified": "Calificat — buget și intenție confirmate",
+      "warm": "Activ — caută, nu e urgent",
+      "nurturing": "Monitorizare — nu e pregătit încă"
+    },
+    "type": {
+      "buyer": "Caută proprietate de cumpărat",
+      "seller": "Are proprietate de vândut",
+      "tenant": "Caută proprietate de închiriat",
+      "landlord": "Are proprietate de dat în chirie"
+    },
+    "class": {
+      "soviet_era": "Bloc construit înainte de 1990",
+      "post_soviet": "Bloc construit 1990–2005",
+      "new_build": "Bloc construit după 2005",
+      "premium": "Proiect selectiv / centru"
+    },
+    "fresh": {
+      "new": "Publicat în ultimele 30 de zile",
+      "refresh": "Publicat de 30–60 zile — recomandăm update",
+      "old": "Anunț mai vechi de 60 zile — update urgent"
+    }
   },
   "benefits": {
     "title": "Beneficiile proprietății",
@@ -226,9 +259,34 @@
     "agentInfo": "{tasks} sarcini active din 3 disponibile",
     "preferenceHistory": "Evoluția preferințelor",
     "preferenceHistoryCount": "{n} modificări",
+    "preferenceHistoryDesc": "Urmărește cum s-au schimbat preferințele clientului de-a lungul procesului.",
     "preferenceHistoryEmpty": "Nicio modificare înregistrată",
     "preferenceHistoryMoldovaNote": "~90% din clienți modifică preferințele după vizionări (specific piață Moldova)",
+    "preferenceHistoryAdd": "Adaugă modificare",
+    "preferenceHistoryAdded": "Modificare înregistrată",
+    "preferenceHistoryNewEntry": "Intrare nouă în istoricul preferințelor",
+    "preferenceHistoryNoteLabel": "Motiv modificare",
+    "preferenceHistoryNotePlaceholder": "ex: După vizionare în Botanica — buget redus, acceptă Râșcani",
+    "preferenceHistoryNoteHint": "Descrie ce s-a schimbat și de ce",
     "preferenceInitial": "Preferințe inițiale"
+  },
+  "meeting": {
+    "modalTitle": "Programează discuție",
+    "modalDesc": "Planifică o întâlnire de calificare față-în-față cu clientul.",
+    "locationLabel": "Locul întâlnirii",
+    "locationHelp": "Locul influențează ce documente pot fi semnate și dacă întâlnirea se suprapune cu o vizionare.",
+    "locationDesc": {
+      "office": "Pot fi semnate documente: mandat, GDPR consent.",
+      "public_place": "Întâlnire exploratorie. Documentele se semnează ulterior.",
+      "on_site": "Calificare și vizionare simultan. Selectează proprietatea de vizitat."
+    },
+    "propertyLabel": "Proprietatea de vizitat",
+    "notesPlaceholder": "ex: Vine cu soțul. Discuție despre finanțare după.",
+    "submitCta": "Programează",
+    "toastScheduled": "Discuție programată",
+    "toastScheduledOnSite": "Calificare + vizionare programate la proprietate.",
+    "toastScheduledGeneric": "Întâlnirea a fost adăugată în programul tău.",
+    "scheduleCta": "Programează discuție"
   },
   "property": {
     "moduleLabel": "Modul · Proprietăți",
