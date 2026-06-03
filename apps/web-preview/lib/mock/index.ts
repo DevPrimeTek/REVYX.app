@@ -4,7 +4,7 @@
 export type {
   Lead, LeadSource, LeadStatus, LeadType, LeadUrgency, LeadSide,
   TransactionIntent, ListingType,
-  Property, PropertyKind, Deal, DealStage, Agent,
+  Property, PropertyKind, PropertyClass, Deal, DealStage, Agent,
 } from './types';
 export type {
   Showing,

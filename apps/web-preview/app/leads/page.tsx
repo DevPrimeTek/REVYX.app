@@ -14,7 +14,7 @@ import { InfoTooltip } from '@/components/ui/info-tooltip';
 import { useT } from '@/components/i18n/provider';
 import { leads } from '@/lib/mock';
 import type { LeadStatus } from '@/lib/mock';
-import { transactionIntent } from '@/lib/transaction-intent';
+import { transactionIntent, isDemandSide } from '@/lib/transaction-intent';
 import { useWorkspaceDirection, isIntentVisible } from '@/lib/workspace-store';
 import { cn } from '@/lib/utils';
 
@@ -254,6 +254,21 @@ function LeadsPageInner() {
                         >
                           {t(`leadType.${l.leadType}`)}
                         </Badge>
+                        {/* [MOLDOVA-SPECIFIC] indicatori vizibili în listing */}
+                        {isDemandSide(l.leadType) && (l.confirmedBudgetMax != null || l.preferenceHistory.length > 0) && (
+                          <span className="flex items-center gap-1 mt-0.5">
+                            {l.confirmedBudgetMax != null && (
+                              <span className="text-[10px] text-green-400 font-medium leading-none">
+                                ✓ {t('preferences.confirmedBudgetVerified')}
+                              </span>
+                            )}
+                            {l.preferenceHistory.length > 0 && (
+                              <span className="text-[10px] text-text-muted leading-none">
+                                {t('leadDetail.preferenceHistoryCount', { n: l.preferenceHistory.length })}
+                              </span>
+                            )}
+                          </span>
+                        )}
                       </TD>
                       <TD className="text-text-secondary">{l.source}</TD>
                       <TD className="text-text-secondary text-[12px]">{l.zone}</TD>

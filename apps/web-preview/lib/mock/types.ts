@@ -99,6 +99,13 @@ export type Property = {
   /** [MOLDOVA-SPECIFIC] Clasa fondului locativ — specifică pieței RM.
    * Influențează criteriile de potrivire cu lead-urile și percepția valorii. */
   propertyClass: PropertyClass;
+  /**
+   * Regula 20: procentul de comision negociat de agent.
+   * sale/both → % din priceEur (standard RM 2.0-3.0%).
+   * rent → % din monthlyRentEur (100% = 1× chirie).
+   * NULL = nesetat.
+   */
+  commissionPct: number | null;
   /** Regula 20: tipul listării — vânzare, închiriere sau dual (same property listed pentru ambele). */
   listingType: ListingType;
   ps: number;            // Property Score [0,1]

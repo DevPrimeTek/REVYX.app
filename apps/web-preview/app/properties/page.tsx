@@ -11,7 +11,7 @@ import { Button } from '@/components/ui/button';
 import { InfoTooltip } from '@/components/ui/info-tooltip';
 import { useT } from '@/components/i18n/provider';
 import { properties } from '@/lib/mock';
-import type { PropertyKind, ListingType } from '@/lib/mock';
+import type { PropertyKind, ListingType, PropertyClass } from '@/lib/mock';
 import { freshnessLabel, freshnessTone } from '@/lib/freshness';
 import { useWorkspaceDirection } from '@/lib/workspace-store';
 import { cn } from '@/lib/utils';
@@ -22,6 +22,13 @@ const kinds: KindFilter[] = ['all', 'apartment', 'house', 'land', 'commercial'];
 // Regula 20: filter listing type (sale / rent / both).
 type ListingFilter = 'all' | ListingType;
 const ALL_LISTING_FILTERS: ListingFilter[] = ['all', 'sale', 'rent', 'both'];
+
+function propertyClassVariant(pc: PropertyClass): 'success' | 'warning' | 'info' | 'cold' {
+  if (pc === 'new_build') return 'success';
+  if (pc === 'premium') return 'warning';
+  if (pc === 'post_soviet') return 'info';
+  return 'cold'; // soviet_era — muted neutral
+}
 
 function kindLabelKey(k: PropertyKind): string {
   return k === 'apartment'
@@ -181,14 +188,18 @@ export default function PropertiesPage() {
                       )}
                     </CardDescription>
                   </CardHeader>
-                  <CardContent className="flex items-center justify-between">
-                    <div className="inline-flex items-center gap-sp1">
+                  <CardContent className="flex items-center justify-between gap-sp2">
+                    <div className="inline-flex items-center gap-sp1 flex-wrap">
                       <Badge variant={freshnessTone(p.daysOnMarket)} size="sm">
                         {fresh.label}
                       </Badge>
                       <InfoTooltip label={fresh.label} body={fresh.desc} />
+                      {/* [MOLDOVA-SPECIFIC] Clasă fond locativ — vizibil direct pe card */}
+                      <Badge variant={propertyClassVariant(p.propertyClass)} size="xs">
+                        {t(`property.propertyClass.${p.propertyClass}`)}
+                      </Badge>
                     </div>
-                    <span className="text-[12px] text-gold hover:underline">
+                    <span className="text-[12px] text-gold hover:underline flex-shrink-0">
                       {t('property.viewDetails')} →
                     </span>
                   </CardContent>
