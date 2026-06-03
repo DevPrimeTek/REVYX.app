@@ -9,6 +9,11 @@ export type ShowingStatus =
   | 'NO_SHOW'
   | 'CANCELLED';
 
+/** [MOLDOVA-SPECIFIC] Locul întâlnirii de calificare față-în-față.
+ * on_site → întâlnirea este simultan prima vizionare (se contorizează ca SHOWING).
+ * office → agent/agenție; public_place → cafenea/alt loc public. */
+export type MeetingLocationType = 'office' | 'public_place' | 'on_site';
+
 export interface Showing {
   id: string;
   leadId: string;
@@ -22,6 +27,10 @@ export interface Showing {
   feedbackBody: string | null;
   cancelReason: string | null;
   createdAt: string;
+  /** [MOLDOVA-SPECIFIC] true = aceasta este o întâlnire de calificare față-în-față (nu doar vizionare). */
+  isQualificationMeeting?: boolean;
+  /** [MOLDOVA-SPECIFIC] Unde a avut loc întâlnirea de calificare. on_site = calificare + vizionare simultan. */
+  meetingLocationType?: MeetingLocationType;
 }
 
 export type OfferStatus = 'PENDING' | 'COUNTER' | 'ACCEPTED' | 'REJECTED' | 'EXPIRED';

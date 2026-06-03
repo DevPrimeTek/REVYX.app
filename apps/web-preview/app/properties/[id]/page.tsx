@@ -212,6 +212,28 @@ export default function PropertyDetailPage({ params }: Params) {
                       </Badge>
                     </dd>
                   </div>
+                  {/* [MOLDOVA-SPECIFIC] Clasă fond locativ — specifică pieței din RM */}
+                  <div>
+                    <dt className="text-text-muted text-[12px] inline-flex items-center gap-1">
+                      {t('property.detail.propertyClassLabel')}
+                      <InfoTooltip
+                        label={t('property.detail.propertyClassLabel')}
+                        body={t('property.propertyClass.moldovaNote')}
+                      />
+                    </dt>
+                    <dd>
+                      <Badge
+                        variant={
+                          property.propertyClass === 'new_build' ? 'success' :
+                          property.propertyClass === 'premium' ? 'warning' :
+                          'info'
+                        }
+                        size="xs"
+                      >
+                        {t(`property.propertyClass.${property.propertyClass}`)}
+                      </Badge>
+                    </dd>
+                  </div>
                   <div>
                     <dt className="text-text-muted text-[12px]">{t('property.detail.agentLabel')}</dt>
                     <dd className="text-text-h">{agent.name}</dd>

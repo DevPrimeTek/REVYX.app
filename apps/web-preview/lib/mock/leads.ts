@@ -4,7 +4,7 @@
 // BR-02 LS_initial = 0.30 on creation.
 
 import { makeRng } from './rng';
-import type { Lead, LeadSource, LeadStatus, LeadUrgency, LeadType } from './types';
+import type { Lead, LeadSource, LeadStatus, LeadUrgency, LeadType, PreferenceSnapshot } from './types';
 import { agents } from './agents';
 
 const firstNames = [
@@ -174,6 +174,72 @@ function buildLeads(): Lead[] {
       leadType === 'landlord' ? 12 :
       null;
 
+    // [MOLDOVA-SPECIFIC] confirmedBudgetMax — buget confirmat față-în-față vs declarat la telefon.
+    // HOT demand-side: confirmat ~85-95% din budgetMax (au discutat deja față-în-față).
+    // qualified demand-side: ~50% au confirmat; warm/nurturing/supply: null.
+    let confirmedBudgetMax: number | null = null;
+    if (status === 'HOT' && !isSupply) {
+      confirmedBudgetMax = Math.round(budgetMax * (0.85 + (i % 10) * 0.01));
+    } else if (status === 'qualified' && !isSupply && i % 2 === 0) {
+      confirmedBudgetMax = Math.round(budgetMax * (0.88 + (i % 5) * 0.015));
+    }
+
+    // [MOLDOVA-SPECIFIC] preferenceHistory — ~90% din clienți modifică preferințele după vizionări.
+    // Populăm leads HOT și qualified selectate cu 2-3 modificări realiste.
+    let preferenceHistory: PreferenceSnapshot[] = [];
+    if (!isSupply && status === 'HOT' && i <= 15) {
+      const d0 = new Date(createdAt);
+      const d1 = new Date(d0); d1.setDate(d1.getDate() + 6);
+      const d2 = new Date(d0); d2.setDate(d2.getDate() + 13);
+      preferenceHistory = [
+        {
+          date: d0.toISOString().slice(0, 10),
+          budgetMax,
+          zone,
+          rooms: roomsKey,
+          features: pickFeatures(featurePool, rng, 2),
+          changeNote: 'La telefon — preferințe inițiale',
+        },
+        {
+          date: d1.toISOString().slice(0, 10),
+          budgetMax: Math.round(budgetMax * 0.92),
+          zone,
+          rooms: roomsKey,
+          features: pickFeatures(featurePool, rng, 2),
+          changeNote: 'După vizionare — buget redus, acceptă altă zonă',
+        },
+        {
+          date: d2.toISOString().slice(0, 10),
+          budgetMax: Math.round(budgetMax * 0.95),
+          zone: i % 3 === 0 ? 'Chișinău · Ciocana' : zone,
+          rooms: i % 4 === 0 ? '3' : roomsKey,
+          features: pickFeatures(featurePool, rng, 3),
+          changeNote: 'Discuție financiară — credit ipotecar aprobat parțial',
+        },
+      ];
+    } else if (!isSupply && status === 'qualified' && i >= 25 && i <= 40) {
+      const d0 = new Date(createdAt);
+      const d1 = new Date(d0); d1.setDate(d1.getDate() + 8);
+      preferenceHistory = [
+        {
+          date: d0.toISOString().slice(0, 10),
+          budgetMax,
+          zone,
+          rooms: roomsKey,
+          features: pickFeatures(featurePool, rng, 2),
+          changeNote: 'La telefon — preferințe inițiale',
+        },
+        {
+          date: d1.toISOString().slice(0, 10),
+          budgetMax: Math.round(budgetMax * 0.90),
+          zone: i % 2 === 0 ? 'Chișinău · Botanica' : zone,
+          rooms: roomsKey,
+          features: pickFeatures(featurePool, rng, 3),
+          changeNote: 'A văzut 4 apartamente — schimbă zona după vizionări',
+        },
+      ];
+    }
+
     out.push({
       id: `L-${String(1000 + i).padStart(4, '0')}`,
       name: `${first} ${last}`,
@@ -189,6 +255,8 @@ function buildLeads(): Lead[] {
       budgetMin,
       budgetMax,
       rentPeriodMonths,
+      confirmedBudgetMax,
+      preferenceHistory,
       rooms: roomsKey,
       zone,
       createdAt,

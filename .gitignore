@@ -36,3 +36,4 @@ venv/
 # Docs build
 _site/
 .docusaurus/
+.claude/

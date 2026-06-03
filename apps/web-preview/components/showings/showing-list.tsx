@@ -7,6 +7,7 @@ import Link from 'next/link';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { useT } from '@/components/i18n/provider';
+import { InfoTooltip } from '@/components/ui/info-tooltip';
 import { useShowingActions } from '@/lib/showing-store';
 import { ShowingFeedbackModal } from './showing-feedback-modal';
 import { leadsById, propertiesById } from '@/lib/mock';
@@ -78,6 +79,23 @@ export function ShowingList({
                   <Badge variant={statusVariant(s.status)} size="xs">
                     {t(`showing.status.${s.status}`)}
                   </Badge>
+                  {/* [MOLDOVA-SPECIFIC] Badge întâlnire calificare + locație */}
+                  {s.isQualificationMeeting && (
+                    <Badge variant="info" size="xs">{t('showing.isQualificationMeeting')}</Badge>
+                  )}
+                  {s.meetingLocationType && (
+                    <div className="inline-flex items-center gap-1">
+                      <Badge variant={s.meetingLocationType === 'on_site' ? 'updated' : 'info'} size="xs">
+                        {t(`showing.meetingLocationType.${s.meetingLocationType}`)}
+                      </Badge>
+                      {s.meetingLocationType === 'on_site' && s.isQualificationMeeting && (
+                        <InfoTooltip
+                          label={t(`showing.meetingLocationType.${s.meetingLocationType}`)}
+                          body={t('showing.onSiteNote')}
+                        />
+                      )}
+                    </div>
+                  )}
                   {s.feedbackScore !== null && (
                     <span className="text-gold text-[12px]">
                       {'★'.repeat(s.feedbackScore)}
