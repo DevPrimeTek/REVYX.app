@@ -12,6 +12,7 @@ import { InfoTooltip } from '@/components/ui/info-tooltip';
 import { useT } from '@/components/i18n/provider';
 import { properties } from '@/lib/mock';
 import type { PropertyKind, ListingType, PropertyClass } from '@/lib/mock';
+import { LegendPanel } from '@/components/ui/legend-panel';
 import { freshnessLabel, freshnessTone } from '@/lib/freshness';
 import { useWorkspaceDirection } from '@/lib/workspace-store';
 import { cn } from '@/lib/utils';
@@ -208,6 +209,27 @@ export default function PropertiesPage() {
             );
           })}
         </section>
+        {/* Legendă badge-uri */}
+        <LegendPanel groups={[
+          {
+            title: t('legend.propertyClass'),
+            items: [
+              { badge: <Badge variant="success" size="xs">{t('property.propertyClass.new_build')}</Badge>, label: t('property.propertyClass.new_build'), description: t('legend.class.new_build') },
+              { badge: <Badge variant="warning" size="xs">{t('property.propertyClass.premium')}</Badge>, label: t('property.propertyClass.premium'), description: t('legend.class.premium') },
+              { badge: <Badge variant="info" size="xs">{t('property.propertyClass.post_soviet')}</Badge>, label: t('property.propertyClass.post_soviet'), description: t('legend.class.post_soviet') },
+              { badge: <Badge variant="cold" size="xs">{t('property.propertyClass.soviet_era')}</Badge>, label: t('property.propertyClass.soviet_era'), description: t('legend.class.soviet_era') },
+            ],
+          },
+          {
+            title: t('legend.freshness'),
+            items: [
+              { badge: <Badge variant="new" size="xs">{t('property.stateNew')}</Badge>, label: t('property.stateNew'), description: t('legend.fresh.new') },
+              { badge: <Badge variant="warm" size="xs">{t('property.stateRefresh')}</Badge>, label: t('property.stateRefresh'), description: t('legend.fresh.refresh') },
+              { badge: <Badge variant="critical" size="xs">{t('property.stateOld')}</Badge>, label: t('property.stateOld'), description: t('legend.fresh.old') },
+            ],
+          },
+        ]} />
+
         <p className="text-[11px] text-text-muted text-center">
           {list.length} / {properties.length}
         </p>

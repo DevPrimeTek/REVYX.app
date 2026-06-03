@@ -4,7 +4,7 @@
 
 import { useCallback, useEffect, useSyncExternalStore } from 'react';
 import { buildSeedShowings } from './mock/showings';
-import type { Showing, ShowingStatus } from './mock/transactions-types';
+import type { Showing, ShowingStatus, MeetingLocationType } from './mock/transactions-types';
 
 const STORAGE_KEY = 'revyx.showings.v1';
 type Listener = () => void;
@@ -70,6 +70,8 @@ export function addShowing(input: {
   scheduledAt: string;
   durationMin: number;
   notes: string;
+  isQualificationMeeting?: boolean;
+  meetingLocationType?: MeetingLocationType;
 }): Showing {
   const cur = ensure();
   const id = `S-${Math.floor(3000 + Math.random() * 6999)}`;
@@ -86,6 +88,8 @@ export function addShowing(input: {
     feedbackBody: null,
     cancelReason: null,
     createdAt: new Date().toISOString(),
+    isQualificationMeeting: input.isQualificationMeeting ?? false,
+    meetingLocationType: input.meetingLocationType,
   };
   cache = [s, ...cur];
   save(cache);

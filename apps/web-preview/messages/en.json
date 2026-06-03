@@ -222,9 +222,34 @@
     "agentInfo": "{tasks} active tasks of 3 available",
     "preferenceHistory": "Preference History",
     "preferenceHistoryCount": "{n} changes",
+    "preferenceHistoryDesc": "Track how client preferences evolved throughout the process.",
     "preferenceHistoryEmpty": "No changes recorded",
     "preferenceHistoryMoldovaNote": "~90% of clients change preferences after showings (Moldova market specific)",
+    "preferenceHistoryAdd": "Add change",
+    "preferenceHistoryAdded": "Change recorded",
+    "preferenceHistoryNewEntry": "New preference history entry",
+    "preferenceHistoryNoteLabel": "Reason for change",
+    "preferenceHistoryNotePlaceholder": "e.g. After showing in Botanica — budget reduced, accepts Riscani",
+    "preferenceHistoryNoteHint": "Describe what changed and why",
     "preferenceInitial": "Initial preferences"
+  },
+  "meeting": {
+    "modalTitle": "Schedule Discussion",
+    "modalDesc": "Plan a face-to-face qualification meeting with the client.",
+    "locationLabel": "Meeting Location",
+    "locationHelp": "Location affects which documents can be signed and whether the meeting overlaps with a property showing.",
+    "locationDesc": {
+      "office": "Documents can be signed: mandate, GDPR consent.",
+      "public_place": "Exploratory meeting. Documents signed later.",
+      "on_site": "Qualification and showing simultaneously. Select the property to visit."
+    },
+    "propertyLabel": "Property to Visit",
+    "notesPlaceholder": "e.g. Coming with spouse. Financing discussion after.",
+    "submitCta": "Schedule",
+    "toastScheduled": "Discussion Scheduled",
+    "toastScheduledOnSite": "Qualification + showing scheduled at property.",
+    "toastScheduledGeneric": "Meeting added to your schedule.",
+    "scheduleCta": "Schedule Discussion"
   },
   "property": {
     "moduleLabel": "Module · Properties",
@@ -884,7 +909,40 @@
     "confirmedBudget": "Confirmed Budget (in-person)",
     "confirmedBudgetVerified": "Verified",
     "confirmedBudgetUnconfirmed": "Unconfirmed",
-    "confirmedBudgetMoldovaNote": "Moldova-specific: declared budget often differs from actual confirmed in-person budget."
+    "confirmedBudgetMoldovaNote": "Moldova-specific: declared budget often differs from actual confirmed in-person budget.",
+    "budgetMaxLabel": "Max Budget (€)",
+    "zoneLabel": "Preferred Zone",
+    "roomsLabel": "Rooms"
+  },
+  "legend": {
+    "title": "Legend",
+    "leadStatus": "Lead Status",
+    "leadType": "Client Type",
+    "propertyClass": "Property Class",
+    "freshness": "Listing Freshness",
+    "status": {
+      "HOT": "Priority — respond within 15 minutes",
+      "qualified": "Qualified — budget and intent confirmed",
+      "warm": "Active — searching, not urgent",
+      "nurturing": "Monitoring — not ready yet"
+    },
+    "type": {
+      "buyer": "Looking to buy a property",
+      "seller": "Has a property to sell",
+      "tenant": "Looking to rent a property",
+      "landlord": "Has a property to rent out"
+    },
+    "class": {
+      "soviet_era": "Building constructed before 1990",
+      "post_soviet": "Building constructed 1990–2005",
+      "new_build": "Building constructed after 2005",
+      "premium": "Premium project / city center"
+    },
+    "fresh": {
+      "new": "Published in the last 30 days",
+      "refresh": "Published 30–60 days ago — update recommended",
+      "old": "Listing older than 60 days — urgent update"
+    }
   },
   "showing": {
     "meetingLocationType": {

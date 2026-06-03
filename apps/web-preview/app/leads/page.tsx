@@ -11,10 +11,11 @@ import { Table, TBody, TD, TH, THead, TR } from '@/components/ui/table';
 import { LeadPriorityBadge } from '@/components/ui/score-badge';
 import { Badge } from '@/components/ui/badge';
 import { InfoTooltip } from '@/components/ui/info-tooltip';
+import { LegendPanel } from '@/components/ui/legend-panel';
 import { useT } from '@/components/i18n/provider';
 import { leads } from '@/lib/mock';
 import type { LeadStatus } from '@/lib/mock';
-import { transactionIntent, isDemandSide } from '@/lib/transaction-intent';
+import { transactionIntent } from '@/lib/transaction-intent';
 import { useWorkspaceDirection, isIntentVisible } from '@/lib/workspace-store';
 import { cn } from '@/lib/utils';
 
@@ -254,21 +255,6 @@ function LeadsPageInner() {
                         >
                           {t(`leadType.${l.leadType}`)}
                         </Badge>
-                        {/* [MOLDOVA-SPECIFIC] indicatori vizibili în listing */}
-                        {isDemandSide(l.leadType) && (l.confirmedBudgetMax != null || l.preferenceHistory.length > 0) && (
-                          <span className="flex items-center gap-1 mt-0.5">
-                            {l.confirmedBudgetMax != null && (
-                              <span className="text-[10px] text-green-400 font-medium leading-none">
-                                ✓ {t('preferences.confirmedBudgetVerified')}
-                              </span>
-                            )}
-                            {l.preferenceHistory.length > 0 && (
-                              <span className="text-[10px] text-text-muted leading-none">
-                                {t('leadDetail.preferenceHistoryCount', { n: l.preferenceHistory.length })}
-                              </span>
-                            )}
-                          </span>
-                        )}
                       </TD>
                       <TD className="text-text-secondary">{l.source}</TD>
                       <TD className="text-text-secondary text-[12px]">{l.zone}</TD>
@@ -293,6 +279,28 @@ function LeadsPageInner() {
             </div>
           </CardContent>
         </Card>
+
+        {/* Legendă badge-uri */}
+        <LegendPanel groups={[
+          {
+            title: t('legend.leadStatus'),
+            items: [
+              { badge: <Badge variant="hot" size="xs">HOT</Badge>, label: 'HOT', description: t('legend.status.HOT') },
+              { badge: <Badge variant="qualified" size="xs">{t('lead.status.qualified')}</Badge>, label: t('lead.status.qualified'), description: t('legend.status.qualified') },
+              { badge: <Badge variant="warm" size="xs">{t('lead.status.warm')}</Badge>, label: t('lead.status.warm'), description: t('legend.status.warm') },
+              { badge: <span className="text-[11px] text-text-muted">{t('lead.status.nurturing')}</span>, label: t('lead.status.nurturing'), description: t('legend.status.nurturing') },
+            ],
+          },
+          {
+            title: t('legend.leadType'),
+            items: [
+              { badge: <Badge variant="info" size="xs">{t('leadType.buyer')}</Badge>, label: t('leadType.buyer'), description: t('legend.type.buyer') },
+              { badge: <Badge variant="success" size="xs">{t('leadType.tenant')}</Badge>, label: t('leadType.tenant'), description: t('legend.type.tenant') },
+              { badge: <Badge variant="updated" size="xs">{t('leadType.seller')}</Badge>, label: t('leadType.seller'), description: t('legend.type.seller') },
+              { badge: <Badge variant="warning" size="xs">{t('leadType.landlord')}</Badge>, label: t('leadType.landlord'), description: t('legend.type.landlord') },
+            ],
+          },
+        ]} />
       </main>
     </>
   );
