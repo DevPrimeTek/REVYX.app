@@ -101,6 +101,7 @@ function buildProperties(): Property[] {
       area,
       priceEur: listingType === 'rent' ? 0 : priceEur,
       monthlyRentEur,
+      commissionPct: listingType === 'rent' ? 100 : 2.5,
       propertyClass,
       listingType,
       ps,
