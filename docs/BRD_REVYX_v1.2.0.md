@@ -1,5 +1,5 @@
 # BRD — REVYX Agent Operating System
-<!-- BRD_REVYX_v1.1.0.md · v1.1.0 · 2026-05 -->
+<!-- BRD_REVYX_v1.2.0.md · v1.2.0 · 2026-06 -->
 <!-- CONFIDENȚIAL · Uz Intern · © 2026 REVYX · ITPRO SYSTEM SRL -->
 
 ## Changelog
@@ -8,10 +8,13 @@
 |---|---|---|---|
 | 1.0.0 | 2025-04 | Senior PM | Document inițial — sinteză din Spec v1.1 + BrandBook v2.2 + Workflow v3 |
 | 1.1.0 | 2026-05 | Senior PM + Solution Architect + Product Auditor | ★ Closes F-09 MED (AUDIT_REVYX_s8-external-pass v1.0.0) — additive only, zero breaking change pe BR-01..BR-12 · §6.4 Pilon Retention adăugat (referință `churn-ga` v1.0.0 + KPI Prevention Rate ≥30%) · §4 Entitate BUYER_PROFILE adăugată ★ (sursă `marketplace-two-sided` v1.0.1) · §10 reorganizat în §10.1 RBAC (neschimbat) + §10.2 White-Label as Enterprise feature ★ + §10.3 Mobile surface ★ |
+| **1.2.0** | **2026-06** | ★ Senior PM + Senior BA + DBA | ★ **MINOR — §17 Specificații piață Republica Moldova (MOLDOVA-SPECIFIC).** Secțiune nouă adăugată: §17.1 Comportament buget client (declared vs confirmed, divergență 15-25%) · §17.2 Tipuri întâlnire calificare (office/public_place/on_site — cu implicații operaționale distincte) · §17.3 Pre-aprobare bancară (cvasi-inexistentă în RM; băncile principale MoldIndConBank/Victoriabank/Mobiasbancă) · §17.4 Evoluția preferințelor post-vizionare (90% modificare sistematică — pattern așteptat, nu eroare; preference_history JSONB[], feedback 5 dimensiuni) · §17.5 Mandatul de exclusivitate (document legal seller, 30-90 zile, tracking status pending/signed/expired + reminder job) · §17.6 Clasificarea fondului locativ RM (property_class enum soviet_era/post_soviet/new_build/premium). Toate marcate explicit [MOLDOVA-SPECIFIC]. Zero modificare §1-§16 (formule scoring BRD §7 + BR-01..BR-12 + entități + RBAC INTACTE). |
 
 ---
 
 > **Backwards compat (v1.0.0 → v1.1.0):** Toate cerințele BR-01..BR-12, NFR-01..NFR-11, formulele scoring §7.1–7.8, edge cases T01–T07 din v1.0.0 rămân **neschimbate**. v1.1.0 doar **adaugă** un al 8-lea pilon (Retention), o entitate suplimentară (`BUYER_PROFILE`) și sub-secțiuni descriptive pentru white-label și mobile (Phase 3+). Anchor-urile §1–§16 sunt păstrate; nicio cerință v1.0.0 nu e modificată sau ștersă.
+>
+> **Backwards compat (v1.1.0 → v1.2.0):** ★ Secțiunea §17 (Specificații piață Republica Moldova) este **pur aditivă** — zero modificări la BR-01..BR-12, formule scoring §7, entități §8, RBAC §10, roadmap §11. §17 documentează specificul de piață RM cu implicații tehnice pentru câmpuri schema viitoare (declared_budget, confirmed_budget, meeting_location_type, property_class, preference_history, mandate_status) — toate planificate M1.S3+ entry. §1–§16 neschimbate structural.
 
 ---
 
@@ -33,6 +36,7 @@
 14. [Constrângeri & Dependențe](#14-constrângeri--dependențe)
 15. [Glosar](#15-glosar)
 16. [Aprobare](#16-aprobare)
+17. [★ Specificații piață Republica Moldova](#17-specificații-piață-republica-moldova-moldova-specific)
 
 ---
 
@@ -417,5 +421,179 @@ REVYX expune un client nativ React Native pentru iOS și Android, cu suport offl
 
 ---
 
-*BRD_REVYX_v1.1.0.md · v1.1.0 · 2026-05 · CONFIDENȚIAL · Uz Intern*
+---
+
+## ★ 17. Specificații piață Republica Moldova [MOLDOVA-SPECIFIC]
+
+> **IMPORTANT:** Toate specificațiile din această secțiune sunt **EXCLUSIV pentru piața din Republica Moldova**. La expansiunea REVYX pe alte piețe (România, Bulgaria, Georgia etc.) fiecare piață va necesita propriile specificații echivalente — comportamentele descrise mai jos NU sunt universale și NU trebuie tratate ca cerințe globale ale platformei.
+>
+> Secțiunea descrie insight-uri operaționale identificate din analiza fluxului real al agenților imobiliari moldoveni, cu implicațiile tehnice corespunzătoare pentru schema BD și logica aplicației.
+
+---
+
+### §17.1 Comportament buget client [MOLDOVA-SPECIFIC]
+
+**Fenomenul observat:**
+- Clientul declară un buget la telefon (buget aspirațional) care diferă sistematic de bugetul confirmat față-în-față.
+- Divergența tipică: **15-25%** sub bugetul declarat (ex: declarat 80.000€ → confirmat 60.000€ cash + speranță credit).
+- Motivul: clienții RM declară bugetul maxim teoretic (presupunând credit maxim aprobat), nu cel real imediat disponibil.
+
+**Implicații tehnice:**
+
+| Câmp | Tip | Descriere | Stage implementare |
+|---|---|---|---|
+| `declared_budget_eur` | `NUMERIC(12,2)` | Bugetul declarat telefonic la intake | M1.S3 — LEAD schema |
+| `confirmed_budget_eur` | `NUMERIC(12,2) NULL` | Bugetul confirmat față-în-față (completat de agent post-întâlnire) | M1.S3 — LEAD schema |
+| `budget_confirmed_at` | `TIMESTAMPTZ NULL` | Timestamp confirmare buget | M1.S3 — LEAD schema |
+
+**Impact scoring:**
+- `confirmed_budget_eur` alimentează **RF (Risk Factor)** în calculul DHI când e disponibil — gap mare declarat/confirmat → RF mai mare.
+- Match Engine (M1.S4) folosește `confirmed_budget_eur` când disponibil, altfel `declared_budget_eur × 0.80` ca estimare conservativă.
+- UI agent: câmp editabil `Buget confirmat` vizibil pe lead detail post-întâlnire calificare; hint de avertizare dacă `confirmed_budget < declared_budget × 0.85`.
+
+---
+
+### §17.2 Tipuri întâlnire de calificare [MOLDOVA-SPECIFIC]
+
+**Fenomenul observat:**
+Întâlnirile de calificare în RM NU au loc exclusiv la oficiu. Există 3 locații distincte cu implicații operaționale diferite:
+
+| Tip (`meeting_location_type`) | Descriere | Implicații operaționale |
+|---|---|---|
+| `office` | La oficiu / sediu agenție | Pot fi semnate documente fizic (mandat GDPR consent, contract intermediere); agent lucrează de pe desktop full |
+| `public_place` | Cafenea, parc, loc public | Întâlnire exploratorie; documente se semnează ulterior; agent lucrează de pe telefon (Mobile companion); preferințele clientului se actualizează live |
+| `on_site` | La proprietatea de vizitat | Calificarea și prima vizionare **se suprapun** — un singur eveniment fizic; nu sunt 2 evenimente separate |
+
+**Implicații tehnice critice:**
+
+1. **`on_site` meeting → auto-create SHOWING** — când `meeting_location_type = 'on_site'`, sistemul creează automat un SHOWING asociat (property_id = prima proprietate vizitată). Nu se contorizează ca 2 activități separate în IS/activity counting.
+2. **`ACTIVITY` schema** (M1.S3 entry): câmp `meeting_location_type ENUM('office', 'public_place', 'on_site') NULL` pe entitatea ACTIVITY (type = `qualification_meeting`).
+3. **Trigger BD** (M1.S3): `after INSERT on ACTIVITY WHERE type = 'qualification_meeting' AND meeting_location_type = 'on_site'` → INSERT on SHOWING cu `showing_type = 'qualification_combined'`.
+4. **IS (Interaction Strength)** — calificare `on_site` are greutate mai mare în IS computation (agentul a văzut proprietatea + a calificat clientul simultan = informație mai bogată).
+5. **GDPR compliance**: documente semnate în `public_place` necesită confirmare digitală ulterioară (e-signature sau upload scan) — `gdpr_consent.channel = 'verbal_pending_digital'` cu flag `needs_digital_confirmation = true`.
+
+---
+
+### §17.3 Pre-aprobare bancară [MOLDOVA-SPECIFIC]
+
+**Fenomenul observat:**
+- Spre deosebire de piețele vestice (DE/AT/CH/UK unde pre-aprobarea bancară înainte de vizionare e standard), **în RM pre-aprobarea bancară înainte de vizionare este excepție, nu regulă**.
+- Agentul evaluează singur „cât e real bugetul" din conversație (context §17.1).
+- Clienții rareori solicită pre-aprobare din proprie inițiativă.
+
+**Bănci principale RM care oferă pre-aprobare:**
+- MoldIndConBank (MIB)
+- Victoriabank
+- Mobiasbancă (BNP Paribas Group)
+
+**Implicații tehnice:**
+
+| Câmp | Tip | Descriere | Stage |
+|---|---|---|---|
+| `bank_preapproval_status` | `ENUM('none', 'in_progress', 'approved', 'rejected') DEFAULT 'none'` | Status pre-aprobare bancară | M1.S3 — LEAD |
+| `bank_preapproval_amount_eur` | `NUMERIC(12,2) NULL` | Suma aprobată de bancă | M1.S3 — LEAD |
+| `bank_preapproval_bank` | `VARCHAR(100) NULL` | Numele băncii | M1.S3 — LEAD |
+| `bank_preapproval_expires_at` | `TIMESTAMPTZ NULL` | Valabilitate pre-aprobare (tipic 30-90 zile) | M1.S3 — LEAD |
+
+**Impact scoring:**
+- `bank_preapproval_status = 'approved'` → RF (Risk Factor) scade semnificativ (riscul de finanțare eliminat); DHI crește.
+- NBA sugestie automată pentru buyer leads în stadiu `qualified`: `request_bank_preapproval` task dacă `bank_preapproval_status = 'none'` + `confirmed_budget_eur > 40000`.
+
+---
+
+### §17.4 Evoluția preferințelor post-vizionare [MOLDOVA-SPECIFIC]
+
+**Fenomenul observat:**
+- **90% din clienții RM modifică cel puțin un criteriu de preferință după prima vizionare.**
+- Modificarea nu e excepție — e **pattern sistematic și așteptat** în piața RM.
+- Cauze: clientul nu știa ce vrea până nu a văzut ceva concret; vizionarea calibrează așteptările vs realitatea pieței.
+- **Sistemul NU trebuie să trateze modificarea ca eroare** — trebuie să o faciliteze activ.
+
+**Implicații tehnice:**
+
+| Câmp / Entitate | Tip | Descriere | Stage |
+|---|---|---|---|
+| `preference_history` | `JSONB[] NOT NULL DEFAULT '[]'` | Array de snapshot-uri preferință; fiecare element conține `{timestamp, changed_by, preferences_snapshot}` | M1.S3 — LEAD |
+| `showing.feedback` | JSONB structurat | 5 dimensiuni feedback post-vizionare (structura de mai jos) | M1.S3 — SHOWING |
+| `showing.dismissed` | `BOOLEAN DEFAULT false` | Proprietatea respinsă explicit de client | M1.S3 — SHOWING |
+
+**Structura `showing.feedback` (5 dimensiuni RM-specific):**
+```json
+{
+  "price":     { "rating": 1-5, "comment": "string" },
+  "zone":      { "rating": 1-5, "comment": "string" },
+  "surface":   { "rating": 1-5, "comment": "string" },
+  "condition": { "rating": 1-5, "comment": "string" },
+  "other":     { "rating": 1-5, "comment": "string" }
+}
+```
+
+**Logica platformei:**
+- La `showing.feedback` completat → trigger `preferences.changed` event → snapshot curent preferințe salvat în `preference_history[]`.
+- Match Engine (M1.S4) exclude proprietăți cu `showing.dismissed = true` pentru lead-ul respectiv.
+- `preference_history` alimentează ML training data (M2.S5+) pentru predicția evoluției preferințelor.
+- UI agent: `<PreferenceHistoryTimeline>` component pe lead detail (M1.S5) afișând evoluția cronologică.
+- Modal feedback post-vizionare (M1.S3 scope) apare automat la marcarea SHOWING ca completat.
+
+---
+
+### §17.5 Mandatul de exclusivitate [MOLDOVA-SPECIFIC]
+
+**Fenomenul observat:**
+- Agentul semnează un **mandat de exclusivitate** cu vânzătorul (seller lead) — document legal care conferă agentului dreptul exclusiv de a promova și vinde proprietatea pe o perioadă determinată.
+- Durata tipică în RM: **30-90 zile** (negociabilă).
+- La expirare → reminder automat obligatoriu (risc pierdere relație seller).
+- REVYX curent (M0.S8.2) are `request_documents` NBA ca sugestie pentru sellers, dar mandatul nu e tracked cu status explicit.
+
+**Implicații tehnice:**
+
+| Câmp / Entitate | Tip | Descriere | Stage |
+|---|---|---|---|
+| `mandate_status` | `ENUM('none', 'pending', 'signed', 'expired') DEFAULT 'none'` | Status mandat exclusivitate (pe LEAD tip seller/landlord) | M1.S3 — LEAD |
+| `mandate_signed_at` | `TIMESTAMPTZ NULL` | Data semnare mandat | M1.S3 — LEAD |
+| `mandate_expires_at` | `TIMESTAMPTZ NULL` | Data expirare mandat (mandate_signed_at + 30/60/90 zile) | M1.S3 — LEAD |
+| `mandate_document_id` | `UUID NULL FK → documents.id` | Referință la documentul scanat/digital | M1.S3 — LEAD |
+
+**Logica platformei:**
+- NBA pentru supply leads (seller/landlord) în status `hot` sau `qualified`: task `request_mandate` cu priority HIGH când `mandate_status = 'none'`.
+- Cron job zilnic (M1.S3): verifică `mandate_expires_at < NOW() + INTERVAL '7 days'` → NBA task `renew_mandate` cu `due_at = mandate_expires_at - INTERVAL '3 days'`.
+- La `mandate_expires_at < NOW()` → `mandate_status` actualizat automat la `'expired'` via cron + AUDIT_LOG event `MANDATE_EXPIRED`.
+- AUDIT_LOG events: `MANDATE_REQUESTED`, `MANDATE_SIGNED`, `MANDATE_EXPIRED`, `MANDATE_RENEWED`.
+
+---
+
+### §17.6 Clasificarea fondului locativ RM [MOLDOVA-SPECIFIC]
+
+**Fenomenul observat:**
+Piața imobiliară din Republica Moldova (Chișinău în special) are o structură de fond locativ distinctă față de piețele vestice, cu 4 categorii principale care influențează semnificativ prețul, calitatea match-urilor și așteptările cumpărătorilor/chiriașilor:
+
+| `property_class` | Perioadă construcție | Caracteristici | Preț orientativ Chișinău |
+|---|---|---|---|
+| `soviet_era` | Pre-1990 (sec. I, II, III) | Fond locativ sovietic (Hrușciov, Stalinka, bloc panel); plafoane ~2.5m; planuri fixe; izolație slabă | ~40.000-80.000€ (apartament 2 camere) |
+| `post_soviet` | 1990-2005 | Calitate intermediară; unele renovate; materiale mixte | ~60.000-120.000€ |
+| `new_build` | 2005-prezent | Bloc nou cu lift, interfon, parcare; calitate variabilă | ~900-1.200€/m² periferice; ~1.200-1.500€/m² zone medii |
+| `premium` | Oricând, locații centrale + proiecte selective | Centru Chișinău (Buiucani premium, Centru, Botanica zone rezidențiale selective); finisaje înalte; facilități | >1.500€/m² |
+
+**Distribuție aproximativă tranzacții Chișinău:**
+- `soviet_era`: ~55-60% din tranzacțiile sub 80.000€
+- `new_build`: ~30% din tranzacțiile totale
+- `post_soviet`: ~10%
+- `premium`: ~5%
+
+**Implicații tehnice:**
+
+| Câmp | Tip | Descriere | Stage |
+|---|---|---|---|
+| `property_class` | `ENUM('soviet_era', 'post_soviet', 'new_build', 'premium') NULL` | Clasa fondului locativ — clasificare RM-specific | M1.S3 — PROPERTY |
+
+**Impact scoring + matching:**
+- `property_class` → index compus `(tenant_id, property_class, listing_type)` pentru filtrare rapidă în Match Engine (M1.S4).
+- PS (Property Score) include `property_class` ca feature în scoring — `new_build` și `premium` au LF (Listing Freshness) mai mare per aceeași perioadă de inactivitate (cerere mai mare).
+- Match Engine (M1.S4): buyer/tenant lead cu preferință `preferred_class` → filtrare primară pe `property_class` înainte de cosine similarity.
+- UI `/properties` (M1.S5): filtru `Clasa proprietății` cu 4 opțiuni.
+- UI `/leads/[id]` BuyerPreferencesPanel (M1.S5): câmp `Clasă proprietate preferată` (multi-select).
+
+---
+
+*BRD_REVYX_v1.2.0.md · v1.2.0 · 2026-06 · CONFIDENȚIAL · Uz Intern*
 *REVYX — Real Estate Execution Intelligence · © 2026 REVYX · ITPRO SYSTEM SRL*
