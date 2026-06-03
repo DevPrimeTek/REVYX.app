@@ -38,7 +38,7 @@ export default function ProfilePage() {
           <p className="label-mono text-gold">{t('profile.moduleLabel')}</p>
           <h1 className="text-[28px] mt-sp1">{me.name}</h1>
           <p className="text-[13px] text-text-secondary mt-sp1">
-            {me.id} · {t('profile.tenure')} {Math.round(me.tenure / 30)} luni · {t('profile.subtitle')}
+            {me.id} · {t('profile.tenure')} {t('profile.tenureMonths', { count: String(Math.round(me.tenure / 30)) })} · {t('profile.subtitle')}
           </p>
         </header>
 
@@ -82,14 +82,14 @@ export default function ProfilePage() {
               <CardTitle>{me.closedDeals30d}</CardTitle>
             </CardHeader>
             <CardContent>
-              <Badge variant="success" size="xs">peste 5</Badge>
+              <Badge variant="success" size="xs">{t('profile.badgeAbove5')}</Badge>
             </CardContent>
           </Card>
         </section>
 
         <Card>
           <CardHeader>
-            <CardTitle>{t('dashboard.blocks.perfApsLabel')} · 6 luni</CardTitle>
+            <CardTitle>{t('dashboard.blocks.perfApsLabel')} {t('profile.chartTitleSuffix')}</CardTitle>
             <CardDescription>{t('dashboard.blocks.perfDesc')}</CardDescription>
           </CardHeader>
           <CardContent>
@@ -99,7 +99,7 @@ export default function ProfilePage() {
                   <div
                     className="w-full bg-gradient-to-t from-gold-dark to-gold rounded-t"
                     style={{ height: `${v * 100}px` }}
-                    aria-label={`Luna ${i + 1}: ${priorityDots(v)}`}
+                    aria-label={t('profile.chartMonthAria', { month: String(i + 1), dots: priorityDots(v) })}
                   />
                   <span className="text-[10px] text-text-muted">{priorityDots(v)}</span>
                 </div>
@@ -111,8 +111,8 @@ export default function ProfilePage() {
         <section className="grid grid-cols-1 lg:grid-cols-2 gap-sp3">
           <Card>
             <CardHeader>
-              <CardTitle>Lead-uri asignate</CardTitle>
-              <CardDescription>{myLeads.length} lead-uri active.</CardDescription>
+              <CardTitle>{t('profile.assignedLeadsTitle')}</CardTitle>
+              <CardDescription>{t('profile.assignedLeadsDesc', { count: String(myLeads.length) })}</CardDescription>
             </CardHeader>
             <CardContent>
               <ul className="flex flex-col gap-sp1 text-[13px]">
@@ -126,7 +126,7 @@ export default function ProfilePage() {
                   </li>
                 ))}
                 {myLeads.length === 0 && (
-                  <li className="text-text-muted text-[12px]">Niciun lead asignat curent.</li>
+                  <li className="text-text-muted text-[12px]">{t('profile.assignedLeadsEmpty')}</li>
                 )}
               </ul>
             </CardContent>
@@ -134,8 +134,8 @@ export default function ProfilePage() {
 
           <Card>
             <CardHeader>
-              <CardTitle>Tranzacții în pipeline</CardTitle>
-              <CardDescription>{myDeals.length} tranzacții (incl. câștigate).</CardDescription>
+              <CardTitle>{t('profile.activeDealsTitle')}</CardTitle>
+              <CardDescription>{t('profile.activeDealsDesc', { count: String(myDeals.length) })}</CardDescription>
             </CardHeader>
             <CardContent>
               <ul className="flex flex-col gap-sp1 text-[13px]">
@@ -149,7 +149,7 @@ export default function ProfilePage() {
                   </li>
                 ))}
                 {myDeals.length === 0 && (
-                  <li className="text-text-muted text-[12px]">Niciun deal activ.</li>
+                  <li className="text-text-muted text-[12px]">{t('profile.activeDealsEmpty')}</li>
                 )}
               </ul>
             </CardContent>

@@ -80,6 +80,14 @@ function buildProperties(): Property[] {
       ? Math.round((priceEur * 0.0065 + rng.int(-30, 50)) / 10) * 10
       : null;
 
+    // Regula 20: commission % negociat de agent la create (vizibil agent + client).
+    // Sale|both → 2.0/2.5/3.0% mix. Rent → 50/75/100/125/150% din chirie lunară (100% = 1× chirie standard RM).
+    const pctRoll = rng.next();
+    const commissionPct =
+      listingType === 'rent'
+        ? (pctRoll < 0.15 ? 50 : pctRoll < 0.35 ? 75 : pctRoll < 0.80 ? 100 : pctRoll < 0.95 ? 125 : 150)
+        : (pctRoll < 0.25 ? 2.0 : pctRoll < 0.80 ? 2.5 : 3.0);
+
     out.push({
       id: `P-${String(1900 + i).padStart(4, '0')}`,
       addr,
@@ -90,6 +98,7 @@ function buildProperties(): Property[] {
       area,
       priceEur: listingType === 'rent' ? 0 : priceEur,
       monthlyRentEur,
+      commissionPct,
       listingType,
       ps,
       lf,

@@ -13,14 +13,14 @@ export default function LoginPage() {
       <div className="w-full max-w-md">
         <Card variant="elevated" accentTop>
           <CardHeader>
-            <p className="label-mono text-gold">Modul 1 · Auth</p>
+            <p className="label-mono text-gold">{t('login.moduleLabel')}</p>
             <CardTitle>REVYX</CardTitle>
             <CardDescription>{t('login.demoNotice')}</CardDescription>
           </CardHeader>
           <CardContent>
             <form className="flex flex-col gap-sp3" action="/dashboard">
               <Input
-                label="Email"
+                label={t('login.emailLabel')}
                 type="email"
                 name="email"
                 autoComplete="email"
@@ -28,7 +28,7 @@ export default function LoginPage() {
                 required
               />
               <Input
-                label={t('common.confirm')}
+                label={t('login.passwordLabel')}
                 type="password"
                 name="password"
                 autoComplete="current-password"
