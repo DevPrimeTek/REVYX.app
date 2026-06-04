@@ -1,0 +1,1389 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>REVYX — Real Estate Execution Intelligence</title>
+<style>
+/* ══════════════════════════════════════
+   TOKENS & RESET
+══════════════════════════════════════ */
+:root {
+  --navy:    #0C1428;
+  --navy2:   #111D38;
+  --navy3:   #162040;
+  --gold:    #C9870A;
+  --gold2:   #E8A010;
+  --gold-l:  #F5C842;
+  --gold-dim: rgba(201,135,10,0.15);
+  --text-h:  #F0F4FA;
+  --text-b:  #D8E2F0;
+  --text-m:  #8FA8CC;
+  --green:   #0FBA7F;
+  --amber:   #E8950A;
+  --red:     #F26565;
+  --blue:    #60A5FA;
+  --slide-h: 100dvh;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{overflow:hidden;height:100%}
+body{
+  font-family:'Segoe UI',system-ui,sans-serif;
+  background:var(--navy);
+  color:var(--text-b);
+  height:100%;
+  overflow:hidden;
+  user-select:none;
+}
+
+/* ══════════════════════════════════════
+   SLIDE ENGINE
+══════════════════════════════════════ */
+#deck{
+  height:100dvh;
+  width:100vw;
+  position:relative;
+  overflow:hidden;
+}
+.slide{
+  position:absolute;
+  inset:0;
+  height:100dvh;
+  width:100vw;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  padding:80px 8vw 60px;
+  transform:translateY(100%);
+  transition:transform .65s cubic-bezier(.77,0,.18,1);
+  will-change:transform;
+  overflow:hidden;
+}
+.slide.active  {transform:translateY(0)}
+.slide.prev    {transform:translateY(-100%)}
+/* entrance animations trigger when slide becomes active */
+.slide.active .anim-up  {animation:fadeUp .6s .1s both}
+.slide.active .anim-up2 {animation:fadeUp .6s .25s both}
+.slide.active .anim-up3 {animation:fadeUp .6s .4s both}
+.slide.active .anim-up4 {animation:fadeUp .6s .55s both}
+.slide.active .anim-fade{animation:fadeIn .8s .2s both}
+
+@keyframes fadeUp {
+  from{opacity:0;transform:translateY(30px)}
+  to  {opacity:1;transform:translateY(0)}
+}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+
+/* ══════════════════════════════════════
+   NAV UI
+══════════════════════════════════════ */
+/* dots */
+#dots{
+  position:fixed;
+  right:28px;
+  top:50%;
+  transform:translateY(-50%);
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  z-index:200;
+}
+.dot{
+  width:8px;height:8px;
+  border-radius:50%;
+  background:rgba(143,168,204,0.3);
+  border:1px solid rgba(143,168,204,0.3);
+  cursor:pointer;
+  transition:all .3s;
+}
+.dot.on{
+  background:var(--gold);
+  border-color:var(--gold);
+  transform:scale(1.4);
+}
+
+/* arrows */
+.nav-arr{
+  position:fixed;
+  bottom:32px;
+  z-index:200;
+  background:rgba(17,29,56,0.8);
+  border:1px solid rgba(201,135,10,0.3);
+  border-radius:50%;
+  width:44px;height:44px;
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;
+  color:var(--gold);
+  font-size:1.1rem;
+  transition:all .2s;
+  backdrop-filter:blur(8px);
+}
+.nav-arr:hover{background:var(--gold);color:var(--navy)}
+#navUp{right:90px}
+#navDn{right:36px}
+#navUp:disabled,#navDn:disabled{opacity:.3;pointer-events:none}
+
+/* slide counter */
+#counter{
+  position:fixed;
+  bottom:42px;
+  left:8vw;
+  z-index:200;
+  font-size:11px;
+  color:var(--text-m);
+  letter-spacing:2px;
+  font-variant-numeric:tabular-nums;
+}
+
+/* lang switcher */
+#langs{
+  position:fixed;
+  top:20px;right:60px;
+  z-index:200;
+  display:flex;gap:6px;
+}
+.lb{
+  padding:4px 13px;
+  border-radius:20px;
+  border:1px solid rgba(201,135,10,0.35);
+  background:transparent;
+  color:var(--text-m);
+  font-size:11px;font-weight:700;letter-spacing:1px;
+  cursor:pointer;transition:all .2s;
+  font-family:inherit;
+}
+.lb.on,.lb:hover{background:var(--gold);border-color:var(--gold);color:var(--navy)}
+
+/* progress bar */
+#progress{
+  position:fixed;
+  top:0;left:0;
+  height:2px;
+  background:linear-gradient(to right,var(--gold),var(--gold-l));
+  transition:width .5s ease;
+  z-index:300;
+}
+
+/* ══════════════════════════════════════
+   LANG LOGIC
+══════════════════════════════════════ */
+[data-ro],[data-en],[data-ru]{display:none}
+body.ro [data-ro]{display:contents}
+body.en [data-en]{display:contents}
+body.ru [data-ru]{display:contents}
+span[data-ro],span[data-en],span[data-ru]{display:none}
+body.ro span[data-ro]{display:inline}
+body.en span[data-en]{display:inline}
+body.ru span[data-ru]{display:inline}
+div[data-ro],div[data-en],div[data-ru]{display:none!important}
+body.ro div[data-ro]{display:flex!important}
+body.en div[data-en]{display:flex!important}
+body.ru div[data-ru]{display:flex!important}
+
+/* ══════════════════════════════════════
+   TYPOGRAPHY
+══════════════════════════════════════ */
+.eyebrow{
+  font-size:11px;letter-spacing:4px;text-transform:uppercase;
+  color:var(--gold);font-weight:700;margin-bottom:1rem;
+}
+.display{
+  font-size:clamp(3.5rem,9vw,8rem);
+  font-weight:900;line-height:.92;
+  color:var(--text-h);letter-spacing:-3px;
+  margin-bottom:1.2rem;
+}
+.display .g{color:var(--gold)}
+.headline{
+  font-size:clamp(2rem,5vw,4rem);
+  font-weight:900;line-height:1;
+  color:var(--text-h);letter-spacing:-1.5px;
+  margin-bottom:.8rem;
+}
+.headline .g{color:var(--gold)}
+.sub{
+  font-size:clamp(1rem,2vw,1.3rem);
+  color:var(--text-m);font-weight:300;
+  max-width:600px;line-height:1.6;
+  margin-bottom:2rem;
+}
+.label{
+  font-size:11px;letter-spacing:3px;text-transform:uppercase;
+  color:var(--gold);font-weight:700;margin-bottom:.5rem;
+}
+
+/* ══════════════════════════════════════
+   CHIPS / BADGES
+══════════════════════════════════════ */
+.chips{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:2.5rem}
+.chip{
+  padding:6px 16px;border-radius:20px;font-size:12px;font-weight:600;
+  letter-spacing:.5px;
+}
+.cg{background:rgba(201,135,10,0.12);border:1px solid var(--gold);color:var(--gold)}
+.cb{background:rgba(96,165,250,0.1);border:1px solid var(--blue);color:var(--blue)}
+.cv{background:rgba(15,186,127,0.1);border:1px solid var(--green);color:var(--green)}
+
+/* ══════════════════════════════════════
+   SLIDE BACKGROUNDS
+══════════════════════════════════════ */
+.bg-hero{
+  background:
+    radial-gradient(ellipse 80% 60% at 70% 40%,rgba(201,135,10,0.1) 0%,transparent 60%),
+    radial-gradient(ellipse 50% 80% at 10% 80%,rgba(96,165,250,0.05) 0%,transparent 60%),
+    var(--navy);
+}
+.bg-dark{background:var(--navy)}
+.bg-mid{background:var(--navy2)}
+.bg-gold{
+  background:
+    radial-gradient(ellipse 70% 70% at 50% 50%,rgba(201,135,10,0.08) 0%,transparent 70%),
+    var(--navy);
+}
+
+/* ══════════════════════════════════════
+   LAYOUT HELPERS
+══════════════════════════════════════ */
+.cols{display:grid;gap:2rem;align-items:center}
+.cols-2{grid-template-columns:1fr 1fr}
+.cols-3{grid-template-columns:1fr 1fr 1fr}
+.cols-4{grid-template-columns:repeat(4,1fr)}
+@media(max-width:900px){
+  .cols-3{grid-template-columns:1fr 1fr}
+  .cols-4{grid-template-columns:1fr 1fr}
+}
+.card{
+  background:var(--navy2);
+  border:1px solid rgba(143,168,204,0.1);
+  border-radius:14px;
+  padding:1.5rem;
+  transition:border-color .2s;
+}
+.card:hover{border-color:rgba(201,135,10,0.4)}
+.card-gold{border-color:rgba(201,135,10,0.3);border-top:2px solid var(--gold)}
+.card-blue{border-color:rgba(96,165,250,0.3);border-top:2px solid var(--blue)}
+
+/* ══════════════════════════════════════
+   BIG NUMBER
+══════════════════════════════════════ */
+.bignum{
+  font-size:clamp(3rem,8vw,6rem);
+  font-weight:900;line-height:1;
+  font-variant-numeric:tabular-nums;
+}
+.bignum.gold{color:var(--gold)}
+.bignum.green{color:var(--green)}
+.bignum.red{color:var(--red)}
+.bignum.blue{color:var(--blue)}
+.bignumlabel{font-size:.85rem;color:var(--text-m);margin-top:.4rem;font-weight:300}
+
+/* ══════════════════════════════════════
+   SVG INFOGRAPHICS
+══════════════════════════════════════ */
+.svg-wrap{width:100%;height:100%;display:flex;align-items:center;justify-content:center}
+svg text{font-family:'Segoe UI',system-ui,sans-serif}
+
+/* ══════════════════════════════════════
+   SPECIFIC SLIDE STYLES
+══════════════════════════════════════ */
+
+/* slide 1 hero */
+.hero-logo{
+  font-size:clamp(5rem,14vw,11rem);
+  font-weight:900;letter-spacing:-6px;
+  color:var(--text-h);line-height:1;
+  margin-bottom:.5rem;
+}
+.hero-logo span{color:var(--gold)}
+
+/* slide: problem */
+.pain-list{
+  display:flex;flex-direction:column;gap:.75rem;
+  max-width:700px;
+}
+.pain-row{
+  display:flex;align-items:flex-start;gap:1rem;
+  background:rgba(242,101,101,0.05);
+  border:1px solid rgba(242,101,101,0.15);
+  border-left:3px solid var(--red);
+  border-radius:10px;
+  padding:1rem 1.25rem;
+}
+.pain-icon{font-size:1.5rem;flex-shrink:0;margin-top:2px}
+.pain-t{font-size:.95rem;font-weight:700;color:var(--text-h);margin-bottom:.2rem}
+.pain-d{font-size:.82rem;color:var(--text-m);line-height:1.5}
+
+/* slide: pillars grid */
+.pillar{
+  background:var(--navy2);
+  border:1px solid rgba(143,168,204,0.1);
+  border-radius:14px;
+  padding:1.25rem;
+  position:relative;
+  overflow:hidden;
+}
+.pillar::after{
+  content:'';
+  position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(to right,var(--gold),transparent);
+}
+.p-icon{font-size:1.6rem;margin-bottom:.6rem}
+.p-name{font-size:.75rem;font-weight:700;color:var(--gold);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:.4rem}
+.p-desc{font-size:.8rem;color:var(--text-m);line-height:1.5}
+
+/* table */
+.vtable{width:100%;border-collapse:separate;border-spacing:0;border-radius:12px;overflow:hidden}
+.vtable th{
+  background:var(--navy3);padding:.85rem 1.25rem;
+  font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;text-align:left;
+}
+.vtable th.gc{color:var(--gold)}
+.vtable th.mc{color:var(--text-m)}
+.vtable td{
+  padding:.75rem 1.25rem;font-size:.88rem;
+  border-top:1px solid rgba(143,168,204,0.07);
+}
+.vtable tr:nth-child(even) td{background:rgba(17,29,56,.4)}
+.vtable .chk{color:var(--green);font-weight:700}
+.vtable .crs{color:rgba(143,168,204,0.3)}
+.vtable .fn{color:var(--text-h);font-weight:600}
+
+/* firewall flow */
+.fw{display:flex;align-items:center;justify-content:center;gap:1.5rem;flex-wrap:wrap}
+.fw-node{
+  background:var(--navy2);border:1px solid rgba(143,168,204,0.15);
+  border-radius:12px;padding:1rem 1.5rem;text-align:center;min-width:130px;
+}
+.fw-node .ic{font-size:2rem;margin-bottom:.4rem}
+.fw-node .nl{font-size:.78rem;color:var(--text-m)}
+.fw-gate{
+  background:rgba(201,135,10,0.1);
+  border:2px solid var(--gold);
+  border-radius:14px;padding:1.25rem 2rem;text-align:center;
+}
+.fw-gate .ic{font-size:2.5rem;margin-bottom:.4rem}
+.fw-gate .gl{font-size:.85rem;font-weight:700;color:var(--gold)}
+.fw-arr{font-size:1.8rem;color:var(--gold);flex-shrink:0}
+.fw-out{display:flex;flex-direction:column;gap:.75rem}
+.fw-out-row{display:flex;align-items:center;gap:.75rem}
+
+/* sla cards */
+.sla-row{display:grid;grid-template-columns:repeat(4,1fr);gap:1.25rem}
+@media(max-width:900px){.sla-row{grid-template-columns:1fr 1fr}}
+.sla-c{
+  border-radius:14px;padding:1.5rem;text-align:center;border:2px solid transparent;
+  display:flex;flex-direction:column;align-items:center;gap:.5rem;
+}
+.sla-c.hot{background:rgba(242,101,101,0.07);border-color:var(--red)}
+.sla-c.wrm{background:rgba(232,149,10,0.07);border-color:var(--amber)}
+.sla-c.col{background:rgba(96,165,250,0.07);border-color:var(--blue)}
+.sla-c.cld{background:rgba(143,168,204,0.04);border-color:rgba(143,168,204,0.2)}
+.sla-t{font-size:2.8rem;font-weight:900;line-height:1;font-variant-numeric:tabular-nums}
+.sla-c.hot .sla-t{color:var(--red)}
+.sla-c.wrm .sla-t{color:var(--amber)}
+.sla-c.col .sla-t{color:var(--blue)}
+.sla-c.cld .sla-t{color:var(--text-m)}
+.sla-n{font-size:.85rem;font-weight:700;color:var(--text-h)}
+.sla-d{font-size:.78rem;color:var(--text-m);line-height:1.5}
+
+/* roles pyramid */
+.pyramid{display:flex;flex-direction:column;align-items:center;gap:6px;width:100%}
+.prow{display:flex;justify-content:center;gap:8px}
+.prole{
+  padding:9px 24px;border-radius:8px;
+  font-size:.82rem;font-weight:600;letter-spacing:.5px;border:1px solid;
+  white-space:nowrap;
+}
+.ra{background:rgba(201,135,10,0.12);border-color:var(--gold);color:var(--gold)}
+.rm{background:rgba(96,165,250,0.08);border-color:var(--blue);color:var(--blue)}
+.rl{background:rgba(15,186,127,0.08);border-color:var(--green);color:var(--green)}
+.rs{background:rgba(232,149,10,0.08);border-color:var(--amber);color:var(--amber)}
+.rg{background:rgba(143,168,204,0.08);border-color:rgba(143,168,204,0.3);color:var(--text-b)}
+
+/* roadmap */
+.rm-row{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;width:100%}
+.rm-card{
+  border-radius:14px;padding:1.75rem;
+  display:flex;flex-direction:column;gap:.6rem;
+}
+.rm-card.done{background:rgba(15,186,127,0.06);border:1px solid rgba(15,186,127,0.25);border-top:3px solid var(--green)}
+.rm-card.live{background:rgba(201,135,10,0.06);border:1px solid rgba(201,135,10,0.3);border-top:3px solid var(--gold)}
+.rm-card.plan{background:rgba(143,168,204,0.04);border:1px solid rgba(143,168,204,0.1);border-top:3px solid rgba(143,168,204,0.3)}
+.rm-badge{font-size:.7rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:.25rem}
+.rm-card.done .rm-badge{color:var(--green)}
+.rm-card.live .rm-badge{color:var(--gold)}
+.rm-card.plan .rm-badge{color:var(--text-m)}
+.rm-title{font-size:1.3rem;font-weight:900;color:var(--text-h)}
+.rm-items{list-style:none;display:flex;flex-direction:column;gap:.3rem;margin-top:.25rem}
+.rm-items li{font-size:.8rem;color:var(--text-m);display:flex;gap:.5rem}
+.rm-items li::before{content:'→';color:var(--gold);flex-shrink:0}
+.rm-card.plan .rm-items li::before{color:rgba(143,168,204,0.4)}
+
+/* benefit bullets */
+.blist{display:flex;flex-direction:column;gap:.75rem;margin-top:.5rem}
+.bitem{display:flex;gap:.75rem;align-items:flex-start}
+.bdot{width:6px;height:6px;border-radius:50%;background:var(--gold);flex-shrink:0;margin-top:.55rem}
+.btext{font-size:.85rem;color:var(--text-m);line-height:1.5}
+.btext strong{color:var(--text-h)}
+
+/* pipeline steps */
+.pipe{display:flex;align-items:stretch;width:100%}
+.pipe-step{
+  flex:1;
+  background:var(--navy2);
+  border:1px solid rgba(143,168,204,0.1);
+  padding:1.25rem 1rem;
+  position:relative;
+  display:flex;flex-direction:column;gap:.4rem;
+}
+.pipe-step:first-child{border-radius:14px 0 0 14px}
+.pipe-step:last-child{border-radius:0 14px 14px 0}
+.pipe-step+.pipe-step{border-left:none}
+.pipe-step::after{
+  content:'›';
+  position:absolute;right:-10px;top:50%;transform:translateY(-50%);
+  color:var(--gold);font-size:1.5rem;z-index:2;
+  background:var(--navy);padding:0 3px;
+}
+.pipe-step:last-child::after{display:none}
+.ps-num{font-size:1.6rem;font-weight:900;color:rgba(201,135,10,.2);line-height:1}
+.ps-name{font-size:.82rem;font-weight:700;color:var(--text-h)}
+.ps-hint{font-size:.72rem;color:var(--text-m)}
+.pipe-step:first-child{border-top:3px solid var(--blue)}
+.pipe-step:nth-child(2){border-top:3px solid var(--gold)}
+.pipe-step:nth-child(3){border-top:3px solid var(--amber)}
+.pipe-step:nth-child(4){border-top:3px solid var(--red)}
+.pipe-step:nth-child(5){border-top:3px solid #a855f7}
+.pipe-step:last-child{border-top:3px solid var(--green)}
+
+/* divider */
+.dline{height:1px;background:linear-gradient(to right,transparent,rgba(201,135,10,.3),transparent);margin:1.5rem 0;opacity:.6}
+
+/* ══════════════════════════════════════
+   ANIMATED BG GRID
+══════════════════════════════════════ */
+.bg-grid{
+  position:absolute;inset:0;
+  background-image:
+    linear-gradient(rgba(143,168,204,0.03) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(143,168,204,0.03) 1px,transparent 1px);
+  background-size:60px 60px;
+  pointer-events:none;
+  z-index:0;
+}
+.slide>*:not(.bg-grid){position:relative;z-index:1}
+
+/* scroll hint */
+.scroll-hint{
+  position:absolute;bottom:24px;left:50%;transform:translateX(-50%);
+  color:var(--text-m);font-size:.72rem;letter-spacing:2px;text-transform:uppercase;
+  display:flex;align-items:center;gap:.5rem;
+  animation:breathe 2.5s ease-in-out infinite;
+}
+@keyframes breathe{0%,100%{opacity:.4}50%{opacity:.9}}
+
+/* glow circle decorative */
+.glow{
+  position:absolute;border-radius:50%;
+  background:radial-gradient(circle,rgba(201,135,10,0.15) 0%,transparent 70%);
+  pointer-events:none;
+}
+
+/* number stat row */
+.stat-row{display:flex;flex-wrap:wrap;gap:1.5rem;margin-top:1rem}
+.stat-box{
+  background:var(--navy2);border:1px solid rgba(201,135,10,.2);
+  border-radius:12px;padding:1.25rem 1.75rem;text-align:center;
+  flex:1 1 140px;
+}
+
+/* ══════════════════════════════════════
+   MOBILE ADJUSTMENTS
+══════════════════════════════════════ */
+@media(max-width:700px){
+  .slide{padding:70px 6vw 60px}
+  .cols-2{grid-template-columns:1fr}
+  #dots{display:none}
+}
+</style>
+</head>
+<body class="ro">
+
+<!-- progress bar -->
+<div id="progress" style="width:8.3%"></div>
+
+<!-- lang -->
+<div id="langs">
+  <button class="lb on" onclick="setLang('ro')">RO</button>
+  <button class="lb" onclick="setLang('en')">EN</button>
+  <button class="lb" onclick="setLang('ru')">RU</button>
+</div>
+
+<!-- nav dots (built by JS) -->
+<div id="dots"></div>
+
+<!-- slide counter -->
+<div id="counter">01 / 12</div>
+
+<!-- arrows -->
+<button class="nav-arr" id="navUp" onclick="go(-1)" disabled>↑</button>
+<button class="nav-arr" id="navDn" onclick="go(1)">↓</button>
+
+
+<!-- ══════════════════════════════════════
+     DECK
+══════════════════════════════════════ -->
+<div id="deck">
+
+
+<!-- ─── SLIDE 1 · HERO ─────────────────── -->
+<div class="slide bg-hero active" data-slide="0">
+  <div class="bg-grid"></div>
+  <div class="glow" style="width:600px;height:600px;top:-100px;right:-100px;z-index:0"></div>
+
+  <div class="eyebrow anim-up">
+    <span data-ro>Prezentare pentru investitori</span>
+    <span data-en>Investor Presentation</span>
+    <span data-ru>Презентация для инвесторов</span>
+  </div>
+
+  <div class="hero-logo anim-up2">REVY<span>X</span></div>
+
+  <p class="anim-up3" style="font-size:clamp(1rem,2.5vw,1.5rem);color:var(--text-m);font-weight:300;max-width:650px;line-height:1.5;margin-bottom:2rem">
+    <span data-ro>Nu un CRM. Un <strong style="color:var(--text-h)">sistem de operare</strong> pentru agenți imobiliari — care transformă fiecare lead într-o tranzacție câștigată.</span>
+    <span data-en>Not a CRM. An <strong style="color:var(--text-h)">operating system</strong> for real estate agents — that turns every lead into a won deal.</span>
+    <span data-ru>Не CRM. <strong style="color:var(--text-h)">Операционная система</strong> для риелторов — превращающая каждый лид в закрытую сделку.</span>
+  </p>
+
+  <div class="chips anim-up4">
+    <span class="chip cg">Real Estate Execution Intelligence</span>
+    <span class="chip cb">
+      <span data-ro>AI nativ</span><span data-en>Native AI</span><span data-ru>Встроенный ИИ</span>
+    </span>
+    <span class="chip cv">
+      <span data-ro>Vânzare + Chirie</span><span data-en>Sale + Rent</span><span data-ru>Продажа + Аренда</span>
+    </span>
+    <span class="chip cg">
+      <span data-ro>Republica Moldova</span><span data-en>Republic of Moldova</span><span data-ru>Молдова</span>
+    </span>
+  </div>
+
+  <div class="scroll-hint anim-fade">
+    <span>scroll</span> <span style="color:var(--gold)">↓</span>
+  </div>
+</div>
+
+
+<!-- ─── SLIDE 2 · PROBLEMA ─────────────── -->
+<div class="slide bg-dark" data-slide="1">
+  <div class="bg-grid"></div>
+
+  <div class="cols cols-2" style="height:100%;gap:3rem;align-items:center">
+    <div>
+      <div class="eyebrow anim-up">
+        <span data-ro>Problema</span><span data-en>The Problem</span><span data-ru>Проблема</span>
+      </div>
+      <h2 class="headline anim-up2">
+        <span data-ro>Agenții <span class="g">pierd bani</span> în haos operațional</span>
+        <span data-en>Agents <span class="g">lose money</span> in operational chaos</span>
+        <span data-ru>Агенты <span class="g">теряют деньги</span> в операционном хаосе</span>
+      </h2>
+      <p class="sub anim-up3" style="margin-bottom:0">
+        <span data-ro>Sistemele actuale nu sunt construite pentru realitatea agentului imobiliar din Moldova.</span>
+        <span data-en>Current systems aren't built for how real estate agents actually work in Moldova.</span>
+        <span data-ru>Существующие системы не созданы для реальной работы молдавского риелтора.</span>
+      </p>
+    </div>
+
+    <div class="pain-list anim-up4">
+      <div class="pain-row">
+        <div class="pain-icon">🌊</div>
+        <div>
+          <div class="pain-t"><span data-ro>Lead-uri fără filtrare</span><span data-en>Unfiltered leads</span><span data-ru>Нефильтрованные лиды</span></div>
+          <div class="pain-d"><span data-ro>Sute de solicitări necalificate îneacă agentul — nimeni nu știe cine e serios</span><span data-en>Hundreds of unqualified requests overwhelm the agent — nobody knows who's serious</span><span data-ru>Сотни неквалифицированных запросов захлёстывают агента</span></div>
+        </div>
+      </div>
+      <div class="pain-row">
+        <div class="pain-icon">⏰</div>
+        <div>
+          <div class="pain-t"><span data-ro>15 minute = totul sau nimic</span><span data-en>15 minutes = all or nothing</span><span data-ru>15 минут — всё или ничего</span></div>
+          <div class="pain-d"><span data-ro>Un client HOT fără răspuns în 15' merge la concurență. Fără sistem, se uită garantat</span><span data-en>A HOT client without a response in 15' goes to the competition. Guaranteed without a system</span><span data-ru>Горячий клиент без ответа уходит к конкурентам. Без системы — всегда</span></div>
+        </div>
+      </div>
+      <div class="pain-row">
+        <div class="pain-icon">🎯</div>
+        <div>
+          <div class="pain-t"><span data-ro>Potrivire din memorie, nu din date</span><span data-en>Matching from memory, not data</span><span data-ru>Подбор по памяти, а не по данным</span></div>
+          <div class="pain-d"><span data-ro>Agentul propune proprietăți „ce crede el". Clientul pleacă nemulțumit după 3 vizionări greșite</span><span data-en>Agents suggest properties based on gut feeling. Clients leave after 3 wrong showings</span><span data-ru>Агент предлагает объекты «по ощущению». Клиент уходит после 3 неверных показов</span></div>
+        </div>
+      </div>
+      <div class="pain-row">
+        <div class="pain-icon">📊</div>
+        <div>
+          <div class="pain-t"><span data-ro>Manageri orbi</span><span data-en>Blind managers</span><span data-ru>Слепые менеджеры</span></div>
+          <div class="pain-d"><span data-ro>Nicio vizibilitate în timp real: care deal e în pericol, care agent e blocat, când să intervii</span><span data-en>Zero real-time visibility: which deal is at risk, which agent is stuck, when to step in</span><span data-ru>Нет видимости в реальном времени: какая сделка под угрозой, где вмешаться</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ─── SLIDE 3 · SOLUȚIA (AOS) ─────────── -->
+<div class="slide bg-mid" data-slide="2">
+  <div class="bg-grid"></div>
+  <div class="glow" style="width:500px;height:500px;top:50%;left:50%;transform:translate(-50%,-50%)"></div>
+
+  <div style="text-align:center;max-width:800px;margin:0 auto">
+    <div class="eyebrow anim-up" style="text-align:center">
+      <span data-ro>Răspunsul</span><span data-en>The Answer</span><span data-ru>Ответ</span>
+    </div>
+    <h2 class="headline anim-up2" style="font-size:clamp(2rem,6vw,5rem);text-align:center;margin-bottom:1.5rem">
+      <span data-ro>REVYX este un <span class="g">Agent Operating System</span></span>
+      <span data-en>REVYX is an <span class="g">Agent Operating System</span></span>
+      <span data-ru>REVYX — это <span class="g">Agent Operating System</span></span>
+    </h2>
+    <p class="sub anim-up3" style="max-width:100%;text-align:center">
+      <span data-ro>Un singur sistem care însoțește agentul de la primul "bună ziua" cu un client până la predarea cheilor — cu inteligență artificială la fiecare pas, fără formule vizibile.</span>
+      <span data-en>One system that accompanies the agent from the first "hello" with a client all the way to key handover — with artificial intelligence at every step, no visible formulas.</span>
+      <span data-ru>Одна система, которая сопровождает агента от первого «здравствуйте» до передачи ключей — с искусственным интеллектом на каждом шагу.</span>
+    </p>
+  </div>
+
+  <div class="pipe anim-up4" style="margin-top:2rem">
+    <div class="pipe-step">
+      <div class="ps-num">01</div>
+      <div class="ps-name"><span data-ro>Lead sosit</span><span data-en>Lead arrives</span><span data-ru>Лид поступает</span></div>
+      <div class="ps-hint"><span data-ro>WhatsApp·OLX·Meta·site</span><span data-en>WhatsApp·OLX·Meta·site</span><span data-ru>WhatsApp·OLX·Meta</span></div>
+    </div>
+    <div class="pipe-step">
+      <div class="ps-num">02</div>
+      <div class="ps-name"><span data-ro>Calificare AI</span><span data-en>AI Qualify</span><span data-ru>ИИ квалификация</span></div>
+      <div class="ps-hint"><span data-ro>Firewall automat</span><span data-en>Auto firewall</span><span data-ru>Авто-фильтр</span></div>
+    </div>
+    <div class="pipe-step">
+      <div class="ps-num">03</div>
+      <div class="ps-name"><span data-ro>Potrivire Top-3</span><span data-en>Top-3 Match</span><span data-ru>Топ-3 подбор</span></div>
+      <div class="ps-hint"><span data-ro>Proprietăți ideale</span><span data-en>Ideal properties</span><span data-ru>Идеальные объекты</span></div>
+    </div>
+    <div class="pipe-step">
+      <div class="ps-num">04</div>
+      <div class="ps-name"><span data-ro>Negociere</span><span data-en>Negotiation</span><span data-ru>Переговоры</span></div>
+      <div class="ps-hint"><span data-ro>Oferte + contra-oferte</span><span data-en>Offers + counter</span><span data-ru>Оферты и контр-оферты</span></div>
+    </div>
+    <div class="pipe-step">
+      <div class="ps-num">05</div>
+      <div class="ps-name"><span data-ro>Notariat/Contract</span><span data-en>Notary/Contract</span><span data-ru>Нотариус/Договор</span></div>
+      <div class="ps-hint"><span data-ro>Vânzare sau chirie</span><span data-en>Sale or rent</span><span data-ru>Продажа или аренда</span></div>
+    </div>
+    <div class="pipe-step">
+      <div class="ps-num">✓</div>
+      <div class="ps-name" style="color:var(--green)"><span data-ro>Câștigat</span><span data-en>Won</span><span data-ru>Сделка закрыта</span></div>
+      <div class="ps-hint"><span data-ro>Comision + analiză</span><span data-en>Commission + analytics</span><span data-ru>Комиссия + аналитика</span></div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ─── SLIDE 4 · LEAD FIREWALL ─────────── -->
+<div class="slide bg-dark" data-slide="3">
+  <div class="bg-grid"></div>
+
+  <div class="cols cols-2" style="height:100%;gap:3rem;align-items:center">
+    <div>
+      <div class="eyebrow anim-up">
+        <span data-ro>Mecanismul #1</span><span data-en>Mechanism #1</span><span data-ru>Механизм #1</span>
+      </div>
+      <h2 class="headline anim-up2">
+        <span data-ro>Firewallul de<br><span class="g">Lead-uri</span></span>
+        <span data-en>The Lead<br><span class="g">Firewall</span></span>
+        <span data-ru>Брандмауэр<br><span class="g">лидов</span></span>
+      </h2>
+      <p class="sub anim-up3">
+        <span data-ro>Agentul vede <strong style="color:var(--text-h)">doar clienți cu potențial real</strong>. Restul sunt filtrate, hrănite automat sau blocate. Managerul poate debloca orice caz special cu un singur click.</span>
+        <span data-en>The agent sees <strong style="color:var(--text-h)">only clients with real potential</strong>. The rest are filtered, auto-nurtured or blocked. The manager can unlock any special case with one click.</span>
+        <span data-ru>Агент видит <strong style="color:var(--text-h)">только перспективных клиентов</strong>. Остальные фильтруются, обрабатываются автоматически или блокируются.</span>
+      </p>
+      <div class="stat-row anim-up4">
+        <div class="stat-box">
+          <div class="bignum gold" style="font-size:3rem">Max 3</div>
+          <div class="bignumlabel"><span data-ro>sarcini active/agent</span><span data-en>active tasks/agent</span><span data-ru>активных задач/агент</span></div>
+        </div>
+        <div class="stat-box" style="border-color:rgba(242,101,101,.3)">
+          <div class="bignum red" style="font-size:3rem">15'</div>
+          <div class="bignumlabel"><span data-ro>SLA lead HOT</span><span data-en>HOT lead SLA</span><span data-ru>SLA горячего лида</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="anim-fade" style="display:flex;align-items:center;justify-content:center">
+      <!-- SVG Firewall Infographic -->
+      <svg viewBox="0 0 400 380" width="100%" style="max-width:400px" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- incoming leads box -->
+        <rect x="10" y="20" width="120" height="60" rx="10" fill="rgba(17,29,56,1)" stroke="rgba(143,168,204,0.25)" stroke-width="1.5"/>
+        <text x="70" y="46" text-anchor="middle" font-size="22">📨</text>
+        <text x="70" y="68" text-anchor="middle" fill="#8FA8CC" font-size="11" data-ro>Toate lead-urile</text>
+        <text x="70" y="68" text-anchor="middle" fill="#8FA8CC" font-size="11" data-en>All leads</text>
+        <text x="70" y="68" text-anchor="middle" fill="#8FA8CC" font-size="11" data-ru>Все лиды</text>
+
+        <!-- arrow right -->
+        <path d="M130 50 L170 50" stroke="#C9870A" stroke-width="2" marker-end="url(#arr)"/>
+        <defs>
+          <marker id="arr" markerWidth="8" markerHeight="6" refX="6" refY="3" orient="auto">
+            <polygon points="0 0,8 3,0 6" fill="#C9870A"/>
+          </marker>
+          <marker id="arrG" markerWidth="8" markerHeight="6" refX="6" refY="3" orient="auto">
+            <polygon points="0 0,8 3,0 6" fill="#0FBA7F"/>
+          </marker>
+          <marker id="arrA" markerWidth="8" markerHeight="6" refX="6" refY="3" orient="auto">
+            <polygon points="0 0,8 3,0 6" fill="#E8950A"/>
+          </marker>
+          <marker id="arrM" markerWidth="8" markerHeight="6" refX="6" refY="3" orient="auto">
+            <polygon points="0 0,8 3,0 6" fill="rgba(143,168,204,0.4)"/>
+          </marker>
+        </defs>
+
+        <!-- FIREWALL gate -->
+        <rect x="170" y="10" width="110" height="80" rx="12" fill="rgba(201,135,10,0.1)" stroke="#C9870A" stroke-width="2"/>
+        <text x="225" y="42" text-anchor="middle" font-size="26">🔥</text>
+        <text x="225" y="62" text-anchor="middle" fill="#C9870A" font-size="11" font-weight="700">LEAD</text>
+        <text x="225" y="76" text-anchor="middle" fill="#C9870A" font-size="11" font-weight="700">FIREWALL</text>
+
+        <!-- arrow to outcomes -->
+        <path d="M280 30 L330 30" stroke="#0FBA7F" stroke-width="2" marker-end="url(#arrG)"/>
+        <path d="M280 50 L330 120" stroke="#E8950A" stroke-width="2" marker-end="url(#arrA)"/>
+        <path d="M280 70 L330 210" stroke="rgba(143,168,204,0.4)" stroke-width="2" marker-end="url(#arrM)"/>
+
+        <!-- outcome 1: agent -->
+        <rect x="330" y="10" width="55" height="40" rx="8" fill="rgba(15,186,127,0.08)" stroke="rgba(15,186,127,0.4)" stroke-width="1.5"/>
+        <text x="357" y="28" text-anchor="middle" font-size="16">👤</text>
+        <text x="357" y="43" text-anchor="middle" fill="#0FBA7F" font-size="9">Agent ✓</text>
+
+        <!-- outcome 2: nurturing -->
+        <rect x="330" y="100" width="55" height="40" rx="8" fill="rgba(232,149,10,0.08)" stroke="rgba(232,149,10,0.35)" stroke-width="1.5"/>
+        <text x="357" y="118" text-anchor="middle" font-size="16">🔄</text>
+        <text x="357" y="133" text-anchor="middle" fill="#E8950A" font-size="9" data-ro>Nurturing</text>
+        <text x="357" y="133" text-anchor="middle" fill="#E8950A" font-size="9" data-en>Nurturing</text>
+        <text x="357" y="133" text-anchor="middle" fill="#E8950A" font-size="9" data-ru>Авто</text>
+
+        <!-- outcome 3: blocked -->
+        <rect x="330" y="190" width="55" height="40" rx="8" fill="rgba(143,168,204,0.04)" stroke="rgba(143,168,204,0.2)" stroke-width="1.5"/>
+        <text x="357" y="208" text-anchor="middle" font-size="16">🚫</text>
+        <text x="357" y="223" text-anchor="middle" fill="#8FA8CC" font-size="9" data-ro>Blocat</text>
+        <text x="357" y="223" text-anchor="middle" fill="#8FA8CC" font-size="9" data-en>Blocked</text>
+        <text x="357" y="223" text-anchor="middle" fill="#8FA8CC" font-size="9" data-ru>Блокирован</text>
+
+        <!-- manager override -->
+        <rect x="130" y="150" width="130" height="50" rx="10" fill="rgba(96,165,250,0.07)" stroke="rgba(96,165,250,0.3)" stroke-width="1.5"/>
+        <text x="195" y="172" text-anchor="middle" font-size="16">🔓</text>
+        <text x="195" y="190" text-anchor="middle" fill="#60A5FA" font-size="10" data-ro>Manager Override</text>
+        <text x="195" y="190" text-anchor="middle" fill="#60A5FA" font-size="10" data-en>Manager Override</text>
+        <text x="195" y="190" text-anchor="middle" fill="#60A5FA" font-size="10" data-ru>Менеджер</text>
+
+        <!-- escalation 3 levels -->
+        <rect x="30" y="250" width="330" height="115" rx="12" fill="rgba(17,29,56,0.8)" stroke="rgba(201,135,10,0.2)" stroke-width="1"/>
+        <text x="195" y="272" text-anchor="middle" fill="#C9870A" font-size="10" font-weight="700" letter-spacing="2" data-ro>PROTOCOL ESCALADARE</text>
+        <text x="195" y="272" text-anchor="middle" fill="#C9870A" font-size="10" font-weight="700" letter-spacing="2" data-en>ESCALATION PROTOCOL</text>
+        <text x="195" y="272" text-anchor="middle" fill="#C9870A" font-size="10" font-weight="700" letter-spacing="2" data-ru>ПРОТОКОЛ ЭСКАЛАЦИИ</text>
+        <!-- lv1 -->
+        <circle cx="80" cy="310" r="22" fill="rgba(15,186,127,0.1)" stroke="rgba(15,186,127,0.4)" stroke-width="1.5"/>
+        <text x="80" y="306" text-anchor="middle" fill="#0FBA7F" font-size="9" font-weight="700" data-ro>Nivel 1</text>
+        <text x="80" y="306" text-anchor="middle" fill="#0FBA7F" font-size="9" font-weight="700" data-en>Level 1</text>
+        <text x="80" y="306" text-anchor="middle" fill="#0FBA7F" font-size="9" font-weight="700" data-ru>Уровень 1</text>
+        <text x="80" y="319" text-anchor="middle" fill="#F0F4FA" font-size="10" font-weight="700">T+SLA</text>
+        <text x="80" y="330" text-anchor="middle" fill="#8FA8CC" font-size="8" data-ro>alertă agent</text>
+        <text x="80" y="330" text-anchor="middle" fill="#8FA8CC" font-size="8" data-en>agent alert</text>
+        <text x="80" y="330" text-anchor="middle" fill="#8FA8CC" font-size="8" data-ru>уведомление</text>
+        <!-- arrow -->
+        <path d="M104 310 L140 310" stroke="#C9870A" stroke-width="1.5" marker-end="url(#arr)"/>
+        <!-- lv2 -->
+        <circle cx="195" cy="310" r="22" fill="rgba(232,149,10,0.1)" stroke="rgba(232,149,10,0.4)" stroke-width="1.5"/>
+        <text x="195" y="306" text-anchor="middle" fill="#E8950A" font-size="9" font-weight="700" data-ro>Nivel 2</text>
+        <text x="195" y="306" text-anchor="middle" fill="#E8950A" font-size="9" font-weight="700" data-en>Level 2</text>
+        <text x="195" y="306" text-anchor="middle" fill="#E8950A" font-size="9" font-weight="700" data-ru>Уровень 2</text>
+        <text x="195" y="319" text-anchor="middle" fill="#F0F4FA" font-size="10" font-weight="700">+30'</text>
+        <text x="195" y="330" text-anchor="middle" fill="#8FA8CC" font-size="8" data-ro>alertă senior</text>
+        <text x="195" y="330" text-anchor="middle" fill="#8FA8CC" font-size="8" data-en>senior alert</text>
+        <text x="195" y="330" text-anchor="middle" fill="#8FA8CC" font-size="8" data-ru>старший агент</text>
+        <!-- arrow -->
+        <path d="M219 310 L255 310" stroke="#C9870A" stroke-width="1.5" marker-end="url(#arr)"/>
+        <!-- lv3 -->
+        <circle cx="310" cy="310" r="22" fill="rgba(242,101,101,0.1)" stroke="rgba(242,101,101,0.4)" stroke-width="1.5"/>
+        <text x="310" y="306" text-anchor="middle" fill="#F26565" font-size="9" font-weight="700" data-ro>Nivel 3</text>
+        <text x="310" y="306" text-anchor="middle" fill="#F26565" font-size="9" font-weight="700" data-en>Level 3</text>
+        <text x="310" y="306" text-anchor="middle" fill="#F26565" font-size="9" font-weight="700" data-ru>Уровень 3</text>
+        <text x="310" y="319" text-anchor="middle" fill="#F0F4FA" font-size="10" font-weight="700">+2h</text>
+        <text x="310" y="330" text-anchor="middle" fill="#8FA8CC" font-size="8" data-ro>manager</text>
+        <text x="310" y="330" text-anchor="middle" fill="#8FA8CC" font-size="8" data-en>manager</text>
+        <text x="310" y="330" text-anchor="middle" fill="#8FA8CC" font-size="8" data-ru>менеджер</text>
+      </svg>
+    </div>
+  </div>
+</div>
+
+
+<!-- ─── SLIDE 5 · 8 PILONI AI ──────────── -->
+<div class="slide bg-mid" data-slide="4">
+  <div class="bg-grid"></div>
+
+  <div class="eyebrow anim-up" style="text-align:center">
+    <span data-ro>Motoarele de inteligență</span><span data-en>Intelligence Engines</span><span data-ru>Двигатели интеллекта</span>
+  </div>
+  <h2 class="headline anim-up2" style="text-align:center;margin-bottom:.5rem">
+    <span data-ro>8 straturi AI — <span class="g">un singur scop</span></span>
+    <span data-en>8 AI layers — <span class="g">one purpose</span></span>
+    <span data-ru>8 слоёв ИИ — <span class="g">одна цель</span></span>
+  </h2>
+  <p class="sub anim-up3" style="text-align:center;margin:0 auto 1.5rem;max-width:600px">
+    <span data-ro>Fiecare număr din REVYX are un sens real pentru agentul de pe teren — niciun jargon tehnic în UI</span>
+    <span data-en>Every number in REVYX means something real for the field agent — no technical jargon in the UI</span>
+    <span data-ru>Каждое число в REVYX имеет реальный смысл для агента — никакого техжаргона в интерфейсе</span>
+  </p>
+
+  <div class="cols cols-4 anim-up4" style="gap:1rem">
+    <div class="pillar">
+      <div class="p-icon">🎯</div>
+      <div class="p-name"><span data-ro>Lead Intelligence</span><span data-en>Lead Intelligence</span><span data-ru>Интеллект лидов</span></div>
+      <div class="p-desc"><span data-ro>Cât de serios e clientul? Automat calculat la fiecare interacțiune</span><span data-en>How serious is the client? Auto-calculated at every interaction</span><span data-ru>Насколько серьёзен клиент? Рассчитывается при каждом взаимодействии</span></div>
+    </div>
+    <div class="pillar">
+      <div class="p-icon">🏘️</div>
+      <div class="p-name"><span data-ro>Supply Intelligence</span><span data-en>Supply Intelligence</span><span data-ru>Интеллект предложения</span></div>
+      <div class="p-desc"><span data-ro>Cât de competitiv e anunțul? Când trebuie reîmprospătat?</span><span data-en>How competitive is the listing? When does it need refreshing?</span><span data-ru>Насколько конкурентоспособно объявление?</span></div>
+    </div>
+    <div class="pillar">
+      <div class="p-icon">🔗</div>
+      <div class="p-name"><span data-ro>Match Intelligence</span><span data-en>Match Intelligence</span><span data-ru>Интеллект подбора</span></div>
+      <div class="p-desc"><span data-ro>Top-3 proprietăți ideale per client cu raționament clar</span><span data-en>Top-3 ideal properties per client with clear reasoning</span><span data-ru>Топ-3 идеальных объекта для клиента с объяснением</span></div>
+    </div>
+    <div class="pillar">
+      <div class="p-icon">⚡</div>
+      <div class="p-name"><span data-ro>Execution Intelligence</span><span data-en>Execution Intelligence</span><span data-ru>Интеллект исполнения</span></div>
+      <div class="p-desc"><span data-ro>Pasul următor cel mai bun pentru fiecare client — acum</span><span data-en>The best next step for each client — right now</span><span data-ru>Лучший следующий шаг для каждого клиента — прямо сейчас</span></div>
+    </div>
+    <div class="pillar">
+      <div class="p-icon">🤝</div>
+      <div class="p-name"><span data-ro>Negotiation Intelligence</span><span data-en>Negotiation Intelligence</span><span data-ru>Интеллект переговоров</span></div>
+      <div class="p-desc"><span data-ro>Istoricul complet oferte + contra-oferte într-un singur loc</span><span data-en>Complete offer + counter-offer history in one place</span><span data-ru>Полная история оферт и контроферт в одном месте</span></div>
+    </div>
+    <div class="pillar">
+      <div class="p-icon">💊</div>
+      <div class="p-name"><span data-ro>Deal Intelligence</span><span data-en>Deal Intelligence</span><span data-ru>Интеллект сделок</span></div>
+      <div class="p-desc"><span data-ro>Sănătatea tranzacției — alertă ÎNAINTE să apară probleme</span><span data-en>Deal health — alert BEFORE problems arise</span><span data-ru>Здоровье сделки — предупреждение ДО проблем</span></div>
+    </div>
+    <div class="pillar">
+      <div class="p-icon">🏆</div>
+      <div class="p-name"><span data-ro>Performance Intelligence</span><span data-en>Performance Intelligence</span><span data-ru>Интеллект эффективности</span></div>
+      <div class="p-desc"><span data-ro>Fiecare agent știe unde se află față de echipă în timp real</span><span data-en>Every agent knows their standing vs the team in real time</span><span data-ru>Каждый агент знает своё место в команде в реальном времени</span></div>
+    </div>
+    <div class="pillar">
+      <div class="p-icon">💎</div>
+      <div class="p-name"><span data-ro>Retention Intelligence</span><span data-en>Retention Intelligence</span><span data-ru>Интеллект удержания</span></div>
+      <div class="p-desc"><span data-ro>Identifică clienții care riscă să plece și propune acțiuni la timp</span><span data-en>Identifies at-risk clients and proposes re-engagement in time</span><span data-ru>Выявляет клиентов с риском ухода и предлагает меры вовремя</span></div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ─── SLIDE 6 · SLA PROTOCOL ─────────── -->
+<div class="slide bg-dark" data-slide="5">
+  <div class="bg-grid"></div>
+
+  <div class="eyebrow anim-up">
+    <span data-ro>Mecanismul #2</span><span data-en>Mechanism #2</span><span data-ru>Механизм #2</span>
+  </div>
+  <h2 class="headline anim-up2">
+    <span data-ro>Niciun client <span class="g">uitat vreodată</span></span>
+    <span data-en>No client <span class="g">ever forgotten</span></span>
+    <span data-ru>Ни один клиент <span class="g">не забыт</span></span>
+  </h2>
+  <p class="sub anim-up3">
+    <span data-ro>Fiecare client primește un nivel de urgență automat. Sistemul numără secundele și escaladează singur dacă agentul nu reacționează.</span>
+    <span data-en>Every client gets an automatic urgency level. The system counts seconds and escalates by itself if the agent doesn't react.</span>
+    <span data-ru>Каждый клиент автоматически получает уровень срочности. Система сама считает секунды и эскалирует, если агент не реагирует.</span>
+  </p>
+
+  <div class="sla-row anim-up4">
+    <div class="sla-c hot">
+      <div style="font-size:1.5rem">🔴</div>
+      <div class="sla-t">15'</div>
+      <div class="sla-n"><span data-ro>Client HOT</span><span data-en>HOT Client</span><span data-ru>Горячий клиент</span></div>
+      <div class="sla-d"><span data-ro>Gata să cumpere acum. Alertă imediată dacă nu e sunat în 15 minute</span><span data-en>Ready to buy now. Immediate alert if not called in 15 minutes</span><span data-ru>Готов купить сейчас. Мгновенное уведомление если не звонят в 15 минут</span></div>
+    </div>
+    <div class="sla-c wrm">
+      <div style="font-size:1.5rem">🟡</div>
+      <div class="sla-t">2h</div>
+      <div class="sla-n"><span data-ro>Calificat</span><span data-en>Qualified</span><span data-ru>Квалифицированный</span></div>
+      <div class="sla-d"><span data-ro>Interesat, cu buget real. Răspuns în 2 ore menține impulsul cumpărare</span><span data-en>Interested with real budget. 2h response keeps purchase momentum</span><span data-ru>Заинтересован с реальным бюджетом. Ответ в 2 часа удерживает импульс</span></div>
+    </div>
+    <div class="sla-c col">
+      <div style="font-size:1.5rem">🔵</div>
+      <div class="sla-t">24h</div>
+      <div class="sla-n"><span data-ro>Cald</span><span data-en>Warm</span><span data-ru>Тёплый</span></div>
+      <div class="sla-d"><span data-ro>Explorează opțiunile. Urmărit activ de sistem, răspuns în 24 ore</span><span data-en>Exploring options. Actively tracked by system, 24h response</span><span data-ru>Изучает варианты. Активно отслеживается системой</span></div>
+    </div>
+    <div class="sla-c cld">
+      <div style="font-size:1.5rem">🤖</div>
+      <div class="sla-t" style="font-size:2rem">AUTO</div>
+      <div class="sla-n"><span data-ro>Rece</span><span data-en>Cold</span><span data-ru>Холодный</span></div>
+      <div class="sla-d"><span data-ro>Hrănit automat cu conținut relevant. Zero efort uman. Reintră în pipeline când devine cald</span><span data-en>Auto-nurtured with relevant content. Zero human effort. Re-enters pipeline when warm</span><span data-ru>Автоматически обрабатывается. Ноль усилий. Возвращается когда станет тёплым</span></div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ─── SLIDE 7 · SALE + RENT ──────────── -->
+<div class="slide bg-mid" data-slide="6">
+  <div class="bg-grid"></div>
+  <div class="glow" style="width:400px;height:400px;top:50%;left:25%;transform:translate(-50%,-50%)"></div>
+
+  <div class="cols cols-2" style="height:100%;gap:3rem;align-items:center">
+    <div>
+      <div class="eyebrow anim-up">
+        <span data-ro>Acoperire completă de piață</span><span data-en>Full market coverage</span><span data-ru>Полный охват рынка</span>
+      </div>
+      <h2 class="headline anim-up2">
+        <span data-ro>Vânzare <span class="g">&</span> Chirie —<br>un singur sistem</span>
+        <span data-en>Sale <span class="g">&</span> Rent —<br>one system</span>
+        <span data-ru>Продажа <span class="g">&</span> Аренда —<br>одна система</span>
+      </h2>
+      <p class="sub anim-up3">
+        <span data-ro>~30% din piața imobiliară RM sunt chirii. REVYX acoperă ambele cu logică dedicată fiecărui segment, comisioane corecte și workflow propriu.</span>
+        <span data-en>~30% of Moldova's real estate market is rentals. REVYX covers both with dedicated logic, correct commissions and its own workflow.</span>
+        <span data-ru>~30% рынка недвижимости Молдовы — аренда. REVYX охватывает оба сегмента с отдельной логикой и правильными комиссиями.</span>
+      </p>
+      <div class="chips anim-up4">
+        <span class="chip cg">
+          <span data-ro>4 tipuri clienți</span><span data-en>4 client types</span><span data-ru>4 типа клиентов</span>
+        </span>
+        <span class="chip cb">
+          <span data-ro>Cumpărător · Vânzător</span><span data-en>Buyer · Seller</span><span data-ru>Покупатель · Продавец</span>
+        </span>
+        <span class="chip cv">
+          <span data-ro>Chiriaș · Proprietar</span><span data-en>Tenant · Landlord</span><span data-ru>Арендатор · Арендодатель</span>
+        </span>
+      </div>
+    </div>
+
+    <div class="anim-fade" style="display:flex;flex-direction:column;gap:1.25rem">
+      <div class="card card-gold">
+        <div style="display:flex;align-items:center;gap:1rem;margin-bottom:.75rem">
+          <span style="font-size:2rem">🏠</span>
+          <div>
+            <div style="font-size:1rem;font-weight:700;color:var(--gold)"><span data-ro>Vânzare</span><span data-en>Sale</span><span data-ru>Продажа</span></div>
+            <div style="font-size:.78rem;color:var(--text-m)"><span data-ro>Ciclu 180 zile · Comision % preț · Acte notariale</span><span data-en>180-day cycle · % price commission · Notary acts</span><span data-ru>Цикл 180 дней · Комиссия % от цены · Нотариус</span></div>
+          </div>
+        </div>
+        <div style="display:flex;gap:.5rem;flex-wrap:wrap">
+          <span class="chip cg" style="font-size:11px;padding:4px 10px"><span data-ro>Cumpărător</span><span data-en>Buyer</span><span data-ru>Покупатель</span></span>
+          <span class="chip cg" style="font-size:11px;padding:4px 10px"><span data-ro>Vânzător</span><span data-en>Seller</span><span data-ru>Продавец</span></span>
+          <span class="chip cg" style="font-size:11px;padding:4px 10px"><span data-ro>Notar integrat</span><span data-en>Notary integrated</span><span data-ru>Нотариус</span></span>
+        </div>
+      </div>
+
+      <div class="card card-blue">
+        <div style="display:flex;align-items:center;gap:1rem;margin-bottom:.75rem">
+          <span style="font-size:2rem">🔑</span>
+          <div>
+            <div style="font-size:1rem;font-weight:700;color:var(--blue)"><span data-ro>Închiriere</span><span data-en>Rent</span><span data-ru>Аренда</span></div>
+            <div style="font-size:.78rem;color:var(--text-m)"><span data-ro>Ciclu 21 zile · Comision 1× chirie · Contract direct</span><span data-en>21-day cycle · 1× rent commission · Direct contract</span><span data-ru>Цикл 21 день · Комиссия 1× аренда · Договор напрямую</span></div>
+          </div>
+        </div>
+        <div style="display:flex;gap:.5rem;flex-wrap:wrap">
+          <span class="chip cb" style="font-size:11px;padding:4px 10px"><span data-ro>Chiriaș</span><span data-en>Tenant</span><span data-ru>Арендатор</span></span>
+          <span class="chip cb" style="font-size:11px;padding:4px 10px"><span data-ro>Proprietar</span><span data-en>Landlord</span><span data-ru>Арендодатель</span></span>
+          <span class="chip cb" style="font-size:11px;padding:4px 10px"><span data-ro>Contract chirie RM</span><span data-en>RM Lease contract</span><span data-ru>Договор аренды</span></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ─── SLIDE 8 · PLATFORMĂ ────────────── -->
+<div class="slide bg-dark" data-slide="7">
+  <div class="bg-grid"></div>
+
+  <div class="eyebrow anim-up" style="text-align:center">
+    <span data-ro>Platformă</span><span data-en>Platform</span><span data-ru>Платформа</span>
+  </div>
+  <h2 class="headline anim-up2" style="text-align:center;margin-bottom:.75rem">
+    <span data-ro>Birou + Teren = <span class="g">Sincronizat</span></span>
+    <span data-en>Office + Field = <span class="g">Synchronized</span></span>
+    <span data-ru>Офис + Поле = <span class="g">Синхронизировано</span></span>
+  </h2>
+  <p class="sub anim-up3" style="text-align:center;margin:0 auto 2rem;max-width:580px">
+    <span data-ro>Un singur backend. Două experiențe optimizate per context. Agentul nu pierde niciodată contextul.</span>
+    <span data-en>One backend. Two context-optimized experiences. The agent never loses context.</span>
+    <span data-ru>Один бэкенд. Два оптимизированных под контекст интерфейса. Агент никогда не теряет контекст.</span>
+  </p>
+
+  <div class="cols cols-2 anim-up4" style="gap:2rem;max-width:900px;margin:0 auto;width:100%">
+    <div class="card card-gold" style="padding:2rem">
+      <div style="font-size:3rem;margin-bottom:.5rem">🖥️</div>
+      <div style="font-size:1.1rem;font-weight:700;color:var(--text-h);margin-bottom:.25rem"><span data-ro>Aplicație Web</span><span data-en>Web Application</span><span data-ru>Веб-приложение</span></div>
+      <div class="bignum gold" style="font-size:4rem;margin:.25rem 0">~80%</div>
+      <div style="font-size:.78rem;color:var(--text-m);margin-bottom:1rem"><span data-ro>din utilizare — birou, desktop</span><span data-en>of usage — office, desktop</span><span data-ru>использования — офис, ПК</span></div>
+      <div class="blist">
+        <div class="bitem"><div class="bdot"></div><div class="btext"><span data-ro>Flux complet tranzacții (Kanban)</span><span data-en>Full deal pipeline (Kanban)</span><span data-ru>Полная воронка сделок (Kanban)</span></div></div>
+        <div class="bitem"><div class="bdot"></div><div class="btext"><span data-ro>Cabinet notar + documente</span><span data-en>Notary cabinet + documents</span><span data-ru>Нотариальный кабинет</span></div></div>
+        <div class="bitem"><div class="bdot"></div><div class="btext"><span data-ro>Raportare manager completă</span><span data-en>Full manager reporting</span><span data-ru>Полная отчётность менеджера</span></div></div>
+        <div class="bitem"><div class="bdot"></div><div class="btext"><span data-ro>Configurare admin + white-label</span><span data-en>Admin setup + white-label</span><span data-ru>Настройка + white-label</span></div></div>
+      </div>
+    </div>
+
+    <div class="card card-blue" style="padding:2rem">
+      <div style="font-size:3rem;margin-bottom:.5rem">📱</div>
+      <div style="font-size:1.1rem;font-weight:700;color:var(--text-h);margin-bottom:.25rem"><span data-ro>Aplicație Mobilă</span><span data-en>Mobile App</span><span data-ru>Мобильное приложение</span></div>
+      <div class="bignum blue" style="font-size:4rem;margin:.25rem 0">~20%</div>
+      <div style="font-size:.78rem;color:var(--text-m);margin-bottom:1rem"><span data-ro>din utilizare — vizionări, teren</span><span data-en>of usage — showings, fieldwork</span><span data-ru>использования — показы, выезды</span></div>
+      <div class="blist">
+        <div class="bitem"><div class="bdot" style="background:var(--blue)"></div><div class="btext"><span data-ro>Check-in vizionare + note rapide</span><span data-en>Showing check-in + quick notes</span><span data-ru>Регистрация показа + заметки</span></div></div>
+        <div class="bitem"><div class="bdot" style="background:var(--blue)"></div><div class="btext"><span data-ro>Push notifications urgente</span><span data-en>Urgent push notifications</span><span data-ru>Срочные push-уведомления</span></div></div>
+        <div class="bitem"><div class="bdot" style="background:var(--blue)"></div><div class="btext"><span data-ro>WhatsApp direct din aplicație</span><span data-en>WhatsApp direct from the app</span><span data-ru>WhatsApp напрямую из приложения</span></div></div>
+        <div class="bitem"><div class="bdot" style="background:var(--blue)"></div><div class="btext"><span data-ro>Status deal la purtare</span><span data-en>Deal status on the go</span><span data-ru>Статус сделки на ходу</span></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ─── SLIDE 9 · BENEFICII ROLURI ─────── -->
+<div class="slide bg-mid" data-slide="8">
+  <div class="bg-grid"></div>
+
+  <div class="eyebrow anim-up">
+    <span data-ro>Ce câștigă fiecare</span><span data-en>What everyone gains</span><span data-ru>Что получает каждый</span>
+  </div>
+  <h2 class="headline anim-up2">
+    <span data-ro>5 roluri, <span class="g">o echipă sincronizată</span></span>
+    <span data-en>5 roles, <span class="g">one synchronized team</span></span>
+    <span data-ru>5 ролей, <span class="g">одна синхронная команда</span></span>
+  </h2>
+
+  <div class="cols cols-3 anim-up3" style="gap:1.25rem;margin-top:1rem">
+    <div class="card" style="border-top:2px solid var(--gold)">
+      <div style="font-size:1.5rem;margin-bottom:.6rem">👤</div>
+      <div style="font-size:.9rem;font-weight:700;color:var(--gold);margin-bottom:.75rem"><span data-ro>Agentul</span><span data-en>The Agent</span><span data-ru>Агент</span></div>
+      <div class="blist">
+        <div class="bitem"><div class="bdot"></div><div class="btext"><strong><span data-ro>Știe mereu ce să facă</span><span data-en>Always knows what to do</span><span data-ru>Всегда знает что делать</span></strong><span data-ro> — sistemul îi spune pasul următor</span><span data-en> — system tells next step</span><span data-ru> — система подсказывает следующий шаг</span></div></div>
+        <div class="bitem"><div class="bdot"></div><div class="btext"><strong><span data-ro>Top-3 AI</span><span data-en>AI Top-3</span><span data-ru>ИИ Топ-3</span></strong><span data-ro> — proprietatea potrivită de prima oară</span><span data-en> — the right property first time</span><span data-ru> — нужный объект с первого раза</span></div></div>
+        <div class="bitem"><div class="bdot"></div><div class="btext"><strong><span data-ro>Zero pierdere de timp</span><span data-en>Zero time wasted</span><span data-ru>Ноль потерянного времени</span></strong><span data-ro> cu lead-uri neserioase</span><span data-en> on unserious leads</span><span data-ru> на несерьёзные лиды</span></div></div>
+      </div>
+    </div>
+
+    <div class="card" style="border-top:2px solid var(--blue)">
+      <div style="font-size:1.5rem;margin-bottom:.6rem">📊</div>
+      <div style="font-size:.9rem;font-weight:700;color:var(--blue);margin-bottom:.75rem"><span data-ro>Managerul</span><span data-en>The Manager</span><span data-ru>Менеджер</span></div>
+      <div class="blist">
+        <div class="bitem"><div class="bdot" style="background:var(--blue)"></div><div class="btext"><strong><span data-ro>Vizibilitate completă</span><span data-en>Complete visibility</span><span data-ru>Полная видимость</span></strong><span data-ro> în timp real — fiecare deal, fiecare agent</span><span data-en> in real time — every deal, every agent</span><span data-ru> в реальном времени — каждая сделка</span></div></div>
+        <div class="bitem"><div class="bdot" style="background:var(--blue)"></div><div class="btext"><strong><span data-ro>Alertă ÎNAINTE</span><span data-en>Alert BEFORE</span><span data-ru>Уведомление ДО</span></strong><span data-ro> ca tranzacția să se piardă</span><span data-en> the deal is lost</span><span data-ru> того как сделка срывается</span></div></div>
+        <div class="bitem"><div class="bdot" style="background:var(--blue)"></div><div class="btext"><strong><span data-ro>Override manual</span><span data-en>Manual override</span><span data-ru>Ручное переопределение</span></strong><span data-ro> pentru cazuri speciale</span><span data-en> for special cases</span><span data-ru> для особых случаев</span></div></div>
+      </div>
+    </div>
+
+    <div class="card" style="border-top:2px solid var(--green)">
+      <div style="font-size:1.5rem;margin-bottom:.6rem">🏢</div>
+      <div style="font-size:.9rem;font-weight:700;color:var(--green);margin-bottom:.75rem"><span data-ro>Agenția</span><span data-en>The Agency</span><span data-ru>Агентство</span></div>
+      <div class="blist">
+        <div class="bitem"><div class="bdot" style="background:var(--green)"></div><div class="btext"><strong><span data-ro>Brand propriu</span><span data-en>Own brand</span><span data-ru>Собственный бренд</span></strong><span data-ro> — white-label pe domeniu personalizat</span><span data-en> — white-label on custom domain</span><span data-ru> — white-label на своём домене</span></div></div>
+        <div class="bitem"><div class="bdot" style="background:var(--green)"></div><div class="btext"><strong><span data-ro>Protecție legală</span><span data-en>Legal protection</span><span data-ru>Правовая защита</span></strong><span data-ro> — audit log complet + GDPR</span><span data-en> — full audit log + GDPR</span><span data-ru> — полный журнал + GDPR</span></div></div>
+        <div class="bitem"><div class="bdot" style="background:var(--green)"></div><div class="btext"><strong><span data-ro>Scalabil</span><span data-en>Scalable</span><span data-ru>Масштабируемый</span></strong><span data-ro> — de la 1 agent la sute fără a schimba platforma</span><span data-en> — 1 to hundreds without changing platforms</span><span data-ru> — от 1 агента до сотен</span></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="dline anim-up4"></div>
+  <div class="pyramid anim-up4" style="flex-direction:row;flex-wrap:wrap;justify-content:center;gap:6px">
+    <div class="prole ra">Admin</div>
+    <div class="prole rm"><span data-ro>Manager</span><span data-en>Manager</span><span data-ru>Менеджер</span></div>
+    <div class="prole rl">Team Lead</div>
+    <div class="prole rs">Senior Agent</div>
+    <div class="prole rg">Agent</div>
+  </div>
+</div>
+
+
+<!-- ─── SLIDE 10 · VS CRM ──────────────── -->
+<div class="slide bg-dark" data-slide="9">
+  <div class="bg-grid"></div>
+
+  <div class="cols cols-2" style="height:100%;gap:3rem;align-items:center">
+    <div>
+      <div class="eyebrow anim-up">
+        <span data-ro>Diferențierea</span><span data-en>Differentiation</span><span data-ru>Дифференциация</span>
+      </div>
+      <h2 class="headline anim-up2">
+        <span data-ro>REVYX <span class="g">vs.</span><br>CRM clasic</span>
+        <span data-en>REVYX <span class="g">vs.</span><br>Classic CRM</span>
+        <span data-ru>REVYX <span class="g">vs.</span><br>Классический CRM</span>
+      </h2>
+      <p class="sub anim-up3">
+        <span data-ro>Un CRM înregistrează ce s-a întâmplat. REVYX îți spune ce să faci <strong style="color:var(--text-h)">înainte</strong> să fie prea târziu.</span>
+        <span data-en>A CRM records what happened. REVYX tells you what to do <strong style="color:var(--text-h)">before</strong> it's too late.</span>
+        <span data-ru>CRM записывает что произошло. REVYX говорит что делать <strong style="color:var(--text-h)">до</strong> того как поздно.</span>
+      </p>
+    </div>
+
+    <div class="anim-fade">
+      <table class="vtable">
+        <thead>
+          <tr>
+            <th>
+              <span data-ro>Funcție</span><span data-en>Feature</span><span data-ru>Функция</span>
+            </th>
+            <th class="gc">REVYX</th>
+            <th class="mc">CRM</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="fn"><span data-ro>Calificare lead AI</span><span data-en>AI lead qualification</span><span data-ru>ИИ квалификация лида</span></td>
+            <td class="chk">✓</td><td class="crs">✗</td>
+          </tr>
+          <tr>
+            <td class="fn"><span data-ro>Potrivire AI client–proprietate</span><span data-en>AI client–property match</span><span data-ru>ИИ подбор клиент–объект</span></td>
+            <td class="chk">✓</td><td class="crs">✗</td>
+          </tr>
+          <tr>
+            <td class="fn"><span data-ro>Pasul următor recomandat</span><span data-en>Recommended next step</span><span data-ru>Рекомендуемый следующий шаг</span></td>
+            <td class="chk">✓</td><td class="crs">✗</td>
+          </tr>
+          <tr>
+            <td class="fn"><span data-ro>SLA + escaladare automată</span><span data-en>SLA + auto escalation</span><span data-ru>SLA + автоэскалация</span></td>
+            <td class="chk">✓</td><td class="crs">✗</td>
+          </tr>
+          <tr>
+            <td class="fn"><span data-ro>Sănătate tranzacție live</span><span data-en>Live deal health</span><span data-ru>Здоровье сделки вживую</span></td>
+            <td class="chk">✓</td><td class="crs">✗</td>
+          </tr>
+          <tr>
+            <td class="fn"><span data-ro>Suport vânzare + chirie</span><span data-en>Sale + rent support</span><span data-ru>Продажа + аренда</span></td>
+            <td class="chk">✓</td><td class="crs" style="font-size:.78rem;color:var(--text-m)"><span data-ro>rar</span><span data-en>rare</span><span data-ru>редко</span></td>
+          </tr>
+          <tr>
+            <td class="fn">WhatsApp nativ</td>
+            <td class="chk">✓</td><td class="crs" style="font-size:.78rem;color:var(--text-m)">plugin</td>
+          </tr>
+          <tr>
+            <td class="fn">GDPR + audit log</td>
+            <td class="chk">✓</td><td class="crs" style="font-size:.78rem;color:var(--text-m)">add-on</td>
+          </tr>
+          <tr>
+            <td class="fn"><span data-ro>Cabinet notar integrat</span><span data-en>Integrated notary</span><span data-ru>Интегр. нотариус</span></td>
+            <td class="chk">✓</td><td class="crs">✗</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+
+<!-- ─── SLIDE 11 · ROADMAP ─────────────── -->
+<div class="slide bg-gold" data-slide="10">
+  <div class="bg-grid"></div>
+
+  <div class="eyebrow anim-up" style="text-align:center">
+    <span data-ro>Stadiu de dezvoltare</span><span data-en>Development stage</span><span data-ru>Этап разработки</span>
+  </div>
+  <h2 class="headline anim-up2" style="text-align:center;margin-bottom:.75rem">
+    <span data-ro>De unde am plecat. <span class="g">Unde mergem.</span></span>
+    <span data-en>Where we started. <span class="g">Where we're going.</span></span>
+    <span data-ru>Откуда начали. <span class="g">Куда движемся.</span></span>
+  </h2>
+
+  <div class="rm-row anim-up3">
+    <div class="rm-card done">
+      <div class="rm-badge">✅ <span data-ro>Finalizat</span><span data-en>Completed</span><span data-ru>Завершено</span></div>
+      <div class="rm-title">M0</div>
+      <ul class="rm-items">
+        <li><span data-ro>Design system complet</span><span data-en>Complete design system</span><span data-ru>Полная дизайн-система</span></li>
+        <li><span data-ro>Prototip clickable 26 rute</span><span data-en>26-route clickable prototype</span><span data-ru>Кликабельный прототип 26 маршрутов</span></li>
+        <li><span data-ro>Demo investitori live</span><span data-en>Live investor demo</span><span data-ru>Демо для инвесторов</span></li>
+        <li><span data-ro>Hard Stress Test PASS</span><span data-en>Hard Stress Test PASS</span><span data-ru>Стресс-тест ПРОЙДЕН</span></li>
+        <li><span data-ro>RO + RU + EN</span><span data-en>RO + RU + EN</span><span data-ru>RO + RU + EN</span></li>
+      </ul>
+    </div>
+
+    <div class="rm-card live">
+      <div class="rm-badge">⚡ <span data-ro>În desfășurare</span><span data-en>In progress</span><span data-ru>В процессе</span></div>
+      <div class="rm-title">M1 — MVP</div>
+      <ul class="rm-items">
+        <li><span data-ro>Securitate JWT + GDPR ✅</span><span data-en>JWT security + GDPR ✅</span><span data-ru>Безопасность JWT + GDPR ✅</span></li>
+        <li><span data-ro>Backend + DB ✅</span><span data-en>Backend + DB ✅</span><span data-ru>Бэкенд + БД ✅</span></li>
+        <li><span data-ro>Intake lead-uri real</span><span data-en>Real lead intake</span><span data-ru>Реальный приём лидов</span></li>
+        <li><span data-ro>Motor scoring AI live</span><span data-en>Live AI scoring engine</span><span data-ru>Движок ИИ скоринга</span></li>
+        <li><span data-ro>WhatsApp 5 template-uri</span><span data-en>WhatsApp 5 templates</span><span data-ru>WhatsApp 5 шаблонов</span></li>
+      </ul>
+    </div>
+
+    <div class="rm-card plan">
+      <div class="rm-badge">📋 <span data-ro>Următor</span><span data-en>Next</span><span data-ru>Следующий</span></div>
+      <div class="rm-title">M2 — GA</div>
+      <ul class="rm-items">
+        <li><span data-ro>Aplicație mobilă nativă</span><span data-en>Native mobile app</span><span data-ru>Нативное мобильное приложение</span></li>
+        <li><span data-ro>Marketplace cumpărători</span><span data-en>Buyer marketplace</span><span data-ru>Маркетплейс покупателей</span></li>
+        <li><span data-ro>ML pricing automat</span><span data-en>Auto ML pricing</span><span data-ru>ИИ ценообразование</span></li>
+        <li>White-label Enterprise</li>
+        <li><span data-ro>Partener bancă + notar</span><span data-en>Bank + notary partner</span><span data-ru>Партнёр банк + нотариус</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="stat-row anim-up4" style="justify-content:center;margin-top:1.5rem">
+    <div class="stat-box">
+      <div class="bignum gold" style="font-size:2.5rem">2</div>
+      <div class="bignumlabel"><span data-ro>milestone-uri livrate</span><span data-en>milestones delivered</span><span data-ru>этапа выполнено</span></div>
+    </div>
+    <div class="stat-box" style="border-color:rgba(15,186,127,.3)">
+      <div class="bignum green" style="font-size:2.5rem">26</div>
+      <div class="bignumlabel"><span data-ro>rute demo funcționale</span><span data-en>functional demo routes</span><span data-ru>рабочих маршрутов</span></div>
+    </div>
+    <div class="stat-box" style="border-color:rgba(96,165,250,.3)">
+      <div class="bignum blue" style="font-size:2.5rem">3</div>
+      <div class="bignumlabel"><span data-ro>limbi UI</span><span data-en>UI languages</span><span data-ru>языка интерфейса</span></div>
+    </div>
+    <div class="stat-box" style="border-color:rgba(242,101,101,.3)">
+      <div class="bignum red" style="font-size:2.5rem">0</div>
+      <div class="bignumlabel"><span data-ro>vulnerabilități critice</span><span data-en>critical vulnerabilities</span><span data-ru>критических уязвимостей</span></div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ─── SLIDE 12 · CTA ─────────────────── -->
+<div class="slide bg-dark" data-slide="11">
+  <div class="bg-grid"></div>
+  <div class="glow" style="width:800px;height:800px;top:50%;left:50%;transform:translate(-50%,-50%);background:radial-gradient(circle,rgba(201,135,10,0.1) 0%,transparent 60%)"></div>
+
+  <div style="text-align:center;max-width:800px;margin:0 auto;display:flex;flex-direction:column;align-items:center">
+    <div class="eyebrow anim-up">ITPRO SYSTEM SRL · REVYX</div>
+
+    <div class="display anim-up2" style="font-size:clamp(4rem,12vw,10rem);margin-bottom:1.5rem">
+      <span data-ro>Construim<br>viitorul<br>imobiliar</span>
+      <span data-en>Building the<br>real estate<br>future</span>
+      <span data-ru>Строим<br>будущее<br>недвижимости</span>
+    </div>
+
+    <p class="sub anim-up3" style="max-width:100%;text-align:center">
+      <span data-ro>Republica Moldova — prima piață. Logica scalabilă la orice piață imobiliară emergentă.</span>
+      <span data-en>Republic of Moldova — first market. Logic scalable to any emerging real estate market.</span>
+      <span data-ru>Республика Молдова — первый рынок. Логика масштабируется на любой развивающийся рынок недвижимости.</span>
+    </p>
+
+    <div class="chips anim-up4" style="justify-content:center;margin-bottom:2rem">
+      <span class="chip cg"><span data-ro>Investiție deschisă</span><span data-en>Open to investment</span><span data-ru>Открыты к инвестициям</span></span>
+      <span class="chip cv"><span data-ro>Parteneriat agenții</span><span data-en>Agency partnerships</span><span data-ru>Партнёрство агентств</span></span>
+      <span class="chip cb">Early Access</span>
+    </div>
+
+    <div class="anim-fade" style="display:flex;flex-direction:column;align-items:center;gap:.75rem;margin-top:.5rem">
+      <div style="font-size:1.5rem;font-weight:700;color:var(--gold)">contact@revyx.app</div>
+      <div style="font-size:1rem;color:var(--text-m)">revyx.app</div>
+      <div style="font-size:.85rem;color:var(--text-m);margin-top:.5rem">
+        <span data-ro>📍 Chișinău, Republica Moldova</span>
+        <span data-en>📍 Chișinău, Republic of Moldova</span>
+        <span data-ru>📍 Кишинёв, Республика Молдова</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+</div><!-- /deck -->
+
+<script>
+/* ══════════════════════════════════════
+   ENGINE
+══════════════════════════════════════ */
+const TOTAL = 12;
+let cur = 0;
+let busy = false;
+const DELAY = 700; // ms lock after transition
+
+const slides = document.querySelectorAll('.slide');
+const dotsEl = document.getElementById('dots');
+const progressEl = document.getElementById('progress');
+const counterEl = document.getElementById('counter');
+const navUp = document.getElementById('navUp');
+const navDn = document.getElementById('navDn');
+
+// build dots
+for(let i=0;i<TOTAL;i++){
+  const d = document.createElement('div');
+  d.className = 'dot' + (i===0?' on':'');
+  d.onclick = ()=>goTo(i);
+  d.title = `Slide ${i+1}`;
+  dotsEl.appendChild(d);
+}
+
+function render(){
+  slides.forEach((s,i)=>{
+    s.classList.remove('active','prev');
+    if(i===cur) s.classList.add('active');
+    else if(i<cur) s.classList.add('prev');
+  });
+  document.querySelectorAll('.dot').forEach((d,i)=>d.classList.toggle('on',i===cur));
+  progressEl.style.width = ((cur+1)/TOTAL*100)+'%';
+  counterEl.textContent = String(cur+1).padStart(2,'0')+' / '+String(TOTAL).padStart(2,'0');
+  navUp.disabled = cur===0;
+  navDn.disabled = cur===TOTAL-1;
+}
+
+function go(dir){
+  if(busy) return;
+  const next = cur+dir;
+  if(next<0||next>=TOTAL) return;
+  busy=true;
+  cur=next;
+  render();
+  setTimeout(()=>busy=false, DELAY);
+}
+
+function goTo(n){
+  if(busy||n===cur) return;
+  busy=true;
+  cur=n;
+  render();
+  setTimeout(()=>busy=false,DELAY);
+}
+
+// wheel
+let wheelAcc = 0;
+let wheelTimer;
+window.addEventListener('wheel',(e)=>{
+  e.preventDefault();
+  clearTimeout(wheelTimer);
+  wheelAcc += e.deltaY;
+  wheelTimer = setTimeout(()=>{
+    if(Math.abs(wheelAcc)>50){
+      go(wheelAcc>0?1:-1);
+    }
+    wheelAcc=0;
+  },60);
+},{passive:false});
+
+// keyboard
+window.addEventListener('keydown',(e)=>{
+  if(['ArrowDown','ArrowRight','PageDown','Space'].includes(e.key)||e.key===' ') {e.preventDefault();go(1)}
+  if(['ArrowUp','ArrowLeft','PageUp'].includes(e.key)) {e.preventDefault();go(-1)}
+});
+
+// touch
+let touchStartY=0;
+window.addEventListener('touchstart',(e)=>{touchStartY=e.touches[0].clientY},{passive:true});
+window.addEventListener('touchend',(e)=>{
+  const dy = touchStartY - e.changedTouches[0].clientY;
+  if(Math.abs(dy)>50) go(dy>0?1:-1);
+},{passive:true});
+
+/* lang */
+function setLang(l){
+  document.body.className=l;
+  document.querySelectorAll('.lb').forEach(b=>b.classList.toggle('on',b.textContent===l.toUpperCase()));
+}
+</script>
+
+</body>
+</html>
