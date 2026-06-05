@@ -1,5 +1,5 @@
 # BRD — REVYX Agent Operating System
-<!-- BRD_REVYX_v1.2.0.md · v1.2.0 · 2026-06 -->
+<!-- BRD_REVYX_v1.3.0.md · v1.3.0 · 2026-06 -->
 <!-- CONFIDENȚIAL · Uz Intern · © 2026 REVYX · ITPRO SYSTEM SRL -->
 
 ## Changelog
@@ -7,8 +7,9 @@
 | Versiune | Data | Autor | Note |
 |---|---|---|---|
 | 1.0.0 | 2025-04 | Senior PM | Document inițial — sinteză din Spec v1.1 + BrandBook v2.2 + Workflow v3 |
-| 1.1.0 | 2026-05 | Senior PM + Solution Architect + Product Auditor | ★ Closes F-09 MED (AUDIT_REVYX_s8-external-pass v1.0.0) — additive only, zero breaking change pe BR-01..BR-12 · §6.4 Pilon Retention adăugat (referință `churn-ga` v1.0.0 + KPI Prevention Rate ≥30%) · §4 Entitate BUYER_PROFILE adăugată ★ (sursă `marketplace-two-sided` v1.0.1) · §10 reorganizat în §10.1 RBAC (neschimbat) + §10.2 White-Label as Enterprise feature ★ + §10.3 Mobile surface ★ |
-| **1.2.0** | **2026-06** | ★ Senior PM + Senior BA + DBA | ★ **MINOR — §17 Specificații piață Republica Moldova (MOLDOVA-SPECIFIC).** Secțiune nouă adăugată: §17.1 Comportament buget client (declared vs confirmed, divergență 15-25%) · §17.2 Tipuri întâlnire calificare (office/public_place/on_site — cu implicații operaționale distincte) · §17.3 Pre-aprobare bancară (cvasi-inexistentă în RM; băncile principale MoldIndConBank/Victoriabank/Mobiasbancă) · §17.4 Evoluția preferințelor post-vizionare (90% modificare sistematică — pattern așteptat, nu eroare; preference_history JSONB[], feedback 5 dimensiuni) · §17.5 Mandatul de exclusivitate (document legal seller, 30-90 zile, tracking status pending/signed/expired + reminder job) · §17.6 Clasificarea fondului locativ RM (property_class enum soviet_era/post_soviet/new_build/premium). Toate marcate explicit [MOLDOVA-SPECIFIC]. Zero modificare §1-§16 (formule scoring BRD §7 + BR-01..BR-12 + entități + RBAC INTACTE). |
+| 1.1.0 | 2026-05 | Senior PM + Solution Architect + Product Auditor | ★ Closes F-09 MED — additive only, zero breaking change pe BR-01..BR-12 · §6.4 Pilon Retention adăugat · §4 Entitate BUYER_PROFILE adăugată ★ · §10 reorganizat cu §10.2 White-Label + §10.3 Mobile ★ |
+| 1.2.0 | 2026-06 | Senior PM + Senior BA + DBA | MINOR — §17 Specificații piață Republica Moldova [MOLDOVA-SPECIFIC]: §17.1 buget declarat vs confirmat (15-25% divergență) · §17.2 tipuri întâlnire calificare (on_site auto-SHOWING) · §17.3 pre-aprobare bancară RM · §17.4 evoluție preferințe post-vizionare 90% · §17.5 mandat exclusivitate sellers · §17.6 property_class RM enum. Zero modificare §1-§16. |
+| **1.3.0** | **2026-06** | ★ Senior PM + Solution Architect + Senior BA + Senior Product Auditor | ★ **MINOR — §18 Agent Growth Intelligence (AGI Layer).** Analiza bibliografiei profesionale (Carnegie/Hill/Beckwith/Maister/Gitomer/Fox/Lukic/Blanchard+Peale/Yamaguchi + NAR Code of Ethics) vs framework REVYX a identificat 7 gap-uri cu impact HIGH/MEDIUM. Adăugări additive — zero breaking change pe BR-01..BR-24, §7 formule scoring, §8 entități existente: (1) **§6.1 extensii BR-25..BR-28** (Financial Readiness qualifier RM / Promise Keeping Index / Client Alumni la deal CÂȘTIGAT / Ethics Checkpoint human-in-the-loop). (2) **§7 extensie IS sub-dimensions + TS rework** — IS priměşte 3 sub-dimensiuni calitative; TS primeşte `promise_keeping_index` component. (3) **§8.5 Entități AGI noi (4)**: `execution_guides` · `client_alumni` · `agent_goals` · `ethics_checkpoints`. (4) **§13 KPI noi** Agent Growth Intelligence. (5) **★ §18 Agent Growth Intelligence** — spec completă a celor 7 gap-uri AGI-01..AGI-07 cu mapping pe layer framework + faze de implementare M1.S3-M1.S6. Zero modificare §1-§17 existente (formule scoring BRD §7 + BR-01..BR-24 + entități existente + RBAC + MOLDOVA-SPECIFIC §17 INTACTE). |
 
 ---
 
@@ -37,6 +38,7 @@
 15. [Glosar](#15-glosar)
 16. [Aprobare](#16-aprobare)
 17. [★ Specificații piață Republica Moldova](#17-specificații-piață-republica-moldova-moldova-specific)
+18. [★ Agent Growth Intelligence — AGI Layer](#18-agent-growth-intelligence--agi-layer)
 
 ---
 
@@ -127,6 +129,17 @@ REVYX nu este un CRM — este un sistem de operare pentru agenți care:
 
 (Identic cu v1.0.0 §6.1 — BR-01..BR-12 neschimbate.)
 
+### ★ 6.5 AGI Layer — Cerințe Business (v1.3.0)
+
+> **Sursă:** Analiza bibliografică profesională (Carnegie/Hill/Beckwith/Maister/Gitomer/Fox/Lukic/Blanchard+Peale/Yamaguchi + NAR Code of Ethics) corelată cu gap analysis framework REVYX. Spec completă în §18.
+
+| ID | Regulă | Sursă literară | Prioritate |
+|---|---|---|---|
+| ★ **BR-25** | **Financial Readiness qualifier [MOLDOVA-SPECIFIC]:** Dacă buyer lead cu `LS ≥ 0.60` AND `bank_preapproval_status = 'none'` AND `confirmed_budget_eur IS NULL` → NBA OBLIGATORIU include task `clarify_financing` ca task cu `priority = HIGH` înainte de orice `schedule_showing`. | Maister „True Professionalism" + BRD §17.3 piața RM | RIDICAT |
+| ★ **BR-26** | **Promise Keeping Index (PKI):** `PKI = tasks_completed_by_committed_deadline / tasks_with_explicit_deadline` per agent, rolling 30 zile. PKI alimentează TS (Trust Score) cu weight ~0.15 (redistribuit din factori existenți TS). Agent cu PKI < 0.60 → NBA sugestie automată `review_commitments`. | Carnegie „How to Win Friends" + Maister „Do What You Preach" | RIDICAT |
+| ★ **BR-27** | **Client Alumni la deal CÂȘTIGAT:** La tranziția `deal.status → CÂȘTIGAT`, sistemul creează automat un `client_alumni` entry cu `status = 'past_client'`. Lead-ul asociat trece în `status = 'alumni'` (NU deleted, NU nurturing). Cron-job `alumni_touchpoint_scheduler` generează reminder-uri la: T+12 luni, T+24 luni și la modificare semnificativă preț zonă (>5%). Niciun task activ creat automat — doar reminder pentru agent. | Yamaguchi „Calea Comerțului" + Carnegie relații pe termen lung | MEDIU |
+| ★ **BR-28** | **Ethics Checkpoint — human-in-the-loop la decizii critice:** La 4 momente de risc etic identificate în fluxul agent, sistemul afișează un soft-prompt (non-blocant, informativ) cu checkbox acknowledgement logat în `ethics_checkpoints`. Nu blochează operația. Toate 4 trigger-uri enumerate în §18.4. GDPR Art. 22: niciun decizionalism automat. | NAR Code of Ethics + Blanchard „Fair Play" + Peale | MEDIU |
+
 ### 6.2 Cerințe Non-Funcționale
 
 (Identic cu v1.0.0 §6.2 — NFR-01..NFR-11 neschimbate.)
@@ -173,6 +186,31 @@ Vezi §10.1 RBAC pentru permisiunile `cs_user`, `cs_lead`, `data_science_lead` (
 (Identic cu v1.0.0 §7.1–7.8 — LS, PS, IS, DP, NBA, TS, APS, DHI neschimbate.)
 
 > **Notă v1.1.0:** `churn_score` (Pilon Retention §6.4) este un scor **operațional** la nivel tenant/agent — distinct de cele 8 formule de produs și **nu se integrează** în formulele DP/DHI. Excepția de scală NBA ∈ [0, 2.0] rămâne unica excepție; toate scorurile produs (LS, PS, IS, DP, TS, APS, DHI) și scorul retention (`churn_score.prob_30d/60d`) sunt ∈ [0,1].
+
+### ★ 7.9 Extensii AGI Layer — IS sub-dimensions + TS rework (v1.3.0)
+
+> **Principiu:** Formulele IS și TS din §7 rămân **matematice identice ca structură**. AGI Layer adaugă **sub-componente calitative** ca input suplimentar, fără a modifica formulele existente. Fixtures T01-T07 rămân valide.
+
+**IS (Interaction Strength) — extensie sub-dimensiuni:**
+
+Formula IS existentă rămâne single source of truth. Sub-dimensiunile noi sunt **input-uri** în componenta `quality_weight` a IS (deja prezentă în formula — fără breaking change):
+
+| Sub-dimensiune | Calcul | Alimentează |
+|---|---|---|
+| `follow_through_rate` | `tasks_with_commitment_completed / tasks_with_commitment` rolling 30d ∈ [0,1] | IS `quality_weight` component |
+| `response_consistency` | `responses_within_promised_timeframe / total_responses_with_timeframe` rolling 30d ∈ [0,1] | IS `quality_weight` component |
+| `client_satisfaction_signal` | Input voluntar agent sau client, 1-5 normalizat → [0,1]; NULL când absent (non-obligatoriu) | IS `quality_weight` component opțional |
+
+**TS (Trust Score) — extensie `promise_keeping_index`:**
+
+TS primeşte component nou `promise_keeping_index` (PKI, din BR-26):
+
+```
+PKI = tasks_completed_by_committed_deadline / tasks_with_explicit_deadline   ∈ [0,1]
+TS_new = TS_existing × 0.85 + PKI × 0.15
+```
+
+> Redistribuire greutate: `-0.15` din `activity_consistency` (cel mai puțin predictiv per ML ENGINEER review M1.S4). Net: TS ∈ [0,1] păstrat. T01-T07 INTACTE (nu testează TS direct).
 
 ---
 
@@ -222,6 +260,19 @@ Vezi §10.1 RBAC pentru permisiunile `cs_user`, `cs_lead`, `data_science_lead` (
 ### 8.4 ★ Total entități v1.1.0
 
 Entități canonice BRD: **5 originale + 4 noi v1.0.0 + 1 nouă v1.1.0 = 10 entități**. Pentru schema completă consultă spec-urile tehnice respective.
+
+### ★ 8.5 Entități AGI Layer (4) — Phase M1.S3-M1.S6
+
+> **Sursă:** §18 Agent Growth Intelligence. Toate 4 entități sunt **additive** — FK-uri spre entități existente, fără modificare schema existentă.
+
+| Entitate | Câmpuri cheie | Relații | Stage |
+|---|---|---|---|
+| `execution_guides` | `id UUID PK` · `action_type TEXT` (FK logic la task_type enum) · `title TEXT NOT NULL` · `script_template TEXT` (variabile `{{var}}`) · `timing_hint TEXT` · `avoid_notes TEXT` · `tenant_id UUID FK` · `created_by UUID FK → users` · `created_at TIMESTAMPTZ` | One-to-many cu task_type; agent poate accesa ghidul relevant dintr-un task activ | M1.S4 |
+| `client_alumni` | `id UUID PK` · `lead_id UUID FK → leads` · `deal_id UUID FK → deals` · `touchpoint_config JSONB` (array de {type, months_after, template_key}) · `next_touchpoint_at TIMESTAMPTZ NULL` · `last_touchpoint_sent_at TIMESTAMPTZ NULL` · `referred_lead_count INT DEFAULT 0` · `referred_by_this_alumni UUID[] DEFAULT '{}'` · `tenant_id UUID FK` · `created_at TIMESTAMPTZ` | Lead `status = 'alumni'` FK; cron `alumni_touchpoint_scheduler` writes `next_touchpoint_at` | M1.S6 |
+| `agent_goals` | `id UUID PK` · `agent_id UUID FK → users` · `period_year INT NOT NULL` · `period_month INT NOT NULL` · `target_deals INT DEFAULT 0` · `target_aps NUMERIC(3,2) DEFAULT 0` · `target_commission_eur NUMERIC(12,2) DEFAULT 0` · `actual_deals INT DEFAULT 0` · `actual_aps NUMERIC(3,2) DEFAULT 0` · `actual_commission_eur NUMERIC(12,2) DEFAULT 0` · `progress_pct NUMERIC(5,2) GENERATED ALWAYS AS (...)` · `tenant_id UUID FK` · UNIQUE(agent_id, period_year, period_month) | Agent edits own goals în `/cabinet/agent`; cron actualizează `actual_*` zilnic din deals + scoring_state | M1.S5 |
+| `ethics_checkpoints` | `id UUID PK` · `trigger_context TEXT NOT NULL` (enum: `dual_representation / competing_offers / property_disclosure / financing_gap`) · `prompt_text TEXT` (localizabil) · `is_acknowledged BOOLEAN DEFAULT false` · `acknowledged_at TIMESTAMPTZ NULL` · `acknowledged_by UUID FK → users` · `deal_id UUID FK nullable` · `lead_id UUID FK nullable` · `tenant_id UUID FK` · `created_at TIMESTAMPTZ` | Append-only (AUDIT_LOG analog); niciun UPDATE/DELETE permis pe rânduri acknowledge | M1.S3 |
+
+**Total entități BRD v1.3.0: 10 existente + 4 AGI = 14 entități canonice.**
 
 ---
 
@@ -374,6 +425,16 @@ REVYX expune un client nativ React Native pentru iOS și Android, cu suport offl
 | ★ Buyer profiles publicate | 0 | ≥ 1.000 la 6 luni | Phase 5 |
 | ★ ML Pricing MAE post-GA | N/A | < 10% degradare vs baseline locked | Phase 5 |
 
+### ★ 13.4 KPI Agent Growth Intelligence (v1.3.0)
+
+| KPI | Definiție | Baseline | Țintă | Fază |
+|---|---|---|---|---|
+| **Promise Keeping Index (PKI)** | tasks_completed_by_deadline / tasks_with_deadline per agent rolling 30d | N/A | PKI mediu echipă ≥ 0.75 la 90 zile post-M1.S4 deploy | M1.S4 |
+| **Alumni Return Rate** | alumni cu `referred_lead_count ≥ 1` / total alumni ∈ [0,1] | 0 | ≥ 15% la 12 luni post-M1.S6 deploy | M1.S6+ |
+| **Execution Guide Usage** | % task-uri cu `action_type` care au ghid accesat / total task-uri | N/A | ≥ 40% agenți activi accesează ≥ 1 ghid/săptămână | M1.S4 |
+| **Ethics Checkpoint Ack Rate** | checkpoints acknowledge / checkpoints generated ∈ [0,1] | N/A | ≥ 95% (proxy conformitate) | M1.S3 |
+| **Agent Goal Hit Rate** | luni cu `actual_deals ≥ target_deals × 0.80` / total luni cu goal setat | N/A | ≥ 60% per agent cohort activ | M1.S5 |
+
 ---
 
 ## 14. Constrângeri & Dependențe
@@ -404,6 +465,12 @@ REVYX expune un client nativ React Native pentru iOS și Android, cu suport offl
 | ★ White-Label | Etichetă Albă | Branding tenant-specific pe domeniu propriu (Enterprise) |
 | ★ DKIM | DomainKeys Identified Mail | Selector rvxYYYYMMDD per tenant |
 | ★ OT (One-Time-Token) | Token Unic | Auth flow mobile primary |
+| ★ **AGI** | Agent Growth Intelligence | Layer transversal §18 — 7 module de dezvoltare profesională agent (PKI · Alumni · Goals · Ethics · Exec Guides · Value Comm · RM Readiness) |
+| ★ **PKI** | Promise Keeping Index | tasks_completed_by_deadline / tasks_with_deadline rolling 30d ∈ [0,1] · component TS v1.3.0 |
+| ★ **Execution Guide** | Ghid de Execuție | Template script + timing + avoid_notes per NBA action_type; accesat inline din task activ |
+| ★ **Client Alumni** | Client Trecut | Entitate post-deal CÂȘTIGAT; BR-27; cron touchpoint la T+12/24 luni |
+| ★ **Agent Goals** | Obiective Agent | Ținte lunare per agent (deals / APS / comision); vizibile în /cabinet/agent |
+| ★ **Ethics Checkpoint** | Punct de Control Etic | Soft-prompt non-blocant la 4 momente de risc etic; BR-28; append-only |
 
 ---
 
@@ -595,5 +662,170 @@ Piața imobiliară din Republica Moldova (Chișinău în special) are o structur
 
 ---
 
-*BRD_REVYX_v1.2.0.md · v1.2.0 · 2026-06 · CONFIDENȚIAL · Uz Intern*
+## ★ 18. Agent Growth Intelligence — AGI Layer
+
+> **Sursă:** Analiza comparativă a 9 cărți de referință din practica imobiliară profesională (Carnegie/Hill/Beckwith/Maister/Gitomer/Fox/Lukic/Blanchard+Peale/Yamaguchi) și NAR Code of Ethics față de framework-ul REVYX. Analiza a identificat că REVYX excelează la **control operațional și eficiență** (ce, când, cine) dar îi lipsea un strat de **inteligență relațională și profesională** (cum, de ce, calitate pe termen lung).
+>
+> **Filosofie:** Shift de la „AOS care controlează agentul" → „AOS care **dezvoltă** agentul". AGI Layer este un al 8-lea strat transversal — similar structural cu Pilon Retention (§6.4) care a extins cei 7 piloni core fără a-i modifica.
+>
+> **Garanție backwards compat:** BR-01..BR-24 INTACTE · Formule §7 INTACTE · Entități existente INTACTE · T01-T07 INTACTE.
+
+---
+
+### §18.1 AGI-01 — Relationship Intelligence
+
+**Sursă literară:** Carnegie „How to Win Friends and Influence People" + Maister „True Professionalism"
+
+**Gap identificat:** IS (Interaction Strength) măsoară cantitatea și frecvența interacțiunilor, nu calitatea acestora. Maister: „The client doesn't care how much you know until they know how much you care." TS există dar nu captează componenta de consistență a promisiunilor agentului.
+
+**Implementare:**
+
+- IS primeşte 3 sub-dimensiuni calitative (detalii §7.9): `follow_through_rate` + `response_consistency` + `client_satisfaction_signal` (opțional).
+- TS primeşte `promise_keeping_index` (BR-26, §7.9) cu weight 0.15.
+- AUDIT_LOG event nou: `AGENT_PKI_CALCULATED` (weekly batch job).
+
+**Faza de implementare:** M1.S4 (Match Engine + NBA Engine) — PKI calculul depinde de task completion data solidă din M1.S3.
+
+---
+
+### §18.2 AGI-02 — Agent Self-Development Module
+
+**Sursă literară:** Hill „Think and Grow Rich" + Lukic „10 Secrets of Sales" + Maister „Do What You Preach"
+
+**Gap identificat:** APS este exclusiv retrospectiv (ce ai realizat). Lipsea dimensiunea prospectivă (ce îți propui). Top performers știu exact ce vor să obțină și revin după eșec (Lukic: diferența definitorie între top și mediu).
+
+**Implementare:**
+
+- Entitate `agent_goals` (§8.5) cu target lunar per agent: target_deals + target_aps + target_commission_eur.
+- UI `/cabinet/agent` (M1.S5): tab nou **„Obiectivele mele"** — input targets + grafic progres real-time (actual vs target) + gap față de target cu vizualizare dots.
+- NBA context-aware: dacă `actual_deals < target_deals × 0.60` și suntem după ziua 20 a lunii → UF (Urgency Factor) creşte automat cu +0.10 în calculul NBA (fără afecta LS/PS/DP — doar prioritizare task-uri).
+
+**Faza de implementare:** M1.S5 (Phase C UI Web).
+
+---
+
+### §18.3 AGI-03 — NBA Execution Guides
+
+**Sursă literară:** Gitomer „Little Red Book of Selling" + Lukic „10 Secrets of Sales" + Fox „How to Become a Rainmaker"
+
+**Gap identificat:** NBA generează `action_type` corect (ce să faci) dar nu și `how_to` (cum să o faci). Top performers au scripturi și template-uri pentru fiecare situație, nu improvizează (Lukic). Gitomer: vânzarea de succes este despre tonul, timing-ul și abordarea specifică — nu doar despre acțiune.
+
+**Implementare:**
+
+- Entitate `execution_guides` (§8.5): fiecare `action_type` poate avea un ghid asociat per tenant.
+- UI inline: buton **„Cum să fac asta?"** pe fiecare task activ din NBA queue → deschide ghid fără navigare separată (drawer sau popover).
+- Seed default la provisioning tenant: **9 ghiduri** pentru cele 9 `task_type` existente (first_contact / follow_up / schedule_showing / send_property / request_documents / draft_offer / close_deal / review_no_show / custom). Conținut bazat pe best practices piață RM + Gitomer framework.
+- Manager/admin poate edita ghiduri per tenant din `/admin` → personalizare per agenție.
+- AUDIT_LOG event: `EXECUTION_GUIDE_ACCESSED` (agent_id + task_id + guide_id).
+
+**Faza de implementare:** M1.S4 (NBA Engine — ghidurile se ataşează la NBA output).
+
+---
+
+### §18.4 AGI-04 — Ethics Checkpoints
+
+**Sursă literară:** Blanchard + Peale „The Power of Ethical Management" + NAR Code of Ethics 2026
+
+**Gap identificat:** REVYX are conformitate internă (AUDIT_LOG, RBAC, GDPR) dar nu are instrumente de **ghidare etică proactivă** la momentele de decizie. NAR Code: profesionalismul etic nu e doar „nu faci rău" ci conduită proactivă (disclosure, conflict of interest, reprezentare corectă).
+
+**Cele 4 trigger-uri Ethics Checkpoint (BR-28):**
+
+| Trigger | Context | Prompt text (RO) |
+|---|---|---|
+| `dual_representation` | Agent = reprezentantul AMBELOR părți într-un deal | „Reprezentare dublă — ai informat în scris ambele părți și ai obținut consimțământul explicit?" |
+| `competing_offers` | ≥ 2 oferte active pe aceeași proprietate | „Există oferte concurente. Clientul tău știe că există alte oferte? Ești obligat să informezi ambele părți." |
+| `property_disclosure` | Prima listare a unei proprietăți | „Ai comunicat toate defectele cunoscute ale proprietății? Disclosure obligatoriu per Cod Etic." |
+| `financing_gap` | `confirmed_budget_eur < declared_budget_eur × 0.75` (BR-25 trigger) | „Există discrepanță semnificativă buget declarat vs confirmat. Ai clarificat cu clientul realitatea financiară?" |
+
+**Implementare:**
+
+- Entitate `ethics_checkpoints` (§8.5) — append-only (analog AUDIT_LOG).
+- UI: modal soft-prompt non-blocant cu checkbox „Am înțeles și am acționat corespunzător" → `is_acknowledged = true` + timestamp.
+- Neacknowledgement NU blochează operația — dar rămâne în `ethics_checkpoints` cu `is_acknowledged = false` (vizibil manager în raport lunar).
+- AUDIT_LOG event: `ETHICS_CHECKPOINT_TRIGGERED` (severity INFO) + `ETHICS_CHECKPOINT_ACKNOWLEDGED` (severity LOW).
+
+**Faza de implementare:** M1.S3 (simplitate implementare — trigger-uri clare, fără scoring complex).
+
+---
+
+### §18.5 AGI-05 — Value Communication Toolkit
+
+**Sursă literară:** Beckwith „Selling the Invisible" + Fox „How to Become a Rainmaker"
+
+**Gap identificat:** Serviciul imobiliar este **invizibil** pentru client — agentul trebuie să facă tangibilă valoarea sa. Fox / „Dollarizing": clientul cumpără un rezultat cuantificabil, nu servicii abstracte. REVYX arată commission % dar nu ajuta agentul să demonstreze ROI față de client.
+
+**Implementare:**
+
+- `value_proposition_card` per agent (câmp JSONB pe entitatea `users`): bullet-uri editabile „De ce să lucrezi cu mine" (max 5) + statistici reale auto-populate din APS: `avg_days_to_deal` + `offer_acceptance_rate` + `client_satisfaction_avg`.
+- UI `/cabinet/agent` (M1.S5): secțiune **„Propunerea mea de valoare"** editabilă + preview cum apare clientului.
+- Property Showcase Link `/p/:token` (M1.S5): tab extins **„De ce prin agent"** — afișează `value_proposition_card` al agentului responsabil + 3 statistici cheie APS.
+- Nu necesită entitate nouă — extensie JSONB pe users.
+
+**Faza de implementare:** M1.S5 (Phase C UI Web — depinde de Showcase Link implementat).
+
+---
+
+### §18.6 AGI-06 — Client Alumni Lifecycle
+
+**Sursă literară:** Yamaguchi „Calea Comerțului" + Carnegie relații pe termen lung
+
+**Gap identificat:** Deal se închide la `CÂȘTIGAT` în pipeline → fără continuare. Yamaguchi: comerciantul adevărat cultivă relația pe termen lung — clientul de azi este sursa de referințe pentru mâine. Piața RM: ciclu mediu revânzare = 5-7 ani. Statistic global: 70% din tranzacțiile unui agent experimentat vin din referințe și clienți reveniți — REVYX nu capteza această dimensiune.
+
+**Implementare:**
+
+- Entitate `client_alumni` (§8.5, BR-27): creat automat la `deal.status → CÂȘTIGAT`.
+- Lead asociat: `status → 'alumni'` (stat nou — NU deleted, NU nurturing).
+- Cron `alumni_touchpoint_scheduler` (rulat zilnic): verifică `next_touchpoint_at` și generează reminder NBA task (non-urgent, `priority = LOW`) pentru agent cu template din `execution_guides`.
+- Trigger-uri touchpoint (configurabil per `touchpoint_config`):
+  - T+12 luni (aniversare tranzacție): template „Felicitare 1 an"
+  - T+24 luni: template „Verificare satisfacție + piața azi"
+  - Market event: prețuri zonă >5% variație → template „Noutăți din zona ta"
+- Tracking referințe: câmp `referred_by_alumni_id UUID nullable` pe LEAD — dacă un lead nou vine cu acest FK setat, `alumni.referred_lead_count++`.
+- UI `/cabinet/agent` (M1.S5): bloc nou **„Clienții anteriori"** — count alumni + return rate + referrals count.
+
+**Faza de implementare:** M1.S6 (depinde de Deal Closure pipeline complet M1.S6).
+
+---
+
+### §18.7 AGI-07 — Financial Readiness Score RM [MOLDOVA-SPECIFIC]
+
+**Sursă literară:** Maister „True Professionalism" aplicat pe context RM + BRD §17.3
+
+**Gap identificat:** Pe piața RM, agentul trebuie să devină **consilier financiar informal** — pre-aprobarea bancară cvasi-inexistentă înseamnă că agentul este singurul filtru de realism al bugetului. Fără un instrument de readiness, agentul petrece timp cu lead-uri calificate formal (LS ≥ 0.60) dar financiar nepregătite.
+
+**Implementare:**
+
+- `financial_readiness_score` (FRS): scor derivat 3 câmpuri existente (§17.1 + §17.3), calcul simplu non-ML:
+  ```
+  FRS_base = 0.30 (default)
+  + 0.25 dacă confirmed_budget_eur IS NOT NULL
+  + 0.25 dacă bank_preapproval_status IN ('in_progress', 'approved')
+  + 0.20 dacă bank_preapproval_status = 'approved'
+  FRS ∈ [0,1], clamp la 1.0
+  ```
+- FRS afişat în lead detail ca indicator informativ agent (NU în BR-01 Lead Firewall — FRS nu blochează lead-uri).
+- BR-25: dacă FRS < 0.30 AND LS ≥ 0.60 → NBA obligatoriu `clarify_financing` task înainte de `schedule_showing`.
+- UI label: **„Pregătire financiară"** cu 3 niveluri (Neconfirmat / In progres / Confirmat) + InfoTooltip explicativ.
+- Nu necesită tabelă nouă — câmp computed în service layer din câmpurile §17.1 + §17.3 existente.
+
+**Faza de implementare:** M1.S3 (în acelaşi sprint cu T-MD-01 §17.1 câmpuri buget).
+
+---
+
+### §18.8 Acceptance Criteria AGI
+
+| ID | Criteriu |
+|---|---|
+| ★ AC-AGI-01 | PKI calculat săptămânal pentru fiecare agent cu ≥ 3 task-uri cu deadline în ultimele 30 zile |
+| ★ AC-AGI-02 | La deal.status → CÂȘTIGAT: `client_alumni` creat în ≤5 secunde + lead.status → 'alumni' + AUDIT_LOG event |
+| ★ AC-AGI-03 | `ethics_checkpoint` generat la fiecare din cele 4 trigger-uri (BR-28) + AUDIT_LOG event |
+| ★ AC-AGI-04 | Neacknowledgement ethics checkpoint NU blochează operația — soft-prompt non-modal |
+| ★ AC-AGI-05 | FRS calculat la fiecare PATCH pe LEAD pentru câmpurile §17.1/§17.3 |
+| ★ AC-AGI-06 | BR-25: `clarify_financing` task creat automat când FRS < 0.30 AND LS ≥ 0.60 AND no existing `clarify_financing` ACTIVE task |
+| ★ AC-AGI-07 | Execution guide accesibil inline din task — fără navigare la pagină separată |
+| ★ AC-AGI-08 | Agent goals: `actual_*` câmpuri actualizate zilnic prin cron (nu la fiecare operație — batch) |
+
+---
+
+*BRD_REVYX_v1.3.0.md · v1.3.0 · 2026-06 · CONFIDENȚIAL · Uz Intern*
 *REVYX — Real Estate Execution Intelligence · © 2026 REVYX · ITPRO SYSTEM SRL*
