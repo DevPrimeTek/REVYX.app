@@ -94,46 +94,6 @@ p{font-size:clamp(.88rem,1.1vw,1.05rem);color:var(--tm);line-height:1.7}
 .wf-arrow{text-align:center;color:rgba(201,135,10,.5);font-size:1rem;
   padding-left:17px;margin:-2px 0}
 
-/* ── WHEEL (S2) ── */
-#s2-inner{position:relative;width:100%;height:100%;display:flex;align-items:center;justify-content:center}
-#wheel-wrap{position:relative;width:520px;height:520px;flex-shrink:0}
-.wheel-ring{position:absolute;inset:0;border-radius:50%;
-  border:1px dashed rgba(201,135,10,.2)}
-.wheel-center{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
-  text-align:center;z-index:2}
-.wp{position:absolute;cursor:pointer;transform:translate(-50%,-50%);
-  display:flex;flex-direction:column;align-items:center;gap:7px;width:110px;
-  transition:filter .25s}
-.wp:hover .gc,.wp.sel .gc{
-  background:rgba(201,135,10,.25);
-  border-color:var(--gold);
-  box-shadow:0 0 18px rgba(201,135,10,.45)}
-.wp-lbl{font-size:.65rem;font-weight:700;color:var(--tm);text-align:center;
-  line-height:1.3;letter-spacing:.04em;text-transform:uppercase}
-.wp.sel .wp-lbl{color:var(--goldl)}
-
-/* ── SIDE PANEL (S2) ── */
-#pil-panels{position:absolute;right:0;top:0;height:100%;width:42%;
-  pointer-events:none}
-.pil-detail{position:absolute;inset:0;background:var(--navy2);
-  border-left:2px solid rgba(201,135,10,.35);
-  padding:72px 2.5rem 2.5rem;
-  transform:translateX(105%);
-  transition:transform .42s cubic-bezier(.77,0,.18,1);
-  overflow-y:auto;pointer-events:none}
-.pil-detail.open{transform:translateX(0);pointer-events:all}
-.pd-close{position:absolute;top:16px;right:16px;
-  width:30px;height:30px;border-radius:50%;
-  background:rgba(143,168,204,.1);border:1px solid rgba(143,168,204,.18);
-  display:flex;align-items:center;justify-content:center;
-  cursor:pointer;color:var(--tm);font-size:.85rem;transition:all .2s}
-.pd-close:hover{border-color:var(--gold);color:var(--gold)}
-.pd-nav{display:inline-flex;align-items:center;gap:8px;margin-top:1.5rem;
-  padding:8px 16px;border:1px solid rgba(201,135,10,.4);border-radius:6px;
-  color:var(--gold);font-size:.8rem;font-weight:700;cursor:pointer;
-  background:rgba(201,135,10,.07);transition:background .2s}
-.pd-nav:hover{background:rgba(201,135,10,.15)}
-
 /* ── ROLES (S10) ── */
 .roles-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:1rem;width:100%;max-width:1300px}
 .role-card{padding:1.25rem;background:rgba(17,29,56,.75);
@@ -283,211 +243,15 @@ body::before{content:'';position:fixed;inset:0;
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════════════════════ S2 PILLARS WHEEL -->
-<div class="sl" id="sl1" style="padding:0">
-  <div id="s2-inner">
-    <!-- Wheel -->
-    <div id="wheel-wrap">
-      <div class="wheel-ring" style="inset:10%"></div>
-      <div class="wheel-ring" style="inset:25%;opacity:.4"></div>
-      <!-- Center -->
-      <div class="wheel-center">
-        <div class="logo-mark" style="font-size:2rem">REV<span>YX</span></div>
-        <div style="font-size:.65rem;color:var(--ts);margin-top:4px;letter-spacing:.08em;text-transform:uppercase">
-          <span class="ro">7 piloni de bază</span>
-          <span class="en">7 core pillars</span>
-          <span class="ru">7 основных модулей</span>
-        </div>
-      </div>
-      <!-- Pillar items: positioned by JS -->
-      <div class="wp" id="wp0"><div class="gc lg">01</div><div class="wp-lbl">Lead Intelligence</div></div>
-      <div class="wp" id="wp1"><div class="gc lg">02</div><div class="wp-lbl">Supply Intelligence</div></div>
-      <div class="wp" id="wp2"><div class="gc lg">03</div><div class="wp-lbl">Match Intelligence</div></div>
-      <div class="wp" id="wp3"><div class="gc lg">04</div><div class="wp-lbl">Execution Intelligence</div></div>
-      <div class="wp" id="wp4"><div class="gc lg">05</div><div class="wp-lbl">Negotiation Intelligence</div></div>
-      <div class="wp" id="wp5"><div class="gc lg">06</div><div class="wp-lbl">Deal Intelligence</div></div>
-      <div class="wp" id="wp6"><div class="gc lg">07</div><div class="wp-lbl">Performance Intelligence</div></div>
-    </div>
-
-    <!-- Side Panels -->
-    <div id="pil-panels">
-
-      <!-- PD0: Lead Intelligence -->
-      <div class="pil-detail" id="pd0">
-        <div class="pd-close" onclick="closePil()">✕</div>
-        <div class="tag tg" style="margin-bottom:.75rem">01</div>
-        <h3>Lead Intelligence</h3>
-        <div class="div-gold"></div>
-        <p>
-          <span class="ro">Calificarea automată a potențialilor clienți. Sistemul atribuie un scor fiecărui client nou și aplică un filtru de calitate înainte ca agentul să fie implicat.</span>
-          <span class="en">Automatic qualification of potential clients. The system scores every new lead and applies a quality filter before the agent is involved.</span>
-          <span class="ru">Автоматическая квалификация потенциальных клиентов. Система присваивает оценку каждому новому клиенту и применяет фильтр качества до того, как агент будет задействован.</span>
-        </p>
-        <ul class="mlist" style="margin-top:1rem">
-          <li><span class="mdot"></span><span class="ro"><b>Scor inițial 0.30</b> — fiecare client nou primește un scor de plecare (nu zero)</span><span class="en"><b>Initial score 0.30</b> — every new lead starts with a base score (not zero)</span><span class="ru"><b>Начальная оценка 0.30</b> — каждый новый клиент получает базовую оценку (не ноль)</span></li>
-          <li><span class="mdot"></span><span class="ro"><b>Filtru de calitate</b> — doar clienții cu scor ≥ 0.60 și contact valid ajung la agent</span><span class="en"><b>Quality filter</b> — only leads scoring ≥ 0.60 with valid contact reach the agent</span><span class="ru"><b>Фильтр качества</b> — к агенту поступают только клиенты с оценкой ≥ 0.60 и действительным контактом</span></li>
-          <li><span class="mdot"></span><span class="ro"><b>Timp limită de răspuns</b> — client fierbinte: 15 min · calificat: 2 ore · activ: 24 ore</span><span class="en"><b>Response time limit</b> — hot client: 15 min · qualified: 2h · warm: 24h</span><span class="ru"><b>Предельное время ответа</b> — горячий: 15 мин · квалифицированный: 2 ч · активный: 24 ч</span></li>
-          <li><span class="mdot"></span><span class="ro"><b>Escaladare automată</b> pe 3 niveluri dacă limita nu e respectată</span><span class="en"><b>Auto-escalation</b> on 3 levels if the time limit is not met</span><span class="ru"><b>Автоматическая эскалация</b> на 3 уровнях при нарушении лимита времени</span></li>
-          <li><span class="mdot"></span><span class="ro"><b>4 tipuri de client</b> — cumpărător, vânzător, chiriaș, proprietar</span><span class="en"><b>4 client types</b> — buyer, seller, tenant, landlord</span><span class="ru"><b>4 типа клиента</b> — покупатель, продавец, арендатор, арендодатель</span></li>
-        </ul>
-        <div class="pd-nav" onclick="gTo(2)">
-          <span class="ro">Detalii complete →</span><span class="en">Full details →</span><span class="ru">Подробнее →</span>
-        </div>
-      </div>
-
-      <!-- PD1: Supply Intelligence -->
-      <div class="pil-detail" id="pd1">
-        <div class="pd-close" onclick="closePil()">✕</div>
-        <div class="tag tg" style="margin-bottom:.75rem">02</div>
-        <h3>Supply Intelligence</h3>
-        <div class="div-gold"></div>
-        <p>
-          <span class="ro">Gestionarea inteligentă a portofoliului de proprietăți. Sistemul monitorizează prospețimea fiecărui anunț și alertează agentul înainte de pierderea relevanței.</span>
-          <span class="en">Intelligent property portfolio management. The system monitors each listing's freshness and alerts the agent before relevance is lost.</span>
-          <span class="ru">Интеллектуальное управление портфелем объектов. Система отслеживает актуальность каждого объявления и предупреждает агента до потери релевантности.</span>
-        </p>
-        <ul class="mlist" style="margin-top:1rem">
-          <li><span class="mdot"></span><span class="ro"><b>Indice de prospețime</b> — calculat zilnic, scade liniar pe parcursul a 90 de zile</span><span class="en"><b>Freshness index</b> — calculated daily, decreases linearly over 90 days</span><span class="ru"><b>Индекс актуальности</b> — рассчитывается ежедневно, линейно снижается за 90 дней</span></li>
-          <li><span class="mdot"></span><span class="ro"><b>Alerte automate</b> la pragurile de îmbătrânire: 30 / 60 / 90 zile</span><span class="en"><b>Automatic alerts</b> at aging thresholds: 30 / 60 / 90 days</span><span class="ru"><b>Автоматические уведомления</b> на пороговых значениях: 30 / 60 / 90 дней</span></li>
-          <li><span class="mdot"></span><span class="ro"><b>Preț per mp</b> calculat automat din prețul introdus de agent</span><span class="en"><b>Price per m²</b> auto-calculated from the agent-entered price</span><span class="ru"><b>Цена за м²</b> рассчитывается автоматически из цены, введённой агентом</span></li>
-          <li><span class="mdot"></span><span class="ro"><b>Tipuri de listare</b> — de vânzare, de închiriat sau ambele simultan</span><span class="en"><b>Listing types</b> — for sale, for rent, or both simultaneously</span><span class="ru"><b>Типы объявлений</b> — на продажу, в аренду или сразу оба варианта</span></li>
-        </ul>
-        <div class="pd-nav" onclick="gTo(3)">
-          <span class="ro">Detalii complete →</span><span class="en">Full details →</span><span class="ru">Подробнее →</span>
-        </div>
-      </div>
-
-      <!-- PD2: Match Intelligence -->
-      <div class="pil-detail" id="pd2">
-        <div class="pd-close" onclick="closePil()">✕</div>
-        <div class="tag tg" style="margin-bottom:.75rem">03</div>
-        <h3>Match Intelligence</h3>
-        <div class="div-gold"></div>
-        <p>
-          <span class="ro">Potrivire bidirecțională între clienți și proprietăți. Algoritmul propune primele 3 rezultate relevante în ambele direcții.</span>
-          <span class="en">Bidirectional matching between clients and properties. The algorithm proposes the top 3 relevant results in both directions.</span>
-          <span class="ru">Двунаправленное сопоставление клиентов и объектов. Алгоритм предлагает 3 наиболее подходящих результата в обоих направлениях.</span>
-        </p>
-        <ul class="mlist" style="margin-top:1rem">
-          <li><span class="mdot"></span><span class="ro"><b>Cumpărător/Chiriaș</b> — primește primele 3 proprietăți compatibile</span><span class="en"><b>Buyer/Tenant</b> — receives top 3 compatible properties</span><span class="ru"><b>Покупатель/Арендатор</b> — получает 3 наиболее подходящих объекта</span></li>
-          <li><span class="mdot"></span><span class="ro"><b>Proprietate</b> — generează primii 3 cumpărători compatibili</span><span class="en"><b>Property</b> — generates top 3 compatible buyers</span><span class="ru"><b>Объект</b> — генерирует 3 наиболее подходящих покупателя</span></li>
-          <li><span class="mdot"></span><span class="ro"><b>Filtrare după intenție</b> — proprietățile de vânzare nu apar la chiriași</span><span class="en"><b>Intent filtering</b> — sale properties don't appear for tenants</span><span class="ru"><b>Фильтрация по намерению</b> — объекты на продажу не показываются арендаторам</span></li>
-          <li><span class="mdot"></span><span class="ro"><b>Scor de compatibilitate</b> combină: scorul proprietății + scorul clientului + interacțiunile anterioare</span><span class="en"><b>Compatibility score</b> combines: property score + client score + past interactions</span><span class="ru"><b>Оценка совместимости</b> объединяет: оценку объекта + оценку клиента + предыдущие взаимодействия</span></li>
-        </ul>
-        <div class="pd-nav" onclick="gTo(4)">
-          <span class="ro">Detalii complete →</span><span class="en">Full details →</span><span class="ru">Подробнее →</span>
-        </div>
-      </div>
-
-      <!-- PD3: Execution Intelligence -->
-      <div class="pil-detail" id="pd3">
-        <div class="pd-close" onclick="closePil()">✕</div>
-        <div class="tag tg" style="margin-bottom:.75rem">04</div>
-        <h3>Execution Intelligence</h3>
-        <div class="div-gold"></div>
-        <p>
-          <span class="ro">Sistemul de operare zilnic al agentului. REVYX decide ce trebuie făcut, în ce ordine și cu ce client — agentul execută, nu planifică.</span>
-          <span class="en">The agent's daily operating system. REVYX decides what to do, in what order and with which client — the agent executes, not plans.</span>
-          <span class="ru">Ежедневная операционная система агента. REVYX решает, что нужно сделать, в каком порядке и с каким клиентом — агент исполняет, а не планирует.</span>
-        </p>
-        <ul class="mlist" style="margin-top:1rem">
-          <li><span class="mdot"></span><span class="ro"><b>Maximum 3 sarcini active</b> simultan per agent — impus automat de sistem</span><span class="en"><b>Maximum 3 active tasks</b> simultaneously per agent — auto-enforced by system</span><span class="ru"><b>Максимум 3 активные задачи</b> одновременно на агента — автоматически контролируется системой</span></li>
-          <li><span class="mdot"></span><span class="ro"><b>Acțiunea recomandată</b> — sistemul calculează automat ce trebuie făcut pentru fiecare client</span><span class="en"><b>Recommended action</b> — system auto-calculates what to do for each client</span><span class="ru"><b>Рекомендуемое действие</b> — система автоматически рассчитывает, что делать с каждым клиентом</span></li>
-          <li><span class="mdot"></span><span class="ro"><b>Calendar integrat</b> cu protecție împotriva suprapunerii programărilor</span><span class="en"><b>Integrated calendar</b> with scheduling conflict protection</span><span class="ru"><b>Встроенный календарь</b> с защитой от конфликтов расписания</span></li>
-          <li><span class="mdot"></span><span class="ro"><b>Direcție de lucru</b> — agentul poate activa modul vânzare, închiriere sau ambele</span><span class="en"><b>Work direction</b> — agent can activate sale mode, rent mode, or both</span><span class="ru"><b>Направление работы</b> — агент может активировать режим продажи, аренды или оба</span></li>
-        </ul>
-        <div class="pd-nav" onclick="gTo(5)">
-          <span class="ro">Detalii complete →</span><span class="en">Full details →</span><span class="ru">Подробнее →</span>
-        </div>
-      </div>
-
-      <!-- PD4: Negotiation Intelligence -->
-      <div class="pil-detail" id="pd4">
-        <div class="pd-close" onclick="closePil()">✕</div>
-        <div class="tag tg" style="margin-bottom:.75rem">05</div>
-        <h3>Negotiation Intelligence</h3>
-        <div class="div-gold"></div>
-        <p>
-          <span class="ro">Gestionarea lanțului de oferte și contrapropuneri. Fiecare ofertă este înregistrată permanent cu dată, oră și identitatea emitentului.</span>
-          <span class="en">Offer and counter-offer chain management. Every offer is permanently recorded with date, time, and the identity of the issuer.</span>
-          <span class="ru">Управление цепочками предложений и контрпредложений. Каждое предложение постоянно фиксируется с датой, временем и личностью отправителя.</span>
-        </p>
-        <ul class="mlist" style="margin-top:1rem">
-          <li><span class="mdot"></span><span class="ro"><b>Lanț de oferte</b> — ofertă → contrapropunere → acceptare sau respingere</span><span class="en"><b>Offer chain</b> — offer → counter-offer → acceptance or rejection</span><span class="ru"><b>Цепочка предложений</b> — предложение → контрпредложение → принятие или отклонение</span></li>
-          <li><span class="mdot"></span><span class="ro"><b>Marcaj dată și oră</b> — fiecare pas este înregistrat în jurnal permanent</span><span class="en"><b>Timestamp</b> — every step is recorded in the permanent audit log</span><span class="ru"><b>Отметка времени</b> — каждый шаг фиксируется в постоянном журнале аудита</span></li>
-          <li><span class="mdot"></span><span class="ro"><b>Trasabilitate completă</b> — nicio ofertă nu se poate pierde sau modifica retroactiv</span><span class="en"><b>Full traceability</b> — no offer can be lost or retroactively modified</span><span class="ru"><b>Полная отслеживаемость</b> — ни одно предложение не может быть утеряно или изменено задним числом</span></li>
-          <li><span class="mdot"></span><span class="ro"><b>Protecție juridică</b> — istoricul complet al negocierii disponibil la cerere</span><span class="en"><b>Legal protection</b> — full negotiation history available on demand</span><span class="ru"><b>Юридическая защита</b> — полная история переговоров доступна по запросу</span></li>
-        </ul>
-        <div class="pd-nav" onclick="gTo(6)">
-          <span class="ro">Detalii complete →</span><span class="en">Full details →</span><span class="ru">Подробнее →</span>
-        </div>
-      </div>
-
-      <!-- PD5: Deal Intelligence -->
-      <div class="pil-detail" id="pd5">
-        <div class="pd-close" onclick="closePil()">✕</div>
-        <div class="tag tg" style="margin-bottom:.75rem">06</div>
-        <h3>Deal Intelligence</h3>
-        <div class="div-gold"></div>
-        <p>
-          <span class="ro">Monitorizarea sănătății fiecărei tranzacții în timp real. Pipeline vizual cu 6 etape și sistem de alertă preventivă.</span>
-          <span class="en">Real-time transaction health monitoring. Visual pipeline with 6 stages and preventive alert system.</span>
-          <span class="ru">Мониторинг состояния каждой сделки в реальном времени. Визуальный конвейер с 6 этапами и системой предупреждающих уведомлений.</span>
-        </p>
-        <ul class="mlist" style="margin-top:1rem">
-          <li><span class="mdot"></span><span class="ro"><b>Indice de sănătate</b> — 3 stări: merge bine / necesită verificare / risc ridicat</span><span class="en"><b>Health index</b> — 3 states: on track / needs check / high risk</span><span class="ru"><b>Индекс состояния</b> — 3 состояния: всё хорошо / требует проверки / высокий риск</span></li>
-          <li><span class="mdot"></span><span class="ro"><b>6 etape Kanban</b> — Descoperire → Calificat → Ofertă → Negociere → Notariat → Câștigat</span><span class="en"><b>6 Kanban stages</b> — Discovery → Qualified → Offer → Negotiation → Notary → Won</span><span class="ru"><b>6 этапов Kanban</b> — Поиск → Квалификация → Предложение → Переговоры → Нотариус → Завершено</span></li>
-          <li><span class="mdot"></span><span class="ro"><b>Probabilitate de închidere</b> calculată automat din factorii de timp și risc</span><span class="en"><b>Closing probability</b> auto-calculated from time and risk factors</span><span class="ru"><b>Вероятность закрытия</b> рассчитывается автоматически на основе временного и рискового факторов</span></li>
-          <li><span class="mdot"></span><span class="ro"><b>Alerte preventive</b> — agentul este notificat înainte ca o tranzacție să se deterioreze</span><span class="en"><b>Preventive alerts</b> — agent is notified before a deal deteriorates</span><span class="ru"><b>Превентивные уведомления</b> — агент получает предупреждение до ухудшения сделки</span></li>
-        </ul>
-        <div class="pd-nav" onclick="gTo(7)">
-          <span class="ro">Detalii complete →</span><span class="en">Full details →</span><span class="ru">Подробнее →</span>
-        </div>
-      </div>
-
-      <!-- PD6: Performance Intelligence -->
-      <div class="pil-detail" id="pd6">
-        <div class="pd-close" onclick="closePil()">✕</div>
-        <div class="tag tg" style="margin-bottom:.75rem">07</div>
-        <h3>Performance Intelligence</h3>
-        <div class="div-gold"></div>
-        <p>
-          <span class="ro">Măsurarea și îmbunătățirea continuă a performanței agentului și a echipei. Scor obiectiv, clasament și escaladare automată.</span>
-          <span class="en">Continuous measurement and improvement of agent and team performance. Objective score, leaderboard, and auto-escalation.</span>
-          <span class="ru">Непрерывное измерение и улучшение производительности агента и команды. Объективная оценка, рейтинг и автоматическая эскалация.</span>
-        </p>
-        <ul class="mlist" style="margin-top:1rem">
-          <li><span class="mdot"></span><span class="ro"><b>Scor de performanță</b> (0–1) — calculat din tranzacțiile închise și activitatea agentului</span><span class="en"><b>Performance score</b> (0–1) — calculated from closed deals and agent activity</span><span class="ru"><b>Оценка производительности</b> (0–1) — рассчитывается на основе закрытых сделок и активности агента</span></li>
-          <li><span class="mdot"></span><span class="ro"><b>Scor implicit 0.65</b> pentru agenți noi (primele 30 de zile sau sub 5 tranzacții)</span><span class="en"><b>Default score 0.65</b> for new agents (first 30 days or under 5 deals)</span><span class="ru"><b>Начальная оценка 0.65</b> для новых агентов (первые 30 дней или менее 5 сделок)</span></li>
-          <li><span class="mdot"></span><span class="ro"><b>Clasament echipă</b> — managerul vede performanța fiecărui agent în timp real</span><span class="en"><b>Team leaderboard</b> — manager sees each agent's performance in real time</span><span class="ru"><b>Рейтинг команды</b> — менеджер видит производительность каждого агента в реальном времени</span></li>
-          <li><span class="mdot"></span><span class="ro"><b>Escaladare automată</b> — 3 niveluri dacă un client fierbinte nu primește răspuns</span><span class="en"><b>Auto-escalation</b> — 3 levels if a hot client receives no response</span><span class="ru"><b>Автоматическая эскалация</b> — 3 уровня, если горячий клиент не получил ответа</span></li>
-        </ul>
-        <div class="pd-nav" onclick="gTo(8)">
-          <span class="ro">Detalii complete →</span><span class="en">Full details →</span><span class="ru">Подробнее →</span>
-        </div>
-      </div>
-
-    </div><!-- /pil-panels -->
-
-    <!-- S2 instruction hint -->
-    <div style="position:absolute;bottom:28px;left:50%;transform:translateX(-50%);color:var(--ts);font-size:.72rem;letter-spacing:.06em;text-align:center">
-      <span class="ro">Apasă pe oricare pilon pentru a vedea mecanicile de bază</span>
-      <span class="en">Click any pillar to see its core mechanics</span>
-      <span class="ru">Нажмите на любой модуль, чтобы увидеть основные механики</span>
-    </div>
-  </div>
-</div>
-
-<!-- ═══════════════════════════════════════════════════════ S3 LEAD INTELLIGENCE -->
-<div class="sl" id="sl2">
+<!-- ═══════════════════════════════════════════════════════ S2 LEAD INTELLIGENCE -->
+<div class="sl" id="sl1">
   <div class="pil-header">
     <div class="gc lg">01</div>
-    <div>
-      <div class="tag tg" style="margin-bottom:4px">
-        <span class="ro">Pilon 01</span><span class="en">Pillar 01</span><span class="ru">Модуль 01</span>
-      </div>
-      <h2>Lead Intelligence</h2>
-    </div>
+    <h2>
+      <span style="color:var(--ts);font-size:clamp(.85rem,1.1vw,1rem);font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-right:.5rem">
+        <span class="ro">Pilon 01</span><span class="en">Pillar 01</span><span class="ru">Модуль 01</span>:
+      </span>Lead Intelligence
+    </h2>
   </div>
   <div class="two-col">
     <div>
@@ -543,13 +307,14 @@ body::before{content:'';position:fixed;inset:0;
 </div>
 
 <!-- ═══════════════════════════════════════════════════════ S4 SUPPLY INTELLIGENCE -->
-<div class="sl" id="sl3">
+<div class="sl" id="sl2">
   <div class="pil-header">
     <div class="gc lg">02</div>
-    <div>
-      <div class="tag tg" style="margin-bottom:4px"><span class="ro">Pilon 02</span><span class="en">Pillar 02</span><span class="ru">Модуль 02</span></div>
-      <h2>Supply Intelligence</h2>
-    </div>
+    <h2>
+      <span style="color:var(--ts);font-size:clamp(.85rem,1.1vw,1rem);font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-right:.5rem">
+        <span class="ro">Pilon 02</span><span class="en">Pillar 02</span><span class="ru">Модуль 02</span>:
+      </span>Supply Intelligence
+    </h2>
   </div>
   <div class="two-col">
     <div>
@@ -605,13 +370,14 @@ body::before{content:'';position:fixed;inset:0;
 </div>
 
 <!-- ═══════════════════════════════════════════════════════ S5 MATCH INTELLIGENCE -->
-<div class="sl" id="sl4">
+<div class="sl" id="sl3">
   <div class="pil-header">
     <div class="gc lg">03</div>
-    <div>
-      <div class="tag tg" style="margin-bottom:4px"><span class="ro">Pilon 03</span><span class="en">Pillar 03</span><span class="ru">Модуль 03</span></div>
-      <h2>Match Intelligence</h2>
-    </div>
+    <h2>
+      <span style="color:var(--ts);font-size:clamp(.85rem,1.1vw,1rem);font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-right:.5rem">
+        <span class="ro">Pilon 03</span><span class="en">Pillar 03</span><span class="ru">Модуль 03</span>:
+      </span>Match Intelligence
+    </h2>
   </div>
   <div class="two-col">
     <div>
@@ -667,13 +433,14 @@ body::before{content:'';position:fixed;inset:0;
 </div>
 
 <!-- ═══════════════════════════════════════════════════════ S6 EXECUTION INTELLIGENCE -->
-<div class="sl" id="sl5">
+<div class="sl" id="sl4">
   <div class="pil-header">
     <div class="gc lg">04</div>
-    <div>
-      <div class="tag tg" style="margin-bottom:4px"><span class="ro">Pilon 04</span><span class="en">Pillar 04</span><span class="ru">Модуль 04</span></div>
-      <h2>Execution Intelligence</h2>
-    </div>
+    <h2>
+      <span style="color:var(--ts);font-size:clamp(.85rem,1.1vw,1rem);font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-right:.5rem">
+        <span class="ro">Pilon 04</span><span class="en">Pillar 04</span><span class="ru">Модуль 04</span>:
+      </span>Execution Intelligence
+    </h2>
   </div>
   <div class="two-col">
     <div>
@@ -729,13 +496,14 @@ body::before{content:'';position:fixed;inset:0;
 </div>
 
 <!-- ═══════════════════════════════════════════════════════ S7 NEGOTIATION INTELLIGENCE -->
-<div class="sl" id="sl6">
+<div class="sl" id="sl5">
   <div class="pil-header">
     <div class="gc lg">05</div>
-    <div>
-      <div class="tag tg" style="margin-bottom:4px"><span class="ro">Pilon 05</span><span class="en">Pillar 05</span><span class="ru">Модуль 05</span></div>
-      <h2>Negotiation Intelligence</h2>
-    </div>
+    <h2>
+      <span style="color:var(--ts);font-size:clamp(.85rem,1.1vw,1rem);font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-right:.5rem">
+        <span class="ro">Pilon 05</span><span class="en">Pillar 05</span><span class="ru">Модуль 05</span>:
+      </span>Negotiation Intelligence
+    </h2>
   </div>
   <div class="two-col">
     <div>
@@ -791,13 +559,14 @@ body::before{content:'';position:fixed;inset:0;
 </div>
 
 <!-- ═══════════════════════════════════════════════════════ S8 DEAL INTELLIGENCE -->
-<div class="sl" id="sl7">
+<div class="sl" id="sl6">
   <div class="pil-header">
     <div class="gc lg">06</div>
-    <div>
-      <div class="tag tg" style="margin-bottom:4px"><span class="ro">Pilon 06</span><span class="en">Pillar 06</span><span class="ru">Модуль 06</span></div>
-      <h2>Deal Intelligence</h2>
-    </div>
+    <h2>
+      <span style="color:var(--ts);font-size:clamp(.85rem,1.1vw,1rem);font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-right:.5rem">
+        <span class="ro">Pilon 06</span><span class="en">Pillar 06</span><span class="ru">Модуль 06</span>:
+      </span>Deal Intelligence
+    </h2>
   </div>
   <div class="two-col">
     <div>
@@ -862,13 +631,14 @@ body::before{content:'';position:fixed;inset:0;
 </div>
 
 <!-- ═══════════════════════════════════════════════════════ S9 PERFORMANCE INTELLIGENCE -->
-<div class="sl" id="sl8">
+<div class="sl" id="sl7">
   <div class="pil-header">
     <div class="gc lg">07</div>
-    <div>
-      <div class="tag tg" style="margin-bottom:4px"><span class="ro">Pilon 07</span><span class="en">Pillar 07</span><span class="ru">Модуль 07</span></div>
-      <h2>Performance Intelligence</h2>
-    </div>
+    <h2>
+      <span style="color:var(--ts);font-size:clamp(.85rem,1.1vw,1rem);font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-right:.5rem">
+        <span class="ro">Pilon 07</span><span class="en">Pillar 07</span><span class="ru">Модуль 07</span>:
+      </span>Performance Intelligence
+    </h2>
   </div>
   <div class="two-col">
     <div>
@@ -924,7 +694,7 @@ body::before{content:'';position:fixed;inset:0;
 </div>
 
 <!-- ═══════════════════════════════════════════════════════ S10 ROLES + WEB/MOBILE -->
-<div class="sl" id="sl9">
+<div class="sl" id="sl8">
   <div style="width:100%;max-width:1300px">
     <div class="tag tg" style="margin-bottom:.75rem">
       <span class="ro">Slide 10</span><span class="en">Slide 10</span><span class="ru">Слайд 10</span>
@@ -1021,7 +791,7 @@ body::before{content:'';position:fixed;inset:0;
 </div>
 
 <!-- ═══════════════════════════════════════════════════════ S11 ROADMAP -->
-<div class="sl" id="sl10">
+<div class="sl" id="sl9">
   <div style="width:100%;max-width:1300px">
     <div class="tag tg" style="margin-bottom:.75rem">
       <span class="ro">Slide 11</span><span class="en">Slide 11</span><span class="ru">Слайд 11</span>
@@ -1103,7 +873,7 @@ body::before{content:'';position:fixed;inset:0;
 </div><!-- /deck -->
 
 <script>
-const N=11;
+const N=10;
 let cur=0;
 
 function gTo(n){
@@ -1114,8 +884,6 @@ function gTo(n){
   setTimeout(()=>{ sl[cur]?.classList.remove('prev'); },520);
   cur=n;
   sl[cur]?.classList.add('act');
-  // Close any open pillar panel when leaving S2
-  if(cur!==1) closePil();
   updNav();
 }
 
@@ -1163,38 +931,6 @@ document.addEventListener('touchend',e=>{
   if(Math.abs(dy)>40){ if(dy>0)gTo(cur+1); else gTo(cur-1); }
   _lastY=null;
 },{passive:true});
-
-// ── WHEEL POSITIONING ──
-(function posWheel(){
-  const wrap=document.getElementById('wheel-wrap');
-  if(!wrap)return;
-  const items=wrap.querySelectorAll('.wp');
-  const W=wrap.offsetWidth||520;
-  const H=wrap.offsetHeight||520;
-  const r=0.41; // radius as fraction of half-size
-  items.forEach((el,i)=>{
-    const a=(i/7)*2*Math.PI - Math.PI/2;
-    const x=50 + r*100*Math.cos(a);
-    const y=50 + r*100*Math.sin(a);
-    el.style.left=x+'%';
-    el.style.top=y+'%';
-    el.onclick=()=>openPil(i);
-    el.style.cursor='pointer';
-  });
-})();
-
-// Reposition on load
-window.addEventListener('load',function(){
-  const wrap=document.getElementById('wheel-wrap');
-  if(!wrap)return;
-  const items=wrap.querySelectorAll('.wp');
-  const r=0.41;
-  items.forEach((el,i)=>{
-    const a=(i/7)*2*Math.PI - Math.PI/2;
-    el.style.left=(50+r*100*Math.cos(a))+'%';
-    el.style.top=(50+r*100*Math.sin(a))+'%';
-  });
-});
 
 // ── PILLAR PANELS ──
 let curPil=-1;
