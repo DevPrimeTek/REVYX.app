@@ -1,5 +1,5 @@
 # CLAUDE.md — REVYX Agent Operating System
-<!-- CLAUDE.md · v1.2.26 · 2026-06 -->
+<!-- CLAUDE.md · v1.2.27 · 2026-06 -->
 <!-- CONFIDENȚIAL · Uz Intern · © 2026 REVYX · ITPRO SYSTEM SRL -->
 
 > Acest fișier este citit de Claude Code la **fiecare sesiune** din acest repo.
@@ -26,7 +26,8 @@
 | **★ Moldova market specifics** | ★ Documentate în BRD §17 v1.2.0 — 6 insight-uri [MOLDOVA-SPECIFIC]: buget declarat vs confirmat (divergență 15-25%) · tipuri întâlnire calificare (office/public_place/on_site — on_site auto-SHOWING) · pre-aprobare bancară cvasi-inexistentă (MoldIndConBank/Victoriabank/Mobiasbancă) · 90% modificare preferințe post-vizionare (preference_history JSONB[] + feedback 5 dim) · mandat exclusivitate sellers (30-90 zile, status tracking + cron) · property_class RM (soviet_era/post_soviet/new_build/premium). Roadmap T-MD-01..05 planificate M1.S3. |
 | **Modul Claude activ** | M0.S7 ☑: DESIGNER (Creative Director, P) + FRONTEND WEB DEV (P) + ARCHITECT (S, framework alignment) + DOC + Senior PM. **M1.S3 next:** BACKEND DEV (P) + ML ENGINEER (P) + DBA (S) + TESTER (S) + DOC. |
 | **Plan tariff** | Claude.ai Pro $20/lună (sustained M0 ☑; ★ Max $100/lună anticipat M1.S3 entry per F-S20-09 tracking — CFO sign-off pending la M1.S2 close) |
-| **Master Plan status** | v1.1.2 active (Trio canonical: Master Plan v1.1.2 + Platform Matrix v1.0.0 + ★ **Detailed Roadmap v1.0.13** post-M0.S8.3) · §13 approval ✅ SIGNED 6/6 + §0 LIVE TRACKER sync M0.S8.3 ☑ |
+| **★ AGI Layer status** | ★ **DOCUMENTAT v1.3.0** — BRD §18 Agent Growth Intelligence complet: 7 gap-uri bibliografie profesională (Carnegie/Hill/Beckwith/Maister/Gitomer/Fox/Lukic/Blanchard+Peale/Yamaguchi + NAR Code of Ethics). BR-25..28 + 4 entități noi + IS/TS extensii + 10 task-uri T-AGI-01..10 spanning M1.S3-M1.S6. Implementare: M1.S3 (Ethics+FRS) → M1.S4 (Exec Guides+PKI) → M1.S5 (Goals+VPC+UI) → M1.S6 (Alumni). |
+| **Master Plan status** | v1.1.2 active (Trio canonical: Master Plan v1.1.2 + Platform Matrix v1.0.0 + ★ **Detailed Roadmap v1.0.15** post-AGI Layer) · §13 approval ✅ SIGNED 6/6 + §0 LIVE TRACKER sync M0.S8.3 ☑ |
 | **Arhitectură platforme** | Dual-channel: WEB primary (~80%, browser desktop) + MOBILE companion (~20% in-field, M2.S3) |
 | **Phase 5 progress** S19→S20 | Stage 1-5 ✅ PASS · Master Phase 5 GA = GO unanimous T+91 · HST #2 PASS clean S20 |
 | **Findings register lifecycle** ★ M1.S2 | 13 CLOSED FULL Phase 5 + 2 CLOSED M0.S1 + 2 CLOSED M0.S5 · 2 TRACKED pre-GA · 1 TRACKED next cycle · 6 NEW S20 LOW/MED tracked · 15 NEW M0.S5 (2 HIGH fixed + 6 MED + 9 LOW backlog M1.S5+) · 8 OD-legal/cookie-XX PM/legal decisions tracked (DPO + vendor SCC + analytics tool + CNPDCP înregistrare) · zero CRIT cumulative S10..M1.S2 · zero NEW M1.S2 (clean session — primary tests 22/22 PASS, no findings raised) |
@@ -704,7 +705,7 @@ Violarea Regulii 21 (PR cu funcționalitate/condiție nouă fără actualizare d
 
 ---
 
-*CLAUDE.md · v1.2.26 · 2026-06 · CONFIDENȚIAL · Uz Intern*
+*CLAUDE.md · v1.2.27 · 2026-06 · CONFIDENȚIAL · Uz Intern*
 *REVYX — Real Estate Execution Intelligence · © 2026 REVYX · ITPRO SYSTEM SRL*
 
 ---
@@ -713,6 +714,7 @@ Violarea Regulii 21 (PR cu funcționalitate/condiție nouă fără actualizare d
 
 | Versiune | Data | Note |
 |---|---|---|
+| **1.2.27** | **2026-06** | ★ MINOR — **AGI Layer documentat complet — BRD §18 Agent Growth Intelligence + Roadmap §4.4 T-AGI-01..10.** Senior PM + Solution Architect + Senior BA + Senior Product Auditor. Analiza bibliografică profesională (Carnegie/Hill/Beckwith/Maister/Gitomer/Fox/Lukic/Blanchard+Peale/Yamaguchi + NAR Code of Ethics) vs framework REVYX → 7 gap-uri HIGH/MEDIUM. Shift conceptual: AOS care controlează → AOS care **dezvoltă** agentul. BRD v1.2.0 → **v1.3.0** cu §18 complet (AGI-01..AGI-07 + BR-25..28 + IS/TS extensii + 4 entități noi + KPI AGI + AC-AGI). Roadmap v1.0.14 → **v1.0.15** cu §4.4 AGI Layer (T-AGI-01..10). INDEX v1.1.20 → **v1.1.21**. §0a NEW row `★ AGI Layer status` + Roadmap ref v1.0.13 → v1.0.15. Backend `apps/api/` + BRD §7 + Master Plan **INTACTE** (Regula 8 + Regula 18 + Regula 21). |
 | **1.2.26** | **2026-06** | ★ MINOR — **Moldova market-specific specs documentate — BRD §17 (6 insight-uri [MOLDOVA-SPECIFIC]).** Senior BA + Software Architect + Senior PM. Schimbări docs-only (zero cod `apps/`): (1) **BRD v1.1.0 → v1.2.0** (`git mv`) — NEW §17 `Specificații piață Republica Moldova` cu 6 sub-secțiuni: §17.1 buget declarat vs confirmat (câmpuri `declared_budget_eur/confirmed_budget_eur/budget_confirmed_at`, RF impact DHI); §17.2 tipuri locație calificare (`meeting_location_type ENUM office/public_place/on_site`, trigger `activity_on_site_create_showing` auto-creare SHOWING, GDPR `verbal_pending_digital`); §17.3 pre-aprobare bancară cvasi-inexistentă (câmpuri `bank_preapproval_status/amount/bank/expires_at`, bănci principale RM); §17.4 modificare preferințe post-vizionare 90% (`preference_history JSONB[]`, `showing.feedback` 5 dimensiuni, trigger `showing_feedback_update_preferences`); §17.5 mandat exclusivitate sellers (`mandate_status ENUM none/pending/signed/expired`, cron `mandate-expiry-checker`); §17.6 clasa proprietate RM (`property_class ENUM soviet_era/post_soviet/new_build/premium`, distribuție ~55/10/30/5%). Toate câmpurile noi marcate `[MOLDOVA-SPECIFIC]` — BRD §7 formule INTACTE. (2) **Roadmap v1.0.13 → v1.0.14** (mv) — NEW §4.3.MD cu tasks T-MD-01..05 (migrations 0016-0020), dependențe pe M1.S2, ordine implementare recomandată. (3) **INDEX v1.1.19 → v1.1.20** (mv) — entry actualizat. (4) **CLAUDE.md v1.2.25 → v1.2.26** — §0a NEW row `★ Moldova market specifics` + changelog. Backend `apps/api/` + BRD §7 + Master Plan INTACTE (Regula 8 + 18 + 21). |
 | 1.0.0 | 2026-05 | Initial — identitate proiect, documente referință, BR critice, Phase 0 checklist, §10b Regulile 1-6 |
 | 1.1.0 | 2026-05 | MINOR — adăugare Regula 7 (10 hats Claude) |
