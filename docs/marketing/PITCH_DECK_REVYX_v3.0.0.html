@@ -1,0 +1,1010 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>REVYX — Real Estate Execution Intelligence</title>
+<style>
+/* ══════ TOKENS ══════ */
+:root{
+  --navy:#0C1428; --navy2:#111D38; --navy3:#162040;
+  --gold:#C9870A; --gold2:#E8A010; --goldl:#F5C842;
+  --goldd:rgba(201,135,10,.15);
+  --th:#F0F4FA; --tb:#D8E2F0; --tm:#8FA8CC;
+  --green:#0FBA7F; --amber:#E8950A; --red:#F26565; --blue:#60A5FA;
+  --purple:#A855F7;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--navy);color:var(--tb)}
+
+/* ══════ SLIDE ENGINE ══════ */
+#deck{position:fixed;inset:0}
+.sl{
+  position:absolute;inset:0;
+  display:grid;
+  transform:translateY(100%);
+  transition:transform .6s cubic-bezier(.77,0,.18,1);
+  overflow:hidden;
+  padding:64px 7vw 52px;
+}
+.sl.active{transform:translateY(0)}
+.sl.prev  {transform:translateY(-100%)}
+
+/* entrance */
+.sl.active .u1{animation:up .55s .05s both}
+.sl.active .u2{animation:up .55s .18s both}
+.sl.active .u3{animation:up .55s .3s both}
+.sl.active .u4{animation:up .55s .42s both}
+.sl.active .u5{animation:up .55s .54s both}
+.sl.active .fi{animation:fadein .7s .1s both}
+@keyframes up{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadein{from{opacity:0}to{opacity:1}}
+
+/* ══════ CHROME ══════ */
+#prog{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--gold),var(--goldl));transition:width .5s ease;z-index:300}
+#langs{position:fixed;top:14px;right:56px;display:flex;gap:6px;z-index:300}
+.lb{padding:4px 13px;border-radius:20px;border:1px solid rgba(201,135,10,.3);background:transparent;color:var(--tm);font:700 11px/1 inherit;letter-spacing:1px;cursor:pointer;transition:all .2s}
+.lb.on,.lb:hover{background:var(--gold);border-color:var(--gold);color:var(--navy)}
+#dots{position:fixed;right:22px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:8px;z-index:200}
+.dot{width:7px;height:7px;border-radius:50%;background:rgba(143,168,204,.25);border:1px solid rgba(143,168,204,.25);cursor:pointer;transition:all .3s}
+.dot.on{background:var(--gold);border-color:var(--gold);transform:scale(1.5)}
+#ctr{position:fixed;bottom:20px;left:7vw;font:600 11px/1 'Courier New',monospace;color:var(--tm);letter-spacing:2px;z-index:200}
+.arr{position:fixed;bottom:16px;z-index:200;width:36px;height:36px;border-radius:50%;border:1px solid rgba(201,135,10,.3);background:rgba(17,29,56,.8);backdrop-filter:blur(6px);color:var(--gold);font-size:.9rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s}
+.arr:hover{background:var(--gold);color:var(--navy)}
+.arr:disabled{opacity:.25;pointer-events:none}
+#aU{right:66px} #aD{right:22px}
+
+/* ══════ LANG ══════ */
+[data-ro],[data-en],[data-ru]{display:none}
+body.ro [data-ro]{display:contents}
+body.en [data-en]{display:contents}
+body.ru [data-ru]{display:contents}
+span[data-ro],span[data-en],span[data-ru]{display:none}
+body.ro span[data-ro],body.en span[data-en],body.ru span[data-ru]{display:inline}
+/* div variants */
+.dro,.den,.dru{display:none!important}
+body.ro .dro{display:flex!important}
+body.en .den{display:flex!important}
+body.ru .dru{display:flex!important}
+
+/* ══════ TYPE ══════ */
+.eye{font:700 10px/1 inherit;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-bottom:.6rem}
+.H1{font:900 clamp(4rem,11vw,9.5rem)/1 inherit;color:var(--th);letter-spacing:-4px;margin-bottom:.8rem}
+.H1 b{color:var(--gold)}
+.H2{font:900 clamp(2rem,5vw,4rem)/1.02 inherit;color:var(--th);letter-spacing:-2px;margin-bottom:.6rem}
+.H2 b{color:var(--gold)}
+.H3{font:700 clamp(1.1rem,2.5vw,1.8rem)/1.15 inherit;color:var(--th);letter-spacing:-.5px;margin-bottom:.4rem}
+.body{font:400 clamp(.95rem,1.6vw,1.15rem)/1.6 inherit;color:var(--tm);max-width:640px}
+.body b{color:var(--tb);font-weight:600}
+.note{font:400 clamp(.85rem,1.3vw,1rem)/1.5 inherit;color:var(--tm)}
+.note b{color:var(--tb);font-weight:600}
+
+/* ══════ BG UTILS ══════ */
+.bgd{background:var(--navy)}
+.bgm{background:var(--navy2)}
+.grd-gold{background:radial-gradient(ellipse 70% 60% at 65% 40%,rgba(201,135,10,.1) 0%,transparent 65%),var(--navy)}
+.grd-blue{background:radial-gradient(ellipse 60% 70% at 30% 60%,rgba(96,165,250,.06) 0%,transparent 60%),var(--navy)}
+.grd-ctr{background:radial-gradient(ellipse 80% 80% at 50% 50%,rgba(201,135,10,.09) 0%,transparent 65%),var(--navy)}
+.grid-bg{position:absolute;inset:0;background-image:linear-gradient(rgba(143,168,204,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(143,168,204,.025) 1px,transparent 1px);background-size:56px 56px;pointer-events:none;z-index:0}
+.sl>*{position:relative;z-index:1}
+
+/* ══════ CHIPS ══════ */
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:1rem}
+.ch{padding:5px 14px;border-radius:20px;font:600 12px/1 inherit;letter-spacing:.3px}
+.chg{background:rgba(201,135,10,.1);border:1px solid var(--gold);color:var(--gold)}
+.chb{background:rgba(96,165,250,.08);border:1px solid var(--blue);color:var(--blue)}
+.chv{background:rgba(15,186,127,.08);border:1px solid var(--green);color:var(--green)}
+.chp{background:rgba(168,85,247,.08);border:1px solid var(--purple);color:var(--purple)}
+
+/* ══════ CARD ══════ */
+.card{background:var(--navy2);border:1px solid rgba(143,168,204,.1);border-radius:12px;padding:1.25rem}
+.card:hover{border-color:rgba(201,135,10,.3)}
+.card-g{border-top:2px solid var(--gold)}
+.card-b{border-top:2px solid var(--blue)}
+.card-v{border-top:2px solid var(--green)}
+.card-r{border-top:2px solid var(--red)}
+.card-p{border-top:2px solid var(--purple)}
+.card-a{border-top:2px solid var(--amber)}
+
+/* ══════ BIG STAT ══════ */
+.stat{font:900 clamp(2.5rem,7vw,5.5rem)/1 inherit;font-variant-numeric:tabular-nums}
+.s-gold{color:var(--gold)} .s-green{color:var(--green)} .s-red{color:var(--red)} .s-blue{color:var(--blue)}
+.stlbl{font:400 .85rem/1.4 inherit;color:var(--tm);margin-top:.3rem}
+
+/* ══════ BULLET LIST ══════ */
+.bul{display:flex;flex-direction:column;gap:.6rem}
+.bi{display:flex;gap:.7rem;align-items:flex-start}
+.bd{width:5px;height:5px;border-radius:50%;background:var(--gold);flex-shrink:0;margin-top:.6rem}
+.bd.blue{background:var(--blue)} .bd.green{background:var(--green)} .bd.red{background:var(--red)}
+.bt{font:400 clamp(.9rem,1.5vw,1.05rem)/1.55 inherit;color:var(--tm)}
+.bt b{color:var(--tb);font-weight:600}
+
+/* ══════ DIVIDER ══════ */
+.dv{height:1px;background:linear-gradient(90deg,transparent,rgba(201,135,10,.25),transparent);margin:.75rem 0}
+
+/* ══════ TABLE ══════ */
+.tbl{width:100%;border-collapse:separate;border-spacing:0;border-radius:12px;overflow:hidden}
+.tbl th{background:var(--navy3);padding:.75rem 1.2rem;font:700 .75rem/1 inherit;text-transform:uppercase;letter-spacing:1px;text-align:left}
+.tbl th.gc{color:var(--gold)} .tbl th.mc{color:var(--tm)}
+.tbl td{padding:.65rem 1.2rem;font-size:.9rem;border-top:1px solid rgba(143,168,204,.07)}
+.tbl tr:nth-child(even) td{background:rgba(17,29,56,.4)}
+.tbl .chk{color:var(--green);font-weight:700} .tbl .crs{color:rgba(143,168,204,.3)}
+.tbl .fn{color:var(--th);font-weight:600}
+
+/* ══════ ROAD CARD ══════ */
+.rc{border-radius:12px;padding:1.5rem;display:flex;flex-direction:column;gap:.5rem}
+.rc.done{background:rgba(15,186,127,.05);border:1px solid rgba(15,186,127,.25);border-top:3px solid var(--green)}
+.rc.live{background:rgba(201,135,10,.05);border:1px solid rgba(201,135,10,.28);border-top:3px solid var(--gold)}
+.rc.plan{background:rgba(143,168,204,.03);border:1px solid rgba(143,168,204,.12);border-top:3px solid rgba(143,168,204,.3)}
+.rc-badge{font:700 .68rem/1 inherit;letter-spacing:2px;text-transform:uppercase;margin-bottom:.2rem}
+.rc.done .rc-badge{color:var(--green)} .rc.live .rc-badge{color:var(--gold)} .rc.plan .rc-badge{color:var(--tm)}
+.rc-title{font:900 1.4rem/1 inherit;color:var(--th)}
+.rc ul{list-style:none;display:flex;flex-direction:column;gap:.28rem;margin-top:.2rem}
+.rc li{font:400 .82rem/1.45 inherit;color:var(--tm);display:flex;gap:.4rem}
+.rc li::before{content:'→';color:var(--gold);flex-shrink:0}
+.rc.plan li::before{color:rgba(143,168,204,.4)}
+
+/* ══════ PIPELINE STEPS ══════ */
+.pipe{display:flex;width:100%;align-items:stretch}
+.ps{flex:1;background:var(--navy2);border:1px solid rgba(143,168,204,.1);padding:1rem .9rem;position:relative}
+.ps:first-child{border-radius:12px 0 0 12px}
+.ps:last-child{border-radius:0 12px 12px 0}
+.ps+.ps{border-left:none}
+.ps::after{content:'›';position:absolute;right:-11px;top:50%;transform:translateY(-50%);color:var(--gold);font-size:1.4rem;z-index:2;background:var(--navy);padding:0 2px}
+.ps:last-child::after{display:none}
+.pn{font:900 1.6rem/1 inherit;color:rgba(201,135,10,.2);margin-bottom:.3rem}
+.pt{font:700 .8rem/1.3 inherit;color:var(--th)}
+.ph{font:400 .72rem/1.3 inherit;color:var(--tm);margin-top:.2rem}
+.ps:nth-child(1){border-top:2px solid var(--blue)}
+.ps:nth-child(2){border-top:2px solid var(--gold)}
+.ps:nth-child(3){border-top:2px solid var(--amber)}
+.ps:nth-child(4){border-top:2px solid var(--red)}
+.ps:nth-child(5){border-top:2px solid var(--purple)}
+.ps:nth-child(6){border-top:2px solid var(--green)}
+
+/* ══════ SLA CARDS ══════ */
+.slac{border-radius:12px;padding:1.4rem 1.2rem;text-align:center;border:2px solid transparent;display:flex;flex-direction:column;align-items:center;gap:.45rem}
+.slac.hot{background:rgba(242,101,101,.07);border-color:var(--red)}
+.slac.wrm{background:rgba(232,149,10,.07);border-color:var(--amber)}
+.slac.col{background:rgba(96,165,250,.07);border-color:var(--blue)}
+.slac.cld{background:rgba(143,168,204,.04);border-color:rgba(143,168,204,.2)}
+.slat{font:900 clamp(2rem,5vw,3.2rem)/1 inherit;font-variant-numeric:tabular-nums}
+.slac.hot .slat{color:var(--red)} .slac.wrm .slat{color:var(--amber)}
+.slac.col .slat{color:var(--blue)} .slac.cld .slat{color:var(--tm)}
+.slan{font:700 .85rem/1.2 inherit;color:var(--th)}
+.slad{font:400 .78rem/1.45 inherit;color:var(--tm)}
+
+/* ══════ PILLAR OVERVIEW CIRCLE ══════ */
+#wheel{width:min(54vh,480px);height:min(54vh,480px);position:relative;flex-shrink:0}
+.wc{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:110px;height:110px;border-radius:50%;background:rgba(201,135,10,.1);border:2px solid var(--gold);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+.wc-name{font:900 1.5rem/1 inherit;color:var(--gold)}
+.wc-sub{font:600 .65rem/1.2 inherit;color:var(--tm);letter-spacing:1px;text-transform:uppercase;margin-top:.2rem}
+.wp{position:absolute;width:108px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:.25rem;cursor:pointer;transition:transform .2s}
+.wp:hover{transform:scale(1.07) translateX(0) translateY(0)!important}
+.wp-ic{font-size:1.6rem;line-height:1}
+.wp-name{font:700 .72rem/1.2 inherit;color:var(--gold);letter-spacing:.5px;text-transform:uppercase}
+.wp-desc{font:400 .67rem/1.35 inherit;color:var(--tm)}
+
+/* ══════ FIREWALL FLOW ══════ */
+.fw-flow{display:flex;flex-direction:column;gap:.5rem;width:100%}
+.fw-row{display:flex;align-items:center;gap:.6rem}
+.fw-node{background:var(--navy2);border:1px solid rgba(143,168,204,.15);border-radius:10px;padding:.75rem 1rem;display:flex;align-items:center;gap:.6rem;flex:1}
+.fw-ic{font-size:1.4rem;flex-shrink:0}
+.fw-nt{font:700 .82rem/1.2 inherit;color:var(--th)}
+.fw-nd{font:400 .72rem/1.35 inherit;color:var(--tm);margin-top:.15rem}
+.fw-arr{color:var(--gold);font-size:1.2rem;flex-shrink:0}
+.fw-gate{background:rgba(201,135,10,.08);border:2px solid var(--gold);border-radius:10px;padding:.75rem 1rem;display:flex;align-items:center;gap:.6rem;flex:1}
+.fw-out{display:flex;flex-direction:column;gap:.4rem;flex:1.2}
+.fw-o{border-radius:8px;padding:.6rem .9rem;display:flex;align-items:center;gap:.5rem;font:400 .78rem/1.3 inherit}
+.fw-o.g{background:rgba(15,186,127,.07);border:1px solid rgba(15,186,127,.3);color:var(--green)}
+.fw-o.a{background:rgba(232,149,10,.07);border:1px solid rgba(232,149,10,.3);color:var(--amber)}
+.fw-o.m{background:rgba(143,168,204,.04);border:1px solid rgba(143,168,204,.2);color:var(--tm)}
+
+/* ══════ MISC ══════ */
+.sep{width:40px;height:3px;background:var(--gold);border-radius:2px;margin:.5rem 0 .9rem}
+.tag{display:inline-block;padding:3px 10px;border-radius:6px;font:700 .7rem/1 inherit;letter-spacing:1px;text-transform:uppercase}
+.tag-g{background:rgba(201,135,10,.15);color:var(--gold)}
+.tag-b{background:rgba(96,165,250,.1);color:var(--blue)}
+.tag-v{background:rgba(15,186,127,.1);color:var(--green)}
+
+@media(max-width:800px){
+  .sl{padding:60px 5vw 48px}
+  #dots{display:none}
+  #wheel{width:min(45vw,280px);height:min(45vw,280px)}
+}
+</style>
+</head>
+<body class="ro">
+
+<div id="prog" style="width:8.33%"></div>
+<div id="langs">
+  <button class="lb on" onclick="L('ro')">RO</button>
+  <button class="lb" onclick="L('en')">EN</button>
+  <button class="lb" onclick="L('ru')">RU</button>
+</div>
+<div id="dots"></div>
+<div id="ctr">01 / 12</div>
+<button class="arr" id="aU" onclick="go(-1)" disabled>↑</button>
+<button class="arr" id="aD" onclick="go(1)">↓</button>
+
+<div id="deck">
+
+<!-- ══════════════════════════════════════
+     S1 · HERO
+══════════════════════════════════════ -->
+<div class="sl grd-gold" style="grid-template-rows:1fr auto;align-content:center">
+  <div class="grid-bg"></div>
+
+  <div>
+    <div class="eye u1">
+      <span data-ro>Prezentare pentru investitori · 2026</span>
+      <span data-en>Investor Presentation · 2026</span>
+      <span data-ru>Презентация для инвесторов · 2026</span>
+    </div>
+    <div class="H1 u2">REVY<b>X</b></div>
+    <div class="H3 u3" style="color:var(--tm);font-weight:300;max-width:700px;font-size:clamp(1.1rem,2.8vw,2rem)">
+      <span data-ro>Real Estate <b>Execution Intelligence</b><br>Nu un CRM — un sistem de operare pentru agenți imobiliari</span>
+      <span data-en>Real Estate <b>Execution Intelligence</b><br>Not a CRM — an operating system for real estate agents</span>
+      <span data-ru>Real Estate <b>Execution Intelligence</b><br>Не CRM — операционная система для риелторов</span>
+    </div>
+    <div class="chips u4">
+      <span class="ch chg">Agent Operating System</span>
+      <span class="ch chb"><span data-ro>8 motoare AI</span><span data-en>8 AI engines</span><span data-ru>8 движков ИИ</span></span>
+      <span class="ch chv"><span data-ro>Vânzare + Chirie</span><span data-en>Sale + Rent</span><span data-ru>Продажа + Аренда</span></span>
+      <span class="ch chg"><span data-ro>Republica Moldova</span><span data-en>Republic of Moldova</span><span data-ru>Молдова</span></span>
+    </div>
+  </div>
+
+  <div class="u5" style="display:flex;gap:3rem;padding-top:1.5rem;border-top:1px solid rgba(201,135,10,.15)">
+    <div>
+      <div class="stat s-gold" style="font-size:clamp(2rem,5vw,4rem)">8</div>
+      <div class="stlbl"><span data-ro>piloni de inteligență</span><span data-en>intelligence pillars</span><span data-ru>столпа интеллекта</span></div>
+    </div>
+    <div>
+      <div class="stat s-green" style="font-size:clamp(2rem,5vw,4rem)">26</div>
+      <div class="stlbl"><span data-ro>rute demo live</span><span data-en>live demo routes</span><span data-ru>рабочих маршрутов</span></div>
+    </div>
+    <div>
+      <div class="stat s-blue" style="font-size:clamp(2rem,5vw,4rem)">3</div>
+      <div class="stlbl"><span data-ro>limbi UI</span><span data-en>UI languages</span><span data-ru>языка</span></div>
+    </div>
+    <div>
+      <div class="stat s-gold" style="font-size:clamp(2rem,5vw,4rem)">2</div>
+      <div class="stlbl"><span data-ro>piețe: vânzare + chirie</span><span data-en>markets: sale + rent</span><span data-ru>рынка: продажа + аренда</span></div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════
+     S2 · 8 PILONI (CERC)
+══════════════════════════════════════ -->
+<div class="sl bgd" style="grid-template-columns:1fr auto;gap:4vw;align-items:center">
+  <div class="grid-bg"></div>
+
+  <div>
+    <div class="eye u1"><span data-ro>Arhitectura sistemului</span><span data-en>System Architecture</span><span data-ru>Архитектура системы</span></div>
+    <div class="H2 u2">
+      <span data-ro>Un sistem. <b>8 motoare.</b><br>Un singur scop.</span>
+      <span data-en>One system. <b>8 engines.</b><br>One single purpose.</span>
+      <span data-ru>Одна система. <b>8 движков.</b><br>Одна цель.</span>
+    </div>
+    <div class="sep u3"></div>
+    <p class="body u3" style="margin-bottom:1.2rem">
+      <span data-ro>Fiecare motor are un rol precis în transformarea unui lead necunoscut într-o tranzacție câștigată. Toate comunică în timp real — fără intervenție manuală.</span>
+      <span data-en>Each engine has a precise role in turning an unknown lead into a won deal. All communicate in real time — no manual intervention.</span>
+      <span data-ru>Каждый движок выполняет точную роль в превращении незнакомого лида в закрытую сделку. Все работают в реальном времени.</span>
+    </p>
+    <div class="u4">
+      <div class="note" style="margin-bottom:.4rem"><b><span data-ro>Slide-urile următoare</span><span data-en>Following slides</span><span data-ru>Следующие слайды</span></b> <span data-ro>— câte un motor cu mecanicile sale</span><span data-en>— one engine per slide with its mechanisms</span><span data-ru>— один движок и его механизмы</span></div>
+    </div>
+  </div>
+
+  <!-- WHEEL -->
+  <div id="wheel" class="fi">
+    <!-- center -->
+    <div class="wc">
+      <div class="wc-name">REVYX</div>
+      <div class="wc-sub">AOS</div>
+    </div>
+    <!-- 8 pillars positioned by JS -->
+    <div class="wp" id="wp0"><div class="wp-ic">🎯</div><div class="wp-name"><span data-ro>Lead</span><span data-en>Lead</span><span data-ru>Лиды</span></div><div class="wp-desc"><span data-ro>Calificare + SLA</span><span data-en>Qualify + SLA</span><span data-ru>Квалификация</span></div></div>
+    <div class="wp" id="wp1"><div class="wp-ic">🏘️</div><div class="wp-name"><span data-ro>Supply</span><span data-en>Supply</span><span data-ru>Предложение</span></div><div class="wp-desc"><span data-ro>Proprietăți + Prospețime</span><span data-en>Properties + Freshness</span><span data-ru>Объекты</span></div></div>
+    <div class="wp" id="wp2"><div class="wp-ic">🔗</div><div class="wp-name"><span data-ro>Match</span><span data-en>Match</span><span data-ru>Подбор</span></div><div class="wp-desc"><span data-ro>Top-3 AI</span><span data-en>AI Top-3</span><span data-ru>ИИ Топ-3</span></div></div>
+    <div class="wp" id="wp3"><div class="wp-ic">⚡</div><div class="wp-name"><span data-ro>Execution</span><span data-en>Execution</span><span data-ru>Исполнение</span></div><div class="wp-desc"><span data-ro>Pas următor AI</span><span data-en>AI Next Step</span><span data-ru>Следующий шаг</span></div></div>
+    <div class="wp" id="wp4"><div class="wp-ic">🤝</div><div class="wp-name"><span data-ro>Negotiation</span><span data-en>Negotiation</span><span data-ru>Переговоры</span></div><div class="wp-desc"><span data-ro>Oferte + Contra</span><span data-en>Offers + Counter</span><span data-ru>Оферты</span></div></div>
+    <div class="wp" id="wp5"><div class="wp-ic">💊</div><div class="wp-name"><span data-ro>Deal</span><span data-en>Deal</span><span data-ru>Сделка</span></div><div class="wp-desc"><span data-ro>Sănătate tranzacție</span><span data-en>Deal Health</span><span data-ru>Здоровье</span></div></div>
+    <div class="wp" id="wp6"><div class="wp-ic">🏆</div><div class="wp-name"><span data-ro>Performance</span><span data-en>Performance</span><span data-ru>Эффективность</span></div><div class="wp-desc"><span data-ro>Scor agent</span><span data-en>Agent Score</span><span data-ru>Рейтинг</span></div></div>
+    <div class="wp" id="wp7"><div class="wp-ic">💎</div><div class="wp-name"><span data-ro>Retention</span><span data-en>Retention</span><span data-ru>Удержание</span></div><div class="wp-desc"><span data-ro>Anti-pierdere client</span><span data-en>Anti-churn</span><span data-ru>Анти-отток</span></div></div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════
+     S3 · PILON 1 — LEAD INTELLIGENCE
+══════════════════════════════════════ -->
+<div class="sl bgm" style="grid-template-columns:1fr 1.1fr;gap:4vw;align-items:start;padding-top:72px">
+  <div class="grid-bg"></div>
+
+  <div>
+    <div class="eye u1"><span class="tag tag-g">Pilon 01</span></div>
+    <div class="H2 u2"><b>Lead Intelligence</b></div>
+    <div class="sep u2"></div>
+    <p class="body u3">
+      <span data-ro>Sistemul determină automat <b>cât de serios este fiecare client</b> înainte ca agentul să ridice telefonul. Nici un lead bun nu se pierde. Nici o secundă nu se irosește pe lead-uri false.</span>
+      <span data-en>The system automatically determines <b>how serious each client is</b> before the agent picks up the phone. No good lead is lost. Not a second wasted on fake leads.</span>
+      <span data-ru>Система автоматически определяет <b>насколько серьёзен каждый клиент</b> до того как агент берёт трубку. Ни один хороший лид не теряется.</span>
+    </p>
+
+    <div class="dv u3"></div>
+
+    <div class="bul u4">
+      <div class="bi"><div class="bd"></div><div class="bt"><b><span data-ro>Contact valid?</span><span data-en>Valid contact?</span><span data-ru>Контакт реальный?</span></b> <span data-ro>Număr de telefon sau email real, nu bot sau spam</span><span data-en>Real phone or email, not a bot or spam</span><span data-ru>Реальный телефон или email, не бот и не спам</span></div></div>
+      <div class="bi"><div class="bd"></div><div class="bt"><b><span data-ro>Intenție clară?</span><span data-en>Clear intent?</span><span data-ru>Чёткое намерение?</span></b> <span data-ro>Vrea să cumpere, vândă, închirieze sau dea în chirie?</span><span data-en>Wants to buy, sell, rent or lease?</span><span data-ru>Хочет купить, продать, снять или сдать?</span></div></div>
+      <div class="bi"><div class="bd"></div><div class="bt"><b><span data-ro>Urgență?</span><span data-en>Urgency?</span><span data-ru>Срочность?</span></b> <span data-ro>HOT (gata acum), Calificat, Cald sau Rece pentru nurturing automat</span><span data-en>HOT (ready now), Qualified, Warm or Cold for auto nurturing</span><span data-ru>Горячий (сейчас), Квалифицированный, Тёплый или Холодный</span></div></div>
+      <div class="bi"><div class="bd"></div><div class="bt"><b><span data-ro>Rezultat</span><span data-en>Result</span><span data-ru>Результат</span></b><span data-ro>: agent primește doar ce merită atenție — restul e gestionat automat</span><span data-en>: agent only receives what deserves attention — rest is managed automatically</span><span data-ru>: агент получает только то, что заслуживает внимания</span></div></div>
+    </div>
+  </div>
+
+  <!-- FIREWALL VISUAL -->
+  <div class="u3">
+    <div class="note" style="color:var(--gold);font-weight:700;font-size:.75rem;letter-spacing:2px;text-transform:uppercase;margin-bottom:.75rem">
+      <span data-ro>Cum funcționează filtrarea</span><span data-en>How filtering works</span><span data-ru>Как работает фильтрация</span>
+    </div>
+
+    <div class="fw-flow">
+      <!-- Step 1 -->
+      <div class="fw-row">
+        <div class="fw-node" style="border-color:rgba(96,165,250,.3);background:rgba(96,165,250,.04)">
+          <div class="fw-ic">📨</div>
+          <div>
+            <div class="fw-nt"><span data-ro>Lead sosit (orice sursă)</span><span data-en>Lead arrived (any source)</span><span data-ru>Лид поступил (любой источник)</span></div>
+            <div class="fw-nd">WhatsApp · OLX · Meta · site · recomandare</div>
+          </div>
+        </div>
+      </div>
+
+      <div style="display:flex;justify-content:center;color:var(--gold);font-size:1.2rem">↓</div>
+
+      <!-- Step 2: Contact check -->
+      <div class="fw-row">
+        <div class="fw-gate">
+          <div class="fw-ic">🔍</div>
+          <div>
+            <div class="fw-nt" style="color:var(--gold)"><span data-ro>Verificare contact</span><span data-en>Contact check</span><span data-ru>Проверка контакта</span></div>
+            <div class="fw-nd"><span data-ro>Număr real? Email valid? Nu e bot?</span><span data-en>Real number? Valid email? Not a bot?</span><span data-ru>Реальный номер? Не бот?</span></div>
+          </div>
+        </div>
+        <div class="fw-arr">→</div>
+        <div class="fw-out" style="flex:0 0 auto">
+          <div class="fw-o m" style="font-size:.72rem"><span style="font-size:.9rem">🚫</span> <span data-ro>Invalid → Blocat</span><span data-en>Invalid → Blocked</span><span data-ru>Недействителен → Блок</span></div>
+        </div>
+      </div>
+
+      <div style="display:flex;justify-content:center;color:var(--gold);font-size:1.2rem">↓ <span style="font-size:.72rem;color:var(--green);margin-left:.3rem;align-self:center" data-ro>contact valid</span><span style="font-size:.72rem;color:var(--green);margin-left:.3rem;align-self:center" data-en>valid contact</span><span style="font-size:.72rem;color:var(--green);margin-left:.3rem;align-self:center" data-ru>контакт валиден</span></div>
+
+      <!-- Step 3: Intent check -->
+      <div class="fw-row">
+        <div class="fw-gate">
+          <div class="fw-ic">🎯</div>
+          <div>
+            <div class="fw-nt" style="color:var(--gold)"><span data-ro>Verificare intenție</span><span data-en>Intent check</span><span data-ru>Проверка намерения</span></div>
+            <div class="fw-nd"><span data-ro>Cumpără/vinde/închiriază/dă în chirie?</span><span data-en>Buy/sell/rent/lease?</span><span data-ru>Купить/продать/снять/сдать?</span></div>
+          </div>
+        </div>
+        <div class="fw-arr">→</div>
+        <div class="fw-out" style="flex:0 0 auto">
+          <div class="fw-o a" style="font-size:.72rem"><span style="font-size:.9rem">🔄</span> <span data-ro>Neclar → Nurturing</span><span data-en>Unclear → Nurturing</span><span data-ru>Неясно → Обработка</span></div>
+        </div>
+      </div>
+
+      <div style="display:flex;justify-content:center;color:var(--gold);font-size:1.2rem">↓ <span style="font-size:.72rem;color:var(--green);margin-left:.3rem;align-self:center" data-ro>intenție clară</span><span style="font-size:.72rem;color:var(--green);margin-left:.3rem;align-self:center" data-en>clear intent</span><span style="font-size:.72rem;color:var(--green);margin-left:.3rem;align-self:center" data-ru>намерение ясно</span></div>
+
+      <!-- Step 4: Urgency → routing -->
+      <div class="fw-row">
+        <div class="fw-gate">
+          <div class="fw-ic">⚡</div>
+          <div>
+            <div class="fw-nt" style="color:var(--gold)"><span data-ro>Nivel urgență</span><span data-en>Urgency level</span><span data-ru>Уровень срочности</span></div>
+            <div class="fw-nd"><span data-ro>HOT / Calificat / Cald / Rece</span><span data-en>HOT / Qualified / Warm / Cold</span><span data-ru>Горячий / Квалифицированный / Тёплый / Холодный</span></div>
+          </div>
+        </div>
+        <div class="fw-arr">→</div>
+        <div class="fw-out">
+          <div class="fw-o g" style="font-size:.72rem"><span style="font-size:.9rem">👤</span> <span data-ro>HOT/Calificat → Agent imediat</span><span data-en>HOT/Qualified → Agent now</span><span data-ru>Горячий/Квалиф. → Агенту</span></div>
+          <div class="fw-o a" style="font-size:.72rem"><span style="font-size:.9rem">🔄</span> <span data-ro>Cald/Rece → Nurturing auto</span><span data-en>Warm/Cold → Auto nurturing</span><span data-ru>Тёплый/Холодный → Авто</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLA strip -->
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:.5rem;margin-top:.75rem">
+      <div class="slac hot" style="padding:.7rem .5rem">
+        <div class="slat" style="font-size:1.6rem">15'</div>
+        <div class="slan" style="font-size:.7rem">HOT</div>
+      </div>
+      <div class="slac wrm" style="padding:.7rem .5rem">
+        <div class="slat" style="font-size:1.6rem">2h</div>
+        <div class="slan" style="font-size:.7rem"><span data-ro>Calificat</span><span data-en>Qualified</span><span data-ru>Квалиф.</span></div>
+      </div>
+      <div class="slac col" style="padding:.7rem .5rem">
+        <div class="slat" style="font-size:1.6rem">24h</div>
+        <div class="slan" style="font-size:.7rem"><span data-ro>Cald</span><span data-en>Warm</span><span data-ru>Тёплый</span></div>
+      </div>
+      <div class="slac cld" style="padding:.7rem .5rem">
+        <div class="slat" style="font-size:1.1rem">AUTO</div>
+        <div class="slan" style="font-size:.7rem"><span data-ro>Rece</span><span data-en>Cold</span><span data-ru>Холодный</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════
+     S4 · PILON 2+3 — SUPPLY + MATCH
+══════════════════════════════════════ -->
+<div class="sl grd-blue" style="grid-template-rows:auto 1fr;gap:1.5rem">
+  <div class="grid-bg"></div>
+
+  <div class="u1" style="display:flex;align-items:baseline;gap:1rem;flex-wrap:wrap">
+    <span class="tag tag-b">Pilon 02</span>
+    <div class="H2" style="margin:0"><b>Supply</b> <span style="color:var(--tm);font-size:clamp(1.2rem,3vw,2.2rem);font-weight:300">&</span> <b>Match Intelligence</b></div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:start" class="u2">
+    <div>
+      <div style="display:flex;align-items:center;gap:.6rem;margin-bottom:.6rem">
+        <span style="font-size:1.6rem">🏘️</span>
+        <div class="H3"><span data-ro>Proprietăți mereu actuale</span><span data-en>Always up-to-date properties</span><span data-ru>Объекты всегда актуальны</span></div>
+      </div>
+      <p class="body" style="margin-bottom:.9rem">
+        <span data-ro>Sistemul urmărește fiecare proprietate din portofoliu și îi calculează automat <b>prospețimea</b>. Un anunț vechi costă oportunități.</span>
+        <span data-en>The system tracks every portfolio property and automatically calculates its <b>freshness</b>. An old listing costs opportunities.</span>
+        <span data-ru>Система отслеживает каждый объект портфеля и автоматически рассчитывает его <b>актуальность</b>.</span>
+      </p>
+      <div class="bul">
+        <div class="bi"><div class="bd"></div><div class="bt"><b><span data-ro>Anunț nou</span><span data-en>Fresh listing</span><span data-ru>Новое объявление</span></b> — <span data-ro>vizibilitate maximă, prioritizat în matching</span><span data-en>maximum visibility, prioritized in matching</span><span data-ru>максимальная видимость</span></div></div>
+        <div class="bi"><div class="bd"></div><div class="bt"><b><span data-ro>De reîmprospătat</span><span data-en>Needs refresh</span><span data-ru>Нужно обновить</span></b> — <span data-ro>agentul primește alertă automată</span><span data-en>agent gets automatic alert</span><span data-ru>агент получает автоматическое уведомление</span></div></div>
+        <div class="bi"><div class="bd"></div><div class="bt"><b><span data-ro>Necesită atenție</span><span data-en>Needs attention</span><span data-ru>Требует внимания</span></b> — <span data-ro>penalizat în matching până la actualizare</span><span data-en>penalized in matching until updated</span><span data-ru>штраф в подборе до обновления</span></div></div>
+      </div>
+    </div>
+
+    <div>
+      <div style="display:flex;align-items:center;gap:.6rem;margin-bottom:.6rem">
+        <span style="font-size:1.6rem">🔗</span>
+        <div class="H3"><span data-ro>Potrivire AI — Top 3</span><span data-en>AI Matching — Top 3</span><span data-ru>ИИ подбор — Топ-3</span></div>
+      </div>
+      <p class="body" style="margin-bottom:.9rem">
+        <span data-ro>Pentru fiecare client, sistemul analizează <b>toate proprietățile din portofoliu</b> și returnează cele mai potrivite 3 — cu explicație clară pentru fiecare, fără să fie nevoie să le caute agentul.</span>
+        <span data-en>For each client, the system analyzes <b>all portfolio properties</b> and returns the best 3 matches — with a clear explanation for each, no manual search needed.</span>
+        <span data-ru>Для каждого клиента система анализирует <b>весь портфель</b> и возвращает лучшие 3 совпадения с объяснением.</span>
+      </p>
+      <div class="bul">
+        <div class="bi"><div class="bd blue"></div><div class="bt"><b>#1</b> — <span data-ro>Potrivire perfectă: buget + zonă + caracteristici</span><span data-en>Perfect match: budget + area + features</span><span data-ru>Идеальное совпадение: бюджет + район + характеристики</span></div></div>
+        <div class="bi"><div class="bd blue"></div><div class="bt"><b>#2</b> — <span data-ro>Potrivire bună: 1 compromis minor</span><span data-en>Good match: 1 minor compromise</span><span data-ru>Хорошее совпадение: 1 небольшой компромисс</span></div></div>
+        <div class="bi"><div class="bd blue"></div><div class="bt"><b>#3</b> — <span data-ro>Potrivire alternativă: altă perspectivă pentru client</span><span data-en>Alternative match: different perspective for client</span><span data-ru>Альтернативное совпадение: другой ракурс</span></div></div>
+        <div class="bi"><div class="bd blue"></div><div class="bt"><b><span data-ro>Bidireccional</span><span data-en>Bidirectional</span><span data-ru>Двунаправленный</span></b> — <span data-ro>o proprietate găsește automat și cei mai buni cumpărători din portofoliu</span><span data-en>a property automatically finds the best buyers in the portfolio too</span><span data-ru>объект сам находит лучших покупателей из портфеля</span></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════
+     S5 · PILON 4 — EXECUTION INTELLIGENCE
+══════════════════════════════════════ -->
+<div class="sl bgd" style="grid-template-columns:1fr 1fr;gap:4vw;align-items:start">
+  <div class="grid-bg"></div>
+
+  <div>
+    <div class="eye u1"><span class="tag tag-g">Pilon 04</span></div>
+    <div class="H2 u2"><b>Execution Intelligence</b></div>
+    <div class="sep u2"></div>
+    <p class="body u3">
+      <span data-ro>Agentul nu mai trebuie să ghicească ce să facă. Sistemul <b>îi spune exact pasul următor</b> pentru fiecare client, în funcție de ce s-a întâmplat ultima oară și cât timp a trecut.</span>
+      <span data-en>The agent no longer has to guess what to do. The system <b>tells them the exact next step</b> for each client, based on what happened last time and how much time has passed.</span>
+      <span data-ru>Агент больше не гадает что делать. Система <b>говорит ему точный следующий шаг</b> для каждого клиента.</span>
+    </p>
+
+    <div class="dv u3"></div>
+
+    <div class="bul u4">
+      <div class="bi"><div class="bd"></div><div class="bt"><b><span data-ro>Sarcini active limitate la 3</span><span data-en>Active tasks limited to 3</span><span data-ru>Активных задач максимум 3</span></b> — <span data-ro>agentul rămâne concentrat, nu înecat în liste</span><span data-en>agent stays focused, not drowned in lists</span><span data-ru>агент сфocusирован, не утонул в списках</span></div></div>
+      <div class="bi"><div class="bd"></div><div class="bt"><b><span data-ro>Sugestii inteligente</span><span data-en>Smart suggestions</span><span data-ru>Умные подсказки</span></b> — <span data-ro>Sună urgent · Trimite proprietate · Programează vizionare · Cere documente</span><span data-en>Call urgent · Send property · Schedule showing · Request documents</span><span data-ru>Позвони · Отправь объект · Запланируй показ · Запроси документы</span></div></div>
+      <div class="bi"><div class="bd"></div><div class="bt"><b><span data-ro>Calendar vizionări</span><span data-en>Showing calendar</span><span data-ru>Календарь показов</span></b> — <span data-ro>fără suprapuneri, cu alertă dacă agentul are alt client în același interval</span><span data-en>no overlaps, with alert if agent has another client in the same slot</span><span data-ru>без пересечений, с уведомлением о конфликте</span></div></div>
+    </div>
+
+    <div class="u5" style="margin-top:1.2rem">
+      <div style="background:rgba(201,135,10,.06);border:1px solid rgba(201,135,10,.25);border-radius:10px;padding:1rem">
+        <div style="font:700 .78rem/1 inherit;color:var(--gold);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:.5rem">
+          <span data-ro>Fluxul complet al unei tranzacții</span><span data-en>Complete transaction flow</span><span data-ru>Полный поток сделки</span>
+        </div>
+        <div class="pipe" style="font-size:.72rem">
+          <div class="ps"><div class="pn" style="font-size:1rem">01</div><div class="pt"><span data-ro>Lead sosit</span><span data-en>Lead in</span><span data-ru>Лид</span></div></div>
+          <div class="ps"><div class="pn" style="font-size:1rem">02</div><div class="pt"><span data-ro>Calificat</span><span data-en>Qualified</span><span data-ru>Квалиф.</span></div></div>
+          <div class="ps"><div class="pn" style="font-size:1rem">03</div><div class="pt"><span data-ro>Vizionare</span><span data-en>Showing</span><span data-ru>Показ</span></div></div>
+          <div class="ps"><div class="pn" style="font-size:1rem">04</div><div class="pt"><span data-ro>Ofertă</span><span data-en>Offer</span><span data-ru>Оффер</span></div></div>
+          <div class="ps"><div class="pn" style="font-size:1rem">05</div><div class="pt"><span data-ro>Negociere</span><span data-en>Negotiation</span><span data-ru>Переговоры</span></div></div>
+          <div class="ps"><div class="pn" style="font-size:1rem">✓</div><div class="pt" style="color:var(--green)"><span data-ro>Câștigat</span><span data-en>Won</span><span data-ru>Закрыто</span></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- right: Max 3 visual + dashboard preview -->
+  <div class="u3" style="display:flex;flex-direction:column;gap:1.25rem">
+    <div class="card card-g" style="text-align:center;padding:2rem">
+      <div class="stat s-gold" style="font-size:clamp(3rem,8vw,6rem)">Max 3</div>
+      <div class="stlbl" style="font-size:1rem">
+        <span data-ro>sarcini active per agent</span><span data-en>active tasks per agent</span><span data-ru>активных задач на агента</span>
+      </div>
+      <div class="note" style="margin-top:.75rem;font-size:.85rem">
+        <span data-ro>Sistemul blochează automat adăugarea celei de-a 4-a sarcini — agentul este forțat să finalizeze înainte să primească altceva</span>
+        <span data-en>The system automatically blocks adding a 4th task — the agent is forced to complete before receiving anything new</span>
+        <span data-ru>Система автоматически блокирует добавление 4-й задачи — агент обязан завершить текущую перед новой</span>
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:.75rem">
+      <div class="card" style="text-align:center">
+        <div class="stat s-green" style="font-size:2.5rem">15'</div>
+        <div class="stlbl"><span data-ro>răspuns HOT</span><span data-en>HOT response</span><span data-ru>ответ горячему</span></div>
+      </div>
+      <div class="card" style="text-align:center">
+        <div class="stat s-blue" style="font-size:2.5rem">3×</div>
+        <div class="stlbl"><span data-ro>escaladare auto</span><span data-en>auto escalation</span><span data-ru>автоэскалация</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════
+     S6 · PILON 5+6 — NEGOTIATION + DEAL
+══════════════════════════════════════ -->
+<div class="sl bgm" style="grid-template-rows:auto 1fr;gap:1.25rem">
+  <div class="grid-bg"></div>
+
+  <div class="u1" style="display:flex;align-items:baseline;gap:1rem;flex-wrap:wrap">
+    <span class="tag tag-g">Pilon 05 + 06</span>
+    <div class="H2" style="margin:0"><b>Negotiation</b> <span style="color:var(--tm);font-weight:300">&</span> <b>Deal Intelligence</b></div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:start" class="u2">
+    <div>
+      <div style="display:flex;align-items:center;gap:.6rem;margin-bottom:.6rem">
+        <span style="font-size:1.5rem">🤝</span>
+        <div class="H3"><span data-ro>Negociere structurată</span><span data-en>Structured negotiation</span><span data-ru>Структурированные переговоры</span></div>
+      </div>
+      <p class="body" style="margin-bottom:.9rem">
+        <span data-ro>Niciun detaliu al negocierii nu se pierde. Agentul are <b>întregul istoric</b> al ofertelor și contra-ofertelor la îndemână, oricând.</span>
+        <span data-en>No negotiation detail is ever lost. The agent has the <b>full history</b> of offers and counter-offers at hand, at any time.</span>
+        <span data-ru>Ни одна деталь переговоров не теряется. Агент имеет <b>полную историю</b> предложений и контрпредложений.</span>
+      </p>
+      <div class="bul">
+        <div class="bi"><div class="bd"></div><div class="bt"><span data-ro>Ofertă scrisă → <b>contra-ofertă</b> → contra-contra-ofertă — lanț complet</span><span data-en>Written offer → <b>counter-offer</b> → counter-counter — full chain</span><span data-ru>Предложение → <b>контрпредложение</b> → цепь полная</span></div></div>
+        <div class="bi"><div class="bd"></div><div class="bt"><span data-ro>Fiecare ofertă e <b>timestampată</b> și legată de deal — audit complet</span><span data-en>Every offer is <b>timestamped</b> and linked to the deal — full audit</span><span data-ru>Каждое предложение <b>с временной меткой</b> и привязано к сделке</span></div></div>
+        <div class="bi"><div class="bd"></div><div class="bt"><span data-ro>Managerul poate vedea orice negociere în timp real</span><span data-en>Manager can see any negotiation in real time</span><span data-ru>Менеджер видит любые переговоры в реальном времени</span></div></div>
+      </div>
+    </div>
+
+    <div>
+      <div style="display:flex;align-items:center;gap:.6rem;margin-bottom:.6rem">
+        <span style="font-size:1.5rem">💊</span>
+        <div class="H3"><span data-ro>Sănătatea tranzacției</span><span data-en>Deal health</span><span data-ru>Здоровье сделки</span></div>
+      </div>
+      <p class="body" style="margin-bottom:.9rem">
+        <span data-ro>Sistemul monitorizează fiecare deal activ și <b>alertează agentul și managerul înainte ca o tranzacție să fie în pericol</b> — nu după ce s-a pierdut.</span>
+        <span data-en>The system monitors every active deal and <b>alerts agent and manager before a transaction is at risk</b> — not after it's lost.</span>
+        <span data-ru>Система отслеживает каждую сделку и <b>предупреждает агента и менеджера до того, как сделка под угрозой</b>.</span>
+      </p>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:.6rem;margin-bottom:.75rem">
+        <div class="card card-v" style="text-align:center;padding:.9rem .5rem">
+          <div style="font-size:1.2rem;margin-bottom:.3rem">✅</div>
+          <div style="font:700 .78rem/1.2 inherit;color:var(--green)"><span data-ro>Merge bine</span><span data-en>On track</span><span data-ru>Идёт хорошо</span></div>
+          <div class="stlbl" style="font-size:.7rem"><span data-ro>nicio acțiune necesară</span><span data-en>no action needed</span><span data-ru>действий не нужно</span></div>
+        </div>
+        <div class="card card-a" style="text-align:center;padding:.9rem .5rem">
+          <div style="font-size:1.2rem;margin-bottom:.3rem">⚠️</div>
+          <div style="font:700 .78rem/1.2 inherit;color:var(--amber)"><span data-ro>De verificat</span><span data-en>Check it</span><span data-ru>Проверить</span></div>
+          <div class="stlbl" style="font-size:.7rem"><span data-ro>agent alertat</span><span data-en>agent alerted</span><span data-ru>агент уведомлён</span></div>
+        </div>
+        <div class="card card-r" style="text-align:center;padding:.9rem .5rem">
+          <div style="font-size:1.2rem;margin-bottom:.3rem">🚨</div>
+          <div style="font:700 .78rem/1.2 inherit;color:var(--red)"><span data-ro>Risc mare</span><span data-en>High risk</span><span data-ru>Высокий риск</span></div>
+          <div class="stlbl" style="font-size:.7rem"><span data-ro>manager escalat</span><span data-en>manager escalated</span><span data-ru>эскалация менеджеру</span></div>
+        </div>
+      </div>
+      <div class="bul">
+        <div class="bi"><div class="bd red"></div><div class="bt"><span data-ro>Tăcere prea lungă din partea clientului → alertă automată</span><span data-en>Too long silence from client → automatic alert</span><span data-ru>Слишком долгое молчание клиента → автоматическое уведомление</span></div></div>
+        <div class="bi"><div class="bd red"></div><div class="bt"><span data-ro>Data estimată de închidere se apropie fără progres → escaladare</span><span data-en>Estimated close date approaching without progress → escalation</span><span data-ru>Дата закрытия приближается без прогресса → эскалация</span></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════
+     S7 · PILON 7+8 — PERFORMANCE + RETENTION
+══════════════════════════════════════ -->
+<div class="sl grd-gold" style="grid-template-rows:auto 1fr;gap:1.25rem">
+  <div class="grid-bg"></div>
+
+  <div class="u1" style="display:flex;align-items:baseline;gap:1rem;flex-wrap:wrap">
+    <span class="tag tag-g">Pilon 07 + 08</span>
+    <div class="H2" style="margin:0"><b>Performance</b> <span style="color:var(--tm);font-weight:300">&</span> <b>Retention Intelligence</b></div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:start" class="u2">
+    <div>
+      <div style="display:flex;align-items:center;gap:.6rem;margin-bottom:.6rem">
+        <span style="font-size:1.5rem">🏆</span>
+        <div class="H3"><span data-ro>Scor agent în timp real</span><span data-en>Agent score in real time</span><span data-ru>Рейтинг агента в реальном времени</span></div>
+      </div>
+      <p class="body" style="margin-bottom:.9rem">
+        <span data-ro>Fiecare agent știe exact unde se află față de echipă. Managerul vede performanța completă fără să ceară rapoarte manuale.</span>
+        <span data-en>Every agent knows exactly where they stand vs the team. The manager sees full performance without asking for manual reports.</span>
+        <span data-ru>Каждый агент знает своё место в команде. Менеджер видит всё без ручных отчётов.</span>
+      </p>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin-bottom:.75rem">
+        <div class="card" style="text-align:center;padding:1rem">
+          <div style="font-size:1.5rem;margin-bottom:.3rem">⭐</div>
+          <div style="font:700 .82rem/1.3 inherit;color:var(--th)"><span data-ro>Scor performanță</span><span data-en>Performance score</span><span data-ru>Оценка эффективности</span></div>
+          <div class="stlbl" style="font-size:.72rem"><span data-ro>bazat pe deal-uri închise + timpi de răspuns</span><span data-en>based on closed deals + response times</span><span data-ru>на основе закрытых сделок + времени ответа</span></div>
+        </div>
+        <div class="card" style="text-align:center;padding:1rem">
+          <div style="font-size:1.5rem;margin-bottom:.3rem">🤝</div>
+          <div style="font:700 .82rem/1.3 inherit;color:var(--th)"><span data-ro>Scor încredere client</span><span data-en>Client trust score</span><span data-ru>Рейтинг доверия</span></div>
+          <div class="stlbl" style="font-size:.72rem"><span data-ro>feedback din vizionări + recenzii</span><span data-en>feedback from showings + reviews</span><span data-ru>отзывы с показов + рецензии</span></div>
+        </div>
+      </div>
+      <div class="bul">
+        <div class="bi"><div class="bd"></div><div class="bt"><span data-ro>Leaderboard echipă — vizibil pentru toți agenții, motivant</span><span data-en>Team leaderboard — visible to all agents, motivating</span><span data-ru>Таблица лидеров — видна всем агентам, мотивирует</span></div></div>
+        <div class="bi"><div class="bd"></div><div class="bt"><span data-ro>Manager vede: sarcini active / deal-uri la risc / timpi de răspuns per agent</span><span data-en>Manager sees: active tasks / at-risk deals / response times per agent</span><span data-ru>Менеджер видит: задачи / рискованные сделки / время ответа</span></div></div>
+      </div>
+    </div>
+
+    <div>
+      <div style="display:flex;align-items:center;gap:.6rem;margin-bottom:.6rem">
+        <span style="font-size:1.5rem">💎</span>
+        <div class="H3"><span data-ro>Anti-pierdere client</span><span data-en>Anti-churn client</span><span data-ru>Удержание клиента</span></div>
+      </div>
+      <p class="body" style="margin-bottom:.9rem">
+        <span data-ro>Sistemul identifică clienții care riscă să plece la concurență și propune agentului <b>acțiuni concrete de reangajare</b> — la momentul potrivit, nu prea târziu.</span>
+        <span data-en>The system identifies clients at risk of going to the competition and proposes <b>concrete re-engagement actions</b> — at the right moment, not too late.</span>
+        <span data-ru>Система выявляет клиентов с риском ухода и предлагает <b>конкретные действия по повторному вовлечению</b> — вовремя.</span>
+      </p>
+      <div class="bul">
+        <div class="bi"><div class="bd green"></div><div class="bt"><b><span data-ro>Semnale de pericol</span><span data-en>Danger signals</span><span data-ru>Сигналы опасности</span></b>: <span data-ro>nu a deschis linkul proprietății, nu a răspuns la 2 mesaje, a întrebat de alt agent</span><span data-en>didn't open property link, didn't reply to 2 messages, asked about another agent</span><span data-ru>не открыл ссылку на объект, не ответил на 2 сообщения</span></div></div>
+        <div class="bi"><div class="bd green"></div><div class="bt"><b><span data-ro>Acțiuni propuse</span><span data-en>Proposed actions</span><span data-ru>Предлагаемые действия</span></b>: <span data-ro>trimite o proprietate nouă, sună personal, propune o nouă vizionare</span><span data-en>send a new property, call personally, propose a new showing</span><span data-ru>отправь новый объект, позвони лично, предложи новый показ</span></div></div>
+        <div class="bi"><div class="bd green"></div><div class="bt"><b>GDPR</b>: <span data-ro>consimțământul clientului capturat și stocat la fiecare interacțiune — protecție legală completă</span><span data-en>client consent captured and stored at every interaction — full legal protection</span><span data-ru>согласие клиента зафиксировано при каждом взаимодействии</span></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════
+     S8 · VÂNZARE & CHIRIE
+══════════════════════════════════════ -->
+<div class="sl bgd" style="grid-template-columns:1fr 1fr;gap:4vw;align-items:start">
+  <div class="grid-bg"></div>
+
+  <div>
+    <div class="eye u1"><span data-ro>Acoperire completă de piață</span><span data-en>Full market coverage</span><span data-ru>Полный охват рынка</span></div>
+    <div class="H2 u2">
+      <span data-ro><b>Vânzare</b> &<br><b>Chirie</b> — un sistem</span>
+      <span data-en><b>Sale</b> &<br><b>Rent</b> — one system</span>
+      <span data-ru><b>Продажа</b> &<br><b>Аренда</b> — одна система</span>
+    </div>
+    <div class="sep u2"></div>
+    <p class="body u3">
+      <span data-ro><b>~30% din piața imobiliară RM sunt chirii.</b> REVYX acoperă ambele segmente cu logică dedicată fiecăruia — comisioane corecte, workflow propriu, cabinet notar pentru vânzări, contract direct pentru chirii.</span>
+      <span data-en><b>~30% of Moldova's real estate market is rentals.</b> REVYX covers both segments with dedicated logic — correct commissions, own workflow, notary for sales, direct contract for rentals.</span>
+      <span data-ru><b>~30% рынка недвижимости Молдовы — аренда.</b> REVYX охватывает оба сегмента с отдельной логикой.</span>
+    </p>
+  </div>
+
+  <div class="u3" style="display:flex;flex-direction:column;gap:1.25rem">
+    <div class="card card-g" style="padding:1.5rem">
+      <div style="display:flex;align-items:center;gap:.75rem;margin-bottom:.75rem">
+        <span style="font-size:1.8rem">🏠</span>
+        <div>
+          <div style="font:700 1.1rem/1.2 inherit;color:var(--gold)"><span data-ro>Vânzare</span><span data-en>Sale</span><span data-ru>Продажа</span></div>
+          <div class="stlbl" style="font-size:.78rem"><span data-ro>Ciclu ~180 zile · Comision % din preț</span><span data-en>~180-day cycle · % price commission</span><span data-ru>Цикл ~180 дней · Комиссия % от цены</span></div>
+        </div>
+      </div>
+      <div class="bul">
+        <div class="bi"><div class="bd"></div><div class="bt"><span data-ro><b>Cumpărător</b> — preferințe, buget, vizionări, Top-3 match</span><span data-en><b>Buyer</b> — preferences, budget, showings, Top-3 match</span><span data-ru><b>Покупатель</b> — предпочтения, бюджет, показы, Топ-3</span></div></div>
+        <div class="bi"><div class="bd"></div><div class="bt"><span data-ro><b>Vânzător</b> — proprietate listată, vizionări programate, oferte primite, notar</span><span data-en><b>Seller</b> — listed property, scheduled showings, received offers, notary</span><span data-ru><b>Продавец</b> — объект в листинге, показы, оферты, нотариус</span></div></div>
+      </div>
+    </div>
+
+    <div class="card card-b" style="padding:1.5rem">
+      <div style="display:flex;align-items:center;gap:.75rem;margin-bottom:.75rem">
+        <span style="font-size:1.8rem">🔑</span>
+        <div>
+          <div style="font:700 1.1rem/1.2 inherit;color:var(--blue)"><span data-ro>Închiriere</span><span data-en>Rent</span><span data-ru>Аренда</span></div>
+          <div class="stlbl" style="font-size:.78rem"><span data-ro>Ciclu ~21 zile · Comision 1× chirie lunară</span><span data-en>~21-day cycle · 1× monthly rent commission</span><span data-ru>Цикл ~21 день · Комиссия 1× месячная аренда</span></div>
+        </div>
+      </div>
+      <div class="bul">
+        <div class="bi"><div class="bd blue"></div><div class="bt"><span data-ro><b>Chiriaș</b> — buget lunar, perioadă contract, preferințe spațiu</span><span data-en><b>Tenant</b> — monthly budget, contract period, space preferences</span><span data-ru><b>Арендатор</b> — ежемесячный бюджет, срок договора</span></div></div>
+        <div class="bi"><div class="bd blue"></div><div class="bt"><span data-ro><b>Proprietar</b> — condiții chirie, perioadă, acceptă animale/copii, depozit</span><span data-en><b>Landlord</b> — rent terms, period, pets/kids accepted, deposit</span><span data-ru><b>Арендодатель</b> — условия аренды, депозит</span></div></div>
+        <div class="bi"><div class="bd blue"></div><div class="bt"><span data-ro>Contract chirie direct — fără notar necesar (&lt;36 luni în RM)</span><span data-en>Direct lease contract — no notary needed (&lt;36 months in Moldova)</span><span data-ru>Прямой договор аренды — нотариус не нужен (&lt;36 мес. в Молдове)</span></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════
+     S9 · PLATFORMĂ WEB + MOBIL
+══════════════════════════════════════ -->
+<div class="sl bgm" style="grid-template-rows:auto 1fr;gap:1.5rem">
+  <div class="grid-bg"></div>
+
+  <div class="u1" style="display:flex;align-items:baseline;gap:1.5rem;flex-wrap:wrap">
+    <div class="H2" style="margin:0"><b><span data-ro>Birou</span><span data-en>Office</span><span data-ru>Офис</span></b> + <b><span data-ro>Teren</span><span data-en>Field</span><span data-ru>Поле</span></b> = <b style="color:var(--gold)"><span data-ro>Sincronizat</span><span data-en>Synchronized</span><span data-ru>Синхронизировано</span></b></div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:start" class="u2">
+    <div class="card card-g" style="padding:1.75rem;height:100%">
+      <div style="display:flex;align-items:center;gap:.75rem;margin-bottom:.6rem">
+        <span style="font-size:2rem">🖥️</span>
+        <div>
+          <div style="font:700 1.1rem/1.2 inherit;color:var(--th)"><span data-ro>Aplicație Web</span><span data-en>Web Application</span><span data-ru>Веб-приложение</span></div>
+          <div class="stat s-gold" style="font-size:2.8rem;line-height:1">~80%</div>
+        </div>
+      </div>
+      <div class="stlbl" style="margin-bottom:1rem"><span data-ro>din utilizare — birou, desktop, analiză completă</span><span data-en>of usage — office, desktop, full analysis</span><span data-ru>использования — офис, ПК, полный анализ</span></div>
+      <div class="bul">
+        <div class="bi"><div class="bd"></div><div class="bt"><b><span data-ro>Flux complet tranzacții (Kanban)</span><span data-en>Full deal pipeline (Kanban)</span><span data-ru>Полная воронка (Kanban)</span></b></div></div>
+        <div class="bi"><div class="bd"></div><div class="bt"><b><span data-ro>Cabinet notar + documente</span><span data-en>Notary cabinet + documents</span><span data-ru>Нотариальный кабинет</span></b></div></div>
+        <div class="bi"><div class="bd"></div><div class="bt"><b><span data-ro>Panou manager</span><span data-en>Manager dashboard</span><span data-ru>Панель менеджера</span></b> — <span data-ro>echipă completă în timp real</span><span data-en>full team in real time</span><span data-ru>полная команда в реальном времени</span></div></div>
+        <div class="bi"><div class="bd"></div><div class="bt"><b><span data-ro>Configurare + white-label</span><span data-en>Setup + white-label</span><span data-ru>Настройка + white-label</span></b></div></div>
+        <div class="bi"><div class="bd"></div><div class="bt"><b>GDPR admin</b> — <span data-ro>consent, drepturi, ștergere</span><span data-en>consent, rights, erasure</span><span data-ru>согласие, права, удаление</span></div></div>
+      </div>
+    </div>
+
+    <div class="card card-b" style="padding:1.75rem;height:100%">
+      <div style="display:flex;align-items:center;gap:.75rem;margin-bottom:.6rem">
+        <span style="font-size:2rem">📱</span>
+        <div>
+          <div style="font:700 1.1rem/1.2 inherit;color:var(--th)"><span data-ro>Aplicație Mobilă</span><span data-en>Mobile App</span><span data-ru>Мобильное приложение</span></div>
+          <div class="stat s-blue" style="font-size:2.8rem;line-height:1">~20%</div>
+        </div>
+      </div>
+      <div class="stlbl" style="margin-bottom:1rem"><span data-ro>din utilizare — vizionări, teren, mișcare</span><span data-en>of usage — showings, fieldwork, on the move</span><span data-ru>использования — показы, выезды, движение</span></div>
+      <div class="bul">
+        <div class="bi"><div class="bd blue"></div><div class="bt"><b><span data-ro>Check-in vizionare</span><span data-en>Showing check-in</span><span data-ru>Регистрация показа</span></b> + <span data-ro>note rapide după</span><span data-en>quick notes after</span><span data-ru>заметки после</span></div></div>
+        <div class="bi"><div class="bd blue"></div><div class="bt"><b><span data-ro>Push HOT</span><span data-en>HOT push</span><span data-ru>Push горячего</span></b> — <span data-ro>alertă imediată când apare un lead urgent</span><span data-en>immediate alert when an urgent lead appears</span><span data-ru>мгновенное уведомление при горячем лиде</span></div></div>
+        <div class="bi"><div class="bd blue"></div><div class="bt"><b>WhatsApp</b> <span data-ro>direct din aplicație — 5 template-uri pre-aprobate Meta</span><span data-en>direct from app — 5 Meta pre-approved templates</span><span data-ru>напрямую — 5 пре-апрув шаблонов Meta</span></div></div>
+        <div class="bi"><div class="bd blue"></div><div class="bt"><b><span data-ro>Status deal pe drumuri</span><span data-en>Deal status on the road</span><span data-ru>Статус сделки в дороге</span></b></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════
+     S10 · REVYX vs CRM
+══════════════════════════════════════ -->
+<div class="sl bgd" style="grid-template-columns:1fr 1.2fr;gap:4vw;align-items:center">
+  <div class="grid-bg"></div>
+
+  <div>
+    <div class="eye u1"><span data-ro>Diferențierea</span><span data-en>Differentiation</span><span data-ru>Дифференциация</span></div>
+    <div class="H2 u2">REVYX <b>vs.</b><br><span style="color:var(--tm);font-weight:400">CRM clasic</span></div>
+    <div class="sep u2"></div>
+    <p class="body u3">
+      <span data-ro>Un CRM <b>înregistrează</b> ce s-a întâmplat. REVYX <b>îți spune ce să faci înainte</b> să fie prea târziu — cu algoritmi care lucrează pentru agent, nu invers.</span>
+      <span data-en>A CRM <b>records</b> what happened. REVYX <b>tells you what to do before</b> it's too late — with algorithms working for the agent, not the other way around.</span>
+      <span data-ru>CRM <b>записывает</b> что произошло. REVYX <b>говорит что делать до</b> того как поздно.</span>
+    </p>
+    <div class="chips u4">
+      <span class="ch chg"><span data-ro>Proactiv, nu reactiv</span><span data-en>Proactive, not reactive</span><span data-ru>Проактивный, не реактивный</span></span>
+      <span class="ch chv"><span data-ro>AI nativ, nu add-on</span><span data-en>Native AI, not add-on</span><span data-ru>Нативный ИИ</span></span>
+    </div>
+  </div>
+
+  <div class="fi">
+    <table class="tbl">
+      <thead>
+        <tr>
+          <th><span data-ro>Funcție</span><span data-en>Feature</span><span data-ru>Функция</span></th>
+          <th class="gc">REVYX</th>
+          <th class="mc">CRM</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td class="fn"><span data-ro>Calificare lead automată</span><span data-en>Auto lead qualification</span><span data-ru>Авто квалификация</span></td><td class="chk">✓ AI</td><td class="crs"><span data-ro>Manual</span><span data-en>Manual</span><span data-ru>Вручную</span></td></tr>
+        <tr><td class="fn"><span data-ro>Potrivire AI client–proprietate</span><span data-en>AI client–property match</span><span data-ru>ИИ подбор</span></td><td class="chk">✓ Top-3</td><td class="crs">✗</td></tr>
+        <tr><td class="fn"><span data-ro>Pas următor recomandat</span><span data-en>Recommended next step</span><span data-ru>Следующий шаг</span></td><td class="chk">✓</td><td class="crs">✗</td></tr>
+        <tr><td class="fn"><span data-ro>SLA + escaladare 3 niveluri</span><span data-en>SLA + 3-level escalation</span><span data-ru>SLA + 3 уровня</span></td><td class="chk">✓</td><td class="crs">✗</td></tr>
+        <tr><td class="fn"><span data-ro>Sănătate deal live</span><span data-en>Live deal health</span><span data-ru>Здоровье сделки</span></td><td class="chk">✓</td><td class="crs">✗</td></tr>
+        <tr><td class="fn"><span data-ro>Vânzare + Chirie nativ</span><span data-en>Sale + Rent native</span><span data-ru>Продажа + Аренда</span></td><td class="chk">✓</td><td class="crs" style="font-size:.78rem;color:var(--tm)"><span data-ro>rar</span><span data-en>rare</span><span data-ru>редко</span></td></tr>
+        <tr><td class="fn"><span data-ro>Cabinet notar integrat</span><span data-en>Integrated notary</span><span data-ru>Нотариус интегр.</span></td><td class="chk">✓</td><td class="crs">✗</td></tr>
+        <tr><td class="fn">WhatsApp nativ</td><td class="chk">✓</td><td class="crs" style="font-size:.78rem;color:var(--tm)">plugin</td></tr>
+        <tr><td class="fn">GDPR + audit log</td><td class="chk">✓</td><td class="crs" style="font-size:.78rem;color:var(--tm)">add-on</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════
+     S11 · ROADMAP
+══════════════════════════════════════ -->
+<div class="sl bgm" style="grid-template-rows:auto 1fr auto;gap:1.25rem">
+  <div class="grid-bg"></div>
+
+  <div>
+    <div class="eye u1"><span data-ro>Stadiu de dezvoltare</span><span data-en>Development stage</span><span data-ru>Этап разработки</span></div>
+    <div class="H2 u2"><span data-ro>De unde am plecat. <b>Unde mergem.</b></span><span data-en>Where we started. <b>Where we're going.</b></span><span data-ru>Откуда начали. <b>Куда идём.</b></span></div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem" class="u3">
+    <div class="rc done">
+      <div class="rc-badge">✅ <span data-ro>Finalizat</span><span data-en>Completed</span><span data-ru>Завершено</span></div>
+      <div class="rc-title">M0</div>
+      <ul>
+        <li><span data-ro>Design system + brand complet</span><span data-en>Full design system + brand</span><span data-ru>Полная дизайн-система</span></li>
+        <li><span data-ro>Prototip live 26 rute funcționale</span><span data-en>26-route live prototype</span><span data-ru>Прототип 26 маршрутов</span></li>
+        <li><span data-ro>Demo investitori + video walkthrough</span><span data-en>Investor demo + video</span><span data-ru>Демо + видео</span></li>
+        <li><span data-ro>Stress test PASS — 0 vulnerabilități critice</span><span data-en>Stress test PASS — 0 critical issues</span><span data-ru>Стресс-тест — 0 критических</span></li>
+      </ul>
+    </div>
+    <div class="rc live">
+      <div class="rc-badge">⚡ <span data-ro>În desfășurare</span><span data-en>In progress</span><span data-ru>В процессе</span></div>
+      <div class="rc-title">M1 — MVP</div>
+      <ul>
+        <li><span data-ro>Securitate JWT RS256 + GDPR ✅</span><span data-en>JWT RS256 security + GDPR ✅</span><span data-ru>Безопасность JWT + GDPR ✅</span></li>
+        <li><span data-ro>Backend + bază de date ✅</span><span data-en>Backend + database ✅</span><span data-ru>Бэкенд + БД ✅</span></li>
+        <li><span data-ro>Intake lead-uri real (OLX/Meta/WhatsApp)</span><span data-en>Real lead intake (OLX/Meta/WhatsApp)</span><span data-ru>Реальный приём лидов</span></li>
+        <li><span data-ro>Motor scoring AI live</span><span data-en>Live AI scoring engine</span><span data-ru>Движок ИИ скоринга</span></li>
+        <li><span data-ro>UI agent + manager complet</span><span data-en>Full agent + manager UI</span><span data-ru>Полный UI агента + менеджера</span></li>
+      </ul>
+    </div>
+    <div class="rc plan">
+      <div class="rc-badge">📋 <span data-ro>Următor</span><span data-en>Next</span><span data-ru>Следующий</span></div>
+      <div class="rc-title">M2 — GA</div>
+      <ul>
+        <li><span data-ro>Aplicație mobilă iOS + Android nativă</span><span data-en>Native iOS + Android app</span><span data-ru>Нативное iOS + Android</span></li>
+        <li><span data-ro>Marketplace cumpărători public</span><span data-en>Public buyer marketplace</span><span data-ru>Публичный маркетплейс</span></li>
+        <li><span data-ro>ML pricing — estimare automată prețuri</span><span data-en>ML pricing — auto price estimation</span><span data-ru>ML ценообразование</span></li>
+        <li>White-label Enterprise</li>
+        <li><span data-ro>Partener bancă + notar digital</span><span data-en>Bank + digital notary partner</span><span data-ru>Банк + нотариус</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <div style="display:flex;flex-wrap:wrap;gap:1.5rem" class="u4">
+    <div class="card" style="text-align:center;padding:1rem 1.75rem;border-color:rgba(201,135,10,.25)">
+      <div class="stat s-gold" style="font-size:2.5rem">2</div>
+      <div class="stlbl"><span data-ro>milestone-uri livrate</span><span data-en>milestones delivered</span><span data-ru>этапа выполнено</span></div>
+    </div>
+    <div class="card" style="text-align:center;padding:1rem 1.75rem;border-color:rgba(15,186,127,.25)">
+      <div class="stat s-green" style="font-size:2.5rem">26</div>
+      <div class="stlbl"><span data-ro>rute demo funcționale</span><span data-en>functional demo routes</span><span data-ru>рабочих маршрутов</span></div>
+    </div>
+    <div class="card" style="text-align:center;padding:1rem 1.75rem;border-color:rgba(96,165,250,.25)">
+      <div class="stat s-blue" style="font-size:2.5rem">3</div>
+      <div class="stlbl"><span data-ro>limbi UI (RO·RU·EN)</span><span data-en>UI languages</span><span data-ru>языка интерфейса</span></div>
+    </div>
+    <div class="card" style="text-align:center;padding:1rem 1.75rem;border-color:rgba(242,101,101,.25)">
+      <div class="stat s-red" style="font-size:2.5rem">0</div>
+      <div class="stlbl"><span data-ro>vulnerabilități critice</span><span data-en>critical vulnerabilities</span><span data-ru>критических уязвимостей</span></div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════
+     S12 · CTA
+══════════════════════════════════════ -->
+<div class="sl grd-ctr" style="align-items:center;justify-items:center;text-align:center">
+  <div class="grid-bg"></div>
+
+  <div style="max-width:780px">
+    <div class="eye u1" style="justify-content:center;display:flex">ITPRO SYSTEM SRL</div>
+    <div class="H1 u2" style="font-size:clamp(4rem,12vw,10rem)">
+      REVY<b>X</b>
+    </div>
+    <p class="body u3" style="max-width:100%;font-size:clamp(1rem,2.2vw,1.35rem);margin-bottom:2rem">
+      <span data-ro><b>Construim viitorul imobiliarelor din Moldova.</b><br>Logică scalabilă la orice piață imobiliară emergentă.</span>
+      <span data-en><b>Building the future of Moldovan real estate.</b><br>Logic scalable to any emerging real estate market.</span>
+      <span data-ru><b>Строим будущее недвижимости Молдовы.</b><br>Логика масштабируется на любой развивающийся рынок.</span>
+    </p>
+    <div class="chips u4" style="justify-content:center;margin-bottom:2rem">
+      <span class="ch chg"><span data-ro>Investiție deschisă</span><span data-en>Open to investment</span><span data-ru>Открыты к инвестициям</span></span>
+      <span class="ch chv"><span data-ro>Parteneriat agenții</span><span data-en>Agency partnerships</span><span data-ru>Партнёрство агентств</span></span>
+      <span class="ch chb">Early Access</span>
+    </div>
+    <div class="u5">
+      <div style="font:700 1.6rem/1 inherit;color:var(--gold);margin-bottom:.5rem">contact@revyx.app</div>
+      <div style="font:400 1.1rem/1 inherit;color:var(--tm);margin-bottom:.4rem">revyx.app</div>
+      <div style="font:400 .9rem/1 inherit;color:var(--tm)">
+        <span data-ro>📍 Chișinău, Republica Moldova</span>
+        <span data-en>📍 Chișinău, Republic of Moldova</span>
+        <span data-ru>📍 Кишинёв, Республика Молдова</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div><!-- /deck -->
+
+<script>
+/* ══ ENGINE ══ */
+const N=12;let c=0,busy=false;
+const slides=document.querySelectorAll('.sl');
+const dotsEl=document.getElementById('dots');
+const prog=document.getElementById('prog');
+const ctr=document.getElementById('ctr');
+const aU=document.getElementById('aU');
+const aD=document.getElementById('aD');
+
+// dots
+for(let i=0;i<N;i++){
+  const d=document.createElement('div');
+  d.className='dot'+(i===0?' on':'');
+  d.onclick=()=>gTo(i);
+  dotsEl.appendChild(d);
+}
+
+// position wheel pillars in circle
+(function posWheel(){
+  const w=document.getElementById('wheel');
+  if(!w) return;
+  const items=w.querySelectorAll('.wp');
+  const r=0.425; // fraction of wheel size
+  items.forEach((el,i)=>{
+    const a=(i/8)*2*Math.PI - Math.PI/2;
+    const x=50+r*100*Math.cos(a);
+    const y=50+r*100*Math.sin(a);
+    el.style.cssText+=`left:${x}%;top:${y}%;transform:translate(-50%,-50%)`;
+  });
+})();
+
+function render(){
+  slides.forEach((s,i)=>{s.classList.remove('active','prev');if(i===c)s.classList.add('active');else if(i<c)s.classList.add('prev')});
+  document.querySelectorAll('.dot').forEach((d,i)=>d.classList.toggle('on',i===c));
+  prog.style.width=((c+1)/N*100)+'%';
+  ctr.textContent=String(c+1).padStart(2,'0')+' / '+String(N).padStart(2,'0');
+  aU.disabled=c===0; aD.disabled=c===N-1;
+}
+
+function go(d){
+  if(busy)return;
+  const n=c+d;
+  if(n<0||n>=N)return;
+  busy=true;c=n;render();
+  setTimeout(()=>busy=false,650);
+}
+function gTo(n){if(busy||n===c)return;busy=true;c=n;render();setTimeout(()=>busy=false,650)}
+
+/* wheel */
+let wa=0,wt;
+window.addEventListener('wheel',e=>{
+  e.preventDefault();clearTimeout(wt);wa+=e.deltaY;
+  wt=setTimeout(()=>{if(Math.abs(wa)>40)go(wa>0?1:-1);wa=0},55);
+},{passive:false});
+
+/* keys */
+window.addEventListener('keydown',e=>{
+  if(['ArrowDown','ArrowRight','PageDown',' '].includes(e.key)){e.preventDefault();go(1)}
+  if(['ArrowUp','ArrowLeft','PageUp'].includes(e.key)){e.preventDefault();go(-1)}
+});
+
+/* touch */
+let ty=0;
+window.addEventListener('touchstart',e=>{ty=e.touches[0].clientY},{passive:true});
+window.addEventListener('touchend',e=>{const d=ty-e.changedTouches[0].clientY;if(Math.abs(d)>45)go(d>0?1:-1)},{passive:true});
+
+/* lang */
+function L(l){document.body.className=l;document.querySelectorAll('.lb').forEach(b=>b.classList.toggle('on',b.textContent===l.toUpperCase()))}
+</script>
+</body>
+</html>
