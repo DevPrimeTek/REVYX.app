@@ -31,7 +31,7 @@ Orice BRD generat trebuie să conțină **toate** secțiunile, în ordine:
 | 2 | Context & Problemă de Business | As-Is · To-Be · probleme identificate |
 | 3 | Obiective de Business | Tabel cu indicator de succes & fază |
 | 4 | Stakeholders & Actori | Interni (sistem) + externi (workflow) |
-| 5 | Perimetrul Soluției — 7 Piloni | 1 pilon = 1 sub-secțiune cu scop, funcționalități, output |
+| 5 | Perimetrul Soluției — ★ 8 Piloni | 1 pilon = 1 sub-secțiune cu scop, funcționalități, output. Pilon 08 = Trust Intelligence (TS+PKI, v1.3.0) |
 | 6 | Cerințe de Business | Funcționale (BR-XX) + Non-Funcționale (NFR-XX) |
 | 7 | Sistemul de Scoring — 8 Formule | LS, PS, IS, DP, NBA, TS, APS, DHI cu formula completă |
 | 8 | Data Model — 9 Entități | Câmpuri obligatorii per entitate |

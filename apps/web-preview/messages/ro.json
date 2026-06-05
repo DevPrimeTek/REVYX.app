@@ -170,7 +170,7 @@
     "queueSubtitle": "Aici vezi clienții care așteaptă să iei legătura. Cei mai urgenți apar primii — concentrează-te pe ei.",
     "typeFilterLabel": "Filtru tip lead",
     "module": "Modul · Lead-uri",
-    "slaCaption": "Răspunde rapid la cele marcate „Urgent” ca să nu pierzi oportunitatea.",
+    "slaCaption": "Răspunde rapid la cele marcate 'Urgent' ca să nu pierzi oportunitatea.",
     "countTemplate": "{count} lead-uri",
     "tableHeader": {
       "id": "Cod",
@@ -510,11 +510,11 @@
     "moduleLabel": "Ghid de utilizare",
     "title": "Tutorial REVYX",
     "subtitle": "Cum funcționează aplicația, ecran cu ecran. Recomandat la primul login.",
-    "intro": "REVYX te ajută să gestionezi rapid lead-urile și tranzacțiile, fără să pierzi clienți. Aici găsești explicații simple pentru fiecare ecran. Pentru detalii în context, apasă pictograma „i” care apare lângă fiecare element.",
+    "intro": "REVYX te ajută să gestionezi rapid lead-urile și tranzacțiile, fără să pierzi clienți. Aici găsești explicații simple pentru fiecare ecran. Pentru detalii în context, apasă pictograma 'i' care apare lângă fiecare element.",
     "sections": {
       "dashboard": {
         "title": "Panoul de bord",
-        "body": "Prima pagină după autentificare. Vezi sarcinile active, lead-urile urgente și performanța personală pe ultimele 30 de zile. Apasă „Deschide lista” pentru a începe ziua."
+        "body": "Prima pagină după autentificare. Vezi sarcinile active, lead-urile urgente și performanța personală pe ultimele 30 de zile. Apasă 'Deschide lista' pentru a începe ziua."
       },
       "leads": {
         "title": "Lista de lead-uri",
@@ -526,7 +526,7 @@
       },
       "properties": {
         "title": "Portofoliu proprietăți",
-        "body": "Toate proprietățile publicate. Apasă pe oricare pentru a vedea pozele, video-ul și caracteristicile complete. Pentru a adăuga una nouă folosește butonul „+ Adaugă proprietate”."
+        "body": "Toate proprietățile publicate. Apasă pe oricare pentru a vedea pozele, video-ul și caracteristicile complete. Pentru a adăuga una nouă folosește butonul '+ Adaugă proprietate'."
       },
       "deals": {
         "title": "Flux tranzacții",
@@ -536,9 +536,13 @@
         "title": "Cabinet personal",
         "body": "Profilul tău: statistici, istoric tranzacții, scor performanță și setări preferințe. Cabinetul agenției și cel de grup arată echipa extinsă (manager-only)."
       },
+      "scoringEngines": {
+        "title": "8 Motoare de Scoring AI",
+        "body": "REVYX funcționează pe 8 motoare de calcul automat, fiecare responsabil de o dimensiune distinctă: LS (prioritate lead) · PS (calitate proprietate) · IS (intensitate interacțiune, 3 sub-dimensiuni) · DP (probabilitate închidere) · NBA (acțiunea optimă acum) · DHI (sănătatea tranzacției) · APS (performanța ta) · TS+PKI (încrederea clientului). Toate scorurile sunt în intervalul [0,1], cu o singură excepție: NBA ∈ [0, 2.0]. Nu vei vedea niciodată valorile brute în interfață — sistemul le traduce în etichete clare și recomandări practice."
+      },
       "tutorialFuture": {
         "title": "În versiunea completă (MVP)",
-        "body": "Pe lângă această pagină, vom adăuga și ghiduri pas cu pas direct pe fiecare ecran, cu evidențiere a butoanelor cheie. Vei putea reactiva tour-ul oricând din meniul „?”."
+        "body": "Pe lângă această pagină, vom adăuga și ghiduri pas cu pas direct pe fiecare ecran, cu evidențiere a butoanelor cheie. Vei putea reactiva tour-ul oricând din meniul '?'."
       }
     }
   },
