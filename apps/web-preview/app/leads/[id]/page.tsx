@@ -221,6 +221,31 @@ export default function LeadDetailPage({ params }: Params) {
           </CardContent>
         </Card>
 
+        {/* ★ AGI Layer — Financial Readiness BR-25 [MOLDOVA-SPECIFIC] — doar pentru demand-side (buyer/tenant) */}
+        {isDemand && (() => {
+          // Mock financial readiness derivat din LS și budgetMax — M1.S3 va folosi câmpurile reale
+          const frScore = lead.ls >= 0.75 ? 'high' : lead.ls >= 0.55 ? 'med' : 'low';
+          const frColor = frScore === 'high' ? 'text-status-green' : frScore === 'med' ? 'text-status-amber' : 'text-status-red';
+          const frDot = frScore === 'high' ? '●●●' : frScore === 'med' ? '●●○' : '●○○';
+          return (
+            <div className="rounded-lg border border-border bg-navy-deep/50 px-sp3 py-sp2 flex items-center justify-between gap-sp3 flex-wrap text-[13px]">
+              <div className="flex items-center gap-sp2">
+                <span className="text-text-secondary">{t('lead.financialReadiness')}</span>
+                <InfoTooltip label={t('lead.financialReadiness')} body={t('lead.financialReadinessHelp')} />
+              </div>
+              <div className="flex items-center gap-sp2">
+                <span className={`font-mono ${frColor}`}>{frDot}</span>
+                <span className={`text-[12px] font-medium ${frColor}`}>
+                  {t(`lead.financialReadiness${frScore.charAt(0).toUpperCase() + frScore.slice(1)}`)}
+                </span>
+                <Badge variant={frScore === 'high' ? 'success' : frScore === 'med' ? 'updated' : 'warning'} size="xs">
+                  BR-25
+                </Badge>
+              </div>
+            </div>
+          );
+        })()}
+
         {/* Suggestions — bloc separat per PM feedback (2.1) */}
         <Card variant="elevated" accentTop>
           <CardHeader>

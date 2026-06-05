@@ -568,7 +568,14 @@
       "outOfOfficeHelp": "Cât timp ești setat indisponibil, nu primești lead-uri noi.",
       "calendarSyncLabel": "Sincronizare calendar",
       "calendarSyncHelp": "Conectează Google Calendar pentru a vedea conflictele de programări automat.",
-      "savePreferences": "Salvează preferințele"
+      "savePreferences": "Salvează preferințele",
+      "pkiLabel": "Promisiuni respectate (PKI)",
+      "goalsTitle": "Obiective lunare",
+      "goalsHelp": "Urmărești progresul față de țintele lunare: tranzacții, scor performanță și comision estimat. BRD §18.2 — agent_goals.",
+      "goalsDesc": "Luna curentă · actualizat automat",
+      "goalDeals": "Tranzacții",
+      "goalAps": "Scor performanță",
+      "goalCommission": "Comision estimat"
     },
     "agency": {
       "moduleLabel": "Cabinet agenție",
@@ -1399,5 +1406,22 @@
     "prodNote": "Notă: în versiunea de producție direcția va fi ierarhică (companie → grup → agent), fiecare nivel putând îngusta — dar nu lărgi — direcția nivelului superior.",
     "savedToast": "Direcție de lucru salvată: {dir}.",
     "activeBadge": "Direcție: {dir}"
+  },
+  "agi": {
+    "layerTitle": "Agent Growth Intelligence",
+    "rel": "Inteligență relațională",
+    "goals": "Obiective lunare",
+    "guides": "Ghiduri de execuție",
+    "ethics": "Puncte de etică",
+    "value": "Toolkit valoare agent",
+    "alumni": "Alumni – relație post-deal",
+    "fin": "Disponibilitate financiară"
+  },
+  "lead": {
+    "financialReadiness": "Disponibilitate financiară",
+    "financialReadinessHelp": "Scor BR-25 [MOLDOVA-SPECIFIC]: buget confirmat vs declarat (divergență tipică 15-25%) + verificare pre-aprobare bancară (MoldIndConBank / Victoriabank / Mobiasbancă). Solicită documente justificative înainte de vizionare.",
+    "financialReadinessLow": "Neconfirmat",
+    "financialReadinessMed": "Parțial confirmat",
+    "financialReadinessHigh": "Confirmat"
   }
 }

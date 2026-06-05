@@ -531,7 +531,14 @@
       "outOfOfficeHelp": "While unavailable you won't receive new leads.",
       "calendarSyncLabel": "Calendar sync",
       "calendarSyncHelp": "Connect Google Calendar so booking conflicts are detected automatically.",
-      "savePreferences": "Save preferences"
+      "savePreferences": "Save preferences",
+      "pkiLabel": "Promises kept (PKI)",
+      "goalsTitle": "Monthly goals",
+      "goalsHelp": "Track progress toward monthly targets: deals, performance score and estimated commission. BRD §18.2 — agent_goals.",
+      "goalsDesc": "Current month · updated automatically",
+      "goalDeals": "Deals",
+      "goalAps": "Performance score",
+      "goalCommission": "Estimated commission"
     },
     "agency": {
       "moduleLabel": "Agency cabinet",
@@ -952,5 +959,22 @@
     },
     "isQualificationMeeting": "Qualification",
     "onSiteNote": "Combined qualification & showing — counted as showing"
+  },
+  "agi": {
+    "layerTitle": "Agent Growth Intelligence",
+    "rel": "Relationship Intelligence",
+    "goals": "Monthly goals",
+    "guides": "Execution guides",
+    "ethics": "Ethics checkpoints",
+    "value": "Value toolkit",
+    "alumni": "Alumni – post-deal relationship",
+    "fin": "Financial readiness"
+  },
+  "lead": {
+    "financialReadiness": "Financial readiness",
+    "financialReadinessHelp": "BR-25 [MOLDOVA-SPECIFIC]: confirmed vs declared budget (typical 15-25% gap) + bank pre-approval check (MoldIndConBank / Victoriabank / Mobiasbancă). Request supporting documents before showing.",
+    "financialReadinessLow": "Unconfirmed",
+    "financialReadinessMed": "Partially confirmed",
+    "financialReadinessHigh": "Confirmed"
   }
 }
