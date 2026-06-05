@@ -18,14 +18,15 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--navy);
   font-family:'Inter',sans-serif;color:var(--th)}
 
 /* ── LANGUAGE ── */
+/* body uses data-lang attribute to avoid body[class=ro] getting display:none */
 .ro,.en,.ru{display:none}
-body.ro .ro{display:revert}
-body.en .en{display:revert}
-body.ru .ru{display:revert}
+body[data-lang=ro] .ro{display:revert}
+body[data-lang=en] .en{display:revert}
+body[data-lang=ru] .ru{display:revert}
 span.ro,span.en,span.ru{display:none}
-body.ro span.ro{display:inline}
-body.en span.en{display:inline}
-body.ru span.ru{display:inline}
+body[data-lang=ro] span.ro{display:inline}
+body[data-lang=en] span.en{display:inline}
+body[data-lang=ru] span.ru{display:inline}
 
 /* ── SLIDE ENGINE ── */
 #deck{position:fixed;inset:0}
@@ -216,7 +217,7 @@ body::before{content:'';position:fixed;inset:0;
 .sl.act>*:nth-child(5){animation-delay:.4s}
 </style>
 </head>
-<body class="ro">
+<body data-lang="ro">
 
 <!-- SLIDE NUMBER -->
 <div id="snum">01 / 11</div>
@@ -1215,7 +1216,7 @@ function closePil(){
 
 // ── LANG SWITCHER ──
 function setLang(l){
-  document.body.className=l;
+  document.body.dataset.lang=l;
   document.querySelectorAll('.lbtn').forEach(b=>{
     b.classList.toggle('on',b.textContent.toLowerCase()===l.toLowerCase());
   });
