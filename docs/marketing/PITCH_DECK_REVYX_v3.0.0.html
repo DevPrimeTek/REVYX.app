@@ -180,8 +180,8 @@ body.ru .dru{display:flex!important}
 .wc{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:110px;height:110px;border-radius:50%;background:rgba(201,135,10,.1);border:2px solid var(--gold);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
 .wc-name{font:900 1.5rem/1 inherit;color:var(--gold)}
 .wc-sub{font:600 .65rem/1.2 inherit;color:var(--tm);letter-spacing:1px;text-transform:uppercase;margin-top:.2rem}
-.wp{position:absolute;width:108px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:.25rem;cursor:pointer;transition:transform .2s}
-.wp:hover{transform:scale(1.07) translateX(0) translateY(0)!important}
+.wp{position:absolute;width:108px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:.25rem;cursor:pointer;transition:transform .2s,filter .2s}
+.wp:hover{transform:translate(-50%,-50%) scale(1.08)!important;z-index:10;filter:drop-shadow(0 0 8px rgba(201,135,10,.5))}
 .wp-ic{font-size:1.6rem;line-height:1}
 .wp-name{font:700 .72rem/1.2 inherit;color:var(--gold);letter-spacing:.5px;text-transform:uppercase}
 .wp-desc{font:400 .67rem/1.35 inherit;color:var(--tm)}
@@ -297,7 +297,7 @@ body.ru .dru{display:flex!important}
       <span data-ru>Каждый движок выполняет точную роль в превращении незнакомого лида в закрытую сделку. Все работают в реальном времени.</span>
     </p>
     <div class="u4">
-      <div class="note" style="margin-bottom:.4rem"><b><span data-ro>Slide-urile următoare</span><span data-en>Following slides</span><span data-ru>Следующие слайды</span></b> <span data-ro>— câte un motor cu mecanicile sale</span><span data-en>— one engine per slide with its mechanisms</span><span data-ru>— один движок и его механизмы</span></div>
+      <div class="note" style="margin-bottom:.4rem"><b><span data-ro>Slide-urile următoare</span><span data-en>Following slides</span><span data-ru>Следующие слайды</span></b> <span data-ro>— fiecare motor, cu mecanicile sale. <b>Click pe piloni</b> pentru a naviga direct.</span><span data-en>— each engine with its mechanisms. <b>Click pillars</b> to navigate directly.</span><span data-ru>— каждый движок со своими механизмами. <b>Кликните на столп</b> для перехода.</span></div>
     </div>
   </div>
 
@@ -324,7 +324,7 @@ body.ru .dru{display:flex!important}
 <!-- ══════════════════════════════════════
      S3 · PILON 1 — LEAD INTELLIGENCE
 ══════════════════════════════════════ -->
-<div class="sl bgm" style="grid-template-columns:1fr 1.1fr;gap:4vw;align-items:start;padding-top:72px">
+<div class="sl bgm" style="grid-template-columns:1fr 1.1fr;gap:4vw;align-items:start">
   <div class="grid-bg"></div>
 
   <div>
@@ -448,7 +448,7 @@ body.ru .dru{display:flex!important}
   <div class="grid-bg"></div>
 
   <div class="u1" style="display:flex;align-items:baseline;gap:1rem;flex-wrap:wrap">
-    <span class="tag tag-b">Pilon 02</span>
+    <span class="tag tag-b">Pilon 02 + 03</span>
     <div class="H2" style="margin:0"><b>Supply</b> <span style="color:var(--tm);font-size:clamp(1.2rem,3vw,2.2rem);font-weight:300">&</span> <b>Match Intelligence</b></div>
   </div>
 
@@ -461,7 +461,7 @@ body.ru .dru{display:flex!important}
       <p class="body" style="margin-bottom:.9rem">
         <span data-ro>Sistemul urmărește fiecare proprietate din portofoliu și îi calculează automat <b>prospețimea</b>. Un anunț vechi costă oportunități.</span>
         <span data-en>The system tracks every portfolio property and automatically calculates its <b>freshness</b>. An old listing costs opportunities.</span>
-        <span data-ru>Система отслеживает каждый объект портфеля и автоматически рассчитывает его <b>актуальность</b>.</span>
+        <span data-ru>Система отслеживает каждый объект портфеля и автоматически рассчитывает его <b>актуальность</b>. Устаревшее объявление стоит упущенных возможностей.</span>
       </p>
       <div class="bul">
         <div class="bi"><div class="bd"></div><div class="bt"><b><span data-ro>Anunț nou</span><span data-en>Fresh listing</span><span data-ru>Новое объявление</span></b> — <span data-ro>vizibilitate maximă, prioritizat în matching</span><span data-en>maximum visibility, prioritized in matching</span><span data-ru>максимальная видимость</span></div></div>
@@ -504,13 +504,13 @@ body.ru .dru{display:flex!important}
     <p class="body u3">
       <span data-ro>Agentul nu mai trebuie să ghicească ce să facă. Sistemul <b>îi spune exact pasul următor</b> pentru fiecare client, în funcție de ce s-a întâmplat ultima oară și cât timp a trecut.</span>
       <span data-en>The agent no longer has to guess what to do. The system <b>tells them the exact next step</b> for each client, based on what happened last time and how much time has passed.</span>
-      <span data-ru>Агент больше не гадает что делать. Система <b>говорит ему точный следующий шаг</b> для каждого клиента.</span>
+      <span data-ru>Агент больше не гадает, что делать. Система <b>говорит ему точный следующий шаг</b> для каждого клиента.</span>
     </p>
 
     <div class="dv u3"></div>
 
     <div class="bul u4">
-      <div class="bi"><div class="bd"></div><div class="bt"><b><span data-ro>Sarcini active limitate la 3</span><span data-en>Active tasks limited to 3</span><span data-ru>Активных задач максимум 3</span></b> — <span data-ro>agentul rămâne concentrat, nu înecat în liste</span><span data-en>agent stays focused, not drowned in lists</span><span data-ru>агент сфocusирован, не утонул в списках</span></div></div>
+      <div class="bi"><div class="bd"></div><div class="bt"><b><span data-ro>Sarcini active limitate la 3</span><span data-en>Active tasks limited to 3</span><span data-ru>Активных задач максимум 3</span></b> — <span data-ro>agentul rămâne concentrat, nu înecat în liste</span><span data-en>agent stays focused, not drowned in lists</span><span data-ru>агент сфокусирован, не тонет в списках</span></div></div>
       <div class="bi"><div class="bd"></div><div class="bt"><b><span data-ro>Sugestii inteligente</span><span data-en>Smart suggestions</span><span data-ru>Умные подсказки</span></b> — <span data-ro>Sună urgent · Trimite proprietate · Programează vizionare · Cere documente</span><span data-en>Call urgent · Send property · Schedule showing · Request documents</span><span data-ru>Позвони · Отправь объект · Запланируй показ · Запроси документы</span></div></div>
       <div class="bi"><div class="bd"></div><div class="bt"><b><span data-ro>Calendar vizionări</span><span data-en>Showing calendar</span><span data-ru>Календарь показов</span></b> — <span data-ro>fără suprapuneri, cu alertă dacă agentul are alt client în același interval</span><span data-en>no overlaps, with alert if agent has another client in the same slot</span><span data-ru>без пересечений, с уведомлением о конфликте</span></div></div>
     </div>
@@ -801,7 +801,7 @@ body.ru .dru{display:flex!important}
     <p class="body u3">
       <span data-ro>Un CRM <b>înregistrează</b> ce s-a întâmplat. REVYX <b>îți spune ce să faci înainte</b> să fie prea târziu — cu algoritmi care lucrează pentru agent, nu invers.</span>
       <span data-en>A CRM <b>records</b> what happened. REVYX <b>tells you what to do before</b> it's too late — with algorithms working for the agent, not the other way around.</span>
-      <span data-ru>CRM <b>записывает</b> что произошло. REVYX <b>говорит что делать до</b> того как поздно.</span>
+      <span data-ru>CRM <b>записывает</b> что произошло. REVYX <b>говорит, что делать</b> до того, как станет поздно.</span>
     </p>
     <div class="chips u4">
       <span class="ch chg"><span data-ro>Proactiv, nu reactiv</span><span data-en>Proactive, not reactive</span><span data-ru>Проактивный, не реактивный</span></span>
@@ -954,17 +954,23 @@ for(let i=0;i<N;i++){
   dotsEl.appendChild(d);
 }
 
-// position wheel pillars in circle
+// position wheel pillars in circle + make clickable
 (function posWheel(){
   const w=document.getElementById('wheel');
   if(!w) return;
   const items=w.querySelectorAll('.wp');
-  const r=0.425; // fraction of wheel size
+  const r=0.425;
+  // map pillar index → slide index (0-based)
+  // Lead→S3(2), Supply→S4(3), Match→S4(3), Execution→S5(4),
+  // Negotiation→S6(5), Deal→S6(5), Performance→S7(6), Retention→S7(6)
+  const wpSlides=[2,3,3,4,5,5,6,6];
   items.forEach((el,i)=>{
     const a=(i/8)*2*Math.PI - Math.PI/2;
     const x=50+r*100*Math.cos(a);
     const y=50+r*100*Math.sin(a);
     el.style.cssText+=`left:${x}%;top:${y}%;transform:translate(-50%,-50%)`;
+    el.onclick=()=>gTo(wpSlides[i]);
+    el.title='→ Slide '+(wpSlides[i]+1);
   });
 })();
 
