@@ -1,21 +1,22 @@
 # REVYX — Pitch Deck (RO)
-<!-- docs/marketing/PITCH_DECK_REVYX_M0_v1.0.0/deck-ro.md · v1.0.0 · 2026-05 -->
+<!-- docs/marketing/PITCH_DECK_REVYX_M0_v1.0.0/deck-ro.md · v1.1.0 · 2026-06 -->
 <!-- CONFIDENȚIAL · Uz Intern · © 2026 REVYX · ITPRO SYSTEM SRL -->
 
 ## 0. Stage Master Plan
 
-**Stage:** M0.S4 — Pitch Deck (T-M0.S4-02 RO, T-M0.S4-05 speaker notes RO)
+**Stage:** M0.S4 / M1.S3 (update AGI Layer) — Pitch Deck (T-M0.S4-02 RO, T-M0.S4-05 speaker notes RO)
 **Master Plan ref:** `MASTER_PLAN_REVYX_execution-roadmap_v1.1.2.md` §4.2 AC-M0-04
 **Brand ref:** `docs/brand-configs/revyx.md` §1 (claim) + §2 (paletă) + §3 (tipografie) + §7 (ton)
 
 ## 0.1 Platform Matrix
 
-🌐 **WEB demo only.** Toate screenshot-uri trase din `apps/web-preview/` (Next.js 14). Mobile companion menționat doar slide 11 Roadmap ca livrabil M2.S3 (vezi `PLATFORM_MATRIX_REVYX_web-mobile_v1.0.0.md` §17).
+🌐 **WEB demo only.** Toate screenshot-uri trase din `apps/web-preview/` (Next.js 14). Mobile companion menționat doar slide 10 Arhitectură ca livrabil M2.S3 (vezi `PLATFORM_MATRIX_REVYX_web-mobile_v1.0.0.md` §17).
 
 ## Changelog
 
 | Versiune | Data | Autor | Note |
 |---|---|---|---|
+| **1.1.0** | **2026-06** | ★ DESIGNER (Creative Director) + Senior PM | ★ MINOR — Sync cu BRD v1.3.0 (AGI Layer §18) + M1.S1/M1.S2 milestones ✅. (1) Slide 05: 5→6 Piloni AI + AGI Layer — IS extensie 3 sub-dimensiuni + PKI în Trust Score. (2) NEW Slide 05b: Agent Growth Intelligence — 7 dimensiuni (Relationship Intel / Obiective / Ghiduri / Etică / Toolkit Valoare / Alumni / Disponibilitate financiară). (3) Slide 11: Phase 0 items marcate ✅ (M1.S1 CLOSED). (4) Slide 13: AGI Layer adăugat în M1 roadmap + 4 entități noi. (5) Slide 14: traction extinsă cu M1.S1 ✅ Phase 0 Security + M1.S2 ✅ Phase A Foundation. (6) BRD cross-ref actualizat v1.1.0 → v1.3.0. Total slides: 17 (16 original + Slide 05b NEW). |
 | 1.0.0 | 2026-05 | DOC + DESIGNER (Creative Director) + ARCHITECT + Senior PM | ★ INITIAL — 16 slides RO + speaker notes inline. Hook (slide 1), Problem (2), Solution (3), Market (4), Product overview (5), 4 demo slides (6-9), Tech (10), Trust (11), Business (12), Roadmap (13), Team (14), Ask (15), Closing (16). |
 
 ---
@@ -85,27 +86,66 @@
 
 ---
 
-## SLIDE 05 — 5 Piloni AI
+## SLIDE 05 — 6 Piloni AI + Agent Growth Intelligence
 
-**Headline:** O singură platformă. Cinci motoare AI orchestrate.
+**Headline:** O singură platformă. Șase motoare AI + un strat de creștere agent.
 
-**Diagrama (left-to-right pipeline cu săgeți gold între carduri):**
+**Diagrama (left-to-right pipeline cu săgeți gold între carduri + AGI Layer jos):**
 
 ```
-[ Lead Score (LS) ]  →  [ Property Score (PS) + Match (IS) ]  →  [ NBA Layer ]  →  [ Deal Probability (DP) + Health (DHI) ]  →  [ Agent Performance (APS) ]
+[ Lead Score (LS) ]  →  [ Property Score (PS) + Match (IS·3) ]  →  [ NBA Layer ]  →  [ Deal Probability (DP) + Health (DHI) ]  →  [ Trust Score (TS+PKI) ]  →  [ Agent Performance (APS) ]
+                                                          ↕ feedback loop
+                              ★ [ Agent Growth Intelligence (AGI Layer) ]
 ```
 
 **Per pilon (1 linie scurt):**
 
 1. **LS — Lead Score [0,1]** — calculat la intake, recalculat la fiecare touchpoint. Firewall: ≥ 0.60.
-2. **PS + IS — Property + Interaction Strength** — match proprietate ↔ lead via embeddings (pgvector HNSW, Phase 3).
-3. **NBA — Next Best Action [0, 2.0]** — singura excepție de scală. Pondere urgency × revenue impact.
+2. **PS + IS — Property + Interaction Strength** — match proprietate ↔ lead. ★ IS extensie: 3 sub-dimensiuni (frecvență · calitate · reciprocitate) (BRD v1.3.0 §7.3).
+3. **NBA — Next Best Action [0, 2.0]** — singura excepție de scală. Pondere urgency × revenue impact. ★ Ghiduri de execuție per acțiune (script apel / WhatsApp / vizionare).
 4. **DP + DHI — Deal Probability + Health Index** — probabilitate închidere + sănătate pipeline real-time.
-5. **APS — Agent Performance Score [0,1]** — meritocratic. Baza alocării lead-uri viitoare + bonus.
+5. **★ TS — Trust Score [0,1]** — ★ extins cu PKI (Promise Keeping Index): `promisiuni_respectate / promisiuni_făcute`. Target ≥ 0.75 per echipă.
+6. **APS — Agent Performance Score [0,1]** — meritocratic. Baza alocării lead-uri viitoare + bonus.
 
-**Footer:** *Toate scorurile [0,1] (excepție NBA). Validate pe 7 vectori test (T01-T07).*
+**★ AGI Layer (strat transversal):** 7 dimensiuni (slide următor) — transformă AOS din sistem de control în sistem de dezvoltare agent.
 
-> _Speaker note RO:_ "Cinci motoare. O singură stivă. Asta înseamnă că datele unui pilon alimentează imediat pe celelalte: un lead HOT detectat în LS apare automat în NBA cu acțiune sugerată. Un deal cu DHI în scădere declanșează auto-escalation la manager. Nu există handoff manual. Asta e diferența operațională." _(60s)_
+**Footer:** *Toate scorurile [0,1] (excepție NBA [0, 2.0]). Validate pe 7 vectori test (T01-T07). BRD §7 + §18 v1.3.0.*
+
+> _Speaker note RO:_ "Față de versiunea inițială, am adăugat două lucruri esențiale: TS extins cu PKI — un agent care respectă promisiunile față de client câștigă Trust Score mai mare și primește lead-uri mai bune; și AGI Layer — un strat dedicat creșterii profesionale a agentului. Nu controlăm agentul, îl ghidăm să devină mai bun. Asta este diferența față de orice AOS existent." _(75s)_
+
+---
+
+## SLIDE 05b — ★ Agent Growth Intelligence (AGI Layer)
+
+**Headline:** REVYX nu controlează agentul. Îl dezvoltă.
+
+**Subheadline:** 7 dimensiuni. Un sistem care crește profesioniști imobiliari, nu doar pipeline.
+
+**Grid 7 carduri (3+3+1 centrat, navy-card cu accent gold top, ★ badge pe fiecare):**
+
+| 🤝 Relationship Intelligence | 🎯 Obiective lunare | 📖 Ghiduri de execuție |
+|---|---|---|
+| IS cu 3 sub-dimensiuni (frecvență · calitate · reciprocitate) + PKI (Promise Keeping Index) în Trust Score. Agentul vede cât de mult are încredere clientul în el. | Tracker lunar: deal-uri țintă · scor performanță · comision estimat. Progress vizibil zilnic. Dashboard personal. | Template per tip acțiune NBA: script apel / WhatsApp / vizionare / follow-up / ofertă. 1-click din sugestia sistemului. |
+
+| ⚖️ Puncte de etică | 💼 Toolkit valoare agent | 👥 Alumni – relație post-deal |
+|---|---|---|
+| 4 situații sensibile: reprezentare duală · oferte concurente · disclosure proprietate · gap finanțare. Human-in-the-loop obligatoriu (BR-28, Art. 22 GDPR). | Card argumentare valoare pentru agent (contra comision). Adaptat per tip client + tip tranzacție. | Contact T+12 luni (aniversare mutare) + T+24 (potențial recomandare sau upgrade). Alumni Return Rate target ≥ 15%. |
+
+**Centrat jos — ★ Moldova-specific (BR-25):**
+
+| 💰 Disponibilitate financiară |
+|---|
+| Buget declarat vs confirmat (divergență 15-25% piață RM) + pre-aprobare bancară (MoldIndConBank / Victoriabank / Mobiasbancă). Agent știe din prima dacă lead-ul este realist qualificat. |
+
+**Footer claim:** *AOS care crește agentul, nu doar pipeline-ul.*
+
+**KPI-uri AGI noi (BRD §18):**
+- PKI team average ≥ 0.75
+- Alumni Return Rate ≥ 15%
+- Ethics Checkpoint Ack Rate ≥ 95%
+- Execution Guides usage ≥ 60% NBA actions
+
+> _Speaker note RO:_ "Acesta este layer-ul care ne diferențiază cu adevărat pe termen lung. Concurenții construiesc CRM-uri. Noi construim un sistem care îl face pe agent mai bun: respectă promisiunile față de client (PKI), urmărește obiective clare, are ghiduri practice pentru fiecare acțiune și menține relația cu clienții vechi — alumni care revin sau recomandă aduc tranzacții fără cost de achiziție. Și în piața RM, cu pre-aprobare bancară cvasi-inexistentă, scorul de disponibilitate financiară îl ferește pe agent să piardă luni cu un lead care nu poate cumpăra." _(90s)_
 
 ---
 
@@ -208,14 +248,17 @@
 
 **Headline:** Phase 0 Security e blocant. Niciun cod aplicație fără ele.
 
-**Checklist 6 items (cu ✅/⬜):**
+**Checklist 6 items — ★ Phase 0 CLOSED ✅ (M1.S1 livrat):**
 
-- ⬜ JWT RS256 + RBAC 5 roluri (agent · senior_agent · team_lead · manager · admin)
-- ⬜ GDPR consent capture la intake orice lead + retenție automată
-- ⬜ AUDIT_LOG append-only — niciun UPDATE/DELETE permis la nivel BD (BR-07)
-- ⬜ Webhook HMAC-SHA256 verification (Meta · Google · OLX)
-- ⬜ Rate limiting pe endpoint-uri publice
-- ⬜ Privacy Policy + Cookie Policy legal review (Legea 133/2011 RM)
+- ✅ JWT RS256 + RBAC 5 roluri (agent · senior_agent · team_lead · manager · admin)
+- ✅ GDPR consent capture la intake orice lead + retenție automată
+- ✅ AUDIT_LOG append-only — niciun UPDATE/DELETE permis la nivel BD (BR-07)
+- ✅ Webhook HMAC-SHA256 verification (Meta · Google · OLX)
+- ✅ Rate limiting pe endpoint-uri publice
+- ⬜ Privacy Policy + Cookie Policy legal review (Legea 133/2011 RM) — *consultant juridic, non-blocking M1.S2*
+
+**★ Adăugat BRD v1.3.0 — Ethics Checkpoint (BR-28):**
+- ✅ 4 situații obligatorii human-in-the-loop (dual representation · competing offers · property disclosure · financing gap) — AUDIT_LOG append-only, Art. 22 GDPR compliance.
 
 **Footer (3 bullets):**
 - Compliance: GDPR EU + Legea 133/2011 RM + Legea 142/2018 SaaS
@@ -254,20 +297,28 @@
 **Timeline gantt-style horizontal:**
 
 ```
-2026 Q2 ─────── Q3 ─────── Q4 ─────── 2027 Q1 ────── Q2 ────── H2
-   │                            │                       │
-   ▼ M0 MVP Prezentare ✅       ▼ M1 MVP Funcțional      ▼ M2 FULL Release GA
-   • Demo live demo.revyx.app   • Phase 0 Security ✅   • Web Complete
-   • 16 routes Next.js          • Phase A Foundation    • Mobile RN Companion
-   • Mock 100/50/20             • Phase B Lead+Score    • Marketplace 2-sided
-   • i18n RO/RU/EN              • Pilot 2-3 tenants     • Retention Pilon
-   • Pitch deck + video ★ NOW   • HST M1 0 CRIT/HIGH    • White-Label Enterprise
+2026 Q2 ────── Q3 ────────────────── Q4 ─────── 2027 Q1 ────── Q2 ────── H2
+   │                │         │          │                       │
+   ▼ M0 ✅          ▼ M1.S1 ✅ ▼ M1.S2 ✅  ▼ M1 MVP Funcțional    ▼ M2 FULL GA
+   • Demo live       • Phase 0  • Phase A  • Phase B Lead+Score   • Web Complete
+   • 26 routes       • Security • Foundation  • Match Engine v1   • Mobile RN
+   • Mock 100/50/20  • JWT/RBAC • 9 entități  • ★ AGI Layer       • Marketplace
+   • i18n RO/RU/EN   • GDPR     • scoring    • Pilot 2-3 tenants  • White-Label
+   • Pitch deck ✅   • HMAC ✅   • T01-T07 ✅  • HST M1 PASS       • PKI+Alumni GA
 ```
 
+**★ AGI Layer milestones (BRD §18):**
+- M1.S3: Ethics Checkpoints (BR-28) + Financial Readiness (BR-25)
+- M1.S4: Execution Guides NBA + IS 3 sub-dimensiuni
+- M1.S5: PKI în Trust Score + Dashboard obiective agent
+- M1.S6: Alumni Lifecycle + Value Toolkit
+
+**4 entități noi BRD v1.3.0:** `execution_guides` · `client_alumni` · `agent_goals` · `ethics_checkpoints`
+
 **Milestone gates (footer):**
-- M0 exit: AC-M0-01..07 ☑ + HST M0 0 CRIT/HIGH ✅
-- M1 exit: AC-M1-01..10 ☑ + Pilot live ≥ 7 zile fără P1 + HST M1 PASS
-- M2 exit: GA public + Mobile iOS/Android distrib + Marketplace ≥ 1.000 buyer profiles + Prevention Rate ≥ 30%
+- M0 exit: AC-M0-01..07 ☑ + HST M0 0 CRIT/HIGH ✅ **ATINS**
+- M1 exit: AC-M1-01..10 ☑ + AC-AGI-01..05 ☑ + Pilot live ≥ 7 zile fără P1 + HST M1 PASS
+- M2 exit: GA public + Mobile iOS/Android distrib + Marketplace ≥ 1.000 buyer profiles + Prevention Rate ≥ 30% + PKI ≥ 0.75 + Alumni Return Rate ≥ 15%
 
 > _Speaker note RO:_ "Roadmap-ul e public, în Master Plan v1.1.2. M0 e ceea ce vedeți astăzi — demo live. M1 e produsul real, în pilot cu 2-3 agenții parteneri, ~10 luni de execuție. M2 e GA public + mobile + features Phase 5 (marketplace + retention + white-label). Pentru fiecare milestone avem Hard Stress Test cu echipa virtuală de 7 specialiști, înregistrat și auditabil." _(60s)_
 
@@ -277,10 +328,14 @@
 
 **Headline:** Execuție rapidă, echipă lean, audit continuu.
 
-**Tracțiune M0 (3 bullets):**
+**Tracțiune M0 + M1 (7 bullets):**
 - ✅ M0.S1 Design System direct-to-code livrat (tokens.json + 18 screens inventory)
 - ✅ M0.S2 Clickable prototype — 4 user journeys end-to-end
-- ✅ M0.S3 Web Static Demo (16 routes Next.js · mock 100/50/20 · i18n RO/RU/EN · drag-drop)
+- ✅ M0.S3-S8 Web Demo (26 routes · mock 100 leads / 50 proprietăți / 20 deal-uri · RO/RU/EN · rent+sale · Kanban redesign · Workspace Direction)
+- ✅ **M1.S1 Phase 0 Security Foundation** — JWT RS256 + RBAC 5 roluri + GDPR Art. 15-22 + AUDIT_LOG append-only + HMAC-SHA256 + Throttler · tests 12/12 PASS
+- ✅ **M1.S2 Phase A Foundation** — 9 entități business (LEAD/PROPERTY/DEAL/ACTIVITY/TASK/OFFER/SHOWING/AGENT/SCORING_STATE) · 9 migrations SQL + Drizzle schemas · 7 REST CRUD modules · scoring fixtures T01-T07 · tests 22/22 PASS
+- ★ **BRD v1.3.0** — AGI Layer §18 documentat complet (7 dimensiuni · BR-25..28 · 4 entități noi · KPI-uri AGI)
+- ★ **Moldova §17** — 6 specificații piață documentate ([MOLDOVA-SPECIFIC] în schema BD)
 
 **Echipa core (placeholder TBD):**
 
@@ -362,10 +417,10 @@
 - `docs/marketing/PITCH_DECK_REVYX_M0_v1.0.0/assets/SCREENSHOT_REFS.md` — mapping slide → screenshot
 - `docs/marketing/VIDEO_SCRIPT_REVYX_M0_v1.0.0.md` — companion video walkthrough
 - `docs/marketing/SCREENSHOT_CHECKLIST_REVYX_M0_v1.0.0.md` — capture instructions
-- `docs/BRD_REVYX_v1.1.0.md` — source content piloni + BR-XX
+- `docs/BRD_REVYX_v1.3.0.md` — source content piloni + BR-XX + §17 Moldova + ★ §18 AGI Layer
 - `docs/brand-configs/revyx.md` — paletă + tipografie + claim canonical
 
 ---
 
-*docs/marketing/PITCH_DECK_REVYX_M0_v1.0.0/deck-ro.md · v1.0.0 · 2026-05 · CONFIDENȚIAL · Uz Intern*
+*docs/marketing/PITCH_DECK_REVYX_M0_v1.0.0/deck-ro.md · v1.1.0 · 2026-06 · CONFIDENȚIAL · Uz Intern*
 *REVYX — Real Estate Execution Intelligence · © 2026 REVYX · ITPRO SYSTEM SRL*

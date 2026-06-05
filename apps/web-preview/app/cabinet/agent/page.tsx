@@ -201,6 +201,12 @@ export default function CabinetAgentPage() {
                   display={priorityDots(me.trust)}
                   tone={priorityTone(me.trust)}
                 />
+                {/* ★ AGI Layer — PKI (Promise Keeping Index) BRD §18.1 */}
+                <MetricPill
+                  label={t('cabinet.agent.pkiLabel')}
+                  display={priorityDots(0.82)}
+                  tone={priorityTone(0.82)}
+                />
                 <MetricPill
                   label={t('dashboard.blocks.perfClosedLabel')}
                   display={String(me.closedDeals30d)}
@@ -293,6 +299,62 @@ export default function CabinetAgentPage() {
             </CardContent>
           </Card>
         )}
+
+        {/* ★ AGI Layer — Obiective lunare (agent_goals entity BRD §18.2) */}
+        <Card>
+          <CardHeader>
+            <div className="flex items-center gap-sp1">
+              <CardTitle className="text-[16px]">{t('cabinet.agent.goalsTitle')}</CardTitle>
+              <InfoTooltip label={t('cabinet.agent.goalsTitle')} body={t('cabinet.agent.goalsHelp')} />
+            </div>
+            <CardDescription className="text-[11px]">{t('cabinet.agent.goalsDesc')}</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-sp3">
+              {/* Tranzacții */}
+              <div className="flex flex-col gap-sp1">
+                <div className="flex items-center justify-between text-[12px]">
+                  <span className="text-text-secondary">{t('cabinet.agent.goalDeals')}</span>
+                  <span className="font-mono text-gold">{me.closedDeals30d} / 5</span>
+                </div>
+                <div className="h-1.5 rounded-full bg-navy-hover overflow-hidden">
+                  <div
+                    className="h-full rounded-full bg-gold transition-all duration-500"
+                    style={{ width: `${Math.min(100, (me.closedDeals30d / 5) * 100)}%` }}
+                  />
+                </div>
+              </div>
+              {/* APS target */}
+              <div className="flex flex-col gap-sp1">
+                <div className="flex items-center justify-between text-[12px]">
+                  <span className="text-text-secondary">{t('cabinet.agent.goalAps')}</span>
+                  <span className="font-mono text-gold">{priorityDots(me.aps)} / ●●●</span>
+                </div>
+                <div className="h-1.5 rounded-full bg-navy-hover overflow-hidden">
+                  <div
+                    className="h-full rounded-full bg-gold transition-all duration-500"
+                    style={{ width: `${Math.min(100, me.aps * 100)}%` }}
+                  />
+                </div>
+              </div>
+              {/* Comision estimat */}
+              <div className="flex flex-col gap-sp1">
+                <div className="flex items-center justify-between text-[12px]">
+                  <span className="text-text-secondary">{t('cabinet.agent.goalCommission')}</span>
+                  <span className="font-mono text-gold">
+                    €{(me.closedDeals30d * 1200).toLocaleString('ro-MD')} / €6.000
+                  </span>
+                </div>
+                <div className="h-1.5 rounded-full bg-navy-hover overflow-hidden">
+                  <div
+                    className="h-full rounded-full bg-gold transition-all duration-500"
+                    style={{ width: `${Math.min(100, (me.closedDeals30d * 1200 / 6000) * 100)}%` }}
+                  />
+                </div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
 
         <WorkspaceDirectionSelector scope="agent" />
       </main>
