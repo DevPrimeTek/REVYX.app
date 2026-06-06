@@ -1,0 +1,1108 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>REVYX — Agent Operating System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#0C1428;--navy2:#111D38;--navy3:#0a1020;
+  --gold:#C9870A;--goldl:#F5C842;
+  --th:#F0F4FA;--tm:#8FA8CC;--ts:#4A6A9A;
+  --green:#0FBA7F;--red:#E55353;--amber:#F0A445;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%;height:100%;overflow:hidden;background:var(--navy);
+  font-family:'Inter',sans-serif;color:var(--th)}
+
+/* ── LANGUAGE ── */
+/* body uses data-lang attribute to avoid body[class=ro] getting display:none */
+.ro,.en,.ru{display:none}
+body[data-lang=ro] .ro{display:revert}
+body[data-lang=en] .en{display:revert}
+body[data-lang=ru] .ru{display:revert}
+span.ro,span.en,span.ru{display:none}
+body[data-lang=ro] span.ro{display:inline}
+body[data-lang=en] span.en{display:inline}
+body[data-lang=ru] span.ru{display:inline}
+
+/* ── SLIDE ENGINE ── */
+#deck{position:fixed;inset:0}
+.sl{position:absolute;inset:0;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  padding:72px 6% 80px;
+  opacity:0;transform:translateY(48px);
+  transition:opacity .5s ease,transform .5s ease;
+  pointer-events:none;overflow:hidden}
+.sl.act{opacity:1;transform:translateY(0);pointer-events:all}
+.sl.prev{opacity:0;transform:translateY(-48px)}
+
+/* ── TYPOGRAPHY ── */
+h1{font-size:clamp(2.2rem,4.5vw,3.8rem);font-weight:900;color:var(--th);line-height:1.08;letter-spacing:-.02em}
+h2{font-size:clamp(1.6rem,2.8vw,2.6rem);font-weight:800;color:var(--th);line-height:1.15;letter-spacing:-.01em}
+h3{font-size:clamp(1.1rem,1.8vw,1.7rem);font-weight:700;color:var(--th);line-height:1.25}
+h4{font-size:clamp(.95rem,1.3vw,1.2rem);font-weight:700;color:var(--th)}
+p{font-size:clamp(.88rem,1.1vw,1.05rem);color:var(--tm);line-height:1.7}
+.gold{color:var(--gold)}
+.green{color:var(--green)}
+.muted{color:var(--tm)}
+
+/* ── GOLD CIRCLE ICON ── */
+.gc{display:inline-flex;align-items:center;justify-content:center;
+  width:44px;height:44px;border-radius:50%;flex-shrink:0;
+  background:rgba(201,135,10,.1);border:1.5px solid rgba(201,135,10,.45);
+  color:var(--gold);font-weight:900;font-size:.88rem;letter-spacing:.02em}
+.gc.lg{width:56px;height:56px;font-size:1.1rem}
+
+/* ── DIVIDER ── */
+.div-gold{width:56px;height:3px;background:linear-gradient(90deg,var(--gold),transparent);
+  border-radius:2px;margin:.9rem 0}
+
+/* ── TAG CHIP ── */
+.tag{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;
+  border-radius:20px;font-size:.7rem;font-weight:700;letter-spacing:.07em;border:1px solid}
+.tg{border-color:rgba(201,135,10,.5);color:var(--gold);background:rgba(201,135,10,.07)}
+.tb{border-color:rgba(143,168,204,.3);color:var(--tm);background:rgba(143,168,204,.06)}
+.tgr{border-color:rgba(15,186,127,.4);color:var(--green);background:rgba(15,186,127,.07)}
+
+/* ── CARD ── */
+.card{padding:1.25rem 1.5rem;background:rgba(17,29,56,.75);
+  border:1px solid rgba(143,168,204,.12);border-radius:12px}
+.card-gold{border-color:rgba(201,135,10,.3);background:rgba(201,135,10,.05)}
+
+/* ── TWO-COLUMN LAYOUT ── */
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:4rem;
+  width:100%;max-width:1320px;align-items:start}
+
+/* ── MECHANISM LIST ── */
+.mlist{list-style:none;display:flex;flex-direction:column;gap:10px;margin-top:.75rem}
+.mlist li{display:flex;align-items:flex-start;gap:12px;
+  font-size:.92rem;color:var(--tm);line-height:1.6}
+.mdot{width:6px;height:6px;border-radius:50%;background:var(--gold);
+  flex-shrink:0;margin-top:8px}
+
+/* ── WORKFLOW ── */
+.wf{display:flex;flex-direction:column;gap:6px}
+.wf-step{display:flex;align-items:flex-start;gap:14px;
+  padding:12px 16px;background:rgba(17,29,56,.8);
+  border:1px solid rgba(143,168,204,.12);border-radius:8px}
+.wf-step .gc{width:34px;height:34px;font-size:.75rem}
+.wf-step-body h4{font-size:.88rem;font-weight:700;color:var(--th);margin-bottom:2px}
+.wf-step-body p{font-size:.78rem;line-height:1.5;color:var(--ts)}
+.wf-arrow{text-align:center;color:rgba(201,135,10,.5);font-size:1rem;
+  padding-left:17px;margin:-2px 0}
+
+/* ── ROLES (S10) ── */
+.roles-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:1rem;width:100%;max-width:1300px}
+.role-card{padding:1.25rem;background:rgba(17,29,56,.75);
+  border:1px solid rgba(143,168,204,.12);border-radius:10px;
+  display:flex;flex-direction:column;gap:.6rem}
+.role-card h4{font-size:.95rem;font-weight:800;color:var(--th)}
+.role-card p{font-size:.78rem;color:var(--tm);line-height:1.55}
+.plat-row{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.4rem}
+.plat{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;
+  border-radius:20px;font-size:.7rem;font-weight:700}
+.plat-w{background:rgba(201,135,10,.1);border:1px solid rgba(201,135,10,.35);color:var(--gold)}
+.plat-m{background:rgba(15,186,127,.1);border:1px solid rgba(15,186,127,.35);color:var(--green)}
+
+/* ── PLATFORM BAR (S10) ── */
+.plat-bar{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;width:100%;max-width:1300px;margin-top:1.5rem}
+.plat-box{padding:1.25rem 1.5rem;border-radius:10px;border:1px solid}
+.plat-web-box{border-color:rgba(201,135,10,.3);background:rgba(201,135,10,.05)}
+.plat-mob-box{border-color:rgba(15,186,127,.3);background:rgba(15,186,127,.05)}
+
+/* ── ROADMAP (S11) ── */
+.rm-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1.25rem;width:100%;max-width:1300px}
+.rm-phase{padding:1.25rem 1.5rem;border-radius:10px;border:1px solid}
+.rm-done{border-color:rgba(15,186,127,.3);background:rgba(15,186,127,.05)}
+.rm-active{border-color:rgba(201,135,10,.45);background:rgba(201,135,10,.06)}
+.rm-plan{border-color:rgba(143,168,204,.18);background:rgba(17,29,56,.5)}
+.rm-list{list-style:none;margin-top:.75rem;display:flex;flex-direction:column;gap:6px}
+.rm-list li{font-size:.8rem;color:var(--tm);display:flex;align-items:flex-start;gap:8px}
+.rm-done-dot{color:var(--green)}
+.rm-act-dot{color:var(--gold)}
+.rm-plan-dot{color:var(--ts)}
+
+/* ── NAV DOTS ── */
+#nav{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);
+  display:flex;align-items:center;gap:10px;z-index:100}
+.dot{width:7px;height:7px;border-radius:50%;
+  background:rgba(143,168,204,.25);cursor:pointer;
+  transition:background .3s,transform .3s}
+.dot.on{background:var(--gold);transform:scale(1.35)}
+#arr-l,#arr-r{width:36px;height:36px;border-radius:50%;
+  background:rgba(17,29,56,.8);border:1px solid rgba(143,168,204,.18);
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;color:var(--tm);font-size:.9rem;
+  transition:border-color .2s,color .2s}
+#arr-l:hover,#arr-r:hover{border-color:var(--gold);color:var(--gold)}
+
+/* ── LANG SWITCHER ── */
+#lang{position:fixed;top:18px;right:22px;display:flex;gap:5px;z-index:100}
+.lbtn{padding:4px 11px;border-radius:4px;border:1px solid rgba(143,168,204,.2);
+  background:transparent;color:var(--tm);font-size:.72rem;font-weight:700;
+  cursor:pointer;transition:all .2s;font-family:inherit}
+.lbtn.on{border-color:var(--gold);color:var(--gold);background:rgba(201,135,10,.1)}
+
+/* ── SLIDE NUMBER ── */
+#snum{position:fixed;top:20px;left:22px;color:var(--ts);font-size:.72rem;z-index:100}
+
+/* ── HERO S1 ── */
+.hero-inner{display:flex;flex-direction:column;align-items:center;text-align:center;gap:1.5rem;max-width:860px}
+.hero-stats{display:flex;gap:3rem;justify-content:center;margin-top:.5rem}
+.hstat{text-align:center}
+.hstat-n{font-size:2.4rem;font-weight:900;color:var(--gold)}
+.hstat-l{font-size:.75rem;color:var(--tm);font-weight:600;letter-spacing:.06em;text-transform:uppercase}
+.logo-mark{font-size:3.8rem;font-weight:900;letter-spacing:-.04em;color:var(--th)}
+.logo-mark span{color:var(--gold)}
+
+/* ── BG GRID ── */
+body::before{content:'';position:fixed;inset:0;
+  background-image:linear-gradient(rgba(143,168,204,.04) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(143,168,204,.04) 1px,transparent 1px);
+  background-size:48px 48px;pointer-events:none;z-index:0}
+#deck{z-index:1}
+
+/* ── PILLAR SLIDE HEADER ── */
+.pil-header{display:flex;align-items:center;gap:1rem;margin-bottom:1.5rem;width:100%;max-width:1320px}
+
+/* ── FADE UP ANIMATION ── */
+@keyframes fuA{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.sl.act>*{animation:fuA .5s ease both}
+.sl.act>*:nth-child(2){animation-delay:.1s}
+.sl.act>*:nth-child(3){animation-delay:.2s}
+.sl.act>*:nth-child(4){animation-delay:.3s}
+.sl.act>*:nth-child(5){animation-delay:.4s}
+</style>
+</head>
+<body data-lang="ro">
+
+<!-- SLIDE NUMBER -->
+<div id="snum">01 / 12</div>
+
+<!-- LANG SWITCHER -->
+<div id="lang">
+  <button class="lbtn on" onclick="setLang('ro')">RO</button>
+  <button class="lbtn" onclick="setLang('en')">EN</button>
+  <button class="lbtn" onclick="setLang('ru')">RU</button>
+</div>
+
+<!-- NAV -->
+<div id="nav">
+  <div id="arr-l" onclick="gTo(cur-1)">&#8592;</div>
+  <div id="dots"></div>
+  <div id="arr-r" onclick="gTo(cur+1)">&#8594;</div>
+</div>
+
+<div id="deck">
+
+<!-- ═══════════════════════════════════════════════════════ S1 HERO -->
+<div class="sl" id="sl0">
+  <div class="hero-inner">
+    <div class="tag tg" style="font-size:.7rem">
+      <span class="ro">Sistem de operare pentru agenți imobiliari</span>
+      <span class="en">Agent Operating System for Real Estate</span>
+      <span class="ru">Операционная система для агентов по недвижимости</span>
+    </div>
+    <div class="logo-mark">REV<span>YX</span></div>
+    <h1>
+      <span class="ro">Inteligență de execuție<br>pentru imobiliare</span>
+      <span class="en">Real Estate<br>Execution Intelligence</span>
+      <span class="ru">Интеллект исполнения<br>для рынка недвижимости</span>
+    </h1>
+    <p style="max-width:600px;font-size:1.05rem">
+      <span class="ro">REVYX nu este un sistem clasic de gestionare a clienților. Este un sistem de operare conceput pentru agentul imobiliar modern — automatizează calificarea, potrivirea, urmărirea și analiza performanței.</span>
+      <span class="en">REVYX is not a classic CRM. It is an operating system built for the modern real estate agent — automating qualification, matching, follow-up, and performance analysis.</span>
+      <span class="ru">REVYX — не классическая система управления клиентами. Это операционная система для современного агента по недвижимости, которая автоматизирует квалификацию, подбор, отслеживание и анализ результатов.</span>
+    </p>
+    <div class="hero-stats">
+      <div class="hstat">
+        <div class="hstat-n">8</div>
+        <div class="hstat-l"><span class="ro">Piloni de bază</span><span class="en">Core Pillars</span><span class="ru">Основных модуля</span></div>
+      </div>
+      <div class="hstat">
+        <div class="hstat-n">5</div>
+        <div class="hstat-l"><span class="ro">Roluri de sistem</span><span class="en">System Roles</span><span class="ru">Ролей в системе</span></div>
+      </div>
+      <div class="hstat">
+        <div class="hstat-n">2</div>
+        <div class="hstat-l"><span class="ro">Platforme (Web + Mobil)</span><span class="en">Platforms (Web + Mobile)</span><span class="ru">Платформы (Веб + Мобильная)</span></div>
+      </div>
+      <div class="hstat">
+        <div class="hstat-n gold">M1</div>
+        <div class="hstat-l"><span class="ro">Stadiu activ</span><span class="en">Active Stage</span><span class="ru">Активный этап</span></div>
+      </div>
+    </div>
+    <div style="display:flex;gap:1rem;flex-wrap:wrap;justify-content:center">
+      <span class="tag tgr">✓ <span class="ro">Vânzare și închiriere</span><span class="en">Sale & Rent</span><span class="ru">Продажа и аренда</span></span>
+      <span class="tag tb">🌐 Web ~80%</span>
+      <span class="tag tb">📱 <span class="ro">Mobil ~20%</span><span class="en">Mobile ~20%</span><span class="ru">Мобильная ~20%</span></span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ S2 LEAD INTELLIGENCE -->
+<div class="sl" id="sl1">
+  <div class="pil-header">
+    <div class="gc lg">01</div>
+    <h2>
+      <span style="color:var(--ts);font-size:clamp(.85rem,1.1vw,1rem);font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-right:.5rem">
+        <span class="ro">Pilon 01</span><span class="en">Pillar 01</span><span class="ru">Модуль 01</span>:
+      </span>Lead Intelligence
+    </h2>
+  </div>
+  <div class="two-col">
+    <div>
+      <p style="font-size:1rem">
+        <span class="ro">Sistemul califică automat fiecare potențial client nou. Agentul primește doar clienți cu un nivel de calitate suficient — în cadrul unui timp limită de răspuns clar definit.</span>
+        <span class="en">The system automatically qualifies every new potential client. The agent receives only clients with sufficient quality — within a clearly defined response time limit.</span>
+        <span class="ru">Система автоматически квалифицирует каждого нового потенциального клиента. Агент получает только клиентов достаточного качества — в рамках чётко определённого предельного времени ответа.</span>
+      </p>
+      <ul class="mlist">
+        <li><span class="mdot"></span>
+          <div><b style="color:var(--th)"><span class="ro">Scor inițial 0.30</span><span class="en">Initial score 0.30</span><span class="ru">Начальная оценка 0.30</span></b><br>
+          <span class="ro">Fiecare client nou începe cu un scor de bază — nu cu zero. Scorul crește pe măsură ce clientul interacționează cu sistemul.</span>
+          <span class="en">Every new client starts with a base score — not zero. The score grows as the client interacts with the system.</span>
+          <span class="ru">Каждый новый клиент начинает с базовой оценкой — не с нуля. Оценка растёт по мере взаимодействия клиента с системой.</span></div>
+        </li>
+        <li><span class="mdot"></span>
+          <div><b style="color:var(--th)"><span class="ro">Filtru de calitate</span><span class="en">Quality filter</span><span class="ru">Фильтр качества</span></b><br>
+          <span class="ro">Doar clienții cu scor ≥ 0.60 și cu date de contact valide ajung la agent. Restul intră în nurturing automat.</span>
+          <span class="en">Only clients with score ≥ 0.60 and valid contact data reach the agent. The rest enter automatic nurturing.</span>
+          <span class="ru">К агенту поступают только клиенты с оценкой ≥ 0.60 и действительными контактными данными. Остальные переходят в автоматическое сопровождение.</span></div>
+        </li>
+        <li><span class="mdot"></span>
+          <div><b style="color:var(--th)"><span class="ro">Timp limită de răspuns</span><span class="en">Response time limit</span><span class="ru">Предельное время ответа</span></b><br>
+          <span class="ro">Fierbinte (scor ≥ 0.75): 15 minute · Calificat (0.60–0.75): 2 ore · Activ (0.40–0.60): 24 ore</span>
+          <span class="en">Hot (score ≥ 0.75): 15 minutes · Qualified (0.60–0.75): 2 hours · Warm (0.40–0.60): 24 hours</span>
+          <span class="ru">Горячий (≥ 0.75): 15 минут · Квалифицированный (0.60–0.75): 2 часа · Активный (0.40–0.60): 24 часа</span></div>
+        </li>
+        <li><span class="mdot"></span>
+          <div><b style="color:var(--th)"><span class="ro">4 tipuri de client</span><span class="en">4 client types</span><span class="ru">4 типа клиента</span></b><br>
+          <span class="ro">Cumpărător, Vânzător, Chiriaș, Proprietar — fiecare cu flux de lucru adaptat și acțiuni recomandate distincte.</span>
+          <span class="en">Buyer, Seller, Tenant, Landlord — each with an adapted workflow and distinct recommended actions.</span>
+          <span class="ru">Покупатель, Продавец, Арендатор, Арендодатель — у каждого свой адаптированный процесс и отдельные рекомендуемые действия.</span></div>
+        </li>
+      </ul>
+    </div>
+    <div>
+      <h4 style="color:var(--tm);font-size:.8rem;letter-spacing:.08em;text-transform:uppercase;margin-bottom:1rem">
+        <span class="ro">Flux de calificare</span><span class="en">Qualification flow</span><span class="ru">Процесс квалификации</span>
+      </h4>
+      <div class="wf">
+        <div class="wf-step"><div class="gc" style="width:34px;height:34px;font-size:.72rem">01</div><div class="wf-step-body"><h4><span class="ro">Cerere client</span><span class="en">Client request</span><span class="ru">Запрос клиента</span></h4><p><span class="ro">Client nou intrat prin web, telefon sau anunț publicitar</span><span class="en">New client via web, phone or ad</span><span class="ru">Новый клиент через сайт, телефон или рекламу</span></p></div></div>
+        <div class="wf-arrow">↓</div>
+        <div class="wf-step"><div class="gc" style="width:34px;height:34px;font-size:.72rem">02</div><div class="wf-step-body"><h4><span class="ro">Calcul scor automat</span><span class="en">Automatic score calculation</span><span class="ru">Автоматический расчёт оценки</span></h4><p><span class="ro">Scor inițial 0.30 + actualizare pe baza completitudinii datelor</span><span class="en">Initial score 0.30 + update based on data completeness</span><span class="ru">Начальная оценка 0.30 + обновление на основе полноты данных</span></p></div></div>
+        <div class="wf-arrow">↓</div>
+        <div class="wf-step"><div class="gc" style="width:34px;height:34px;font-size:.72rem">03</div><div class="wf-step-body"><h4><span class="ro">Filtru de calitate</span><span class="en">Quality filter</span><span class="ru">Фильтр качества</span></h4><p><span class="ro">Scor ≥ 0.60 + contact valid → trece mai departe</span><span class="en">Score ≥ 0.60 + valid contact → passes through</span><span class="ru">Оценка ≥ 0.60 + действительный контакт → проходит дальше</span></p></div></div>
+        <div class="wf-arrow">↓</div>
+        <div class="wf-step"><div class="gc" style="width:34px;height:34px;font-size:.72rem">04</div><div class="wf-step-body"><h4><span class="ro">Alocare agent</span><span class="en">Agent assignment</span><span class="ru">Назначение агента</span></h4><p><span class="ro">Clientul este alocat agentului disponibil cu cel mai bun scor de performanță</span><span class="en">Client assigned to available agent with best performance score</span><span class="ru">Клиент назначается доступному агенту с лучшей оценкой производительности</span></p></div></div>
+        <div class="wf-arrow">↓</div>
+        <div class="wf-step"><div class="gc" style="width:34px;height:34px;font-size:.72rem">05</div><div class="wf-step-body"><h4><span class="ro">Timp limită de răspuns activ</span><span class="en">Response time limit active</span><span class="ru">Активен предельный срок ответа</span></h4><p><span class="ro">Cronometru pornit — la depășire, escaladare automată pe 3 niveluri</span><span class="en">Timer started — if exceeded, automatic 3-level escalation</span><span class="ru">Таймер запущен — при превышении автоматическая эскалация на 3 уровнях</span></p></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ S4 SUPPLY INTELLIGENCE -->
+<div class="sl" id="sl2">
+  <div class="pil-header">
+    <div class="gc lg">02</div>
+    <h2>
+      <span style="color:var(--ts);font-size:clamp(.85rem,1.1vw,1rem);font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-right:.5rem">
+        <span class="ro">Pilon 02</span><span class="en">Pillar 02</span><span class="ru">Модуль 02</span>:
+      </span>Supply Intelligence
+    </h2>
+  </div>
+  <div class="two-col">
+    <div>
+      <p style="font-size:1rem">
+        <span class="ro">Portofoliul de proprietăți este monitorizat activ. Sistemul calculează zilnic relevanța fiecărui anunț și alertează agentul înainte de a pierde oportunități.</span>
+        <span class="en">The property portfolio is actively monitored. The system daily calculates each listing's relevance and alerts the agent before opportunities are lost.</span>
+        <span class="ru">Портфель объектов активно отслеживается. Система ежедневно рассчитывает актуальность каждого объявления и предупреждает агента до потери возможностей.</span>
+      </p>
+      <ul class="mlist">
+        <li><span class="mdot"></span>
+          <div><b style="color:var(--th)"><span class="ro">Indice de prospețime a anunțului</span><span class="en">Listing freshness index</span><span class="ru">Индекс актуальности объявления</span></b><br>
+          <span class="ro">Formulă: 1 − min(1, zile/90). Anunț nou = prospețime maximă. La 90 de zile = prospeție zero → alertă obligatorie.</span>
+          <span class="en">Formula: 1 − min(1, days/90). New listing = maximum freshness. At 90 days = zero freshness → mandatory alert.</span>
+          <span class="ru">Формула: 1 − min(1, дни/90). Новое объявление = максимальная актуальность. На 90-й день = нулевая актуальность → обязательное уведомление.</span></div>
+        </li>
+        <li><span class="mdot"></span>
+          <div><b style="color:var(--th)"><span class="ro">3 niveluri de alertă</span><span class="en">3 alert levels</span><span class="ru">3 уровня уведомлений</span></b><br>
+          <span class="ro">Anunț nou (0–30 zile) · De reîmprospătat (30–60 zile) · Necesită atenție urgentă (60+ zile)</span>
+          <span class="en">New listing (0–30 days) · Needs refresh (30–60 days) · Needs urgent attention (60+ days)</span>
+          <span class="ru">Новое объявление (0–30 дней) · Требует обновления (30–60 дней) · Требует срочного внимания (60+ дней)</span></div>
+        </li>
+        <li><span class="mdot"></span>
+          <div><b style="color:var(--th)"><span class="ro">Preț per mp calculat automat</span><span class="en">Price per m² auto-calculated</span><span class="ru">Цена за м² рассчитывается автоматически</span></b><br>
+          <span class="ro">Din prețul introdus de agent — util pentru comparații rapide în portofoliu.</span>
+          <span class="en">From the agent-entered price — useful for quick portfolio comparisons.</span>
+          <span class="ru">Из цены, введённой агентом — удобно для быстрых сравнений в портфеле.</span></div>
+        </li>
+        <li><span class="mdot"></span>
+          <div><b style="color:var(--th)"><span class="ro">Tipuri de listare</span><span class="en">Listing types</span><span class="ru">Типы объявлений</span></b><br>
+          <span class="ro">De vânzare / De închiriat / Ambele (proprietarul acceptă oricare variantă) — algoritm de potrivire adaptat pentru fiecare.</span>
+          <span class="en">For sale / For rent / Both (owner accepts either) — matching algorithm adapted for each.</span>
+          <span class="ru">На продажу / В аренду / Оба варианта (владелец принимает любой) — алгоритм подбора адаптирован для каждого.</span></div>
+        </li>
+      </ul>
+    </div>
+    <div>
+      <h4 style="color:var(--tm);font-size:.8rem;letter-spacing:.08em;text-transform:uppercase;margin-bottom:1rem">
+        <span class="ro">Ciclul de viață al unui anunț</span><span class="en">Listing lifecycle</span><span class="ru">Жизненный цикл объявления</span>
+      </h4>
+      <div class="wf">
+        <div class="wf-step"><div class="gc" style="width:34px;height:34px;font-size:.72rem">01</div><div class="wf-step-body"><h4><span class="ro">Proprietate adăugată</span><span class="en">Property added</span><span class="ru">Объект добавлен</span></h4><p><span class="ro">Agent introduce datele: adresă, preț, tip listare, fotografii</span><span class="en">Agent enters: address, price, listing type, photos</span><span class="ru">Агент вводит: адрес, цену, тип объявления, фотографии</span></p></div></div>
+        <div class="wf-arrow">↓</div>
+        <div class="wf-step"><div class="gc" style="width:34px;height:34px;font-size:.72rem">02</div><div class="wf-step-body"><h4><span class="ro">Calcul indice de prospețime</span><span class="en">Freshness index calculated</span><span class="ru">Рассчитан индекс актуальности</span></h4><p><span class="ro">Sistemul calculează zilnic scorul de prospețime și prețul per mp</span><span class="en">System calculates daily freshness score and price per m²</span><span class="ru">Система ежедневно рассчитывает балл актуальности и цену за м²</span></p></div></div>
+        <div class="wf-arrow">↓</div>
+        <div class="wf-step"><div class="gc" style="width:34px;height:34px;font-size:.72rem">03</div><div class="wf-step-body"><h4><span class="ro">Monitorizare continuă</span><span class="en">Continuous monitoring</span><span class="ru">Непрерывный мониторинг</span></h4><p><span class="ro">La 30 și 60 de zile: notificări preventive în panoul agentului</span><span class="en">At 30 and 60 days: preventive notifications in agent panel</span><span class="ru">На 30-й и 60-й день: предупреждающие уведомления в панели агента</span></p></div></div>
+        <div class="wf-arrow">↓</div>
+        <div class="wf-step"><div class="gc" style="width:34px;height:34px;font-size:.72rem">04</div><div class="wf-step-body"><h4><span class="ro">Alertă îmbătrânire</span><span class="en">Aging alert</span><span class="ru">Уведомление об устаревании</span></h4><p><span class="ro">La 90 de zile: prospețime zero — anunțul penalizează scorul proprietății</span><span class="en">At 90 days: zero freshness — listing penalizes property score</span><span class="ru">На 90-й день: нулевая актуальность — объявление снижает оценку объекта</span></p></div></div>
+        <div class="wf-arrow">↓</div>
+        <div class="wf-step"><div class="gc" style="width:34px;height:34px;font-size:.72rem">05</div><div class="wf-step-body"><h4><span class="ro">Agent actualizează anunțul</span><span class="en">Agent refreshes listing</span><span class="ru">Агент обновляет объявление</span></h4><p><span class="ro">Reîmprospătare completă: fotografii noi, preț revizuit, descriere actualizată</span><span class="en">Full refresh: new photos, revised price, updated description</span><span class="ru">Полное обновление: новые фото, пересмотренная цена, обновлённое описание</span></p></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ S5 MATCH INTELLIGENCE -->
+<div class="sl" id="sl3">
+  <div class="pil-header">
+    <div class="gc lg">03</div>
+    <h2>
+      <span style="color:var(--ts);font-size:clamp(.85rem,1.1vw,1rem);font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-right:.5rem">
+        <span class="ro">Pilon 03</span><span class="en">Pillar 03</span><span class="ru">Модуль 03</span>:
+      </span>Match Intelligence
+    </h2>
+  </div>
+  <div class="two-col">
+    <div>
+      <p style="font-size:1rem">
+        <span class="ro">Motorul de potrivire bidirecțional conectează automat clienții cu proprietățile potrivite. Algoritmul calculează compatibilitatea din multiple dimensiuni și propune primele 3 rezultate.</span>
+        <span class="en">The bidirectional matching engine automatically connects clients with suitable properties. The algorithm calculates compatibility from multiple dimensions and proposes the top 3 results.</span>
+        <span class="ru">Двунаправленный механизм подбора автоматически связывает клиентов с подходящими объектами. Алгоритм рассчитывает совместимость по нескольким параметрам и предлагает 3 лучших результата.</span>
+      </p>
+      <ul class="mlist">
+        <li><span class="mdot"></span>
+          <div><b style="color:var(--th)"><span class="ro">Cumpărător/Chiriaș → Proprietăți</span><span class="en">Buyer/Tenant → Properties</span><span class="ru">Покупатель/Арендатор → Объекты</span></b><br>
+          <span class="ro">Sistemul propune primele 3 proprietăți compatibile din portofoliu, cu raționamentul afișat clar.</span>
+          <span class="en">System proposes top 3 compatible properties from the portfolio, with reasoning shown clearly.</span>
+          <span class="ru">Система предлагает 3 наиболее подходящих объекта из портфеля, с чётко показанным обоснованием.</span></div>
+        </li>
+        <li><span class="mdot"></span>
+          <div><b style="color:var(--th)"><span class="ro">Proprietate → Cumpărători</span><span class="en">Property → Buyers</span><span class="ru">Объект → Покупатели</span></b><br>
+          <span class="ro">Invers: pentru orice proprietate, sistemul identifică primii 3 cumpărători interesați din baza de clienți.</span>
+          <span class="en">Reverse: for any property, the system identifies the top 3 interested buyers from the client base.</span>
+          <span class="ru">Обратное направление: для любого объекта система определяет 3 наиболее заинтересованных покупателя из клиентской базы.</span></div>
+        </li>
+        <li><span class="mdot"></span>
+          <div><b style="color:var(--th)"><span class="ro">Filtrare după intenție de tranzacție</span><span class="en">Transaction intent filtering</span><span class="ru">Фильтрация по намерению сделки</span></b><br>
+          <span class="ro">Vânzare ↔ Cumpărători/Vânzători · Închiriere ↔ Chiriași/Proprietari · Ambele → vizibil tuturor.</span>
+          <span class="en">Sale ↔ Buyers/Sellers · Rent ↔ Tenants/Landlords · Both → visible to all.</span>
+          <span class="ru">Продажа ↔ Покупатели/Продавцы · Аренда ↔ Арендаторы/Арендодатели · Оба → видно всем.</span></div>
+        </li>
+        <li><span class="mdot"></span>
+          <div><b style="color:var(--th)"><span class="ro">Scor de compatibilitate compus</span><span class="en">Composite compatibility score</span><span class="ru">Составная оценка совместимости</span></b><br>
+          <span class="ro">Combină: scorul proprietății + scorul clientului + intensitatea interacțiunii anterioare.</span>
+          <span class="en">Combines: property score + client score + past interaction intensity.</span>
+          <span class="ru">Объединяет: оценку объекта + оценку клиента + интенсивность предыдущих взаимодействий.</span></div>
+        </li>
+      </ul>
+    </div>
+    <div>
+      <h4 style="color:var(--tm);font-size:.8rem;letter-spacing:.08em;text-transform:uppercase;margin-bottom:1rem">
+        <span class="ro">Flux de potrivire</span><span class="en">Matching flow</span><span class="ru">Процесс подбора</span>
+      </h4>
+      <div class="wf">
+        <div class="wf-step"><div class="gc" style="width:34px;height:34px;font-size:.72rem">01</div><div class="wf-step-body"><h4><span class="ro">Preferințe client definite</span><span class="en">Client preferences defined</span><span class="ru">Определены предпочтения клиента</span></h4><p><span class="ro">Buget, zonă, tip proprietate, număr camere, caracteristici speciale</span><span class="en">Budget, zone, property type, rooms, special features</span><span class="ru">Бюджет, район, тип объекта, количество комнат, особые характеристики</span></p></div></div>
+        <div class="wf-arrow">↓</div>
+        <div class="wf-step"><div class="gc" style="width:34px;height:34px;font-size:.72rem">02</div><div class="wf-step-body"><h4><span class="ro">Filtrare portofoliu</span><span class="en">Portfolio filtering</span><span class="ru">Фильтрация портфеля</span></h4><p><span class="ro">Elimină proprietățile incompatibile ca tip de intenție, buget, zonă</span><span class="en">Removes incompatible properties by intent type, budget, zone</span><span class="ru">Удаляет несовместимые объекты по типу намерения, бюджету, району</span></p></div></div>
+        <div class="wf-arrow">↓</div>
+        <div class="wf-step"><div class="gc" style="width:34px;height:34px;font-size:.72rem">03</div><div class="wf-step-body"><h4><span class="ro">Calcul scor compatibilitate</span><span class="en">Compatibility score calculation</span><span class="ru">Расчёт оценки совместимости</span></h4><p><span class="ro">Fiecărei proprietăți i se calculează scorul de compatibilitate cu clientul</span><span class="en">Each property gets a compatibility score with the client</span><span class="ru">Каждому объекту рассчитывается оценка совместимости с клиентом</span></p></div></div>
+        <div class="wf-arrow">↓</div>
+        <div class="wf-step"><div class="gc" style="width:34px;height:34px;font-size:.72rem">04</div><div class="wf-step-body"><h4><span class="ro">Primele 3 rezultate propuse</span><span class="en">Top 3 results proposed</span><span class="ru">Предложены 3 лучших результата</span></h4><p><span class="ro">Agentul vede lista cu raționamentul detaliat al fiecărei potriviri</span><span class="en">Agent sees the list with detailed reasoning for each match</span><span class="ru">Агент видит список с подробным обоснованием каждого совпадения</span></p></div></div>
+        <div class="wf-arrow">↓</div>
+        <div class="wf-step"><div class="gc" style="width:34px;height:34px;font-size:.72rem">05</div><div class="wf-step-body"><h4><span class="ro">Programare vizionare</span><span class="en">Showing scheduled</span><span class="ru">Запланирован показ</span></h4><p><span class="ro">Agentul programează vizionarea direct din panoul de potrivire</span><span class="en">Agent schedules showing directly from the match panel</span><span class="ru">Агент записывает показ прямо из панели подбора</span></p></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ S6 EXECUTION INTELLIGENCE -->
+<div class="sl" id="sl4">
+  <div class="pil-header">
+    <div class="gc lg">04</div>
+    <h2>
+      <span style="color:var(--ts);font-size:clamp(.85rem,1.1vw,1rem);font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-right:.5rem">
+        <span class="ro">Pilon 04</span><span class="en">Pillar 04</span><span class="ru">Модуль 04</span>:
+      </span>Execution Intelligence
+    </h2>
+  </div>
+  <div class="two-col">
+    <div>
+      <p style="font-size:1rem">
+        <span class="ro">REVYX funcționează ca sistem de operare zilnic al agentului. Sistemul decide ordinea priorităților și recomandă acțiunea concretă — agentul execută fără să planifice.</span>
+        <span class="en">REVYX acts as the agent's daily operating system. The system decides priority order and recommends the concrete action — the agent executes without planning.</span>
+        <span class="ru">REVYX выступает как ежедневная операционная система агента. Система определяет порядок приоритетов и рекомендует конкретное действие — агент исполняет без необходимости планировать.</span>
+      </p>
+      <ul class="mlist">
+        <li><span class="mdot"></span>
+          <div><b style="color:var(--th)"><span class="ro">Maximum 3 sarcini active</span><span class="en">Maximum 3 active tasks</span><span class="ru">Максимум 3 активные задачи</span></b><br>
+          <span class="ro">Regula este impusă automat de sistem — un al 4-lea task nu poate fi creat până când unul dintre cele existente nu este finalizat sau amânat.</span>
+          <span class="en">Rule is auto-enforced by the system — a 4th task cannot be created until one of the existing ones is completed or snoozed.</span>
+          <span class="ru">Правило автоматически применяется системой — 4-я задача не может быть создана, пока одна из существующих не будет завершена или отложена.</span></div>
+        </li>
+        <li><span class="mdot"></span>
+          <div><b style="color:var(--th)"><span class="ro">Acțiunea recomandată automat</span><span class="en">Auto-recommended action</span><span class="ru">Автоматически рекомендуемое действие</span></b><br>
+          <span class="ro">Pentru fiecare client, sistemul calculează ce trebuie făcut acum: sună urgent, trimite proprietate, programează vizionare, solicită documente.</span>
+          <span class="en">For each client, the system calculates what to do now: call urgently, send property, schedule showing, request documents.</span>
+          <span class="ru">Для каждого клиента система рассчитывает, что нужно сделать прямо сейчас: срочно позвонить, отправить объект, записать показ, запросить документы.</span></div>
+        </li>
+        <li><span class="mdot"></span>
+          <div><b style="color:var(--th)"><span class="ro">Calendar integrat</span><span class="en">Integrated calendar</span><span class="ru">Встроенный календарь</span></b><br>
+          <span class="ro">Protecție automată împotriva suprapunerii programărilor. Agentul nu poate fi rezervat de două ori în același interval.</span>
+          <span class="en">Automatic protection against scheduling conflicts. Agent cannot be booked twice in the same slot.</span>
+          <span class="ru">Автоматическая защита от конфликтов расписания. Агент не может быть записан дважды в одно и то же время.</span></div>
+        </li>
+        <li><span class="mdot"></span>
+          <div><b style="color:var(--th)"><span class="ro">Direcție de lucru</span><span class="en">Work direction</span><span class="ru">Направление работы</span></b><br>
+          <span class="ro">Vânzare, Închiriere sau Ambele — setare la nivel de agent, agenție sau grup. Platforma se adaptează automat.</span>
+          <span class="en">Sale, Rent or Both — set at agent, agency or group level. Platform adapts automatically.</span>
+          <span class="ru">Продажа, Аренда или Оба направления — настраивается на уровне агента, агентства или группы. Платформа адаптируется автоматически.</span></div>
+        </li>
+      </ul>
+    </div>
+    <div>
+      <h4 style="color:var(--tm);font-size:.8rem;letter-spacing:.08em;text-transform:uppercase;margin-bottom:1rem">
+        <span class="ro">Ziua de lucru a agentului</span><span class="en">Agent work day</span><span class="ru">Рабочий день агента</span>
+      </h4>
+      <div class="wf">
+        <div class="wf-step"><div class="gc" style="width:34px;height:34px;font-size:.72rem">01</div><div class="wf-step-body"><h4><span class="ro">Panou de bord la pornire</span><span class="en">Dashboard at startup</span><span class="ru">Панель управления при запуске</span></h4><p><span class="ro">Agentul vede sarcinile active, clienții urgenti și acțiunea recomandată pentru fiecare</span><span class="en">Agent sees active tasks, urgent clients and recommended action for each</span><span class="ru">Агент видит активные задачи, срочных клиентов и рекомендуемое действие для каждого</span></p></div></div>
+        <div class="wf-arrow">↓</div>
+        <div class="wf-step"><div class="gc" style="width:34px;height:34px;font-size:.72rem">02</div><div class="wf-step-body"><h4><span class="ro">Sistem calculează prioritatea</span><span class="en">System calculates priority</span><span class="ru">Система рассчитывает приоритет</span></h4><p><span class="ro">Clienții sunt ordonați după urgență: fierbinte → calificat → activ</span><span class="en">Clients ordered by urgency: hot → qualified → warm</span><span class="ru">Клиенты упорядочены по срочности: горячий → квалифицированный → активный</span></p></div></div>
+        <div class="wf-arrow">↓</div>
+        <div class="wf-step"><div class="gc" style="width:34px;height:34px;font-size:.72rem">03</div><div class="wf-step-body"><h4><span class="ro">Agent acceptă sarcina</span><span class="en">Agent accepts task</span><span class="ru">Агент принимает задачу</span></h4><p><span class="ro">Adaugă sarcina în lista activă — contorul 3/3 e vizibil permanent</span><span class="en">Adds task to active list — 3/3 counter always visible</span><span class="ru">Добавляет задачу в активный список — счётчик 3/3 всегда виден</span></p></div></div>
+        <div class="wf-arrow">↓</div>
+        <div class="wf-step"><div class="gc" style="width:34px;height:34px;font-size:.72rem">04</div><div class="wf-step-body"><h4><span class="ro">Execuție + programare</span><span class="en">Execution + scheduling</span><span class="ru">Исполнение + планирование</span></h4><p><span class="ro">Vizionare programată în calendar fără conflict — confirmare automată</span><span class="en">Showing scheduled in calendar without conflict — auto confirmation</span><span class="ru">Показ записан в календарь без конфликтов — автоматическое подтверждение</span></p></div></div>
+        <div class="wf-arrow">↓</div>
+        <div class="wf-step"><div class="gc" style="width:34px;height:34px;font-size:.72rem">05</div><div class="wf-step-body"><h4><span class="ro">Sarcină finalizată</span><span class="en">Task completed</span><span class="ru">Задача выполнена</span></h4><p><span class="ro">Slot eliberat — sistemul propune automat sarcina cu prioritatea următoare</span><span class="en">Slot freed — system auto-proposes the next priority task</span><span class="ru">Слот освобождён — система автоматически предлагает следующую приоритетную задачу</span></p></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ S7 NEGOTIATION INTELLIGENCE -->
+<div class="sl" id="sl5">
+  <div class="pil-header">
+    <div class="gc lg">05</div>
+    <h2>
+      <span style="color:var(--ts);font-size:clamp(.85rem,1.1vw,1rem);font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-right:.5rem">
+        <span class="ro">Pilon 05</span><span class="en">Pillar 05</span><span class="ru">Модуль 05</span>:
+      </span>Negotiation Intelligence
+    </h2>
+  </div>
+  <div class="two-col">
+    <div>
+      <p style="font-size:1rem">
+        <span class="ro">Gestionarea completă a lanțului de oferte și contrapropuneri. Fiecare pas al negocierii este înregistrat permanent, cu dată, oră și identitate — nicio ofertă nu se poate pierde.</span>
+        <span class="en">Complete management of offer and counter-offer chains. Every step of the negotiation is permanently recorded, with date, time and identity — no offer can be lost.</span>
+        <span class="ru">Полное управление цепочками предложений и контрпредложений. Каждый шаг переговоров постоянно фиксируется с датой, временем и личностью — ни одно предложение не может быть потеряно.</span>
+      </p>
+      <ul class="mlist">
+        <li><span class="mdot"></span>
+          <div><b style="color:var(--th)"><span class="ro">Lanț complet de oferte</span><span class="en">Complete offer chain</span><span class="ru">Полная цепочка предложений</span></b><br>
+          <span class="ro">Ofertă inițială → Contrapropunere → Contrapropunere secundară → Acceptare sau respingere finală. Fiecare verigă e legată de cea precedentă.</span>
+          <span class="en">Initial offer → Counter-offer → Secondary counter → Final acceptance or rejection. Each link is tied to the previous one.</span>
+          <span class="ru">Первоначальное предложение → Контрпредложение → Повторное контрпредложение → Окончательное принятие или отклонение. Каждое звено привязано к предыдущему.</span></div>
+        </li>
+        <li><span class="mdot"></span>
+          <div><b style="color:var(--th)"><span class="ro">Marcaj dată și oră</span><span class="en">Date and time stamp</span><span class="ru">Отметка даты и времени</span></b><br>
+          <span class="ro">Fiecare ofertă primește automat marcajul exact: zi, oră, minut, autor. Nicio modificare retroactivă nu este posibilă.</span>
+          <span class="en">Every offer automatically receives an exact stamp: day, hour, minute, author. No retroactive modification is possible.</span>
+          <span class="ru">Каждое предложение автоматически получает точную отметку: день, час, минута, автор. Никакие ретроактивные изменения невозможны.</span></div>
+        </li>
+        <li><span class="mdot"></span>
+          <div><b style="color:var(--th)"><span class="ro">Jurnal de audit permanent</span><span class="en">Permanent audit log</span><span class="ru">Постоянный журнал аудита</span></b><br>
+          <span class="ro">Înregistrările nu pot fi șterse sau modificate nici de admin. Sistemul de baze de date blochează orice UPDATE sau DELETE la nivel tehnic.</span>
+          <span class="en">Records cannot be deleted or modified even by admin. The database system blocks any UPDATE or DELETE at the technical level.</span>
+          <span class="ru">Записи нельзя удалить или изменить даже администратору. Система баз данных блокирует любые изменения или удаления на техническом уровне.</span></div>
+        </li>
+        <li><span class="mdot"></span>
+          <div><b style="color:var(--th)"><span class="ro">Protecție juridică</span><span class="en">Legal protection</span><span class="ru">Юридическая защита</span></b><br>
+          <span class="ro">Istoricul complet al negocierii poate fi exportat la cerere — util în disputele juridice sau pentru documentația notarială.</span>
+          <span class="en">Full negotiation history can be exported on demand — useful in legal disputes or for notarial documentation.</span>
+          <span class="ru">Полная история переговоров может быть экспортирована по запросу — полезна при юридических спорах или для нотариальной документации.</span></div>
+        </li>
+      </ul>
+    </div>
+    <div>
+      <h4 style="color:var(--tm);font-size:.8rem;letter-spacing:.08em;text-transform:uppercase;margin-bottom:1rem">
+        <span class="ro">Flux de negociere</span><span class="en">Negotiation flow</span><span class="ru">Процесс переговоров</span>
+      </h4>
+      <div class="wf">
+        <div class="wf-step"><div class="gc" style="width:34px;height:34px;font-size:.72rem">01</div><div class="wf-step-body"><h4><span class="ro">Cumpărătorul face o ofertă</span><span class="en">Buyer makes an offer</span><span class="ru">Покупатель делает предложение</span></h4><p><span class="ro">Suma, condițiile, termenul — înregistrate automat cu marcaj timp</span><span class="en">Amount, conditions, deadline — auto-recorded with timestamp</span><span class="ru">Сумма, условия, срок — автоматически зафиксированы с отметкой времени</span></p></div></div>
+        <div class="wf-arrow">↓</div>
+        <div class="wf-step"><div class="gc" style="width:34px;height:34px;font-size:.72rem">02</div><div class="wf-step-body"><h4><span class="ro">Vânzătorul vede oferta</span><span class="en">Seller sees the offer</span><span class="ru">Продавец видит предложение</span></h4><p><span class="ro">Agentul prezintă oferta — istoricul complet al negocierii e vizibil</span><span class="en">Agent presents the offer — full negotiation history visible</span><span class="ru">Агент представляет предложение — полная история переговоров видна</span></p></div></div>
+        <div class="wf-arrow">↓</div>
+        <div class="wf-step"><div class="gc" style="width:34px;height:34px;font-size:.72rem">03</div><div class="wf-step-body"><h4><span class="ro">Contrapropunere</span><span class="en">Counter-offer</span><span class="ru">Контрпредложение</span></h4><p><span class="ro">Vânzătorul propune altă sumă sau condiții — legată automat de oferta inițială</span><span class="en">Seller proposes different amount or conditions — auto-linked to initial offer</span><span class="ru">Продавец предлагает другую сумму или условия — автоматически привязано к первоначальному предложению</span></p></div></div>
+        <div class="wf-arrow">↓</div>
+        <div class="wf-step"><div class="gc" style="width:34px;height:34px;font-size:.72rem">04</div><div class="wf-step-body"><h4><span class="ro">Acceptare sau respingere</span><span class="en">Acceptance or rejection</span><span class="ru">Принятие или отклонение</span></h4><p><span class="ro">Decizia finală înregistrată — lanțul e complet și imutabil</span><span class="en">Final decision recorded — chain is complete and immutable</span><span class="ru">Окончательное решение зафиксировано — цепочка завершена и неизменна</span></p></div></div>
+        <div class="wf-arrow">↓</div>
+        <div class="wf-step"><div class="gc" style="width:34px;height:34px;font-size:.72rem">05</div><div class="wf-step-body"><h4><span class="ro">Tranzacție avansează</span><span class="en">Deal advances</span><span class="ru">Сделка продвигается</span></h4><p><span class="ro">La acceptare: tranzacția trece în etapa Notariat în panoul Kanban</span><span class="en">On acceptance: deal moves to Notary stage in Kanban panel</span><span class="ru">При принятии: сделка переходит на этап «Нотариус» в панели Kanban</span></p></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ S8 DEAL INTELLIGENCE -->
+<div class="sl" id="sl6">
+  <div class="pil-header">
+    <div class="gc lg">06</div>
+    <h2>
+      <span style="color:var(--ts);font-size:clamp(.85rem,1.1vw,1rem);font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-right:.5rem">
+        <span class="ro">Pilon 06</span><span class="en">Pillar 06</span><span class="ru">Модуль 06</span>:
+      </span>Deal Intelligence
+    </h2>
+  </div>
+  <div class="two-col">
+    <div>
+      <p style="font-size:1rem">
+        <span class="ro">Sistemul monitorizează în timp real sănătatea fiecărei tranzacții active. Agentul vede clar care tranzacții sunt pe calea cea bună și care necesită intervenție.</span>
+        <span class="en">The system monitors each active deal's health in real time. The agent sees clearly which deals are on track and which need intervention.</span>
+        <span class="ru">Система отслеживает состояние каждой активной сделки в режиме реального времени. Агент чётко видит, какие сделки идут по плану, а какие требуют вмешательства.</span>
+      </p>
+      <ul class="mlist">
+        <li><span class="mdot"></span>
+          <div><b style="color:var(--th)"><span class="ro">Indice de sănătate a tranzacției</span><span class="en">Deal health index</span><span class="ru">Индекс состояния сделки</span></b><br>
+          <span class="ro">3 stări: Merge bine · Necesită verificare · Risc ridicat. Calculat din factorul de timp, factorul de risc și interacțiunile recente.</span>
+          <span class="en">3 states: On track · Needs check · High risk. Calculated from time factor, risk factor and recent interactions.</span>
+          <span class="ru">3 состояния: Всё хорошо · Требует проверки · Высокий риск. Рассчитывается на основе временного фактора, фактора риска и недавних взаимодействий.</span></div>
+        </li>
+        <li><span class="mdot"></span>
+          <div><b style="color:var(--th)"><span class="ro">6 etape Kanban</span><span class="en">6 Kanban stages</span><span class="ru">6 этапов Kanban</span></b><br>
+          <span class="ro">Descoperire → Calificat → Ofertă → Negociere → Notariat → Câștigat. Fiecare tranzacție avansează prin glisare.</span>
+          <span class="en">Discovery → Qualified → Offer → Negotiation → Notary → Won. Each deal advances via drag.</span>
+          <span class="ru">Поиск → Квалификация → Предложение → Переговоры → Нотариус → Завершено. Каждая сделка продвигается перетаскиванием.</span></div>
+        </li>
+        <li><span class="mdot"></span>
+          <div><b style="color:var(--th)"><span class="ro">Probabilitate de închidere</span><span class="en">Closing probability</span><span class="ru">Вероятность закрытия</span></b><br>
+          <span class="ro">Calculată automat din: factorul de timp rămas + factorul de risc + intensitatea interacțiunii. Valoare între 0 și 1.</span>
+          <span class="en">Auto-calculated from: remaining time factor + risk factor + interaction intensity. Value between 0 and 1.</span>
+          <span class="ru">Рассчитывается автоматически из: остаточного временного фактора + фактора риска + интенсивности взаимодействия. Значение от 0 до 1.</span></div>
+        </li>
+        <li><span class="mdot"></span>
+          <div><b style="color:var(--th)"><span class="ro">Alerte preventive</span><span class="en">Preventive alerts</span><span class="ru">Превентивные уведомления</span></b><br>
+          <span class="ro">Agentul este notificat înainte ca starea să devină critică — nu după. Scopul este prevenirea pierderii tranzacției.</span>
+          <span class="en">Agent is notified before status becomes critical — not after. Goal is preventing deal loss.</span>
+          <span class="ru">Агент получает уведомление до того, как состояние становится критическим — не после. Цель — предотвращение потери сделки.</span></div>
+        </li>
+      </ul>
+      <!-- Kanban stage pills -->
+      <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:1rem">
+        <span class="tag tb"><span class="ro">Descoperire</span><span class="en">Discovery</span><span class="ru">Поиск</span></span>
+        <span class="tag tb"><span class="ro">Calificat</span><span class="en">Qualified</span><span class="ru">Квалификация</span></span>
+        <span class="tag tg"><span class="ro">Ofertă</span><span class="en">Offer</span><span class="ru">Предложение</span></span>
+        <span class="tag tg"><span class="ro">Negociere</span><span class="en">Negotiation</span><span class="ru">Переговоры</span></span>
+        <span class="tag tg"><span class="ro">Notariat</span><span class="en">Notary</span><span class="ru">Нотариус</span></span>
+        <span class="tag tgr"><span class="ro">Câștigat</span><span class="en">Won</span><span class="ru">Завершено</span></span>
+      </div>
+    </div>
+    <div>
+      <h4 style="color:var(--tm);font-size:.8rem;letter-spacing:.08em;text-transform:uppercase;margin-bottom:1rem">
+        <span class="ro">Monitorizarea sănătății tranzacției</span><span class="en">Deal health monitoring</span><span class="ru">Мониторинг состояния сделки</span>
+      </h4>
+      <div class="wf">
+        <div class="wf-step"><div class="gc" style="width:34px;height:34px;font-size:.72rem">01</div><div class="wf-step-body"><h4><span class="ro">Tranzacție creată</span><span class="en">Deal created</span><span class="ru">Сделка создана</span></h4><p><span class="ro">Client + Proprietate legate. Etapă inițială: Descoperire</span><span class="en">Client + Property linked. Initial stage: Discovery</span><span class="ru">Клиент + Объект связаны. Начальный этап: Поиск</span></p></div></div>
+        <div class="wf-arrow">↓</div>
+        <div class="wf-step"><div class="gc" style="width:34px;height:34px;font-size:.72rem">02</div><div class="wf-step-body"><h4><span class="ro">Calcul indice de sănătate</span><span class="en">Health index calculated</span><span class="ru">Рассчитан индекс состояния</span></h4><p><span class="ro">Sistemul evaluează: timp scurs, risc, interacțiuni recente</span><span class="en">System evaluates: elapsed time, risk, recent interactions</span><span class="ru">Система оценивает: прошедшее время, риск, недавние взаимодействия</span></p></div></div>
+        <div class="wf-arrow">↓</div>
+        <div class="wf-step"><div class="gc" style="width:34px;height:34px;font-size:.72rem">03</div><div class="wf-step-body"><h4><span class="ro">Avertizare timpurie</span><span class="en">Early warning</span><span class="ru">Раннее предупреждение</span></h4><p><span class="ro">Stare „Necesită verificare" → agent notificat pentru acțiune imediată</span><span class="en">State "Needs check" → agent notified for immediate action</span><span class="ru">Состояние «Требует проверки» → агент уведомлён для немедленных действий</span></p></div></div>
+        <div class="wf-arrow">↓</div>
+        <div class="wf-step"><div class="gc" style="width:34px;height:34px;font-size:.72rem">04</div><div class="wf-step-body"><h4><span class="ro">Avansare etapă Kanban</span><span class="en">Kanban stage advance</span><span class="ru">Продвижение этапа Kanban</span></h4><p><span class="ro">Agent glisează cardul la etapa următoare — indice recalculat</span><span class="en">Agent drags card to next stage — index recalculated</span><span class="ru">Агент перетаскивает карточку на следующий этап — индекс пересчитывается</span></p></div></div>
+        <div class="wf-arrow">↓</div>
+        <div class="wf-step"><div class="gc" style="width:34px;height:34px;font-size:.72rem">05</div><div class="wf-step-body"><h4><span class="ro">Tranzacție câștigată</span><span class="en">Deal won</span><span class="ru">Сделка завершена</span></h4><p><span class="ro">Etapa „Câștigat" → comision calculat + scor performanță agent actualizat</span><span class="en">Stage "Won" → commission calculated + agent performance score updated</span><span class="ru">Этап «Завершено» → комиссия рассчитана + оценка производительности агента обновлена</span></p></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ S9 PERFORMANCE INTELLIGENCE -->
+<div class="sl" id="sl7">
+  <div class="pil-header">
+    <div class="gc lg">07</div>
+    <h2>
+      <span style="color:var(--ts);font-size:clamp(.85rem,1.1vw,1rem);font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-right:.5rem">
+        <span class="ro">Pilon 07</span><span class="en">Pillar 07</span><span class="ru">Модуль 07</span>:
+      </span>Performance Intelligence
+    </h2>
+  </div>
+  <div class="two-col">
+    <div>
+      <p style="font-size:1rem">
+        <span class="ro">Performanța fiecărui agent este măsurată obiectiv și continuu. Managerul vede clasamentul echipei în timp real. Sistemul escaladează automat când sunt ignorate prioritățile.</span>
+        <span class="en">Each agent's performance is measured objectively and continuously. Manager sees the team leaderboard in real time. System auto-escalates when priorities are ignored.</span>
+        <span class="ru">Производительность каждого агента измеряется объективно и непрерывно. Менеджер видит рейтинг команды в реальном времени. Система автоматически эскалирует, когда приоритеты игнорируются.</span>
+      </p>
+      <ul class="mlist">
+        <li><span class="mdot"></span>
+          <div><b style="color:var(--th)"><span class="ro">Scor de performanță al agentului</span><span class="en">Agent performance score</span><span class="ru">Оценка производительности агента</span></b><br>
+          <span class="ro">Valoare de la 0 la 1. Scor implicit 0.65 pentru primele 30 de zile sau primele 5 tranzacții. Crește prin tranzacții finalizate și timp de răspuns respectat.</span>
+          <span class="en">Value 0 to 1. Default score 0.65 for first 30 days or first 5 deals. Grows through completed deals and respected response times.</span>
+          <span class="ru">Значение от 0 до 1. Начальная оценка 0.65 для первых 30 дней или первых 5 сделок. Растёт за счёт закрытых сделок и соблюдённых сроков ответа.</span></div>
+        </li>
+        <li><span class="mdot"></span>
+          <div><b style="color:var(--th)"><span class="ro">Nivel de încredere al clienților</span><span class="en">Client trust level</span><span class="ru">Уровень доверия клиентов</span></b><br>
+          <span class="ro">Calculat din recenzii, interacțiuni repetate și rate de conversie. Vizibil în profilul agentului.</span>
+          <span class="en">Calculated from reviews, repeat interactions and conversion rates. Visible in agent profile.</span>
+          <span class="ru">Рассчитывается на основе отзывов, повторных взаимодействий и показателей конверсии. Отображается в профиле агента.</span></div>
+        </li>
+        <li><span class="mdot"></span>
+          <div><b style="color:var(--th)"><span class="ro">Clasament echipă</span><span class="en">Team leaderboard</span><span class="ru">Рейтинг команды</span></b><br>
+          <span class="ro">Managerul vede în timp real performanța fiecărui agent: scor, tranzacții active, tranzacții câștigate, timp mediu de răspuns.</span>
+          <span class="en">Manager sees in real time each agent's performance: score, active deals, won deals, average response time.</span>
+          <span class="ru">Менеджер видит в реальном времени производительность каждого агента: оценку, активные сделки, закрытые сделки, среднее время ответа.</span></div>
+        </li>
+        <li><span class="mdot"></span>
+          <div><b style="color:var(--th)"><span class="ro">Escaladare automată pe 3 niveluri</span><span class="en">Auto-escalation on 3 levels</span><span class="ru">Автоматическая эскалация на 3 уровнях</span></b><br>
+          <span class="ro">La depășirea timpului limită de răspuns: Nivelul 1 (15 min) → Nivelul 2 (+30 min) → Nivelul 3 (+2 ore 15 min). Managerul este notificat la Nivelul 3.</span>
+          <span class="en">When response time limit is exceeded: Level 1 (15 min) → Level 2 (+30 min) → Level 3 (+2h 15 min). Manager notified at Level 3.</span>
+          <span class="ru">При превышении предельного времени ответа: Уровень 1 (15 мин) → Уровень 2 (+30 мин) → Уровень 3 (+2 ч 15 мин). Менеджер уведомляется на уровне 3.</span></div>
+        </li>
+      </ul>
+    </div>
+    <div>
+      <h4 style="color:var(--tm);font-size:.8rem;letter-spacing:.08em;text-transform:uppercase;margin-bottom:1rem">
+        <span class="ro">Ciclul de performanță</span><span class="en">Performance cycle</span><span class="ru">Цикл производительности</span>
+      </h4>
+      <div class="wf">
+        <div class="wf-step"><div class="gc" style="width:34px;height:34px;font-size:.72rem">01</div><div class="wf-step-body"><h4><span class="ro">Tranzacție finalizată</span><span class="en">Deal closed</span><span class="ru">Сделка закрыта</span></h4><p><span class="ro">Comisionul confirmат — scorul de performanță se actualizează automat</span><span class="en">Commission confirmed — performance score auto-updates</span><span class="ru">Комиссия подтверждена — оценка производительности обновляется автоматически</span></p></div></div>
+        <div class="wf-arrow">↓</div>
+        <div class="wf-step"><div class="gc" style="width:34px;height:34px;font-size:.72rem">02</div><div class="wf-step-body"><h4><span class="ro">Clasament actualizat</span><span class="en">Leaderboard updated</span><span class="ru">Рейтинг обновлён</span></h4><p><span class="ro">Poziția agentului în clasamentul echipei recalculată în timp real</span><span class="en">Agent's position in team leaderboard recalculated in real time</span><span class="ru">Позиция агента в рейтинге команды пересчитана в реальном времени</span></p></div></div>
+        <div class="wf-arrow">↓</div>
+        <div class="wf-step"><div class="gc" style="width:34px;height:34px;font-size:.72rem">03</div><div class="wf-step-body"><h4><span class="ro">Manager vede echipa</span><span class="en">Manager sees team</span><span class="ru">Менеджер видит команду</span></h4><p><span class="ro">Panou de bord manager: scoruri echipă + tranzacții active + escaladări în curs</span><span class="en">Manager panel: team scores + active deals + ongoing escalations</span><span class="ru">Панель менеджера: оценки команды + активные сделки + текущие эскалации</span></p></div></div>
+        <div class="wf-arrow">↓</div>
+        <div class="wf-step"><div class="gc" style="width:34px;height:34px;font-size:.72rem">04</div><div class="wf-step-body"><h4><span class="ro">Escaladare automată (dacă e cazul)</span><span class="en">Auto-escalation (if needed)</span><span class="ru">Автоматическая эскалация (при необходимости)</span></h4><p><span class="ro">Client fierbinte fără răspuns → 3 niveluri de alertă crescătoare</span><span class="en">Hot client without response → 3 escalating alert levels</span><span class="ru">Горячий клиент без ответа → 3 уровня нарастающих уведомлений</span></p></div></div>
+        <div class="wf-arrow">↓</div>
+        <div class="wf-step"><div class="gc" style="width:34px;height:34px;font-size:.72rem">05</div><div class="wf-step-body"><h4><span class="ro">Raport periodic generat</span><span class="en">Periodic report generated</span><span class="ru">Периодический отчёт сгенерирован</span></h4><p><span class="ro">Performanța lunară per agent: tranzacții + comision + timp mediu răspuns + evoluție scor</span><span class="en">Monthly performance per agent: deals + commission + avg response time + score evolution</span><span class="ru">Ежемесячная производительность агента: сделки + комиссия + среднее время ответа + динамика оценки</span></p></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ S10 TRUST INTELLIGENCE -->
+<div class="sl" id="sl8">
+  <div class="pil-header">
+    <div class="gc lg">08</div>
+    <h2>
+      <span style="color:var(--ts);font-size:clamp(.85rem,1.1vw,1rem);font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-right:.5rem">
+        <span class="ro">Pilon 08</span><span class="en">Pillar 08</span><span class="ru">Модуль 08</span>:
+      </span>Trust Intelligence
+    </h2>
+  </div>
+  <div class="two-col">
+    <div>
+      <p style="font-size:1rem">
+        <span class="ro">Un agent de imobiliare trăiește din recomandări. REVYX urmărește câte promisiuni face agentul față de clienți și câte respectă — și transformă acest comportament într-un scor vizibil de credibilitate.</span>
+        <span class="en">A real estate agent lives on referrals. REVYX tracks how many promises the agent makes to clients and how many are kept — turning this behavior into a visible credibility score.</span>
+        <span class="ru">Агент по недвижимости живёт за счёт рекомендаций. REVYX отслеживает, сколько обещаний агент даёт клиентам и сколько выполняет — превращая это поведение в видимый показатель доверия.</span>
+      </p>
+      <ul class="mlist">
+        <li><span class="mdot"></span>
+          <div><b style="color:var(--th)"><span class="ro">Indicatorul de promisiuni respectate (PKI)</span><span class="en">Promise Keeping Index (PKI)</span><span class="ru">Индекс выполнения обещаний (PKI)</span></b><br>
+          <span class="ro">Sistemul înregistrează fiecare angajament față de client — „Te sun mâine", „Trimit oferta azi". PKI crește la fiecare promisiune ținută, scade la fiecare ratată.</span>
+          <span class="en">The system records every commitment to a client — "I'll call tomorrow", "I'll send the offer today". PKI grows with every kept promise, drops with every missed one.</span>
+          <span class="ru">Система записывает каждое обязательство перед клиентом — «Позвоню завтра», «Пришлю предложение сегодня». PKI растёт с каждым выполненным обещанием, снижается при пропуске.</span></div>
+        </li>
+        <li><span class="mdot"></span>
+          <div><b style="color:var(--th)"><span class="ro">Scorul de încredere al clientului</span><span class="en">Client trust score</span><span class="ru">Оценка доверия клиента</span></b><br>
+          <span class="ro">Calculat din PKI + frecvența interacțiunilor + calitatea răspunsurilor + recenzii directe. Valoare de la 0 la 1. Target recomandat: ≥ 0.75.</span>
+          <span class="en">Calculated from PKI + interaction frequency + response quality + direct reviews. Value 0 to 1. Recommended target: ≥ 0.75.</span>
+          <span class="ru">Рассчитывается из PKI + частота взаимодействий + качество ответов + прямые отзывы. Значение от 0 до 1. Рекомендуемая цель: ≥ 0.75.</span></div>
+        </li>
+        <li><span class="mdot"></span>
+          <div><b style="color:var(--th)"><span class="ro">Clienți care revin și recomandă</span><span class="en">Returning and referring clients</span><span class="ru">Клиенты, которые возвращаются и рекомендуют</span></b><br>
+          <span class="ro">La 12 luni după tranzacție — reminder automat de contact. La 24 luni — propunere de upgrade sau recomandare nouă. Clienți vechi cu încredere ridicată = sursa cea mai ieftină de noi clienți.</span>
+          <span class="en">12 months after the deal — automatic contact reminder. 24 months — upgrade or new referral prompt. High-trust past clients = cheapest source of new clients.</span>
+          <span class="ru">Через 12 месяцев после сделки — автоматическое напоминание. Через 24 месяца — предложение апгрейда или новой рекомендации. Лояльные клиенты = самый дешёвый источник новых клиентов.</span></div>
+        </li>
+        <li><span class="mdot"></span>
+          <div><b style="color:var(--th)"><span class="ro">Avertizări etice (BR-28)</span><span class="en">Ethics alerts (BR-28)</span><span class="ru">Этические предупреждения (BR-28)</span></b><br>
+          <span class="ro">Sistemul detectează situații sensibile: doi clienți pe același apartament, gap financiar nedeclarat, conflict de interese. Agentul confirmă manual înainte de a continua.</span>
+          <span class="en">The system detects sensitive situations: two clients on the same property, undisclosed financial gap, conflict of interest. Agent confirms manually before proceeding.</span>
+          <span class="ru">Система обнаруживает деликатные ситуации: два клиента на один объект, незадекларированный финансовый разрыв, конфликт интересов. Агент подтверждает вручную перед продолжением.</span></div>
+        </li>
+      </ul>
+    </div>
+    <div>
+      <h4 style="color:var(--tm);font-size:.8rem;letter-spacing:.08em;text-transform:uppercase;margin-bottom:1rem">
+        <span class="ro">Ciclul de încredere</span><span class="en">Trust cycle</span><span class="ru">Цикл доверия</span>
+      </h4>
+      <div class="wf">
+        <div class="wf-step"><div class="gc" style="width:34px;height:34px;font-size:.72rem">01</div><div class="wf-step-body"><h4><span class="ro">Angajament înregistrat</span><span class="en">Commitment recorded</span><span class="ru">Обязательство зафиксировано</span></h4><p><span class="ro">Agentul promite clientului o acțiune — sistemul o înregistrează cu termen</span><span class="en">Agent promises client an action — system records it with a deadline</span><span class="ru">Агент обещает клиенту действие — система фиксирует с дедлайном</span></p></div></div>
+        <div class="wf-arrow">↓</div>
+        <div class="wf-step"><div class="gc" style="width:34px;height:34px;font-size:.72rem">02</div><div class="wf-step-body"><h4><span class="ro">Acțiune executată</span><span class="en">Action executed</span><span class="ru">Действие выполнено</span></h4><p><span class="ro">Agentul finalizează — PKI crește. Dacă ratează — PKI scade, reminder trimis</span><span class="en">Agent completes — PKI grows. If missed — PKI drops, reminder sent</span><span class="ru">Агент выполняет — PKI растёт. Если пропущено — PKI снижается, напоминание отправлено</span></p></div></div>
+        <div class="wf-arrow">↓</div>
+        <div class="wf-step"><div class="gc" style="width:34px;height:34px;font-size:.72rem">03</div><div class="wf-step-body"><h4><span class="ro">Scor vizibil agentului</span><span class="en">Score visible to agent</span><span class="ru">Оценка видна агенту</span></h4><p><span class="ro">Dashboard personal afișează PKI curent + evoluție + obiectiv ≥ 0.75</span><span class="en">Personal dashboard shows current PKI + trend + goal ≥ 0.75</span><span class="ru">Личный дашборд показывает текущий PKI + динамику + цель ≥ 0.75</span></p></div></div>
+        <div class="wf-arrow">↓</div>
+        <div class="wf-step"><div class="gc" style="width:34px;height:34px;font-size:.72rem">04</div><div class="wf-step-body"><h4><span class="ro">Contact client fidel (T+12/24 luni)</span><span class="en">Loyal client contact (T+12/24 months)</span><span class="ru">Контакт лояльного клиента (T+12/24 мес)</span></h4><p><span class="ro">Reminder automat după tranzacție — sursă de recomandări fără cost suplimentar</span><span class="en">Auto-reminder post-deal — referral source with no extra cost</span><span class="ru">Авторемайндер после сделки — источник рекомендаций без дополнительных затрат</span></p></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ S11 AGI LAYER -->
+<div class="sl" id="sl9">
+  <div class="pil-header">
+    <div class="gc lg" style="background:rgba(201,135,10,0.2);border-color:rgba(201,135,10,0.6);">★</div>
+    <h2>
+      <span style="color:var(--ts);font-size:clamp(.85rem,1.1vw,1rem);font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-right:.5rem">
+        <span class="ro">Stratul de creștere</span><span class="en">Growth Layer</span><span class="ru">Слой развития</span>:
+      </span>Agent Growth Intelligence
+    </h2>
+  </div>
+
+  <!-- Diagrama vizuală: AGI deasupra celor 8 motoare -->
+  <div style="margin-bottom:1.5rem;">
+    <div style="background:linear-gradient(135deg,rgba(201,135,10,0.15),rgba(201,135,10,0.07));border:1px solid rgba(201,135,10,0.45);border-radius:10px 10px 0 0;padding:1rem 1.25rem;text-align:center;">
+      <div style="font-size:.68rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:.6rem;">
+        ✦ <span class="ro">Stratul AGI — Mentorul agentului</span><span class="en">AGI Layer — The Agent's Mentor</span><span class="ru">Слой AGI — Наставник агента</span>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;gap:.5rem;justify-content:center;">
+        <span style="padding:4px 12px;background:rgba(201,135,10,0.12);border:1px solid rgba(201,135,10,0.35);border-radius:16px;font-size:.78rem;font-weight:600;color:var(--gold);">🎯 <span class="ro">Obiective</span><span class="en">Goals</span><span class="ru">Цели</span></span>
+        <span style="padding:4px 12px;background:rgba(201,135,10,0.12);border:1px solid rgba(201,135,10,0.35);border-radius:16px;font-size:.78rem;font-weight:600;color:var(--gold);">📖 <span class="ro">Ghiduri</span><span class="en">Guides</span><span class="ru">Руководства</span></span>
+        <span style="padding:4px 12px;background:rgba(201,135,10,0.12);border:1px solid rgba(201,135,10,0.35);border-radius:16px;font-size:.78rem;font-weight:600;color:var(--gold);">⚖️ <span class="ro">Etică</span><span class="en">Ethics</span><span class="ru">Этика</span></span>
+        <span style="padding:4px 12px;background:rgba(201,135,10,0.12);border:1px solid rgba(201,135,10,0.35);border-radius:16px;font-size:.78rem;font-weight:600;color:var(--gold);">🤝 <span class="ro">Încredere</span><span class="en">Trust</span><span class="ru">Доверие</span></span>
+        <span style="padding:4px 12px;background:rgba(201,135,10,0.12);border:1px solid rgba(201,135,10,0.35);border-radius:16px;font-size:.78rem;font-weight:600;color:var(--gold);">👥 <span class="ro">Clienți fideli</span><span class="en">Alumni</span><span class="ru">Лояльные клиенты</span></span>
+        <span style="padding:4px 12px;background:rgba(201,135,10,0.12);border:1px solid rgba(201,135,10,0.35);border-radius:16px;font-size:.78rem;font-weight:600;color:var(--gold);">💰 <span class="ro">Putere financiară</span><span class="en">Financial Power</span><span class="ru">Финансовая мощь</span></span>
+      </div>
+    </div>
+    <div style="display:flex;justify-content:space-around;padding:3px 2rem;background:rgba(201,135,10,0.04);border-left:1px solid rgba(201,135,10,0.2);border-right:1px solid rgba(201,135,10,0.2);">
+      <span style="color:var(--gold);">↓</span><span style="color:var(--gold);">↓</span><span style="color:var(--gold);">↓</span><span style="color:var(--gold);">↓</span><span style="color:var(--gold);">↓</span><span style="color:var(--gold);">↓</span><span style="color:var(--gold);">↓</span><span style="color:var(--gold);">↓</span>
+    </div>
+    <div style="background:var(--c2);border:1px solid rgba(143,168,204,0.15);border-top:none;border-radius:0 0 10px 10px;padding:.75rem 1.25rem;display:flex;flex-wrap:wrap;gap:.5rem;justify-content:center;">
+      <span style="padding:3px 10px;background:rgba(143,168,204,0.08);border:1px solid rgba(143,168,204,0.15);border-radius:14px;font-size:.72rem;font-weight:600;color:var(--tm);font-family:monospace;">01 <span class="ro">Clienți</span><span class="en">Clients</span><span class="ru">Клиенты</span></span>
+      <span style="padding:3px 10px;background:rgba(143,168,204,0.08);border:1px solid rgba(143,168,204,0.15);border-radius:14px;font-size:.72rem;font-weight:600;color:var(--tm);font-family:monospace;">02 <span class="ro">Anunțuri</span><span class="en">Listings</span><span class="ru">Объявления</span></span>
+      <span style="padding:3px 10px;background:rgba(143,168,204,0.08);border:1px solid rgba(143,168,204,0.15);border-radius:14px;font-size:.72rem;font-weight:600;color:var(--tm);font-family:monospace;">03 <span class="ro">Potrivire</span><span class="en">Match</span><span class="ru">Подбор</span></span>
+      <span style="padding:3px 10px;background:rgba(143,168,204,0.08);border:1px solid rgba(143,168,204,0.15);border-radius:14px;font-size:.72rem;font-weight:600;color:var(--tm);font-family:monospace;">04 <span class="ro">Acțiune</span><span class="en">Action</span><span class="ru">Действие</span></span>
+      <span style="padding:3px 10px;background:rgba(143,168,204,0.08);border:1px solid rgba(143,168,204,0.15);border-radius:14px;font-size:.72rem;font-weight:600;color:var(--tm);font-family:monospace;">05 <span class="ro">Negociere</span><span class="en">Negotiation</span><span class="ru">Переговоры</span></span>
+      <span style="padding:3px 10px;background:rgba(143,168,204,0.08);border:1px solid rgba(143,168,204,0.15);border-radius:14px;font-size:.72rem;font-weight:600;color:var(--tm);font-family:monospace;">06 <span class="ro">Deal</span><span class="en">Deal</span><span class="ru">Сделка</span></span>
+      <span style="padding:3px 10px;background:rgba(143,168,204,0.08);border:1px solid rgba(143,168,204,0.15);border-radius:14px;font-size:.72rem;font-weight:600;color:var(--tm);font-family:monospace;">07 <span class="ro">Performanță</span><span class="en">Performance</span><span class="ru">Эффективность</span></span>
+      <span style="padding:3px 10px;background:rgba(143,168,204,0.08);border:1px solid rgba(143,168,204,0.15);border-radius:14px;font-size:.72rem;font-weight:600;color:var(--tm);font-family:monospace;">08 <span class="ro">Încredere</span><span class="en">Trust</span><span class="ru">Доверие</span></span>
+    </div>
+  </div>
+
+  <!-- 6 componente AGI -->
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:.9rem;">
+    <div style="background:var(--c2);border:1px solid rgba(143,168,204,0.12);border-radius:10px;padding:1rem;">
+      <div style="font-size:1.2rem;margin-bottom:.4rem;">🎯</div>
+      <div style="font-size:.82rem;font-weight:700;color:var(--th);margin-bottom:.35rem;"><span class="ro">Obiective lunare clare</span><span class="en">Clear monthly goals</span><span class="ru">Чёткие ежемесячные цели</span></div>
+      <div style="font-size:.78rem;color:var(--tm);line-height:1.55;"><span class="ro"><b style="color:var(--tb)">Sistemul vede:</b> ritmul actual. <b style="color:var(--tb)">Agentul primește:</b> target clar pe lună, vizibil zilnic în dashboard.</span><span class="en"><b style="color:var(--tb)">System sees:</b> current pace. <b style="color:var(--tb)">Agent gets:</b> clear monthly target, visible daily in dashboard.</span><span class="ru"><b style="color:var(--tb)">Система видит:</b> текущий темп. <b style="color:var(--tb)">Агент получает:</b> чёткую цель на месяц, видимую ежедневно.</span></div>
+    </div>
+    <div style="background:var(--c2);border:1px solid rgba(143,168,204,0.12);border-radius:10px;padding:1rem;">
+      <div style="font-size:1.2rem;margin-bottom:.4rem;">📖</div>
+      <div style="font-size:.82rem;font-weight:700;color:var(--th);margin-bottom:.35rem;"><span class="ro">Ghiduri practice pas cu pas</span><span class="en">Step-by-step practical guides</span><span class="ru">Пошаговые практические руководства</span></div>
+      <div style="font-size:.78rem;color:var(--tm);line-height:1.55;"><span class="ro"><b style="color:var(--tb)">Sistemul vede:</b> acțiunea recomandată. <b style="color:var(--tb)">Agentul primește:</b> script gata — ce să spui, cum, în ce ordine.</span><span class="en"><b style="color:var(--tb)">System sees:</b> recommended action. <b style="color:var(--tb)">Agent gets:</b> ready script — what to say, how, in what order.</span><span class="ru"><b style="color:var(--tb)">Система видит:</b> рекомендуемое действие. <b style="color:var(--tb)">Агент получает:</b> готовый скрипт — что, как, в каком порядке.</span></div>
+    </div>
+    <div style="background:var(--c2);border:1px solid rgba(143,168,204,0.12);border-radius:10px;padding:1rem;">
+      <div style="font-size:1.2rem;margin-bottom:.4rem;">⚖️</div>
+      <div style="font-size:.82rem;font-weight:700;color:var(--th);margin-bottom:.35rem;"><span class="ro">Avertizări etice</span><span class="en">Ethics alerts</span><span class="ru">Этические предупреждения</span></div>
+      <div style="font-size:.78rem;color:var(--tm);line-height:1.55;"><span class="ro"><b style="color:var(--tb)">Sistemul vede:</b> situații delicate (2 clienți pe același apt, gap financiar). <b style="color:var(--tb)">Agentul primește:</b> alertă — confirmă înainte de a continua.</span><span class="en"><b style="color:var(--tb)">System sees:</b> sensitive situations. <b style="color:var(--tb)">Agent gets:</b> alert — confirm before proceeding.</span><span class="ru"><b style="color:var(--tb)">Система видит:</b> деликатные ситуации. <b style="color:var(--tb)">Агент получает:</b> предупреждение — подтвердить перед продолжением.</span></div>
+    </div>
+    <div style="background:var(--c2);border:1px solid rgba(143,168,204,0.12);border-radius:10px;padding:1rem;">
+      <div style="font-size:1.2rem;margin-bottom:.4rem;">🤝</div>
+      <div style="font-size:.82rem;font-weight:700;color:var(--th);margin-bottom:.35rem;"><span class="ro">Scorul de credibilitate (PKI)</span><span class="en">Credibility score (PKI)</span><span class="ru">Оценка доверия (PKI)</span></div>
+      <div style="font-size:.78rem;color:var(--tm);line-height:1.55;"><span class="ro"><b style="color:var(--tb)">Sistemul vede:</b> promisiuni făcute vs. respectate. <b style="color:var(--tb)">Agentul primește:</b> scor personal — crește la fiecare promisiune ținută.</span><span class="en"><b style="color:var(--tb)">System sees:</b> promises made vs. kept. <b style="color:var(--tb)">Agent gets:</b> personal score — grows with every kept promise.</span><span class="ru"><b style="color:var(--tb)">Система видит:</b> обещания данные vs. выполненные. <b style="color:var(--tb)">Агент получает:</b> личный счёт — растёт с каждым выполненным обещанием.</span></div>
+    </div>
+    <div style="background:var(--c2);border:1px solid rgba(143,168,204,0.12);border-radius:10px;padding:1rem;">
+      <div style="font-size:1.2rem;margin-bottom:.4rem;">👥</div>
+      <div style="font-size:.82rem;font-weight:700;color:var(--th);margin-bottom:.35rem;"><span class="ro">Relația după tranzacție</span><span class="en">Post-deal relationship</span><span class="ru">Отношения после сделки</span></div>
+      <div style="font-size:.78rem;color:var(--tm);line-height:1.55;"><span class="ro"><b style="color:var(--tb)">Sistemul vede:</b> data mutării clientului. <b style="color:var(--tb)">Agentul primește:</b> reminder la 12 și 24 luni — sursa cea mai ieftină de noi clienți.</span><span class="en"><b style="color:var(--tb)">System sees:</b> client move-in date. <b style="color:var(--tb)">Agent gets:</b> reminder at 12 and 24 months — cheapest source of new clients.</span><span class="ru"><b style="color:var(--tb)">Система видит:</b> дату переезда клиента. <b style="color:var(--tb)">Агент получает:</b> напоминание через 12 и 24 месяца — самый дешёвый источник новых клиентов.</span></div>
+    </div>
+    <div style="background:var(--c2);border:1px solid rgba(201,135,10,0.2);border-radius:10px;padding:1rem;">
+      <div style="font-size:1.2rem;margin-bottom:.4rem;">💰</div>
+      <div style="font-size:.82rem;font-weight:700;color:var(--th);margin-bottom:.35rem;"><span class="ro">Puterea reală de cumpărare</span><span class="en">Real purchasing power</span><span class="ru">Реальная покупательная способность</span></div>
+      <div style="font-size:.78rem;color:var(--tm);line-height:1.55;"><span class="ro"><b style="color:var(--tb)">Sistemul vede:</b> buget declarat vs. confirmat de bancă (diferență 15-25% în Moldova). <b style="color:var(--tb)">Agentul primește:</b> semnal clar — clientul poate cumpăra realist sau nu.</span><span class="en"><b style="color:var(--tb)">System sees:</b> declared vs. bank-confirmed budget (15-25% gap in Moldova). <b style="color:var(--tb)">Agent gets:</b> clear signal — can the client realistically buy or not.</span><span class="ru"><b style="color:var(--tb)">Система видит:</b> заявленный vs. подтверждённый банком бюджет (разрыв 15-25% в Молдове). <b style="color:var(--tb)">Агент получает:</b> чёткий сигнал — может ли клиент реально купить.</span></div>
+    </div>
+  </div>
+
+  <!-- Claim final -->
+  <div style="margin-top:1.25rem;text-align:center;padding:.75rem 1.5rem;background:rgba(201,135,10,0.08);border:1px solid rgba(201,135,10,0.25);border-radius:10px;">
+    <div style="font-size:.95rem;font-weight:700;color:var(--gold);">
+      <span class="ro">Concurenții construiesc software de gestiune. REVYX construiește profesioniști imobiliari.</span>
+      <span class="en">Competitors build management software. REVYX builds real estate professionals.</span>
+      <span class="ru">Конкуренты создают программы управления. REVYX создаёт профессионалов недвижимости.</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ S12 ROLES + WEB/MOBILE -->
+<div class="sl" id="sl10">
+  <div style="width:100%;max-width:1300px">
+    <div class="tag tg" style="margin-bottom:.75rem">
+      <span class="ro">Slide 10</span><span class="en">Slide 10</span><span class="ru">Слайд 10</span>
+    </div>
+    <h2>
+      <span class="ro">Roluri și Platforme</span>
+      <span class="en">Roles & Platforms</span>
+      <span class="ru">Роли и Платформы</span>
+    </h2>
+    <div class="div-gold"></div>
+  </div>
+  <!-- 5 role cards -->
+  <div class="roles-grid">
+    <!-- Agent -->
+    <div class="role-card">
+      <div class="gc">01</div>
+      <h4><span class="ro">Agent</span><span class="en">Agent</span><span class="ru">Агент</span></h4>
+      <p><span class="ro">Lucrează direct cu clienții. Gestionează lista proprie de clienți, vizionările, ofertele și tranzacțiile. Accesează calificarea automată și acțiunile recomandate.</span><span class="en">Works directly with clients. Manages own client list, showings, offers and deals. Accesses auto-qualification and recommended actions.</span><span class="ru">Работает напрямую с клиентами. Ведёт собственный список клиентов, показы, предложения и сделки. Использует автоквалификацию и рекомендуемые действия.</span></p>
+      <div class="plat-row">
+        <span class="plat plat-w">🌐 Web</span>
+        <span class="plat plat-m">📱 <span class="ro">Mobil</span><span class="en">Mobile</span><span class="ru">Мобильная</span></span>
+      </div>
+    </div>
+    <!-- Senior Agent -->
+    <div class="role-card">
+      <div class="gc">02</div>
+      <h4><span class="ro">Agent Senior</span><span class="en">Senior Agent</span><span class="ru">Старший агент</span></h4>
+      <p><span class="ro">Toate drepturile agentului plus: poate vizualiza și prelua clienții agenților cu performanță scăzută. Poate verifica și semna ofertele pregătite de agenți.</span><span class="en">All agent rights plus: can view and take over clients from low-performing agents. Can review and sign offers prepared by agents.</span><span class="ru">Все права агента плюс: может просматривать и принимать клиентов от агентов с низкой эффективностью. Может проверять и подписывать предложения, подготовленные агентами.</span></p>
+      <div class="plat-row">
+        <span class="plat plat-w">🌐 Web</span>
+        <span class="plat plat-m">📱 <span class="ro">Mobil</span><span class="en">Mobile</span><span class="ru">Мобильная</span></span>
+      </div>
+    </div>
+    <!-- Team Lead -->
+    <div class="role-card">
+      <div class="gc">03</div>
+      <h4><span class="ro">Lider de Echipă</span><span class="en">Team Lead</span><span class="ru">Руководитель группы</span></h4>
+      <p><span class="ro">Supervizează o echipă de 3–10 agenți. Vede performanța individuală, poate redistribui clienții și setează direcția de lucru pentru echipă.</span><span class="en">Supervises a team of 3–10 agents. Sees individual performance, can redistribute clients and sets work direction for the team.</span><span class="ru">Руководит командой 3–10 агентов. Видит индивидуальную производительность, может перераспределять клиентов и устанавливать направление работы команды.</span></p>
+      <div class="plat-row">
+        <span class="plat plat-w">🌐 Web</span>
+        <span class="plat plat-m">📱 <span class="ro">Parțial</span><span class="en">Partial</span><span class="ru">Частично</span></span>
+      </div>
+    </div>
+    <!-- Manager -->
+    <div class="role-card">
+      <div class="gc">04</div>
+      <h4><span class="ro">Manager</span><span class="en">Manager</span><span class="ru">Менеджер</span></h4>
+      <p><span class="ro">Vede toate echipele, toate tranzacțiile active și toate escaladările în curs. Accesează rapoartele complete de performanță și poate configura regulile sistemului.</span><span class="en">Sees all teams, all active deals and all ongoing escalations. Accesses full performance reports and can configure system rules.</span><span class="ru">Видит все команды, все активные сделки и все текущие эскалации. Имеет доступ к полным отчётам о производительности и может настраивать правила системы.</span></p>
+      <div class="plat-row">
+        <span class="plat plat-w">🌐 Web</span>
+      </div>
+    </div>
+    <!-- Admin -->
+    <div class="role-card">
+      <div class="gc">05</div>
+      <h4><span class="ro">Administrator</span><span class="en">Administrator</span><span class="ru">Администратор</span></h4>
+      <p><span class="ro">Acces complet la toate modulele. Gestionează utilizatorii, drepturile de acces, configurația companiei, integrările externe și rapoartele de conformitate.</span><span class="en">Full access to all modules. Manages users, access rights, company configuration, external integrations and compliance reports.</span><span class="ru">Полный доступ ко всем модулям. Управляет пользователями, правами доступа, конфигурацией компании, внешними интеграциями и отчётами о соответствии.</span></p>
+      <div class="plat-row">
+        <span class="plat plat-w">🌐 Web <span class="ro">exclusiv</span><span class="en">only</span><span class="ru">только</span></span>
+      </div>
+    </div>
+  </div>
+  <!-- Platform split -->
+  <div class="plat-bar">
+    <div class="plat-box plat-web-box">
+      <div style="display:flex;align-items:center;gap:.75rem;margin-bottom:.75rem">
+        <span style="font-size:1.5rem">🌐</span>
+        <div>
+          <h4 style="color:var(--gold)">Web ~80%</h4>
+          <p style="font-size:.75rem"><span class="ro">Platforma principală — browser desktop</span><span class="en">Primary platform — desktop browser</span><span class="ru">Основная платформа — браузер на рабочем столе</span></p>
+        </div>
+      </div>
+      <p style="font-size:.8rem">
+        <span class="ro">Panou de bord complet · Gestionare clienți · Flux de tranzacții Kanban · Configurare proprietăți · Rapoarte manager · Panou administrator · Notar digital · Setări sistem</span>
+        <span class="en">Full dashboard · Client management · Kanban deal pipeline · Property setup · Manager reports · Admin panel · Digital notary · System settings</span>
+        <span class="ru">Полная панель управления · Управление клиентами · Конвейер сделок Kanban · Настройка объектов · Отчёты менеджера · Панель администратора · Электронный нотариус · Настройки системы</span>
+      </p>
+    </div>
+    <div class="plat-box plat-mob-box">
+      <div style="display:flex;align-items:center;gap:.75rem;margin-bottom:.75rem">
+        <span style="font-size:1.5rem">📱</span>
+        <div>
+          <h4 style="color:var(--green)"><span class="ro">Mobil ~20%</span><span class="en">Mobile ~20%</span><span class="ru">Мобильная ~20%</span></h4>
+          <p style="font-size:.75rem"><span class="ro">Platformă complementară — agent în teren</span><span class="en">Companion platform — field agent</span><span class="ru">Дополнительная платформа — агент на выезде</span></p>
+        </div>
+      </div>
+      <p style="font-size:.8rem">
+        <span class="ro">Notificări urgente · Vizualizare clienți fierbinți · Adăugare note rapide · Programare vizionare pe loc · Verificare acțiune recomandată · Apel direct din aplicație</span>
+        <span class="en">Urgent notifications · Hot client view · Quick note adding · On-site showing scheduling · Check recommended action · Direct in-app call</span>
+        <span class="ru">Срочные уведомления · Просмотр горячих клиентов · Быстрые заметки · Запись показа на месте · Проверка рекомендуемого действия · Прямой звонок из приложения</span>
+      </p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ S12 ROADMAP -->
+<div class="sl" id="sl11">
+  <div style="width:100%;max-width:1300px">
+    <div class="tag tg" style="margin-bottom:.75rem">
+      <span class="ro">Slide 11</span><span class="en">Slide 11</span><span class="ru">Слайд 11</span>
+    </div>
+    <h2>
+      <span class="ro">Foaia de parcurs</span>
+      <span class="en">Roadmap</span>
+      <span class="ru">Дорожная карта</span>
+    </h2>
+    <div class="div-gold"></div>
+  </div>
+  <div class="rm-grid">
+
+    <!-- M0 -->
+    <div class="rm-phase rm-done">
+      <div style="display:flex;align-items:center;gap:.75rem;margin-bottom:.75rem">
+        <div class="gc" style="background:rgba(15,186,127,.15);border-color:rgba(15,186,127,.5);color:var(--green)">M0</div>
+        <div>
+          <h4 style="color:var(--green)"><span class="ro">Etapa 0 — Demonstrație MVP</span><span class="en">Stage 0 — MVP Demo</span><span class="ru">Этап 0 — Демонстрация MVP</span></h4>
+          <span class="tag tgr" style="font-size:.65rem;margin-top:3px">✓ <span class="ro">FINALIZAT</span><span class="en">COMPLETE</span><span class="ru">ЗАВЕРШЁН</span></span>
+        </div>
+      </div>
+      <ul class="rm-list">
+        <li><span class="rm-done-dot">✓</span><span class="ro">Sistem de design vizual + componente de interfață</span><span class="en">Visual design system + UI components</span><span class="ru">Система визуального дизайна + компоненты интерфейса</span></li>
+        <li><span class="rm-done-dot">✓</span><span class="ro">Prototip web interactiv (toate cele 7 module)</span><span class="en">Interactive web prototype (all 7 modules)</span><span class="ru">Интерактивный веб-прототип (все 7 модулей)</span></li>
+        <li><span class="rm-done-dot">✓</span><span class="ro">Suport vânzare și închiriere</span><span class="en">Sale and rent support</span><span class="ru">Поддержка продажи и аренды</span></li>
+        <li><span class="rm-done-dot">✓</span><span class="ro">Flux Kanban tranzacții + Notar digital</span><span class="en">Kanban deal pipeline + Digital notary</span><span class="ru">Конвейер сделок Kanban + Электронный нотариус</span></li>
+        <li><span class="rm-done-dot">✓</span><span class="ro">Direcție de lucru: vânzare / închiriere / ambele</span><span class="en">Work direction: sale / rent / both</span><span class="ru">Направление работы: продажа / аренда / оба</span></li>
+        <li><span class="rm-done-dot">✓</span><span class="ro">Interfață trilingvă: Română / Rusă / Engleză</span><span class="en">Trilingual interface: Romanian / Russian / English</span><span class="ru">Трёхязычный интерфейс: Румынский / Русский / Английский</span></li>
+      </ul>
+    </div>
+
+    <!-- M1 -->
+    <div class="rm-phase rm-active">
+      <div style="display:flex;align-items:center;gap:.75rem;margin-bottom:.75rem">
+        <div class="gc">M1</div>
+        <div>
+          <h4 style="color:var(--gold)"><span class="ro">Etapa 1 — MVP Funcțional</span><span class="en">Stage 1 — Functional MVP</span><span class="ru">Этап 1 — Функциональный MVP</span></h4>
+          <span class="tag tg" style="font-size:.65rem;margin-top:3px">★ <span class="ro">ACTIV</span><span class="en">ACTIVE</span><span class="ru">АКТИВЕН</span></span>
+        </div>
+      </div>
+      <ul class="rm-list">
+        <li><span class="rm-done-dot">✓</span><span class="ro">S1: Fundament de securitate — Autentificare cu token + Roluri de acces + Protecție date personale</span><span class="en">S1: Security foundation — Token auth + Access roles + Personal data protection</span><span class="ru">S1: Основа безопасности — Аутентификация токена + Роли доступа + Защита персональных данных</span></li>
+        <li><span class="rm-done-dot">✓</span><span class="ro">S2: Fundament tehnic — 9 entități bază de date + Module programatice + Calcule formule</span><span class="en">S2: Technical foundation — 9 DB entities + API modules + Formula calculations</span><span class="ru">S2: Техническая основа — 9 сущностей БД + Программные модули + Расчёты формул</span></li>
+        <li><span class="rm-act-dot">→</span><span class="ro">S3: Preluare clienți — Webhooks Meta/Google/OLX + Motor de calificare în timp real</span><span class="en">S3: Lead intake — Meta/Google/OLX webhooks + Real-time qualification engine</span><span class="ru">S3: Приём клиентов — Webhooks Meta/Google/OLX + Движок квалификации в реальном времени</span></li>
+        <li><span class="rm-act-dot">◦</span><span class="ro">S4: Motor de potrivire — Algoritm compatibilitate + Acțiune recomandată automată</span><span class="en">S4: Match engine — Compatibility algorithm + Auto recommended action</span><span class="ru">S4: Движок подбора — Алгоритм совместимости + Автоматическое рекомендуемое действие</span></li>
+        <li><span class="rm-act-dot">◦</span><span class="ro">S5: Interfață web finală — Conectare la programatică reală + Integrare WhatsApp</span><span class="en">S5: Final web UI — Real API connection + WhatsApp integration</span><span class="ru">S5: Финальный веб-интерфейс — Подключение к реальной программатике + Интеграция WhatsApp</span></li>
+      </ul>
+    </div>
+
+    <!-- M2 -->
+    <div class="rm-phase rm-plan">
+      <div style="display:flex;align-items:center;gap:.75rem;margin-bottom:.75rem">
+        <div class="gc" style="background:rgba(143,168,204,.08);border-color:rgba(143,168,204,.3);color:var(--tm)">M2</div>
+        <div>
+          <h4 style="color:var(--tm)"><span class="ro">Etapa 2 — Lansare Publică</span><span class="en">Stage 2 — Public Release</span><span class="ru">Этап 2 — Публичный запуск</span></h4>
+          <span class="tag tb" style="font-size:.65rem;margin-top:3px"><span class="ro">PLANIFICAT</span><span class="en">PLANNED</span><span class="ru">ПЛАНИРУЕТСЯ</span></span>
+        </div>
+      </div>
+      <ul class="rm-list">
+        <li><span class="rm-plan-dot">◦</span><span class="ro">S1: Aplicație mobilă companion — Agent în teren (Android + iOS)</span><span class="en">S1: Mobile companion app — Field agent (Android + iOS)</span><span class="ru">S1: Мобильное приложение — Агент на выезде (Android + iOS)</span></li>
+        <li><span class="rm-plan-dot">◦</span><span class="ro">S2: Motor de prețuri bazat pe inteligență artificială — Estimare automată valoare piață</span><span class="en">S2: AI pricing engine — Automatic market value estimation</span><span class="ru">S2: Движок ценообразования на основе ИИ — Автоматическая оценка рыночной стоимости</span></li>
+        <li><span class="rm-plan-dot">◦</span><span class="ro">S3: Marketplace de cumpărători — Vizualizare publică a cumpărătorilor cu consimțământ</span><span class="en">S3: Buyer marketplace — Public buyer view with consent</span><span class="ru">S3: Маркетплейс покупателей — Публичный просмотр покупателей с согласия</span></li>
+        <li><span class="rm-plan-dot">◦</span><span class="ro">S4: Suport multi-companie — Configurare white-label per agenție</span><span class="en">S4: Multi-company support — White-label setup per agency</span><span class="ru">S4: Поддержка нескольких компаний — Настройка белой метки для каждого агентства</span></li>
+      </ul>
+    </div>
+
+  </div>
+  <!-- Footer note -->
+  <div style="margin-top:1.5rem;text-align:center">
+    <p style="font-size:.8rem">
+      <span class="ro">Piața primară: <b style="color:var(--th)">Republica Moldova</b> · Monedă: EUR · Fusul orar: UTC+2 · Limbă principală interfață: Română</span>
+      <span class="en">Primary market: <b style="color:var(--th)">Republic of Moldova</b> · Currency: EUR · Timezone: UTC+2 · Primary UI language: Romanian</span>
+      <span class="ru">Основной рынок: <b style="color:var(--th)">Республика Молдова</b> · Валюта: EUR · Часовой пояс: UTC+2 · Основной язык интерфейса: Румынский</span>
+    </p>
+  </div>
+</div>
+
+</div><!-- /deck -->
+
+<script>
+const N=12;
+let cur=0;
+
+function gTo(n){
+  if(n<0||n>=N)return;
+  const sl=document.querySelectorAll('.sl');
+  sl[cur]?.classList.remove('act');
+  sl[cur]?.classList.add('prev');
+  setTimeout(()=>{ sl[cur]?.classList.remove('prev'); },520);
+  cur=n;
+  sl[cur]?.classList.add('act');
+  updNav();
+}
+
+function updNav(){
+  document.querySelectorAll('.dot').forEach((d,i)=>{
+    d.classList.toggle('on',i===cur);
+  });
+  document.getElementById('snum').textContent=
+    String(cur+1).padStart(2,'0')+' / '+String(N).padStart(2,'0');
+}
+
+// Build nav dots
+(function(){
+  const c=document.getElementById('dots');
+  for(let i=0;i<N;i++){
+    const d=document.createElement('div');
+    d.className='dot'+(i===0?' on':'');
+    d.onclick=()=>gTo(i);
+    c.appendChild(d);
+  }
+})();
+
+// Init first slide
+document.querySelectorAll('.sl')[0].classList.add('act');
+
+// Keyboard
+document.addEventListener('keydown',e=>{
+  if(e.key==='ArrowRight'||e.key==='ArrowDown'||e.key===' ') gTo(cur+1);
+  else if(e.key==='ArrowLeft'||e.key==='ArrowUp') gTo(cur-1);
+  else if(e.key==='Escape') closePil();
+});
+
+// Wheel / touch
+let _lastY=null;
+document.addEventListener('wheel',e=>{
+  e.preventDefault();
+  if(Math.abs(e.deltaY)>30){
+    if(e.deltaY>0) gTo(cur+1); else gTo(cur-1);
+  }
+},{passive:false});
+document.addEventListener('touchstart',e=>{ _lastY=e.touches[0].clientY; },{passive:true});
+document.addEventListener('touchend',e=>{
+  if(_lastY===null)return;
+  const dy=_lastY-e.changedTouches[0].clientY;
+  if(Math.abs(dy)>40){ if(dy>0)gTo(cur+1); else gTo(cur-1); }
+  _lastY=null;
+},{passive:true});
+
+// ── PILLAR PANELS ──
+let curPil=-1;
+function openPil(i){
+  document.querySelectorAll('.pil-detail').forEach(p=>p.classList.remove('open'));
+  document.querySelectorAll('.wp').forEach((w,j)=>w.classList.toggle('sel',j===i));
+  if(curPil===i){ curPil=-1; return; }
+  curPil=i;
+  const pd=document.getElementById('pd'+i);
+  if(pd){ pd.classList.add('open'); }
+}
+function closePil(){
+  if(curPil>=0){
+    document.getElementById('pd'+curPil)?.classList.remove('open');
+    document.querySelectorAll('.wp').forEach(w=>w.classList.remove('sel'));
+    curPil=-1;
+  }
+}
+
+// ── LANG SWITCHER ──
+function setLang(l){
+  document.body.dataset.lang=l;
+  document.querySelectorAll('.lbtn').forEach(b=>{
+    b.classList.toggle('on',b.textContent.toLowerCase()===l.toLowerCase());
+  });
+}
+</script>
+</body>
+</html>
