@@ -128,7 +128,11 @@ REVYX nu este un CRM — este un sistem de operare pentru agenți care:
 | 07 | **Performance Intelligence** | APS [0,1] | Scorul de performanță al agentului. Baza alocării merit-based. BR-11: APS_default 0.65. |
 | 08 | ★ **Trust Intelligence** | TS [0,1] + PKI | Încrederea clientului în agent. ★ v1.3.0: extins cu PKI (Promise Keeping Index, BR-26). Target ≥ 0.75. |
 
-> **Notă v1.3.0:** Cei 8 piloni sunt baseline-ul AOS core — fiecare mapat 1:1 cu o formulă de scoring din §7. **Pilon Retention** (§6.4) și **AGI Layer** (§18) sunt straturi transversale, nu piloni core. Maping complet: §5 ↔ §7 — 8 piloni ↔ 8 formule (LS / PS / IS / DP / NBA / TS / APS / DHI).
+> **★ Arhitectură 2-nivel (clarificat v1.3.0):**
+> - **Nivel 1 — 8 Piloni de execuție** (acest tabel): motoare de scoring automat, fiecare mapat 1:1 cu o formulă din §7. Decid în timp real: ce lead e prioritar, ce proprietate se potrivește, ce acțiune urmează, cât de sănătos e un deal.
+> - **Nivel 2 — AGI Layer (§18)**: strat transversal de dezvoltare agent. Nu produce un scor propriu — **consumă scorurile** tuturor celor 8 piloni și le transformă în obiective, ghiduri practice, indicatori de credibilitate și relații pe termen lung cu clienții. Mentorul sistemului, nu un al 9-lea motor.
+>
+> Mapping complet: §5 ↔ §7 — 8 piloni ↔ 8 formule (LS / PS / IS / DP / NBA / TS / APS / DHI). AGI Layer ↔ §18.
 
 ---
 
