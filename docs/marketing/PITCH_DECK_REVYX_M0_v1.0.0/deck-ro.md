@@ -1,5 +1,5 @@
 # REVYX — Pitch Deck (RO)
-<!-- docs/marketing/PITCH_DECK_REVYX_M0_v1.0.0/deck-ro.md · v1.2.0 · 2026-06 -->
+<!-- docs/marketing/PITCH_DECK_REVYX_M0_v1.0.0/deck-ro.md · v1.3.0 · 2026-06 -->
 <!-- CONFIDENȚIAL · Uz Intern · © 2026 REVYX · ITPRO SYSTEM SRL -->
 
 ## 0. Stage Master Plan
@@ -16,7 +16,8 @@
 
 | Versiune | Data | Autor | Note |
 |---|---|---|---|
-| **1.2.0** | **2026-06** | ★ DESIGNER (Creative Director) + Senior PM | ★ MINOR — Corecție număr piloni: **6 → 8 Piloni** (PM directive). Slide 05 rescris cu tabel complet 8 Piloni × motor × scală × descriere (mapați 1:1 cu BRD §7 v1.3.0). Pipeline diagram extins: 8 noduri individuale (LS / PS / IS·3 / NBA / DP / DHI / TS+PKI / APS). Speaker note actualizat. Changelog v1.1.0 → v1.2.0. |
+| **1.3.0** | **2026-06** | ★ DESIGNER (Creative Director) + Senior PM | ★ MINOR — Arhitectură 2-nivel: **8 Piloni de execuție + AGI Layer de dezvoltare**. Slide 05 actualizat (AGI scos din tabel, menționat ca strat separat). Slide 05b rescris complet cu vizual simplu: AGI deasupra celor 8 piloni + limbaj accesibil non-tehnic + diagrama strat transversal. |
+| **1.2.0** | **2026-06** | DESIGNER (Creative Director) + Senior PM | MINOR — Corecție număr piloni: **6 → 8 Piloni**. Slide 05 rescris cu tabel complet 8 Piloni × motor × scală × descriere (mapați 1:1 cu BRD §7 v1.3.0). |
 | **1.1.0** | **2026-06** | DESIGNER (Creative Director) + Senior PM | MINOR — Sync cu BRD v1.3.0 (AGI Layer §18) + M1.S1/M1.S2 milestones ✅. Slide 05: 5→6 Piloni (parțial); NEW Slide 05b AGI Layer; Slide 11 ✅; Slide 13 AGI roadmap; Slide 14 traction extinsă. |
 | 1.0.0 | 2026-05 | DOC + DESIGNER (Creative Director) + ARCHITECT + Senior PM | ★ INITIAL — 16 slides RO + speaker notes inline. Hook (slide 1), Problem (2), Solution (3), Market (4), Product overview (5), 4 demo slides (6-9), Tech (10), Trust (11), Business (12), Roadmap (13), Team (14), Ask (15), Closing (16). |
 
@@ -87,70 +88,77 @@
 
 ---
 
-## SLIDE 05 — 8 Piloni AI + Agent Growth Intelligence
+## SLIDE 05 — 8 Motoare AI care lucrează pentru agent
 
-**Headline:** O singură platformă. Opt motoare AI + un strat de creștere agent.
+**Headline:** Opt decizii automate. Un singur scop: agentul câștigă mai mult, mai rapid.
 
-**Diagrama (pipeline 8 noduri + AGI Layer jos):**
+**Diagrama (pipeline 8 noduri, stânga→dreapta):**
 
 ```
-[ LS ]  →  [ PS ]  →  [ IS·3 ]  →  [ NBA ]  →  [ DP ]  →  [ DHI ]  →  [ TS+PKI ]  →  [ APS ]
-                                       ↕ feedback loop continuu
-                         ★ [ Agent Growth Intelligence (AGI Layer — strat transversal) ]
+[ Lead ]  →  [ Proprietate ]  →  [ Potrivire ]  →  [ Acțiune ]  →  [ Negociere ]  →  [ Sănătate deal ]  →  [ Încredere ]  →  [ Performanță ]
 ```
 
-**8 Piloni (BRD §5 v1.3.0 — mapați 1:1 cu §7 scoring formulas):**
+**Ce înseamnă fiecare (limbaj simplu):**
 
-| # | Pilon | Motor | Scală | Ce face |
-|---|---|---|---|---|
-| 01 | Lead Intelligence | **LS** | [0,1] | Califică automat lead-urile la intake. Firewall BR-01: LS ≥ 0.60. |
-| 02 | Supply Intelligence | **PS** | [0,1] | Evaluează calitatea + freshness-ul proprietăților. |
-| 03 | Match Intelligence | **IS** | [0,1] | ★ 3 sub-dimensiuni: frecvență · calitate · reciprocitate interacțiune. |
-| 04 | Execution Intelligence | **NBA** | **[0, 2.0]** | Acțiunea optimă acum. Singura excepție de scală. ★ Ghiduri execuție. |
-| 05 | Negotiation Intelligence | **DP** | [0,1] | Probabilitatea de închidere a unui deal. |
-| 06 | Deal Intelligence | **DHI** | [0,1] | Sănătatea continuă: TF · UF · RF. Flag review (BR-05). |
-| 07 | Performance Intelligence | **APS** | [0,1] | Scorul agentului. Baza alocării + bonus. BR-11: default 0.65. |
-| 08 | ★ Trust Intelligence | **TS + PKI** | [0,1] | ★ Extins cu PKI (Promise Keeping Index, BR-26). Target ≥ 0.75. |
+| # | Ce face sistemul | Pentru cine | Rezultat vizibil |
+|---|---|---|---|
+| 01 | Decide dacă un lead merită atenție acum sau poate aștepta | Agent | Badge prioritate: Urgent / Normal / Monitorizare |
+| 02 | Evaluează cât de bună și proaspătă este o proprietate | Agent + Manager | Avertizare când un anunț îmbătrânește |
+| 03 | Găsește cea mai bună potrivire client ↔ proprietate | Agent | Top 3 sugestii cu explicație simplă |
+| 04 | Spune agentului exact ce să facă în următorul pas | Agent | „Sună acum / Trimite oferta / Programează vizionare" |
+| 05 | Estimează șansa reală de a închide tranzacția | Manager | Procent vizibil pe fiecare deal din pipeline |
+| 06 | Monitorizează dacă un deal riscă să cadă | Manager | Alertă când un deal pierde teren |
+| 07 | Măsoară performanța agentului pe 30/90 zile | Manager + Agent | Scor personal + ranking în echipă |
+| 08 | Urmărește dacă agentul respectă promisiunile față de client | Agent + Client | Indicator încredere — crește la fiecare promisiune respectată |
 
-**★ AGI Layer (strat transversal §18):** 7 dimensiuni (slide următor) — transformă AOS din sistem de control în sistem de dezvoltare agent.
+**Footer:** *Cele 8 motoare lucrează simultan, în fundal, fără intervenție manuală. Slide următor: stratul care îl face pe agent mai bun.*
 
-**Footer:** *8 Piloni core (BRD §5) = 8 formule scoring (BRD §7). Validate T01-T07. NBA singura excepție scală [0, 2.0].*
-
-> _Speaker note RO:_ "Opt motoare. O singură stivă. Față de versiunea inițială am adăugat Pilon 08 Trust Intelligence — un agent care respectă promisiunile față de client câștigă Trust Score mai mare și primește lead-uri mai bune. Și am separat toate cele 8 motoare distinct: nu mai grupăm DP cu DHI, sau PS cu IS — fiecare motor are un scop propriu, măsurabil. Asta înseamnă responsabilitate clară și debugging rapid în producție." _(75s)_
+> _Speaker note RO:_ "Opt decizii pe care înainte le lua agentul din instinct — acum le ia sistemul, instant și consistent. Dar REVYX nu se oprește aici. Slide-ul următor arată cum sistemul nu doar decide, ci îl și dezvoltă pe agent." _(60s)_
 
 ---
 
-## SLIDE 05b — ★ Agent Growth Intelligence (AGI Layer)
+## SLIDE 05b — Stratul care îl face pe agent mai bun
 
-**Headline:** REVYX nu controlează agentul. Îl dezvoltă.
+**Headline:** REVYX nu îl controlează pe agent. Îl dezvoltă.
 
-**Subheadline:** 7 dimensiuni. Un sistem care crește profesioniști imobiliari, nu doar pipeline.
+**Subheadline:** Cele 8 motoare decid. Stratul AGI transformă fiecare decizie într-o lecție de creștere.
 
-**Grid 7 carduri (3+3+1 centrat, navy-card cu accent gold top, ★ badge pe fiecare):**
+**Diagrama vizuală principală (centrul slide-ului):**
 
-| 🤝 Relationship Intelligence | 🎯 Obiective lunare | 📖 Ghiduri de execuție |
+```
+┌─────────────────────────────────────────────────────────────────────┐
+│                    STRAT AGI — Mentorul agentului                   │
+│  🎯 Obiective  │ 📖 Ghiduri  │ ⚖️ Etică  │ 🤝 Încredere  │ 👥 Alumni │
+└───────┬────────┬──────┬──────┬──────┬──────┬──────┬──────┬──────────┘
+        ↓        ↓      ↓      ↓      ↓      ↓      ↓      ↓
+   [ Lead ] [Prop.] [Potrivire] [Acțiune] [Negociere] [Deal] [Performanță] [Încredere]
+        ←────────────── cele 8 motoare de decizie ──────────────────→
+```
+
+**Ce face fiecare componentă AGI (limbaj simplu):**
+
+| Componentă | Ce vede sistemul | Ce primește agentul |
 |---|---|---|
-| IS cu 3 sub-dimensiuni (frecvență · calitate · reciprocitate) + PKI (Promise Keeping Index) în Trust Score. Agentul vede cât de mult are încredere clientul în el. | Tracker lunar: deal-uri țintă · scor performanță · comision estimat. Progress vizibil zilnic. Dashboard personal. | Template per tip acțiune NBA: script apel / WhatsApp / vizionare / follow-up / ofertă. 1-click din sugestia sistemului. |
+| 🎯 **Obiective lunare** | Ritmul actual al agentului (deals, scor, venituri) | Un target clar pentru luna în curs, afișat zilnic în dashboard |
+| 📖 **Ghiduri practice** | Acțiunea recomandată de sistem (ex: „sună acum") | Un script gata pregătit: ce să spui, cum să spui, în ce ordine |
+| ⚖️ **Puncte de etică** | Situații delicate: doi clienți pe același apartament, gap financiar ascuns | O alertă care cere confirmarea agentului înainte de a continua |
+| 🤝 **Indicatorul de încredere** | Câte promisiuni a făcut agentul față de client vs. câte a respectat | Un scor personal de credibilitate — crește la fiecare promisiune ținută |
+| 👥 **Relația după tranzacție** | Data mutării clientului + intervalele de 12 și 24 luni | Reminder automat: „Sună-l pe Ion Popescu — s-a mutat acum un an" |
+| 💰 **Puterea reală de cumpărare** | Bugetul declarat vs. ce poate confirma banca (piața RM: diferență 15-25%) | Semnal clar din prima: „Acest client poate cumpăra realist sau nu" |
 
-| ⚖️ Puncte de etică | 💼 Toolkit valoare agent | 👥 Alumni – relație post-deal |
-|---|---|---|
-| 4 situații sensibile: reprezentare duală · oferte concurente · disclosure proprietate · gap finanțare. Human-in-the-loop obligatoriu (BR-28, Art. 22 GDPR). | Card argumentare valoare pentru agent (contra comision). Adaptat per tip client + tip tranzacție. | Contact T+12 luni (aniversare mutare) + T+24 (potențial recomandare sau upgrade). Alumni Return Rate target ≥ 15%. |
+**Cele două niveluri ale platformei (rezumat vizual jos):**
 
-**Centrat jos — ★ Moldova-specific (BR-25):**
+```
+┌─────────────────────────────────────────┐   ┌───────────────────────────────────────┐
+│   8 MOTOARE DE DECIZIE                  │   │   STRAT AGI — CREȘTERE AGENT          │
+│   Decid automat, în fundal              │ + │   Transformă deciziile în lecții       │
+│   Agent știe CE să facă și CÂND        │   │   Agent devine mai bun cu fiecare deal │
+└─────────────────────────────────────────┘   └───────────────────────────────────────┘
+```
 
-| 💰 Disponibilitate financiară |
-|---|
-| Buget declarat vs confirmat (divergență 15-25% piață RM) + pre-aprobare bancară (MoldIndConBank / Victoriabank / Mobiasbancă). Agent știe din prima dacă lead-ul este realist qualificat. |
+**Footer claim:** *Concurenții construiesc software de gestiune. REVYX construiește profesioniști imobiliari.*
 
-**Footer claim:** *AOS care crește agentul, nu doar pipeline-ul.*
-
-**KPI-uri AGI noi (BRD §18):**
-- PKI team average ≥ 0.75
-- Alumni Return Rate ≥ 15%
-- Ethics Checkpoint Ack Rate ≥ 95%
-- Execution Guides usage ≥ 60% NBA actions
-
-> _Speaker note RO:_ "Acesta este layer-ul care ne diferențiază cu adevărat pe termen lung. Concurenții construiesc CRM-uri. Noi construim un sistem care îl face pe agent mai bun: respectă promisiunile față de client (PKI), urmărește obiective clare, are ghiduri practice pentru fiecare acțiune și menține relația cu clienții vechi — alumni care revin sau recomandă aduc tranzacții fără cost de achiziție. Și în piața RM, cu pre-aprobare bancară cvasi-inexistentă, scorul de disponibilitate financiară îl ferește pe agent să piardă luni cu un lead care nu poate cumpăra." _(90s)_
+> _Speaker note RO:_ "Imaginați-vă un mentor care stă lângă agent la fiecare apel, la fiecare negociere, la fiecare client. Știe exact ce a funcționat și ce nu. Îi amintește ce a promis. Îl atenționează când o situație e delicată etic. Și nu uită niciodată să ia legătura cu un client vechi care poate aduce o recomandare nouă. Acesta este stratul AGI. Nu înlocuiește judecata agentului — o îmbunătățește, pas cu pas." _(90s)_
 
 ---
 
