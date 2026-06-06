@@ -50,7 +50,7 @@
     "details": "Details",
     "moreInfo": "More info",
     "demoBadge": "demo · M0",
-    "infoHelp": "Tap the “i” icon for details.",
+    "infoHelp": "Tap the 'i' icon for details.",
     "add": "Add",
     "remove": "Remove",
     "edit": "Edit"
@@ -133,7 +133,7 @@
     "queueSubtitle": "Clients waiting for you. The most urgent appear first — focus on them.",
     "typeFilterLabel": "Lead type filter",
     "module": "Module · Leads",
-    "slaCaption": "Reply quickly to “Urgent” ones so you don't miss the opportunity.",
+    "slaCaption": "Reply quickly to 'Urgent' ones so you don't miss the opportunity.",
     "countTemplate": "{count} leads",
     "tableHeader": {
       "id": "Code",
@@ -444,7 +444,7 @@
       "todayTitle": "Today's list",
       "todayDesc": "Top-priority leads from your queue. Click for details.",
       "suggestionsTitle": "Lead suggestions",
-      "suggestionsDesc": "The system suggests the next step for each active lead. Click “+ Add to tasks” to put it on today's plan.",
+      "suggestionsDesc": "The system suggests the next step for each active lead. Click '+ Add to tasks' to put it on today's plan.",
       "tasksTodayTitle": "My plan for today",
       "tasksTodayDesc": "Today's to-do list. Mark a task done — your performance updates automatically.",
       "openTasksPage": "Open full plan",
@@ -473,11 +473,11 @@
     "moduleLabel": "User guide",
     "title": "REVYX tutorial",
     "subtitle": "How the app works, screen by screen. Recommended on first login.",
-    "intro": "REVYX helps you manage leads and deals quickly, without losing clients. You'll find simple explanations for each screen here. For inline details, tap the “i” icon next to any element.",
+    "intro": "REVYX helps you manage leads and deals quickly, without losing clients. You'll find simple explanations for each screen here. For inline details, tap the 'i' icon next to any element.",
     "sections": {
       "dashboard": {
         "title": "Dashboard",
-        "body": "First screen after login. You see active tasks, urgent leads, and personal performance over the last 30 days. Hit “Open list” to start your day."
+        "body": "First screen after login. You see active tasks, urgent leads, and personal performance over the last 30 days. Hit 'Open list' to start your day."
       },
       "leads": {
         "title": "Lead list",
@@ -489,7 +489,7 @@
       },
       "properties": {
         "title": "Property portfolio",
-        "body": "All published properties. Click any to view photos, video and full specs. Use “+ Add property” to publish a new one."
+        "body": "All published properties. Click any to view photos, video and full specs. Use '+ Add property' to publish a new one."
       },
       "deals": {
         "title": "Deal pipeline",
@@ -499,9 +499,13 @@
         "title": "Personal cabinet",
         "body": "Your profile: stats, deal history, work score and preferences. Agency and group cabinets show the extended team (manager-only)."
       },
+      "scoringEngines": {
+        "title": "8 AI Scoring Engines",
+        "body": "REVYX runs on 8 automatic scoring engines, each responsible for one distinct dimension: LS (lead priority) · PS (property quality) · IS (interaction strength, 3 sub-dimensions) · DP (deal probability) · NBA (best action now) · DHI (deal health) · APS (your performance) · TS+PKI (client trust). All scores are in the [0,1] range, with one single exception: NBA ∈ [0, 2.0]. You will never see raw numbers in the interface — the system translates them into clear labels and practical recommendations."
+      },
       "tutorialFuture": {
         "title": "In the full version (MVP)",
-        "body": "Besides this page we'll add step-by-step guides on each screen with key-button highlights. You'll be able to re-launch the tour from the “?” menu."
+        "body": "Besides this page we'll add step-by-step guides on each screen with key-button highlights. You'll be able to re-launch the tour from the '?' menu."
       }
     }
   },
@@ -707,7 +711,7 @@
     "moduleLabel": "Module 1 · Sign in",
     "emailLabel": "Email",
     "passwordLabel": "Password",
-    "demoNotice": "Demo · M0 walkthrough · click “Continue” to enter the dashboard.",
+    "demoNotice": "Demo · M0 walkthrough · click 'Continue' to enter the dashboard.",
     "continue": "Continue",
     "footer": "© 2026 REVYX · ITPRO SYSTEM SRL"
   },
@@ -782,7 +786,7 @@
       "all": "All"
     },
     "emptyToday": "No tasks for today. Check the dashboard suggestions.",
-    "emptyAll": "No tasks. Hit “+ Add task” or accept a suggestion from the dashboard.",
+    "emptyAll": "No tasks. Hit '+ Add task' or accept a suggestion from the dashboard.",
     "types": {
       "first_contact": "First contact",
       "follow_up": "Client follow-up",
@@ -864,7 +868,7 @@
     "documentsDesc": "Attach the service contract, cadastral acts, ID copy and other relevant docs.",
     "documentAddCta": "+ Attach document",
     "documentSavedToast": "Document attached. Will be encrypted and retained per GDPR policy.",
-    "documentsEmpty": "No documents attached. Hit “+ Attach document” to upload the first one.",
+    "documentsEmpty": "No documents attached. Hit '+ Attach document' to upload the first one.",
     "documentTypes": {
       "identity_proof": "ID proof",
       "cadastre_extract": "Cadastral extract",
@@ -909,7 +913,7 @@
     },
     "group": {
       "introTitle": "What is the group cabinet",
-      "introBody": "A group bundles several agents under a common manager (e.g. “Centru-Botanica Team”). You see the colleagues you work with day-to-day, the internal leaderboard and your share of group results."
+      "introBody": "A group bundles several agents under a common manager (e.g. 'Centru-Botanica Team'). You see the colleagues you work with day-to-day, the internal leaderboard and your share of group results."
     }
   },
   "preferences": {

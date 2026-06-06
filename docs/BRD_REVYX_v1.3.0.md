@@ -25,7 +25,7 @@
 2. [Context & Problemă de Business](#2-context--problemă-de-business)
 3. [Obiective de Business](#3-obiective-de-business)
 4. [Stakeholders & Actori](#4-stakeholders--actori)
-5. [Perimetrul Soluției — 7 Piloni Funcționali](#5-perimetrul-soluției--7-piloni-funcționali)
+5. [Perimetrul Soluției — 8 Piloni Funcționali](#5-perimetrul-soluției--8-piloni-funcționali)
 6. [Cerințe de Business Cheie](#6-cerințe-de-business-cheie)
 7. [Sistemul de Scoring AI — 8 Formule](#7-sistemul-de-scoring-ai--8-formule)
 8. [Data Model — 9 Entități + 1 ★](#8-data-model)
@@ -115,11 +115,20 @@ REVYX nu este un CRM — este un sistem de operare pentru agenți care:
 
 ---
 
-## 5. Perimetrul Soluției — 7 Piloni Funcționali
+## 5. Perimetrul Soluției — ★ 8 Piloni Funcționali
 
-(Identic cu v1.0.0 §5 — Pilon 01 Lead Intelligence, Pilon 02 Supply Intelligence, Pilon 03 Match Intelligence, Pilon 04 Execution Intelligence, Pilon 05 Negotiation Intelligence, Pilon 06 Deal Intelligence, Pilon 07 Performance Intelligence.)
+| # | Pilon | Motor de scoring | Descriere scurtă |
+|---|---|---|---|
+| 01 | **Lead Intelligence** | LS [0,1] | Calificarea și prioritizarea automată a lead-urilor la intake. Firewall BR-01: LS ≥ 0.60. |
+| 02 | **Supply Intelligence** | PS [0,1] | Evaluarea calității și relevanței proprietăților. Listing Freshness LF inclusă. |
+| 03 | **Match Intelligence** | IS [0,1] | Potrivire lead ↔ proprietate. ★ v1.3.0: IS cu 3 sub-dimensiuni (frecvență · calitate · reciprocitate). |
+| 04 | **Execution Intelligence** | NBA [0, 2.0] | Acțiunea optimă recomandată în timp real. Singura excepție de scală. ★ v1.3.0: Ghiduri de execuție per tip NBA. |
+| 05 | **Negotiation Intelligence** | DP [0,1] | Probabilitatea de închidere a unui deal la momentul curent. |
+| 06 | **Deal Intelligence** | DHI [0,1] | Sănătatea continuă a pipeline-ului: TF · UF · RF. Re-matching trigger (BR-05). |
+| 07 | **Performance Intelligence** | APS [0,1] | Scorul de performanță al agentului. Baza alocării merit-based. BR-11: APS_default 0.65. |
+| 08 | ★ **Trust Intelligence** | TS [0,1] + PKI | Încrederea clientului în agent. ★ v1.3.0: extins cu PKI (Promise Keeping Index, BR-26). Target ≥ 0.75. |
 
-> **Notă v1.1.0:** Cei 7 piloni rămân baseline-ul AOS. Pilon Retention (§6.4) este o **extensie operațională** — nu un al 8-lea pilon de produs core, ci un layer transversal de governance retention bazat pe scoring extern (`churn-ga`).
+> **Notă v1.3.0:** Cei 8 piloni sunt baseline-ul AOS core — fiecare mapat 1:1 cu o formulă de scoring din §7. **Pilon Retention** (§6.4) și **AGI Layer** (§18) sunt straturi transversale, nu piloni core. Maping complet: §5 ↔ §7 — 8 piloni ↔ 8 formule (LS / PS / IS / DP / NBA / TS / APS / DHI).
 
 ---
 

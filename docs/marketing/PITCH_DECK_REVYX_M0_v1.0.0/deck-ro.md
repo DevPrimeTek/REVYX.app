@@ -1,5 +1,5 @@
 # REVYX — Pitch Deck (RO)
-<!-- docs/marketing/PITCH_DECK_REVYX_M0_v1.0.0/deck-ro.md · v1.1.0 · 2026-06 -->
+<!-- docs/marketing/PITCH_DECK_REVYX_M0_v1.0.0/deck-ro.md · v1.2.0 · 2026-06 -->
 <!-- CONFIDENȚIAL · Uz Intern · © 2026 REVYX · ITPRO SYSTEM SRL -->
 
 ## 0. Stage Master Plan
@@ -16,7 +16,8 @@
 
 | Versiune | Data | Autor | Note |
 |---|---|---|---|
-| **1.1.0** | **2026-06** | ★ DESIGNER (Creative Director) + Senior PM | ★ MINOR — Sync cu BRD v1.3.0 (AGI Layer §18) + M1.S1/M1.S2 milestones ✅. (1) Slide 05: 5→6 Piloni AI + AGI Layer — IS extensie 3 sub-dimensiuni + PKI în Trust Score. (2) NEW Slide 05b: Agent Growth Intelligence — 7 dimensiuni (Relationship Intel / Obiective / Ghiduri / Etică / Toolkit Valoare / Alumni / Disponibilitate financiară). (3) Slide 11: Phase 0 items marcate ✅ (M1.S1 CLOSED). (4) Slide 13: AGI Layer adăugat în M1 roadmap + 4 entități noi. (5) Slide 14: traction extinsă cu M1.S1 ✅ Phase 0 Security + M1.S2 ✅ Phase A Foundation. (6) BRD cross-ref actualizat v1.1.0 → v1.3.0. Total slides: 17 (16 original + Slide 05b NEW). |
+| **1.2.0** | **2026-06** | ★ DESIGNER (Creative Director) + Senior PM | ★ MINOR — Corecție număr piloni: **6 → 8 Piloni** (PM directive). Slide 05 rescris cu tabel complet 8 Piloni × motor × scală × descriere (mapați 1:1 cu BRD §7 v1.3.0). Pipeline diagram extins: 8 noduri individuale (LS / PS / IS·3 / NBA / DP / DHI / TS+PKI / APS). Speaker note actualizat. Changelog v1.1.0 → v1.2.0. |
+| **1.1.0** | **2026-06** | DESIGNER (Creative Director) + Senior PM | MINOR — Sync cu BRD v1.3.0 (AGI Layer §18) + M1.S1/M1.S2 milestones ✅. Slide 05: 5→6 Piloni (parțial); NEW Slide 05b AGI Layer; Slide 11 ✅; Slide 13 AGI roadmap; Slide 14 traction extinsă. |
 | 1.0.0 | 2026-05 | DOC + DESIGNER (Creative Director) + ARCHITECT + Senior PM | ★ INITIAL — 16 slides RO + speaker notes inline. Hook (slide 1), Problem (2), Solution (3), Market (4), Product overview (5), 4 demo slides (6-9), Tech (10), Trust (11), Business (12), Roadmap (13), Team (14), Ask (15), Closing (16). |
 
 ---
@@ -86,32 +87,36 @@
 
 ---
 
-## SLIDE 05 — 6 Piloni AI + Agent Growth Intelligence
+## SLIDE 05 — 8 Piloni AI + Agent Growth Intelligence
 
-**Headline:** O singură platformă. Șase motoare AI + un strat de creștere agent.
+**Headline:** O singură platformă. Opt motoare AI + un strat de creștere agent.
 
-**Diagrama (left-to-right pipeline cu săgeți gold între carduri + AGI Layer jos):**
+**Diagrama (pipeline 8 noduri + AGI Layer jos):**
 
 ```
-[ Lead Score (LS) ]  →  [ Property Score (PS) + Match (IS·3) ]  →  [ NBA Layer ]  →  [ Deal Probability (DP) + Health (DHI) ]  →  [ Trust Score (TS+PKI) ]  →  [ Agent Performance (APS) ]
-                                                          ↕ feedback loop
-                              ★ [ Agent Growth Intelligence (AGI Layer) ]
+[ LS ]  →  [ PS ]  →  [ IS·3 ]  →  [ NBA ]  →  [ DP ]  →  [ DHI ]  →  [ TS+PKI ]  →  [ APS ]
+                                       ↕ feedback loop continuu
+                         ★ [ Agent Growth Intelligence (AGI Layer — strat transversal) ]
 ```
 
-**Per pilon (1 linie scurt):**
+**8 Piloni (BRD §5 v1.3.0 — mapați 1:1 cu §7 scoring formulas):**
 
-1. **LS — Lead Score [0,1]** — calculat la intake, recalculat la fiecare touchpoint. Firewall: ≥ 0.60.
-2. **PS + IS — Property + Interaction Strength** — match proprietate ↔ lead. ★ IS extensie: 3 sub-dimensiuni (frecvență · calitate · reciprocitate) (BRD v1.3.0 §7.3).
-3. **NBA — Next Best Action [0, 2.0]** — singura excepție de scală. Pondere urgency × revenue impact. ★ Ghiduri de execuție per acțiune (script apel / WhatsApp / vizionare).
-4. **DP + DHI — Deal Probability + Health Index** — probabilitate închidere + sănătate pipeline real-time.
-5. **★ TS — Trust Score [0,1]** — ★ extins cu PKI (Promise Keeping Index): `promisiuni_respectate / promisiuni_făcute`. Target ≥ 0.75 per echipă.
-6. **APS — Agent Performance Score [0,1]** — meritocratic. Baza alocării lead-uri viitoare + bonus.
+| # | Pilon | Motor | Scală | Ce face |
+|---|---|---|---|---|
+| 01 | Lead Intelligence | **LS** | [0,1] | Califică automat lead-urile la intake. Firewall BR-01: LS ≥ 0.60. |
+| 02 | Supply Intelligence | **PS** | [0,1] | Evaluează calitatea + freshness-ul proprietăților. |
+| 03 | Match Intelligence | **IS** | [0,1] | ★ 3 sub-dimensiuni: frecvență · calitate · reciprocitate interacțiune. |
+| 04 | Execution Intelligence | **NBA** | **[0, 2.0]** | Acțiunea optimă acum. Singura excepție de scală. ★ Ghiduri execuție. |
+| 05 | Negotiation Intelligence | **DP** | [0,1] | Probabilitatea de închidere a unui deal. |
+| 06 | Deal Intelligence | **DHI** | [0,1] | Sănătatea continuă: TF · UF · RF. Flag review (BR-05). |
+| 07 | Performance Intelligence | **APS** | [0,1] | Scorul agentului. Baza alocării + bonus. BR-11: default 0.65. |
+| 08 | ★ Trust Intelligence | **TS + PKI** | [0,1] | ★ Extins cu PKI (Promise Keeping Index, BR-26). Target ≥ 0.75. |
 
-**★ AGI Layer (strat transversal):** 7 dimensiuni (slide următor) — transformă AOS din sistem de control în sistem de dezvoltare agent.
+**★ AGI Layer (strat transversal §18):** 7 dimensiuni (slide următor) — transformă AOS din sistem de control în sistem de dezvoltare agent.
 
-**Footer:** *Toate scorurile [0,1] (excepție NBA [0, 2.0]). Validate pe 7 vectori test (T01-T07). BRD §7 + §18 v1.3.0.*
+**Footer:** *8 Piloni core (BRD §5) = 8 formule scoring (BRD §7). Validate T01-T07. NBA singura excepție scală [0, 2.0].*
 
-> _Speaker note RO:_ "Față de versiunea inițială, am adăugat două lucruri esențiale: TS extins cu PKI — un agent care respectă promisiunile față de client câștigă Trust Score mai mare și primește lead-uri mai bune; și AGI Layer — un strat dedicat creșterii profesionale a agentului. Nu controlăm agentul, îl ghidăm să devină mai bun. Asta este diferența față de orice AOS existent." _(75s)_
+> _Speaker note RO:_ "Opt motoare. O singură stivă. Față de versiunea inițială am adăugat Pilon 08 Trust Intelligence — un agent care respectă promisiunile față de client câștigă Trust Score mai mare și primește lead-uri mai bune. Și am separat toate cele 8 motoare distinct: nu mai grupăm DP cu DHI, sau PS cu IS — fiecare motor are un scop propriu, măsurabil. Asta înseamnă responsabilitate clară și debugging rapid în producție." _(75s)_
 
 ---
 

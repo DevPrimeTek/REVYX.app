@@ -19,7 +19,7 @@ Mapping fiecărui slide din `deck-{ro,ru,en}.md` la captura PNG necesară.
 | 02 Problema | (text + iconography) | n/a | n/a | n/a |
 | 03 Soluția | (text + 4 carduri) | n/a | n/a | n/a |
 | 04 Piața | (map RM + cifre) | n/a | `design/marketing/map-rm.svg` (TBD) | ⬜ NEW M0.S4 |
-| 05 5 Piloni | (diagrama pipeline) | n/a | `design/marketing/pillars-diagram.svg` (TBD) | ⬜ NEW M0.S4 |
+| 05 8 Piloni AI | (tabel 8 piloni + pipeline diagram 8 noduri) | n/a | `design/marketing/pillars-diagram.svg` (TBD) | ⬜ v1.2.0 update |
 | 06 J1 Leads | `/leads` + `/leads/L-0012` | RO + EN versions | `design/screenshots/s06-leads-queue.png` + `s06-lead-detail.png` | ⬜ capture step |
 | 07 J2 Property | `/properties` + `/properties/new` | RO + EN | `design/screenshots/s07-properties-list.png` + `s07-property-new.png` | ⬜ capture step |
 | 08 J3 Deals | `/deals` (kanban full-width) | RO + EN | `design/screenshots/s08-deals-kanban.png` | ⬜ capture step |

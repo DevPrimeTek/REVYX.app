@@ -15,6 +15,7 @@ const SECTIONS = [
   { id: 'properties', href: '/properties' },
   { id: 'deals', href: '/deals' },
   { id: 'cabinet', href: '/cabinet/agent' },
+  { id: 'scoringEngines', href: null },
   { id: 'tutorialFuture', href: null },
 ] as const;
 
