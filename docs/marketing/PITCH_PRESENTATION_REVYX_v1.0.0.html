@@ -273,6 +273,42 @@
   .pillar-name { font-size: .85rem; font-weight: 700; color: var(--gold); text-transform: uppercase; letter-spacing: 1px; margin-bottom: .4rem; }
   .pillar-desc { font-size: .85rem; color: var(--text-m); line-height: 1.5; }
 
+  /* ─── AGI LAYER ─────────────────────────── */
+  .agi-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    background: rgba(201,135,10,0.1);
+    border: 1px solid rgba(201,135,10,0.35);
+    border-radius: 20px;
+    font-size: .82rem;
+    font-weight: 600;
+    color: var(--gold);
+  }
+  .engine-chip {
+    padding: 4px 12px;
+    background: rgba(143,168,204,0.08);
+    border: 1px solid rgba(143,168,204,0.15);
+    border-radius: 16px;
+    font-size: .78rem;
+    font-weight: 600;
+    color: var(--text-m);
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .agi-card {
+    background: var(--navy2);
+    border: 1px solid rgba(143,168,204,0.1);
+    border-radius: var(--r);
+    padding: 1.25rem;
+    transition: border-color .2s;
+  }
+  .agi-card:hover { border-color: rgba(201,135,10,0.4); }
+  .agi-card-icon { font-size: 1.5rem; margin-bottom: .6rem; }
+  .agi-card-title { font-size: .9rem; font-weight: 700; color: var(--text-h); margin-bottom: .5rem; }
+  .agi-card-desc { font-size: .82rem; color: var(--text-m); line-height: 1.6; }
+  .agi-card-desc strong { color: var(--text-b); }
+
   /* ─── HOW IT WORKS (FLOW) ───────────────── */
   .flow-row {
     display: flex;
@@ -989,137 +1025,336 @@
 
 
 <!-- ══════════════════════════════════════════
-     SLIDE 5 — 8 PILONI AI
+     SLIDE 5 — 8 MOTOARE AI
 ══════════════════════════════════════════ -->
 <section class="slide" style="background: var(--navy2);">
   <div class="section-label">
-    <span data-lang="ro">Motoarele de inteligență</span>
-    <span data-lang="en">Intelligence Engines</span>
-    <span data-lang="ru">Двигатели интеллекта</span>
+    <span data-lang="ro">Nivelul 1 — Motoarele de decizie</span>
+    <span data-lang="en">Level 1 — Decision Engines</span>
+    <span data-lang="ru">Уровень 1 — Двигатели решений</span>
   </div>
   <h2 class="section-title">
-    <span data-lang="ro">8 straturi AI — fiecare cu un scop precis</span>
-    <span data-lang="en">8 AI layers — each with a precise purpose</span>
-    <span data-lang="ru">8 слоёв ИИ — каждый с чёткой целью</span>
+    <span data-lang="ro">8 motoare AI — fiecare lucrează pentru agent, în fundal</span>
+    <span data-lang="en">8 AI engines — each working for the agent, in the background</span>
+    <span data-lang="ru">8 ИИ-движков — каждый работает для агента в фоновом режиме</span>
   </h2>
   <p class="section-desc">
-    <span data-lang="ro">Fiecare număr din REVYX are un sens real pentru agentul de pe teren — nu statistici abstracte.</span>
-    <span data-lang="en">Every number in REVYX has real meaning for the field agent — not abstract statistics.</span>
-    <span data-lang="ru">Каждое число в REVYX имеет реальный смысл для агента в поле — никакой абстрактной статистики.</span>
+    <span data-lang="ro">Decizii pe care înainte le lua agentul din instinct — acum le ia sistemul, instant și consistent.</span>
+    <span data-lang="en">Decisions the agent used to make by instinct — now made by the system, instantly and consistently.</span>
+    <span data-lang="ru">Решения, которые агент принимал интуитивно — теперь система принимает их мгновенно и последовательно.</span>
   </p>
 
   <div class="pillars-grid">
     <div class="pillar-card">
       <div class="pillar-icon">🎯</div>
       <div class="pillar-name">
-        <span data-lang="ro">Lead Intelligence</span>
-        <span data-lang="en">Lead Intelligence</span>
-        <span data-lang="ru">Интеллект лидов</span>
+        <span data-lang="ro">01 · Prioritizare clienți</span>
+        <span data-lang="en">01 · Client Priority</span>
+        <span data-lang="ru">01 · Приоритет клиентов</span>
       </div>
       <div class="pillar-desc">
-        <span data-lang="ro">Cât de serios este un potențial client? REVYX calculează automat și îl sortează pentru tine.</span>
-        <span data-lang="en">How serious is a potential client? REVYX calculates automatically and sorts them for you.</span>
-        <span data-lang="ru">Насколько серьёзен потенциальный клиент? REVYX автоматически рассчитывает и сортирует их.</span>
+        <span data-lang="ro">Cât de serios este un potențial client? Sistemul îl sortează automat — tu îl suni pe cel mai important primul.</span>
+        <span data-lang="en">How serious is a potential client? The system sorts automatically — you call the most important one first.</span>
+        <span data-lang="ru">Насколько серьёзен потенциальный клиент? Система сортирует автоматически — ты звонишь самому важному первым.</span>
       </div>
     </div>
 
     <div class="pillar-card">
       <div class="pillar-icon">🏘️</div>
       <div class="pillar-name">
-        <span data-lang="ro">Supply Intelligence</span>
-        <span data-lang="en">Supply Intelligence</span>
-        <span data-lang="ru">Интеллект предложения</span>
+        <span data-lang="ro">02 · Calitatea anunțurilor</span>
+        <span data-lang="en">02 · Listing Quality</span>
+        <span data-lang="ru">02 · Качество объявлений</span>
       </div>
       <div class="pillar-desc">
-        <span data-lang="ro">Cât de competitiv e un anunț? Când trebuie reîmprospătat? Sistemul urmărește fiecare proprietate.</span>
-        <span data-lang="en">How competitive is a listing? When does it need refreshing? The system tracks every property.</span>
-        <span data-lang="ru">Насколько конкурентоспособно объявление? Когда его нужно обновить? Система отслеживает каждый объект.</span>
+        <span data-lang="ro">Cât de competitiv e un anunț? Când trebuie reîmprospătat? Sistemul urmărește fiecare proprietate și te avertizează.</span>
+        <span data-lang="en">How competitive is a listing? When does it need refreshing? The system tracks every property and alerts you.</span>
+        <span data-lang="ru">Насколько конкурентоспособно объявление? Когда его нужно обновить? Система следит и предупреждает.</span>
       </div>
     </div>
 
     <div class="pillar-card">
       <div class="pillar-icon">🔗</div>
       <div class="pillar-name">
-        <span data-lang="ro">Match Intelligence</span>
-        <span data-lang="en">Match Intelligence</span>
-        <span data-lang="ru">Интеллект подбора</span>
+        <span data-lang="ro">03 · Potrivire client–proprietate</span>
+        <span data-lang="en">03 · Client–Property Match</span>
+        <span data-lang="ru">03 · Подбор клиент–объект</span>
       </div>
       <div class="pillar-desc">
-        <span data-lang="ro">Top 3 proprietăți pentru fiecare client — cu explicație clară de ce sunt potrivite.</span>
-        <span data-lang="en">Top 3 properties for each client — with a clear explanation of why they match.</span>
-        <span data-lang="ru">Топ-3 объекта для каждого клиента — с чётким объяснением причины подбора.</span>
+        <span data-lang="ro">Top 3 proprietăți pentru fiecare client, cu explicație clară. Nu mai ghicești — sistemul îți arată de ce se potrivesc.</span>
+        <span data-lang="en">Top 3 properties for each client, with a clear explanation. No more guessing — the system shows you why they match.</span>
+        <span data-lang="ru">Топ-3 объекта для каждого клиента с чётким объяснением. Больше не угадываешь — система показывает почему.</span>
       </div>
     </div>
 
     <div class="pillar-card">
       <div class="pillar-icon">⚡</div>
       <div class="pillar-name">
-        <span data-lang="ro">Execution Intelligence</span>
-        <span data-lang="en">Execution Intelligence</span>
-        <span data-lang="ru">Интеллект исполнения</span>
+        <span data-lang="ro">04 · Pasul următor optim</span>
+        <span data-lang="en">04 · Optimal Next Step</span>
+        <span data-lang="ru">04 · Оптимальный следующий шаг</span>
       </div>
       <div class="pillar-desc">
-        <span data-lang="ro">Ce trebuie să faci acum? REVYX îți spune pasul următor cel mai bun pentru fiecare client.</span>
-        <span data-lang="en">What should you do right now? REVYX tells you the best next step for each client.</span>
-        <span data-lang="ru">Что нужно сделать прямо сейчас? REVYX подсказывает лучший следующий шаг для каждого клиента.</span>
+        <span data-lang="ro">„Sună acum / Trimite oferta / Programează vizionarea" — sistemul îți spune exact ce să faci pentru fiecare client.</span>
+        <span data-lang="en">"Call now / Send the offer / Schedule the showing" — the system tells you exactly what to do for each client.</span>
+        <span data-lang="ru">"Позвони сейчас / Отправь предложение / Запланируй показ" — система говорит точно что делать для каждого клиента.</span>
       </div>
     </div>
 
     <div class="pillar-card">
       <div class="pillar-icon">🤝</div>
       <div class="pillar-name">
-        <span data-lang="ro">Negotiation Intelligence</span>
-        <span data-lang="en">Negotiation Intelligence</span>
-        <span data-lang="ru">Интеллект переговоров</span>
+        <span data-lang="ro">05 · Șansa de a închide</span>
+        <span data-lang="en">05 · Closing Probability</span>
+        <span data-lang="ru">05 · Вероятность закрытия</span>
       </div>
       <div class="pillar-desc">
-        <span data-lang="ro">Urmărire oferte și contra-oferte. Istoricul complet al negocierii într-un singur loc.</span>
-        <span data-lang="en">Track offers and counter-offers. Complete negotiation history in one place.</span>
-        <span data-lang="ru">Отслеживание предложений и контрпредложений. Полная история переговоров в одном месте.</span>
+        <span data-lang="ro">Cât de aproape ești de a semna? Sistemul estimează în timp real și te ajută să știi când să acționezi.</span>
+        <span data-lang="en">How close are you to signing? The system estimates in real time and helps you know when to act.</span>
+        <span data-lang="ru">Насколько ты близок к подписанию? Система оценивает в реальном времени и помогает знать когда действовать.</span>
       </div>
     </div>
 
     <div class="pillar-card">
       <div class="pillar-icon">📈</div>
       <div class="pillar-name">
-        <span data-lang="ro">Deal Intelligence</span>
-        <span data-lang="en">Deal Intelligence</span>
-        <span data-lang="ru">Интеллект сделок</span>
+        <span data-lang="ro">06 · Sănătatea tranzacției</span>
+        <span data-lang="en">06 · Deal Health</span>
+        <span data-lang="ru">06 · Здоровье сделки</span>
       </div>
       <div class="pillar-desc">
-        <span data-lang="ro">Cât de sănătoasă e tranzacția? Sistemul alertează înainte să apară probleme, nu după.</span>
-        <span data-lang="en">How healthy is the deal? The system alerts you before problems arise, not after.</span>
-        <span data-lang="ru">Насколько здорова сделка? Система предупреждает до возникновения проблем, а не после.</span>
+        <span data-lang="ro">Tranzacția e pe drumul cel bun sau riscă să cadă? Sistemul alertează înainte să apară probleme, nu după.</span>
+        <span data-lang="en">Is the deal on track or at risk of falling? The system alerts before problems arise, not after.</span>
+        <span data-lang="ru">Сделка в порядке или под угрозой срыва? Система предупреждает до возникновения проблем, а не после.</span>
       </div>
     </div>
 
     <div class="pillar-card">
       <div class="pillar-icon">🏆</div>
       <div class="pillar-name">
-        <span data-lang="ro">Performance Intelligence</span>
-        <span data-lang="en">Performance Intelligence</span>
-        <span data-lang="ru">Интеллект эффективности</span>
+        <span data-lang="ro">07 · Performanța agentului</span>
+        <span data-lang="en">07 · Agent Performance</span>
+        <span data-lang="ru">07 · Эффективность агента</span>
       </div>
       <div class="pillar-desc">
-        <span data-lang="ro">Fiecare agent știe unde se află față de echipă. Managerul vede totul în timp real.</span>
-        <span data-lang="en">Every agent knows where they stand relative to the team. The manager sees everything in real time.</span>
-        <span data-lang="ru">Каждый агент знает своё место в команде. Менеджер видит всё в реальном времени.</span>
+        <span data-lang="ro">Fiecare agent știe exact unde se află față de echipă. Managerul vede totul în timp real, fără rapoarte manuale.</span>
+        <span data-lang="en">Every agent knows exactly where they stand. The manager sees everything in real time, no manual reports.</span>
+        <span data-lang="ru">Каждый агент знает своё место. Менеджер видит всё в реальном времени без ручных отчётов.</span>
       </div>
     </div>
 
-    <div class="pillar-card">
+    <div class="pillar-card" style="border-color: rgba(201,135,10,0.3);">
       <div class="pillar-icon">💎</div>
-      <div class="pillar-name">
-        <span data-lang="ro">Retention Intelligence</span>
-        <span data-lang="en">Retention Intelligence</span>
-        <span data-lang="ru">Интеллект удержания</span>
+      <div class="pillar-name" style="color: var(--gold2);">
+        <span data-lang="ro">08 · Încrederea clientului</span>
+        <span data-lang="en">08 · Client Trust</span>
+        <span data-lang="ru">08 · Доверие клиента</span>
       </div>
       <div class="pillar-desc">
-        <span data-lang="ro">Sistemul identifică clienții care riscă să plece și propune acțiuni de reangajare la timp.</span>
-        <span data-lang="en">The system identifies clients at risk of leaving and proposes re-engagement actions in time.</span>
-        <span data-lang="ru">Система выявляет клиентов с риском ухода и своевременно предлагает действия по повторному вовлечению.</span>
+        <span data-lang="ro">Câte promisiuni ai respectat față de client? Scorul crește la fiecare angajament ținut — și clienții revin.</span>
+        <span data-lang="en">How many promises have you kept to your clients? The score grows with every kept commitment — clients come back.</span>
+        <span data-lang="ru">Сколько обещаний ты сдержал? Оценка растёт с каждым выполненным обязательством — клиенты возвращаются.</span>
       </div>
     </div>
+  </div>
+
+  <div style="margin-top:2rem; text-align:center; font-size:.85rem; color:var(--text-m);">
+    <span data-lang="ro">Slide următor: stratul care îl face pe agent mai bun cu fiecare tranzacție →</span>
+    <span data-lang="en">Next slide: the layer that makes the agent better with every deal →</span>
+    <span data-lang="ru">Следующий слайд: слой, который делает агента лучше с каждой сделкой →</span>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════
+     SLIDE 5b — AGI LAYER (STRATUL DE CREȘTERE)
+══════════════════════════════════════════ -->
+<section class="slide" style="background: var(--navy); position: relative; overflow: hidden;">
+
+  <!-- fundal decorativ subtil -->
+  <div style="position:absolute; top:-100px; right:-100px; width:500px; height:500px; border-radius:50%; background:radial-gradient(circle, rgba(201,135,10,0.06) 0%, transparent 70%); pointer-events:none;"></div>
+
+  <div class="section-label">
+    <span data-lang="ro">Nivelul 2 — Stratul de creștere agent</span>
+    <span data-lang="en">Level 2 — Agent Growth Layer</span>
+    <span data-lang="ru">Уровень 2 — Слой роста агента</span>
+  </div>
+  <h2 class="section-title">
+    <span data-lang="ro">REVYX nu îl controlează pe agent. Îl dezvoltă.</span>
+    <span data-lang="en">REVYX doesn't control the agent. It develops them.</span>
+    <span data-lang="ru">REVYX не контролирует агента. Он его развивает.</span>
+  </h2>
+  <p class="section-desc">
+    <span data-lang="ro">Cele 8 motoare decid automat. Stratul AGI transformă fiecare decizie într-o lecție de creștere profesională.</span>
+    <span data-lang="en">The 8 engines decide automatically. The AGI layer turns every decision into a professional growth lesson.</span>
+    <span data-lang="ru">8 движков решают автоматически. Слой AGI превращает каждое решение в урок профессионального роста.</span>
+  </p>
+
+  <!-- DIAGRAMA VIZUALĂ PRINCIPALĂ -->
+  <div style="margin-bottom:2rem;">
+    <!-- Stratul AGI — bara de sus -->
+    <div style="background: linear-gradient(135deg, rgba(201,135,10,0.15), rgba(201,135,10,0.08)); border:1px solid rgba(201,135,10,0.4); border-radius:var(--r) var(--r) 0 0; padding:1.25rem 1.5rem; display:flex; flex-wrap:wrap; gap:1rem; align-items:center; justify-content:center;">
+      <div style="font-size:.75rem; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:var(--gold); width:100%; text-align:center; margin-bottom:.25rem;">
+        <span data-lang="ro">✦ Stratul AGI — Mentorul agentului</span>
+        <span data-lang="en">✦ AGI Layer — The Agent's Mentor</span>
+        <span data-lang="ru">✦ Слой AGI — Наставник агента</span>
+      </div>
+      <div class="agi-chip">🎯 <span data-lang="ro">Obiective</span><span data-lang="en">Goals</span><span data-lang="ru">Цели</span></div>
+      <div class="agi-chip">📖 <span data-lang="ro">Ghiduri</span><span data-lang="en">Guides</span><span data-lang="ru">Руководства</span></div>
+      <div class="agi-chip">⚖️ <span data-lang="ro">Etică</span><span data-lang="en">Ethics</span><span data-lang="ru">Этика</span></div>
+      <div class="agi-chip">🤝 <span data-lang="ro">Încredere</span><span data-lang="en">Trust</span><span data-lang="ru">Доверие</span></div>
+      <div class="agi-chip">👥 <span data-lang="ro">Clienți fideli</span><span data-lang="en">Alumni</span><span data-lang="ru">Лояльные клиенты</span></div>
+      <div class="agi-chip">💰 <span data-lang="ro">Putere financiară</span><span data-lang="en">Financial Power</span><span data-lang="ru">Финансовая мощь</span></div>
+    </div>
+    <!-- Săgețile în jos -->
+    <div style="display:flex; justify-content:space-around; padding:4px 2rem; background:rgba(201,135,10,0.04); border-left:1px solid rgba(201,135,10,0.2); border-right:1px solid rgba(201,135,10,0.2);">
+      <span style="color:var(--gold); font-size:1rem;">↓</span>
+      <span style="color:var(--gold); font-size:1rem;">↓</span>
+      <span style="color:var(--gold); font-size:1rem;">↓</span>
+      <span style="color:var(--gold); font-size:1rem;">↓</span>
+      <span style="color:var(--gold); font-size:1rem;">↓</span>
+      <span style="color:var(--gold); font-size:1rem;">↓</span>
+      <span style="color:var(--gold); font-size:1rem;">↓</span>
+      <span style="color:var(--gold); font-size:1rem;">↓</span>
+    </div>
+    <!-- Cele 8 motoare — bara de jos -->
+    <div style="background:var(--navy2); border:1px solid rgba(143,168,204,0.15); border-top:none; border-radius:0 0 var(--r) var(--r); padding:1rem 1.5rem; display:flex; flex-wrap:wrap; gap:.75rem; align-items:center; justify-content:center;">
+      <div style="font-size:.7rem; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:var(--text-m); width:100%; text-align:center; margin-bottom:.25rem;">
+        <span data-lang="ro">cele 8 motoare de decizie</span>
+        <span data-lang="en">the 8 decision engines</span>
+        <span data-lang="ru">8 двигателей решений</span>
+      </div>
+      <span class="engine-chip">01 <span data-lang="ro">Clienți</span><span data-lang="en">Clients</span><span data-lang="ru">Клиенты</span></span>
+      <span class="engine-chip">02 <span data-lang="ro">Anunțuri</span><span data-lang="en">Listings</span><span data-lang="ru">Объявления</span></span>
+      <span class="engine-chip">03 <span data-lang="ro">Potrivire</span><span data-lang="en">Match</span><span data-lang="ru">Подбор</span></span>
+      <span class="engine-chip">04 <span data-lang="ro">Acțiune</span><span data-lang="en">Action</span><span data-lang="ru">Действие</span></span>
+      <span class="engine-chip">05 <span data-lang="ro">Negociere</span><span data-lang="en">Negotiation</span><span data-lang="ru">Переговоры</span></span>
+      <span class="engine-chip">06 <span data-lang="ro">Deal</span><span data-lang="en">Deal</span><span data-lang="ru">Сделка</span></span>
+      <span class="engine-chip">07 <span data-lang="ro">Performanță</span><span data-lang="en">Performance</span><span data-lang="ru">Эффективность</span></span>
+      <span class="engine-chip">08 <span data-lang="ro">Încredere</span><span data-lang="en">Trust</span><span data-lang="ru">Доверие</span></span>
+    </div>
+  </div>
+
+  <!-- TABEL 6 COMPONENTE AGI -->
+  <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:1rem;">
+
+    <div class="agi-card">
+      <div class="agi-card-icon">🎯</div>
+      <div class="agi-card-title">
+        <span data-lang="ro">Obiective lunare clare</span>
+        <span data-lang="en">Clear monthly goals</span>
+        <span data-lang="ru">Чёткие ежемесячные цели</span>
+      </div>
+      <div class="agi-card-desc">
+        <span data-lang="ro"><strong>Sistemul vede:</strong> ritmul actual al agentului. <strong>Agentul primește:</strong> un target clar pentru luna în curs, vizibil zilnic în dashboard.</span>
+        <span data-lang="en"><strong>System sees:</strong> the agent's current pace. <strong>Agent gets:</strong> a clear monthly target, visible daily in the dashboard.</span>
+        <span data-lang="ru"><strong>Система видит:</strong> текущий темп агента. <strong>Агент получает:</strong> чёткую цель на месяц, видимую ежедневно в дашборде.</span>
+      </div>
+    </div>
+
+    <div class="agi-card">
+      <div class="agi-card-icon">📖</div>
+      <div class="agi-card-title">
+        <span data-lang="ro">Ghiduri practice pas cu pas</span>
+        <span data-lang="en">Step-by-step practical guides</span>
+        <span data-lang="ru">Практические пошаговые руководства</span>
+      </div>
+      <div class="agi-card-desc">
+        <span data-lang="ro"><strong>Sistemul vede:</strong> acțiunea recomandată. <strong>Agentul primește:</strong> un script gata: ce să spui, cum să spui, în ce ordine.</span>
+        <span data-lang="en"><strong>System sees:</strong> the recommended action. <strong>Agent gets:</strong> a ready script: what to say, how to say it, in what order.</span>
+        <span data-lang="ru"><strong>Система видит:</strong> рекомендуемое действие. <strong>Агент получает:</strong> готовый скрипт: что сказать, как сказать, в каком порядке.</span>
+      </div>
+    </div>
+
+    <div class="agi-card">
+      <div class="agi-card-icon">⚖️</div>
+      <div class="agi-card-title">
+        <span data-lang="ro">Avertizări etice</span>
+        <span data-lang="en">Ethics alerts</span>
+        <span data-lang="ru">Этические предупреждения</span>
+      </div>
+      <div class="agi-card-desc">
+        <span data-lang="ro"><strong>Sistemul vede:</strong> situații delicate — doi clienți pe același apartament, gap financiar ascuns. <strong>Agentul primește:</strong> alertă înainte de a continua.</span>
+        <span data-lang="en"><strong>System sees:</strong> sensitive situations — two clients on the same property, hidden financial gap. <strong>Agent gets:</strong> alert before proceeding.</span>
+        <span data-lang="ru"><strong>Система видит:</strong> деликатные ситуации — два клиента на один объект, скрытый финансовый разрыв. <strong>Агент получает:</strong> предупреждение перед продолжением.</span>
+      </div>
+    </div>
+
+    <div class="agi-card">
+      <div class="agi-card-icon">🤝</div>
+      <div class="agi-card-title">
+        <span data-lang="ro">Scorul de credibilitate</span>
+        <span data-lang="en">Credibility score</span>
+        <span data-lang="ru">Оценка доверия</span>
+      </div>
+      <div class="agi-card-desc">
+        <span data-lang="ro"><strong>Sistemul vede:</strong> câte promisiuni ai făcut vs. câte ai respectat. <strong>Agentul primește:</strong> un scor personal — crește la fiecare promisiune ținută.</span>
+        <span data-lang="en"><strong>System sees:</strong> how many promises made vs. kept. <strong>Agent gets:</strong> a personal score — grows with every kept promise.</span>
+        <span data-lang="ru"><strong>Система видит:</strong> сколько обещаний дано и выполнено. <strong>Агент получает:</strong> личный счёт — растёт с каждым выполненным обещанием.</span>
+      </div>
+    </div>
+
+    <div class="agi-card">
+      <div class="agi-card-icon">👥</div>
+      <div class="agi-card-title">
+        <span data-lang="ro">Relația după tranzacție</span>
+        <span data-lang="en">Post-deal relationship</span>
+        <span data-lang="ru">Отношения после сделки</span>
+      </div>
+      <div class="agi-card-desc">
+        <span data-lang="ro"><strong>Sistemul vede:</strong> data mutării clientului. <strong>Agentul primește:</strong> reminder la 12 luni și 24 luni — „Sună-l pe Ion Popescu, s-a mutat acum un an."</span>
+        <span data-lang="en"><strong>System sees:</strong> the client's move-in date. <strong>Agent gets:</strong> reminder at 12 and 24 months — "Call Ion Popescu, he moved in a year ago."</span>
+        <span data-lang="ru"><strong>Система видит:</strong> дату переезда клиента. <strong>Агент получает:</strong> напоминание через 12 и 24 месяца — «Позвони Иону Попеску, год назад переехал».</span>
+      </div>
+    </div>
+
+    <div class="agi-card" style="border-color: rgba(201,135,10,0.25);">
+      <div class="agi-card-icon">💰</div>
+      <div class="agi-card-title">
+        <span data-lang="ro">Puterea reală de cumpărare</span>
+        <span data-lang="en">Real purchasing power</span>
+        <span data-lang="ru">Реальная покупательная способность</span>
+      </div>
+      <div class="agi-card-desc">
+        <span data-lang="ro"><strong>Sistemul vede:</strong> bugetul declarat vs. ce poate confirma banca (divergență 15-25% în Moldova). <strong>Agentul primește:</strong> semnal clar: clientul poate cumpăra realist sau nu.</span>
+        <span data-lang="en"><strong>System sees:</strong> declared budget vs. bank-confirmed (15-25% gap in Moldova). <strong>Agent gets:</strong> clear signal: can the client realistically buy or not.</span>
+        <span data-lang="ru"><strong>Система видит:</strong> заявленный бюджет vs. подтверждённый банком (разрыв 15-25% в Молдове). <strong>Агент получает:</strong> чёткий сигнал: может ли клиент реально купить.</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- REZUMAT 2-NIVEL -->
+  <div style="margin-top:2rem; display:grid; grid-template-columns:1fr auto 1fr; gap:1rem; align-items:center;">
+    <div style="background:var(--navy2); border-radius:var(--r); padding:1.25rem 1.5rem; border:1px solid rgba(143,168,204,0.15); text-align:center;">
+      <div style="font-size:.7rem; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:var(--text-m); margin-bottom:.5rem;">
+        <span data-lang="ro">Nivelul 1</span><span data-lang="en">Level 1</span><span data-lang="ru">Уровень 1</span>
+      </div>
+      <div style="font-size:1rem; font-weight:700; color:var(--text-h); margin-bottom:.25rem;">
+        <span data-lang="ro">8 Motoare de decizie</span><span data-lang="en">8 Decision Engines</span><span data-lang="ru">8 Двигателей решений</span>
+      </div>
+      <div style="font-size:.8rem; color:var(--text-m);">
+        <span data-lang="ro">Decid automat, în fundal</span><span data-lang="en">Decide automatically, in background</span><span data-lang="ru">Решают автоматически в фоне</span>
+      </div>
+    </div>
+    <div style="font-size:2rem; color:var(--gold); text-align:center;">+</div>
+    <div style="background: linear-gradient(135deg, rgba(201,135,10,0.12), rgba(201,135,10,0.05)); border-radius:var(--r); padding:1.25rem 1.5rem; border:1px solid rgba(201,135,10,0.3); text-align:center;">
+      <div style="font-size:.7rem; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:var(--gold); margin-bottom:.5rem;">
+        <span data-lang="ro">Nivelul 2</span><span data-lang="en">Level 2</span><span data-lang="ru">Уровень 2</span>
+      </div>
+      <div style="font-size:1rem; font-weight:700; color:var(--text-h); margin-bottom:.25rem;">
+        <span data-lang="ro">Stratul AGI — Mentorul</span><span data-lang="en">AGI Layer — The Mentor</span><span data-lang="ru">Слой AGI — Наставник</span>
+      </div>
+      <div style="font-size:.8rem; color:var(--text-m);">
+        <span data-lang="ro">Transformă deciziile în creștere profesională</span><span data-lang="en">Turns decisions into professional growth</span><span data-lang="ru">Превращает решения в профессиональный рост</span>
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-top:1.5rem; text-align:center; font-size:.9rem; color:var(--gold); font-weight:600;">
+    <span data-lang="ro">Concurenții construiesc software de gestiune. REVYX construiește profesioniști imobiliari.</span>
+    <span data-lang="en">Competitors build management software. REVYX builds real estate professionals.</span>
+    <span data-lang="ru">Конкуренты создают программы управления. REVYX создаёт профессионалов недвижимости.</span>
   </div>
 </section>
 
