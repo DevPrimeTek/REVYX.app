@@ -1474,5 +1474,33 @@
     "toastRequested": "Mandat solicitat de la vânzător",
     "toastSigned": "Mandat semnat",
     "toastSignedDesc": "Valabil {days} zile. Vei primi memento înainte de expirare."
+  },
+  "priceDiscipline": {
+    "title": "Disciplina prețului",
+    "desc": "Prețul de listare corect vinde mai repede și la valoare mai bună.",
+    "help": "Un preț inițial supra-evaluat respinge cumpărătorii motivați și devalorizează proprietatea în timp („obiect-zăvor\"). Estimarea se bazează pe €/m² pentru clasa proprietății în Chișinău. Decizia finală a prețului rămâne a proprietarului.",
+    "flagOver": "Risc supra-preț",
+    "flagOk": "Preț în piață",
+    "listPrice": "Preț de listare",
+    "marketEstimate": "Estimare de piață",
+    "estimateBasis": "{sqm} m² × €{ppsqm}/m²",
+    "overWarning": "Prețul de listare e cu ~{pct}% peste estimarea de piață. Riști un obiect care „atârnă\" și reduceri forțate ulterior.",
+    "scriptLabel": "Cum discuți prețul cu proprietarul",
+    "script": "„Este dreptul dvs. să cereți acest preț, dar permiteți-mi să vă arăt cu ce preț s-au vândut efectiv proprietățile similare — nu cu ce preț au fost listate. Un preț corect azi vă aduce mai mulți cumpărători și un rezultat final mai bun.\"",
+    "okNote": "Prețul de listare e aliniat cu piața — promovare în condiții bune."
+  },
+  "ethics": {
+    "label": "Punct de etică",
+    "ackCta": "Am înțeles și am acționat corespunzător",
+    "acked": "Confirmat — ai marcat că ai acționat etic.",
+    "nar12": "NAR Art. 12",
+    "nar1": "NAR Art. 1",
+    "nar16": "NAR Art. 16",
+    "trigger": {
+      "misleading_advertising": "Reclama trebuie să fie adevărată și neînșelătoare. Prețul și descrierea reflectă realitatea obiectului și analiza de piață?",
+      "dual_representation": "Reprezinți ambele părți? Ai informat în scris și ai obținut consimțământul explicit al fiecăreia?",
+      "competing_offers": "Există oferte concurente. Clientul tău știe? Ești obligat să informezi corect ambele părți.",
+      "exclusive_listing_solicitation": "Acest client are deja un contract cu alt agent. Nu solicita clienți aflați sub mandat exclusiv cu un coleg."
+    }
   }
 }
