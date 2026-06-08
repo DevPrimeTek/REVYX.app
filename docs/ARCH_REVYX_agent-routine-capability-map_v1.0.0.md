@@ -51,9 +51,9 @@ Legendă status: ✅ schelet vizual livrat · ◐ planificat structură avansat�
 | Mandate tracking + expiry | Nu pierde relații prin mandate expirate | §17.5 | 2 | ✅ |
 | Listing Price Discipline | Sistemul poartă conversația de preț | §18.11 | 2 | ✅ |
 | Ethics Checkpoints (soft-prompt) | Soft-prompt la decizii sensibile (Art.12 la supra-preț) | §18.4 | 2 | ✅ |
-| MLS / Cooperation + Open House | Listing-ul ajunge la parteneri, split comision | §18.10 | 3 | ○ |
-| Feedback post-vizionare (5 dim) | Preferințele se calibrează singure | §17.4 | 3 | ◐ (parțial există) |
-| property_class RM filtrare | Match realist soviet/post/new/premium | §17.6 | 3 | ◐ |
+| MLS / Cooperation + Open House | Listing-ul ajunge la parteneri, split comision (gate BR-29) | §18.10 | 3 | ✅ |
+| Feedback post-vizionare (5 dim) | Preferințele se calibrează singure | §17.4 | 3 | ✅ (există) |
+| property_class RM filtrare | Match realist soviet/post/new/premium | §17.6 | 3 | ✅ |
 | Client Alumni Lifecycle | 70% business din referrals — cultivat automat | §18.6 | 4 | ○ |
 | Agent Goals + Value Proposition | Progres vs țintă + demonstrare valoare | §18.2/§18.5 | 4 | ○ |
 
@@ -63,7 +63,7 @@ Legendă status: ✅ schelet vizual livrat · ◐ planificat structură avansat�
 
 1. **Val 1 — Calificarea ghidată** ✅ (livrat schelet) — etapa cu cea mai mare pierdere de timp; alimentează tot.
 2. **Val 2 — Apărarea agentului** ✅ (livrat schelet) — mandat (`mandate-store` + `MandatePanel`) + disciplină preț (`PriceDisciplinePanel`, estimare €/m² per clasă RM) + ethics checkpoint reutilizabil (`EthicsCheckpoint`, Art.12 la supra-preț).
-3. **Val 3 — Amplificarea** — depinde de Match Engine (M1.S4).
+3. **Val 3 — Amplificarea** ✅ (livrat schelet) — cooperare MLS (`cooperation-store` + `CooperationPanel`, gate BR-29 pe mandat semnat + split comision + Open House) + filtru `property_class` RM pe `/properties`. Feedback post-vizionare + preference timeline existau deja.
 4. **Val 4 — Termen lung** — M1.S5-S6.
 
 ---

@@ -53,7 +53,9 @@
     "infoHelp": "Apasă pictograma „i” pentru explicații.",
     "add": "Adaugă",
     "remove": "Șterge",
-    "edit": "Editează"
+    "edit": "Editează",
+    "yes": "Da",
+    "no": "Nu"
   },
   "leadType": {
     "buyer": "Cumpărător",
@@ -365,7 +367,8 @@
       "new_build": "Bloc nou",
       "premium": "Premium",
       "moldovaNote": "Clasificare specifică pieței din Republica Moldova. Influențează criteriile de potrivire."
-    }
+    },
+    "classFilterLabel": "Clasă:"
   },
   "deal": {
     "moduleLabel": "Modul · Tranzacții",
@@ -1517,5 +1520,24 @@
       "competing_offers": "Există oferte concurente. Clientul tău știe? Ești obligat să informezi corect ambele părți.",
       "exclusive_listing_solicitation": "Acest client are deja un contract cu alt agent. Nu solicita clienți aflați sub mandat exclusiv cu un coleg."
     }
+  },
+  "cooperation": {
+    "title": "Cooperare (rețea de parteneri)",
+    "desc": "Publică proprietatea la agenți parteneri și împarte comisionul — vinde mai repede.",
+    "help": "Cel mai eficient instrument de vânzare e cooperarea: listing-ul tău ajunge la mai mulți agenți, iar agentul partener care aduce cumpărătorul primește o cotă din comision. Necesită mandat de exclusivitate semnat (fără mandat, nu poți publica în rețea).",
+    "published": "Publicat în rețea",
+    "notPublished": "Nepublicat",
+    "mandateGate": "Publicarea în rețea necesită mandat de exclusivitate semnat. Semnează mai întâi mandatul pe lead-ul vânzătorului.",
+    "splitLabel": "Cotă comision oferită partenerului",
+    "partnerShare": "≈ €{amount} pentru partener",
+    "partnerShareLabel": "Cotă partener",
+    "openHouse": "Ziua ușilor deschise",
+    "openHouseHelp": "Un eveniment de concentrare a cererii — inviți agenți parteneri și cumpărători la o vizionare grupată.",
+    "publishCta": "Publică în rețea",
+    "withdrawCta": "Retrage din rețea",
+    "engagedNote": "{n} agenți parteneri au preluat oferta în rețea.",
+    "toastPublished": "Publicat în rețeaua de parteneri",
+    "toastPublishedDesc": "Cotă oferită: {pct}% din comision.",
+    "toastWithdrawn": "Retras din rețea"
   }
 }

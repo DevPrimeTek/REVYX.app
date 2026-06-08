@@ -46,6 +46,8 @@ export default function PropertiesPage() {
   const direction = useWorkspaceDirection();
   const [kind, setKind] = useState<KindFilter>('all');
   const [listing, setListing] = useState<ListingFilter>('all');
+  // [MOLDOVA-SPECIFIC §17.6] filtru clasă fond locativ.
+  const [pclass, setPclass] = useState<'all' | PropertyClass>('all');
 
   // Regula 20/21: când direcția workspace e fixă, ascundem tab-urile listing irelevante.
   const listingFilters: ListingFilter[] =
@@ -68,8 +70,9 @@ export default function PropertiesPage() {
         // sale tab include both; rent tab include both.
         return p.listingType === listing || p.listingType === 'both';
       })
+      .filter((p) => (pclass === 'all' ? true : p.propertyClass === pclass))
       .slice(0, 36),
-    [kind, listing, direction]
+    [kind, listing, direction, pclass]
   );
 
   return (
@@ -118,6 +121,22 @@ export default function PropertiesPage() {
               );
             })}
           </div>
+
+          {/* [MOLDOVA-SPECIFIC §17.6] filtru clasă fond locativ */}
+          <label className="flex items-center gap-sp1 text-[12px] text-text-secondary">
+            <span className="text-text-muted">{t('property.classFilterLabel')}</span>
+            <select
+              value={pclass}
+              onChange={(e) => setPclass(e.target.value as 'all' | PropertyClass)}
+              className="h-9 px-sp2 bg-navy-deep border border-border-light rounded-md text-[12px] text-text-h focus-visible:outline-none focus-visible:border-gold"
+            >
+              <option value="all">{t('common.all')}</option>
+              <option value="soviet_era">{t('property.propertyClass.soviet_era')}</option>
+              <option value="post_soviet">{t('property.propertyClass.post_soviet')}</option>
+              <option value="new_build">{t('property.propertyClass.new_build')}</option>
+              <option value="premium">{t('property.propertyClass.premium')}</option>
+            </select>
+          </label>
         </div>
 
         <div
