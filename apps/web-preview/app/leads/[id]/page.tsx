@@ -27,6 +27,7 @@ import { BuyerPreferencesPanel } from '@/components/leads/buyer-preferences-pane
 import { BuyerNeedsPanel } from '@/components/leads/buyer-needs-panel';
 import { FinancialReadinessBadge } from '@/components/leads/financial-readiness-badge';
 import { QualificationWizard } from '@/components/leads/qualification-wizard';
+import { MandatePanel } from '@/components/leads/mandate-panel';
 import { SellerPropertyPanel } from '@/components/leads/seller-property-panel';
 import { PreferenceHistoryPanel } from '@/components/leads/preference-history-panel';
 import { useShowings } from '@/lib/showing-store';
@@ -287,6 +288,8 @@ export default function LeadDetailPage({ params }: Params) {
           </>
         ) : (
           <>
+            {/* ★ Val 2 AGI §17.5 — Mandat de exclusivitate (apără relația agentului) */}
+            <MandatePanel lead={lead} />
             {/* Supply side (seller + landlord): proprietatea + beneficii + vizionări programate */}
             <SellerPropertyPanel lead={lead} locale={locale} />
           </>

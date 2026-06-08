@@ -1448,5 +1448,31 @@
     "dealBreakersEmpty": "Niciun criteriu încă.",
     "compromiseEmpty": "Niciun criteriu încă.",
     "editHint": "Toate câmpurile de mai jos sunt editabile — completează pe măsură ce afli de la client."
+  },
+  "mandate": {
+    "title": "Mandat de exclusivitate",
+    "desc": "Dreptul exclusiv de a promova și vinde această proprietate.",
+    "help": "Mandatul îți garantează exclusivitatea pe o perioadă (30/60/90 zile). Fără mandat semnat, riști să pierzi proprietatea către alt agent. La expirare apare un memento de reînnoire.",
+    "status": {
+      "none": "Nesemnat",
+      "pending": "În așteptare",
+      "signed": "Semnat",
+      "expired": "Expirat"
+    },
+    "noneHint": "Niciun mandat încă. Solicită-l vânzătorului ca să poți promova proprietatea în siguranță.",
+    "signedAt": "Semnat la",
+    "expiresAt": "Expiră la",
+    "daysLeft": "Zile rămase",
+    "daysValue": "{n} zile",
+    "expiredValue": "Expirat",
+    "requestCta": "Solicită mandat",
+    "signPick": "Marchează semnat pe:",
+    "renewPick": "Reînnoiește pe:",
+    "daysOption": "{n} zile",
+    "renewWarning": "Mandatul expiră în {n} zile — programează reînnoirea ca să nu pierzi proprietatea.",
+    "expiredWarning": "Mandatul a expirat. Reînnoiește-l urgent sau riști să pierzi relația cu vânzătorul.",
+    "toastRequested": "Mandat solicitat de la vânzător",
+    "toastSigned": "Mandat semnat",
+    "toastSignedDesc": "Valabil {days} zile. Vei primi memento înainte de expirare."
   }
 }
