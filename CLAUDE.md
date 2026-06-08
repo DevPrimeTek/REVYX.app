@@ -1,5 +1,5 @@
 # CLAUDE.md — REVYX Agent Operating System
-<!-- CLAUDE.md · v1.2.29 · 2026-06 -->
+<!-- CLAUDE.md · v1.2.30 · 2026-06 -->
 <!-- CONFIDENȚIAL · Uz Intern · © 2026 REVYX · ITPRO SYSTEM SRL -->
 
 > Acest fișier este citit de Claude Code la **fiecare sesiune** din acest repo.
@@ -7,7 +7,20 @@
 
 ---
 
-## 0a. STATUS EXECUȚIE (LIVE) ★ v1.2.29
+## ★ 0z. Principii fundamentale de execuție — Karpathy Guidelines (v1.2.30)
+
+> **Bază pentru toate proiectele.** Skill: `.claude/skills/karpathy-guidelines/SKILL.md` (sursă MIT `multica-ai/andrej-karpathy-skills`). Aceste 4 principii au **prioritate** la orice conflict de stil de execuție. Tradeoff: prudență > viteză; pentru sarcini triviale, judecată.
+
+1. **Think Before Coding** — Nu presupune. Dacă există mai multe interpretări, prezintă-le, nu alege în tăcere. Dacă ceva e neclar, oprește-te și întreabă.
+2. **Simplicity First** — Minimul de cod care rezolvă problema. Niciun feature/abstracție/configurabilitate necerută. „Ar spune un senior că e prea complicat?"
+3. **Surgical Changes** — Atinge doar ce trebuie. Nu refactoriza ce nu e stricat, respectă stilul existent, curăță doar orfanii pe care schimbarea ta i-a creat. Fiecare linie schimbată se leagă direct de cerere.
+4. **Goal-Driven Execution** — Definește criterii de succes verificabile + plan scurt cu checkpoint-uri; buclează până la verificare.
+
+**Mapping cu Regulile existente §10b:** P1 ⊇ Regula 16 (întrebări cu opțiuni) · P2 ⊇ Regula 17 (token/optimizare) + Regula 18 (no proliferation) · P3 = principiu nou explicit (modificări chirurgicale) · P4 ⊇ Regula 2/4 (self-review + verificare post-commit). În caz de tensiune între aceste principii și o regulă locală, **principiile primează** (sunt baza), iar regula locală se aplică în detaliu.
+
+---
+
+## 0a. STATUS EXECUȚIE (LIVE) ★ v1.2.30
 
 > Single source of truth pentru "unde suntem ACUM". Actualizat la fiecare sesiune `/sN`.
 > Pentru detaliu complet → `docs/MASTER_PLAN_REVYX_execution-roadmap_v1.1.2.md` §0.
@@ -706,7 +719,7 @@ Violarea Regulii 21 (PR cu funcționalitate/condiție nouă fără actualizare d
 
 ---
 
-*CLAUDE.md · v1.2.29 · 2026-06 · CONFIDENȚIAL · Uz Intern*
+*CLAUDE.md · v1.2.30 · 2026-06 · CONFIDENȚIAL · Uz Intern*
 *REVYX — Real Estate Execution Intelligence · © 2026 REVYX · ITPRO SYSTEM SRL*
 
 ---
@@ -715,6 +728,7 @@ Violarea Regulii 21 (PR cu funcționalitate/condiție nouă fără actualizare d
 
 | Versiune | Data | Note |
 |---|---|---|
+| **1.2.30** | **2026-06** | ★ MINOR — **Adoptare Karpathy Guidelines ca principii fundamentale de execuție.** Solution Architect. Sursă: `multica-ai/andrej-karpathy-skills` (MIT). (1) NEW skill `.claude/skills/karpathy-guidelines/SKILL.md` (4 principii: Think Before Coding · Simplicity First · Surgical Changes · Goal-Driven Execution). (2) NEW secțiune `§0z Principii fundamentale` în CLAUDE.md (top, prioritate la conflict de stil execuție) + mapping cu Regulile existente §10b (P1⊇R16, P2⊇R17+R18, P3=nou, P4⊇R2/R4). Bază pentru toate proiectele viitoare. Surgical: zero modificări la conținutul Regulilor 1-21; doar adăugare principii + skill. |
 | **1.2.29** | **2026-06** | ★ PATCH — **Consistency pass post-v1.4.0 (Regula 21) — sincronizare documente rămase.** Solution Architect + Senior Compliance Auditor + DOC. Audit de consistență pe toate documentele după BRD v1.4.0; sincronizate cele rămase: (1) **audit-log v1.1.1 → v1.1.2** (git mv) — §4.4.10 familia `AGI/ETHICS/MLS` (10 events) + CI `audit-catalog-lint.yml` `--spec` path actualizat. (2) **PLATFORM_MATRIX v1.0.0 → v1.1.0** (git mv) — Modul 16 (AGI/Ethics/MLS, 12 features, Regula 9) + stat 119→131. (3) **GLOSSARY v1.0.0 → v1.0.1** (git mv) — §14b 9 termeni NAR/APAIM/MLS/PPP/etc. (4) **6 engine tech-specs** — note additive `★ Related v1.4.0` (showing/property/offer-engine/deal-closure/match-engine/nba-engine, in-place fără bump). (5) **HEADER_STANDARD** fix pointer BRD v1.1.0→v1.4.0. (6) **INDEX v1.1.22 → v1.1.23**. **Decizie Regula 17:** MASTER_PLAN v1.1.2 NU bump-uit (referențiat de 35 docs; conținut substanțial necontradictoriu cu v1.4.0; deriva §0 tracker + §12 cross-ref = refresh dedicat separat). Backend `apps/` INTACT. Trigger: PM directive „actualizați toate documentele după modificări majore în framework". |
 | **1.2.28** | **2026-06** | ★ MINOR — **Integrare practici de teren + etică profesională (NAR / APAIM).** Solution Architect + Senior PM + Senior BA + Senior Compliance Auditor. Sursă: 7 documente operaționale furnizate de client (instrucțiuni preluare vânzări RO/RU · check-list prima intrare apartament · scenariu apel vânzători · Buyer Needs Assessment ABR® · metodologie profesională Riѐltor ~700 paragrafe) + NAR Code of Ethics (17 articole / 3 categorii) + APAIM (modelat după NAR). Schimbări docs-only (zero cod `apps/`): (1) **BRD v1.3.0 → v1.4.0** (`git mv`) — §6.5.1 BR-29 (MLS Cooperation & commission-sharing) + BR-30 (Listing Price Discipline anti-overpricing) + BR-31 (Buyer Needs Assessment) · §8.5.1 entități `cooperation_offers` + `buyer_assessments` (total 16) · §17.1 extensie buyer worksheet · §18.3 seed real execution guides · §18.4 mapping NAR 17 articole + APAIM + 2 ethics checkpoints noi (Art.16 `exclusive_listing_solicitation` + Art.12 `misleading_advertising`; BR-28 4→6) · NEW §18.9 Buyer Needs Assessment · §18.10 AGI-08 MLS · §18.11 AGI-09 Listing Price Discipline · §13.4 +3 KPI · AC-AGI-09..13. (2) **2 TECH_SPEC noi:** `TECH_SPEC_REVYX_realtor-ethics_v1.0.0` (NAR/APAIM mapping + 6 ethics checkpoints + append-only) + `TECH_SPEC_REVYX_mls-cooperation_v1.0.0` (commission split + ДОД/Open House + gate mandat). (3) **2 Workflows bump:** property-onboarding v1.0.0 → **v1.1.0** (NEW §5.0 SOP preluare + 10-pași seller meeting + Elite Realty SOP codificat) + buyer-profile-lifecycle v1.0.0 → **v1.1.0** (NEW §4.1.1 Buyer Needs Assessment + PPP scripts). (4) **Regula 18 cleanup:** șterse stale `INDEX_v1.1.19` + `ROADMAP_v1.0.13`. (5) **Roadmap v1.0.15 → v1.0.16** (mv) §4.5 NEW T-ETH/T-MLS/T-BNA/T-LPD. (6) **INDEX v1.1.21 → v1.1.22** (mv). (7) §0a NEW row `★ Etică profesională (NAR/APAIM)` + AGI Layer status bump v1.3.0→v1.4.0. Backend `apps/api/` + BRD §7 formule + BR-01..BR-28 + Master Plan **INTACTE** (Regula 8 + 18 + 21). Trigger: PM directive integrare inputuri client (NAR.realtor + APAIM.md + documente de teren). |
 | **1.2.27** | **2026-06** | ★ MINOR — **AGI Layer documentat complet — BRD §18 Agent Growth Intelligence + Roadmap §4.4 T-AGI-01..10.** Senior PM + Solution Architect + Senior BA + Senior Product Auditor. Analiza bibliografică profesională (Carnegie/Hill/Beckwith/Maister/Gitomer/Fox/Lukic/Blanchard+Peale/Yamaguchi + NAR Code of Ethics) vs framework REVYX → 7 gap-uri HIGH/MEDIUM. Shift conceptual: AOS care controlează → AOS care **dezvoltă** agentul. BRD v1.2.0 → **v1.3.0** cu §18 complet (AGI-01..AGI-07 + BR-25..28 + IS/TS extensii + 4 entități noi + KPI AGI + AC-AGI). Roadmap v1.0.14 → **v1.0.15** cu §4.4 AGI Layer (T-AGI-01..10). INDEX v1.1.20 → **v1.1.21**. §0a NEW row `★ AGI Layer status` + Roadmap ref v1.0.13 → v1.0.15. Backend `apps/api/` + BRD §7 + Master Plan **INTACTE** (Regula 8 + Regula 18 + Regula 21). |

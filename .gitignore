@@ -36,4 +36,6 @@ venv/
 # Docs build
 _site/
 .docusaurus/
-.claude/
+# Local Claude Code config stays local, EXCEPT committed project skills
+.claude/*
+!.claude/skills/
