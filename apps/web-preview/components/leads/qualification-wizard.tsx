@@ -11,6 +11,9 @@ import { Button } from '@/components/ui/button';
 import { useToast } from '@/components/ui/toast';
 import { useT } from '@/components/i18n/provider';
 import { SELLER_MEETING_STEPS } from '@/lib/mock/execution-guides';
+import { saveQualification } from '@/lib/qualification-store';
+import { useTaskActions } from '@/lib/task-store';
+import { agents } from '@/lib/mock';
 import type { Lead } from '@/lib/mock';
 
 export function QualificationWizard({
@@ -24,6 +27,7 @@ export function QualificationWizard({
 }) {
   const { t } = useT();
   const { toast } = useToast();
+  const taskActions = useTaskActions();
   const [step, setStep] = useState(0);
   const [motivation, setMotivation] = useState('');
   const [minPrice, setMinPrice] = useState('');
@@ -41,6 +45,24 @@ export function QualificationWizard({
   }
 
   function finish() {
+    // Captează rezultatul (nu mai e efemer)
+    saveQualification(lead.id, {
+      verdict: verdict ?? 'no',
+      minPrice,
+      motivation,
+      completedAt: new Date().toISOString(),
+    });
+    // Verdict „Da" → creează sarcina următoare: pregătește mandatul
+    if (verdict === 'yes') {
+      taskActions.add({
+        agentId: lead.agentId ?? agents[0].id,
+        taskType: 'request_documents',
+        label: `${t('qualification.mandateTaskLabel')} — ${lead.name}`,
+        leadId: lead.id,
+        dueAt: new Date(Date.now() + 86400000).toISOString(),
+        status: 'PENDING',
+      });
+    }
     toast({
       variant: verdict === 'yes' ? 'success' : 'info',
       title: t('qualification.toastDone'),

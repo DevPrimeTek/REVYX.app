@@ -25,7 +25,7 @@ const BANK_OPTIONS: BankPreapproval[] = ['none', 'in_progress', 'approved'];
 
 /** Etichetă de secțiune — stil unic, consistent în tot panoul. */
 function SectionLabel({ children }: { children: ReactNode }) {
-  return <h3 className="text-[11px] uppercase tracking-wide text-text-muted mb-sp2">{children}</h3>;
+  return <h3 className="text-[11px] uppercase tracking-wide text-text-muted mb-sp1">{children}</h3>;
 }
 
 /** Listă editabilă cu buton „+ Adaugă" + chip-uri removable. */
@@ -111,8 +111,8 @@ export function BuyerNeedsPanel({ lead }: { lead: Lead }) {
   const budgetGap = confirmed != null && confirmed < declared * 0.85;
   const completeness = Math.round(assessmentCompleteness(a) * 100);
 
-  const fieldBox = 'rounded-md border border-border bg-navy-deep/40 p-sp3';
-  const fieldLabel = 'text-[11px] text-text-muted block mb-sp1';
+  const fieldBox = 'rounded-md border border-border bg-navy-deep/40 p-sp2';
+  const fieldLabel = 'text-[11px] text-text-muted block mb-0.5';
 
   return (
     <Card>
@@ -126,13 +126,11 @@ export function BuyerNeedsPanel({ lead }: { lead: Lead }) {
           <span className="text-[18px] font-display text-gold leading-none">{completeness}%</span>
         </div>
       </CardHeader>
-      <CardContent className="flex flex-col gap-sp4">
-        <p className="text-[11px] text-text-secondary -mt-sp2">{t('needs.editHint')}</p>
-
+      <CardContent className="flex flex-col gap-sp3">
         {/* ===== BUGET (cuvinte esențiale, stil consistent) ===== */}
         <section>
           <SectionLabel>{t('needs.budgetSection')}</SectionLabel>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-sp3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-sp2">
             <div className={fieldBox}>
               <span className={fieldLabel}>{t('needs.budgetDeclared')}</span>
               <p className="text-[16px] text-text-h font-semibold">€{declared.toLocaleString('ro-MD')}{unit}</p>
@@ -166,7 +164,7 @@ export function BuyerNeedsPanel({ lead }: { lead: Lead }) {
         {/* ===== PREGĂTIRE FINANCIARĂ + POSESIE (grid simetric) ===== */}
         <section>
           <SectionLabel>{t('needs.financeSection')}</SectionLabel>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-sp3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-sp2">
             <div className={fieldBox}>
               <span className={fieldLabel}>{t('needs.bankLabel')}</span>
               <div className="flex gap-sp1 flex-wrap">
@@ -206,7 +204,7 @@ export function BuyerNeedsPanel({ lead }: { lead: Lead }) {
         {/* ===== CRITERII (liste editabile, simetrice) ===== */}
         <section>
           <SectionLabel>{t('needs.criteriaSection')}</SectionLabel>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-sp3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-sp2">
             <div className={fieldBox}>
               <span className="text-[11px] text-status-red block mb-sp2">{t('needs.dealBreakers')}</span>
               <ListEditor

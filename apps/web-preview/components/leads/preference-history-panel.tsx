@@ -8,6 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { InfoTooltip } from '@/components/ui/info-tooltip';
+import { formatDate } from '@/lib/format';
 import { useToast } from '@/components/ui/toast';
 import { useT } from '@/components/i18n/provider';
 import { addPreferenceHistoryEntry, useLeadExtras } from '@/lib/lead-extras-store';
@@ -137,7 +138,7 @@ export function PreferenceHistoryPanel({
                   )}
                 </div>
                 <div className="pb-sp3 flex-1 min-w-0">
-                  <p className="text-[11px] text-text-muted font-mono">{entry.date}</p>
+                  <p className="text-[11px] text-text-muted">{formatDate(entry.date)}</p>
                   <p className="text-[13px] text-text-h mt-px">{entry.changeNote}</p>
                   <p className="text-[11px] text-text-secondary mt-px">
                     €{entry.budgetMax.toLocaleString('ro-MD')} · {entry.zone} · {entry.rooms} {t('property.rooms')}

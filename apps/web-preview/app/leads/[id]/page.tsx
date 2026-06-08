@@ -26,12 +26,13 @@ import { MatchPodium } from '@/components/leads/match-podium';
 import { BuyerPreferencesPanel } from '@/components/leads/buyer-preferences-panel';
 import { BuyerNeedsPanel } from '@/components/leads/buyer-needs-panel';
 import { FinancialReadinessBadge } from '@/components/leads/financial-readiness-badge';
-import { QualificationWizard } from '@/components/leads/qualification-wizard';
+import { QualificationCard } from '@/components/leads/qualification-card';
 import { MandatePanel } from '@/components/leads/mandate-panel';
 import { SellerPropertyPanel } from '@/components/leads/seller-property-panel';
 import { PreferenceHistoryPanel } from '@/components/leads/preference-history-panel';
 import { useShowings } from '@/lib/showing-store';
 import { isDemandSide, transactionIntent, isListingMatchForLead } from '@/lib/transaction-intent';
+import { formatDate } from '@/lib/format';
 
 type Params = { params: { id: string } };
 
@@ -45,7 +46,6 @@ export default function LeadDetailPage({ params }: Params) {
   const [assignOpen, setAssignOpen] = useState(false);
   const [showingOpen, setShowingOpen] = useState(false);
   const [meetingOpen, setMeetingOpen] = useState(false);
-  const [qualifyOpen, setQualifyOpen] = useState(false);
   const [selectedAgent, setSelectedAgent] = useState<string>(agents[0].id);
   const baseLs = lead?.ls ?? 0.30;
   const [ls, setLs] = useState(baseLs);
@@ -184,11 +184,6 @@ export default function LeadDetailPage({ params }: Params) {
                 {t('showing.addCta')}
               </Button>
             )}
-            {!isDemand && (
-              <Button variant="secondary" onClick={() => setQualifyOpen(true)}>
-                {t('qualification.startCta')}
-              </Button>
-            )}
             <Button onClick={() => setAssignOpen(true)}>{t('leadDetail.assignAgent')}</Button>
           </div>
         </header>
@@ -204,7 +199,7 @@ export default function LeadDetailPage({ params }: Params) {
         <Card>
           <CardHeader>
             <CardTitle>{t('leadDetail.summaryTitle')}</CardTitle>
-            <CardDescription>{t('leadDetail.gdprNote')} · {lead.createdAt}</CardDescription>
+            <CardDescription>{t('leadDetail.gdprNote')} · {formatDate(lead.createdAt)}</CardDescription>
           </CardHeader>
           <CardContent>
             <dl className="grid grid-cols-1 md:grid-cols-4 gap-sp3 text-[13px]">
@@ -288,6 +283,8 @@ export default function LeadDetailPage({ params }: Params) {
           </>
         ) : (
           <>
+            {/* ★ Val 1 AGI §18.3 — Întâlnirea de calificare (ghid 10 pași → verdict + sarcină) */}
+            <QualificationCard lead={lead} />
             {/* ★ Val 2 AGI §17.5 — Mandat de exclusivitate (apără relația agentului) */}
             <MandatePanel lead={lead} />
             {/* Supply side (seller + landlord): proprietatea + beneficii + vizionări programate */}
@@ -337,7 +334,6 @@ export default function LeadDetailPage({ params }: Params) {
         agentId={agents[0].id}
       />
 
-      <QualificationWizard open={qualifyOpen} onClose={() => setQualifyOpen(false)} lead={lead} />
 
       <Modal
         open={assignOpen}

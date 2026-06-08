@@ -10,6 +10,7 @@ import { Button } from '@/components/ui/button';
 import { InfoTooltip } from '@/components/ui/info-tooltip';
 import { useToast } from '@/components/ui/toast';
 import { useT } from '@/components/i18n/provider';
+import { formatDate } from '@/lib/format';
 import {
   useMandate,
   requestMandate,
@@ -55,11 +56,11 @@ export function MandatePanel({ lead }: { lead: Lead }) {
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-sp3 text-[13px]">
             <div className="rounded-md border border-border bg-navy-deep/40 p-sp2">
               <span className="text-[11px] text-text-muted block">{t('mandate.signedAt')}</span>
-              <span className="text-text-h">{m.signedAt}</span>
+              <span className="text-text-h">{formatDate(m.signedAt)}</span>
             </div>
             <div className="rounded-md border border-border bg-navy-deep/40 p-sp2">
               <span className="text-[11px] text-text-muted block">{t('mandate.expiresAt')}</span>
-              <span className="text-text-h">{m.expiresAt}</span>
+              <span className="text-text-h">{formatDate(m.expiresAt)}</span>
             </div>
             <div className="rounded-md border border-border bg-navy-deep/40 p-sp2">
               <span className="text-[11px] text-text-muted block">{t('mandate.daysLeft')}</span>

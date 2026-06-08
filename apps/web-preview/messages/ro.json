@@ -1411,7 +1411,18 @@
     },
     "toastDone": "Calificare înregistrată",
     "toastYes": "Verdict pozitiv — pasul următor: semnarea mandatului de exclusivitate.",
-    "toastNo": "Verdict negativ — lead-ul rămâne în monitorizare."
+    "toastNo": "Verdict negativ — lead-ul rămâne în monitorizare.",
+    "cardTitle": "Întâlnirea de calificare",
+    "cardDesc": "Ghid pas cu pas pentru întâlnirea cu vânzătorul.",
+    "cardPurpose": "Te ghidează prin cei 10 pași ai întâlnirii, notează verdictul, prețul minim și motivația reală — iar dacă vânzătorul acceptă, îți creează automat sarcina de pregătire a mandatului.",
+    "notStarted": "Neînceput",
+    "resultVerdict": "Verdict",
+    "resultMinPrice": "Preț minim acceptat",
+    "resultDate": "Realizată la",
+    "resultMotivation": "Motivația vânzării",
+    "redoCta": "Reia calificarea",
+    "mandateTaskLabel": "Pregătește mandatul de exclusivitate",
+    "cardStartCta": "Pornește cei 10 pași"
   },
   "needs": {
     "title": "Profil de nevoi",
@@ -1473,7 +1484,11 @@
     "expiredWarning": "Mandatul a expirat. Reînnoiește-l urgent sau riști să pierzi relația cu vânzătorul.",
     "toastRequested": "Mandat solicitat de la vânzător",
     "toastSigned": "Mandat semnat",
-    "toastSignedDesc": "Valabil {days} zile. Vei primi memento înainte de expirare."
+    "toastSignedDesc": "Valabil {days} zile. Vei primi memento înainte de expirare.",
+    "flag": "Mandat",
+    "flagHint": "Acest vânzător nu are încă mandat de exclusivitate semnat — deschide lead-ul ca să-l soliciți.",
+    "flagExpired": "Mandat expirat",
+    "flagExpiredHint": "Mandatul de exclusivitate a expirat — reînnoiește-l ca să nu pierzi proprietatea."
   },
   "priceDiscipline": {
     "title": "Disciplina prețului",
