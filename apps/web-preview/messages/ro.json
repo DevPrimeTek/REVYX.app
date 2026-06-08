@@ -166,50 +166,11 @@
     "showingsDesc": "Cele organizate pentru această proprietate (toți potențialii cumpărători)."
   },
   "lead": {
-    "queueTitle": "Lead-uri în lucru",
-    "queueSubtitle": "Aici vezi clienții care așteaptă să iei legătura. Cei mai urgenți apar primii — concentrează-te pe ei.",
-    "typeFilterLabel": "Filtru tip lead",
-    "module": "Modul · Lead-uri",
-    "slaCaption": "Răspunde rapid la cele marcate 'Urgent' ca să nu pierzi oportunitatea.",
-    "countTemplate": "{count} lead-uri",
-    "tableHeader": {
-      "id": "Cod",
-      "name": "Nume client",
-      "source": "De unde a venit",
-      "sla": "Răspunde până la",
-      "priority": "Prioritate",
-      "status": "Stare",
-      "zone": "Zonă dorită",
-      "actions": ""
-    },
-    "tableHelp": {
-      "id": "Codul intern al lead-ului. Folosește-l pentru a-l identifica rapid în notițe sau email.",
-      "name": "Numele complet declarat de client la primul contact. Apasă pe nume pentru a deschide fișa.",
-      "source": "Canalul prin care a ajuns la noi (Meta Ads, OLX, Google, recomandare, site).",
-      "sla": "Timpul maxim recomandat până trebuie să iei legătura. Urgent = 15 min, Calificat = 2 ore, Atent = 24 ore.",
-      "priority": "Cât de probabil este să se transforme în tranzacție. Sistemul evaluează automat. Tu nu trebuie să calculezi nimic.",
-      "status": "Etapa actuală: Urgent (sună acum), Calificat (planifică vizionare), Atent (urmărește), Monitorizare (sistemul lucrează singur).",
-      "zone": "Cartierul / orașul preferat de client."
-    },
-    "status": {
-      "HOT": "Urgent",
-      "qualified": "Calificat",
-      "warm": "Atent",
-      "nurturing": "Monitorizare automată"
-    },
-    "priorityLabel": {
-      "hot": "Foarte mare",
-      "qualified": "Mare",
-      "warm": "Medie",
-      "cold": "Scăzută"
-    },
-    "filters": {
-      "all": "Toate lead-urile",
-      "urgentHelp": "Trebuie sunat în următoarele 15 minute.",
-      "qualifiedHelp": "Programează vizionarea în max 2 ore.",
-      "warmHelp": "Trimite material informativ în 24 ore.",
-      "nurturingHelp": "Sistemul îi trimite mesaje automate. Nu necesită acțiune."
-    }
+    "financialReadiness": "Disponibilitate financiară",
+    "financialReadinessHelp": "Cât de pregătit financiar e clientul să cumpere acum — în funcție de bugetul confirmat față în față și de pre-aprobarea bancară. Solicită dovada bugetului înainte de vizionare.",
+    "financialReadinessLow": "Neconfirmat",
+    "financialReadinessMed": "Parțial confirmat",
+    "financialReadinessHigh": "Confirmat"
   },
   "leadDetail": {
     "title": "Detalii lead",
@@ -1421,11 +1382,59 @@
     "alumni": "Alumni – relație post-deal",
     "fin": "Disponibilitate financiară"
   },
-  "lead": {
-    "financialReadiness": "Disponibilitate financiară",
-    "financialReadinessHelp": "Scor BR-25 [MOLDOVA-SPECIFIC]: buget confirmat vs declarat (divergență tipică 15-25%) + verificare pre-aprobare bancară (MoldIndConBank / Victoriabank / Mobiasbancă). Solicită documente justificative înainte de vizionare.",
-    "financialReadinessLow": "Neconfirmat",
-    "financialReadinessMed": "Parțial confirmat",
-    "financialReadinessHigh": "Confirmat"
+  "guide": {
+    "howToCta": "Cum fac asta?",
+    "title": "Ghid — {action}",
+    "stepsLabel": "Pași concreți",
+    "objectionsLabel": "Obiecții frecvente + răspuns",
+    "closeCta": "Am înțeles"
+  },
+  "qualification": {
+    "startCta": "Întâlnire de calificare",
+    "title": "Întâlnire de calificare — 10 pași",
+    "subtitle": "Check-list „Prima intrare în apartament\" pentru {name}",
+    "stepCounter": "Pasul {current} din {total}",
+    "back": "Înapoi",
+    "next": "Pasul următor",
+    "finish": "Încheie",
+    "motivationPlaceholder": "Motivația reală a vânzării (de ce, de cât timp)...",
+    "minPricePlaceholder": "Prețul minim acceptat (€)...",
+    "verdict": {
+      "yes": "Da — lucrăm împreună",
+      "no": "Nu — nu în aceste condiții"
+    },
+    "toastDone": "Calificare înregistrată",
+    "toastYes": "Verdict pozitiv — pasul următor: semnarea mandatului de exclusivitate.",
+    "toastNo": "Verdict negativ — lead-ul rămâne în monitorizare."
+  },
+  "needs": {
+    "title": "Profil de nevoi",
+    "desc": "Ce caută clientul, cât e bugetul real și ce e necompromisabil.",
+    "completeness": "Completat",
+    "perMonth": "/lună",
+    "budgetSection": "Buget",
+    "budgetSectionHelp": "Suma de bani pe care clientul o are pentru această tranzacție. În Moldova, suma declarată la telefon e tipic cu 15-25% peste suma reală disponibilă.",
+    "budgetDeclared": "Buget declarat (la telefon)",
+    "budgetDeclaredHint": "Suma de bani spusă inițial de client.",
+    "budgetConfirmed": "Buget confirmat (față în față)",
+    "budgetConfirmedHint": "Suma de bani reală, verificată la întâlnire.",
+    "budgetUnconfirmed": "Buget neconfirmat încă",
+    "budgetGapWarning": "Atenție: bugetul confirmat e mult sub cel declarat. Verifică situația financiară reală înainte de a programa vizionări.",
+    "financeSection": "Pregătire financiară",
+    "bankLabel": "Pre-aprobare bancară (sumă de bani aprobată de bancă)",
+    "bank": {
+      "none": "Fără pre-aprobare",
+      "in_progress": "În curs",
+      "approved": "Aprobată"
+    },
+    "mustSellFirst": "Trebuie să vândă întâi o proprietate",
+    "mustSellFirstHelp": "Dacă da, cumpărarea depinde de o vânzare prealabilă — afectează banii disponibili și termenul.",
+    "possessionSection": "Intrare în posesie",
+    "possessionDate": "Data dorită de mutare",
+    "criteriaSection": "Criterii",
+    "dealBreakers": "Necompromisabil",
+    "dealBreakersPlaceholder": "Adaugă criteriu + Enter",
+    "compromiseAreas": "Flexibil la",
+    "compromisePlaceholder": "Adaugă + Enter"
   }
 }

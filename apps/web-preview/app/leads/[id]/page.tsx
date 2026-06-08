@@ -24,6 +24,9 @@ import { ShowingList } from '@/components/showings/showing-list';
 import { MeetingModal } from '@/components/leads/meeting-modal';
 import { MatchPodium } from '@/components/leads/match-podium';
 import { BuyerPreferencesPanel } from '@/components/leads/buyer-preferences-panel';
+import { BuyerNeedsPanel } from '@/components/leads/buyer-needs-panel';
+import { FinancialReadinessBadge } from '@/components/leads/financial-readiness-badge';
+import { QualificationWizard } from '@/components/leads/qualification-wizard';
 import { SellerPropertyPanel } from '@/components/leads/seller-property-panel';
 import { PreferenceHistoryPanel } from '@/components/leads/preference-history-panel';
 import { useShowings } from '@/lib/showing-store';
@@ -41,6 +44,7 @@ export default function LeadDetailPage({ params }: Params) {
   const [assignOpen, setAssignOpen] = useState(false);
   const [showingOpen, setShowingOpen] = useState(false);
   const [meetingOpen, setMeetingOpen] = useState(false);
+  const [qualifyOpen, setQualifyOpen] = useState(false);
   const [selectedAgent, setSelectedAgent] = useState<string>(agents[0].id);
   const baseLs = lead?.ls ?? 0.30;
   const [ls, setLs] = useState(baseLs);
@@ -179,6 +183,11 @@ export default function LeadDetailPage({ params }: Params) {
                 {t('showing.addCta')}
               </Button>
             )}
+            {!isDemand && (
+              <Button variant="secondary" onClick={() => setQualifyOpen(true)}>
+                {t('qualification.startCta')}
+              </Button>
+            )}
             <Button onClick={() => setAssignOpen(true)}>{t('leadDetail.assignAgent')}</Button>
           </div>
         </header>
@@ -221,30 +230,8 @@ export default function LeadDetailPage({ params }: Params) {
           </CardContent>
         </Card>
 
-        {/* ★ AGI Layer — Financial Readiness BR-25 [MOLDOVA-SPECIFIC] — doar pentru demand-side (buyer/tenant) */}
-        {isDemand && (() => {
-          // Mock financial readiness derivat din LS și budgetMax — M1.S3 va folosi câmpurile reale
-          const frScore = lead.ls >= 0.75 ? 'high' : lead.ls >= 0.55 ? 'med' : 'low';
-          const frColor = frScore === 'high' ? 'text-status-green' : frScore === 'med' ? 'text-status-amber' : 'text-status-red';
-          const frDot = frScore === 'high' ? '●●●' : frScore === 'med' ? '●●○' : '●○○';
-          return (
-            <div className="rounded-lg border border-border bg-navy-deep/50 px-sp3 py-sp2 flex items-center justify-between gap-sp3 flex-wrap text-[13px]">
-              <div className="flex items-center gap-sp2">
-                <span className="text-text-secondary">{t('lead.financialReadiness')}</span>
-                <InfoTooltip label={t('lead.financialReadiness')} body={t('lead.financialReadinessHelp')} />
-              </div>
-              <div className="flex items-center gap-sp2">
-                <span className={`font-mono ${frColor}`}>{frDot}</span>
-                <span className={`text-[12px] font-medium ${frColor}`}>
-                  {t(`lead.financialReadiness${frScore.charAt(0).toUpperCase() + frScore.slice(1)}`)}
-                </span>
-                <Badge variant={frScore === 'high' ? 'success' : frScore === 'med' ? 'updated' : 'warning'} size="xs">
-                  BR-25
-                </Badge>
-              </div>
-            </div>
-          );
-        })()}
+        {/* ★ AGI §18.7 — Pregătire financiară (derivat din buget confirmat + pre-aprobare) — demand-side */}
+        {isDemand && <FinancialReadinessBadge lead={lead} />}
 
         {/* Suggestions — bloc separat per PM feedback (2.1) */}
         <Card variant="elevated" accentTop>
@@ -266,6 +253,8 @@ export default function LeadDetailPage({ params }: Params) {
         {/* Demand vs Supply split (Regula 19 + Regula 20 — buyer/tenant vs seller/landlord) */}
         {isDemand ? (
           <>
+            {/* ★ AGI §18.9 — Profil de nevoi structurat (buget explicit + finanțe + posesie + criterii) */}
+            <BuyerNeedsPanel lead={lead} />
             {/* Demand side (buyer + tenant): preferințe + Top3 match podium */}
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-sp3">
               <div className="lg:col-span-1">
@@ -344,6 +333,8 @@ export default function LeadDetailPage({ params }: Params) {
         leadId={lead.id}
         agentId={agents[0].id}
       />
+
+      <QualificationWizard open={qualifyOpen} onClose={() => setQualifyOpen(false)} lead={lead} />
 
       <Modal
         open={assignOpen}
