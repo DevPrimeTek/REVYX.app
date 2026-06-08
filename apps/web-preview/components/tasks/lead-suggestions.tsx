@@ -10,6 +10,8 @@ import { useToast } from '@/components/ui/toast';
 import { useT } from '@/components/i18n/provider';
 import { useTaskActions } from '@/lib/task-store';
 import { suggestionsForLead, taskTypeLabelKey, type Suggestion } from '@/lib/mock/suggestions';
+import { GuideDrawer } from '@/components/leads/guide-drawer';
+import type { TaskType } from '@/lib/mock/tasks';
 import type { Lead } from '@/lib/mock';
 
 function dueIsoFromHint(hint: Suggestion['due']): string {
@@ -45,6 +47,7 @@ export function LeadSuggestions({
   const { toast } = useToast();
   const actions = useTaskActions();
   const [adding, setAdding] = useState<string | null>(null);
+  const [guideFor, setGuideFor] = useState<TaskType | null>(null);
 
   const items = suggestionsForLead(lead);
 
@@ -92,6 +95,15 @@ export function LeadSuggestions({
             {!compact && s.rationale && (
               <p className="text-[12px] text-text-secondary mt-0.5">{s.rationale}</p>
             )}
+            {!compact && (
+              <button
+                type="button"
+                onClick={() => setGuideFor(s.taskType)}
+                className="mt-sp1 text-[11px] text-text-secondary underline decoration-dotted underline-offset-2 hover:text-gold cursor-pointer transition-colors duration-fast"
+              >
+                {t('guide.howToCta')}
+              </button>
+            )}
           </div>
           <button
             type="button"
@@ -103,6 +115,7 @@ export function LeadSuggestions({
           </button>
         </li>
       ))}
+      <GuideDrawer open={guideFor !== null} onClose={() => setGuideFor(null)} taskType={guideFor} lead={lead} />
     </ul>
   );
 }

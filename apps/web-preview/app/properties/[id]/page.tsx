@@ -14,6 +14,8 @@ import { properties, agents, leadsById } from '@/lib/mock';
 import { freshnessLabel, freshnessTone } from '@/lib/freshness';
 import { ShowingModal } from '@/components/showings/showing-modal';
 import { PropertyBenefitsPanel } from '@/components/properties/benefits-panel';
+import { PriceDisciplinePanel } from '@/components/properties/price-discipline-panel';
+import { CooperationPanel } from '@/components/properties/cooperation-panel';
 
 type Params = { params: { id: string } };
 
@@ -245,6 +247,11 @@ export default function PropertyDetailPage({ params }: Params) {
                 </dl>
               </CardContent>
             </Card>
+
+            {/* ★ Val 2 AGI §18.11 — Disciplina prețului de listare (anti supra-preț) */}
+            <PriceDisciplinePanel property={property} />
+            {/* ★ Val 3 AGI §18.10 — Cooperare MLS (gate BR-29: mandat semnat) */}
+            {property.listingType !== 'rent' && <CooperationPanel property={property} />}
           </div>
 
           <aside className="flex flex-col gap-sp3">

@@ -53,7 +53,9 @@
     "infoHelp": "Apasă pictograma „i” pentru explicații.",
     "add": "Adaugă",
     "remove": "Șterge",
-    "edit": "Editează"
+    "edit": "Editează",
+    "yes": "Da",
+    "no": "Nu"
   },
   "leadType": {
     "buyer": "Cumpărător",
@@ -166,49 +168,16 @@
     "showingsDesc": "Cele organizate pentru această proprietate (toți potențialii cumpărători)."
   },
   "lead": {
-    "queueTitle": "Lead-uri în lucru",
-    "queueSubtitle": "Aici vezi clienții care așteaptă să iei legătura. Cei mai urgenți apar primii — concentrează-te pe ei.",
-    "typeFilterLabel": "Filtru tip lead",
-    "module": "Modul · Lead-uri",
-    "slaCaption": "Răspunde rapid la cele marcate 'Urgent' ca să nu pierzi oportunitatea.",
-    "countTemplate": "{count} lead-uri",
-    "tableHeader": {
-      "id": "Cod",
-      "name": "Nume client",
-      "source": "De unde a venit",
-      "sla": "Răspunde până la",
-      "priority": "Prioritate",
-      "status": "Stare",
-      "zone": "Zonă dorită",
-      "actions": ""
-    },
-    "tableHelp": {
-      "id": "Codul intern al lead-ului. Folosește-l pentru a-l identifica rapid în notițe sau email.",
-      "name": "Numele complet declarat de client la primul contact. Apasă pe nume pentru a deschide fișa.",
-      "source": "Canalul prin care a ajuns la noi (Meta Ads, OLX, Google, recomandare, site).",
-      "sla": "Timpul maxim recomandat până trebuie să iei legătura. Urgent = 15 min, Calificat = 2 ore, Atent = 24 ore.",
-      "priority": "Cât de probabil este să se transforme în tranzacție. Sistemul evaluează automat. Tu nu trebuie să calculezi nimic.",
-      "status": "Etapa actuală: Urgent (sună acum), Calificat (planifică vizionare), Atent (urmărește), Monitorizare (sistemul lucrează singur).",
-      "zone": "Cartierul / orașul preferat de client."
-    },
-    "status": {
-      "HOT": "Urgent",
-      "qualified": "Calificat",
-      "warm": "Atent",
-      "nurturing": "Monitorizare automată"
-    },
+    "financialReadiness": "Disponibilitate financiară",
+    "financialReadinessHelp": "Cât de pregătit financiar e clientul să cumpere acum — în funcție de bugetul confirmat față în față și de pre-aprobarea bancară. Solicită dovada bugetului înainte de vizionare.",
+    "financialReadinessLow": "Neconfirmat",
+    "financialReadinessMed": "Parțial confirmat",
+    "financialReadinessHigh": "Confirmat",
     "priorityLabel": {
       "hot": "Foarte mare",
       "qualified": "Mare",
       "warm": "Medie",
       "cold": "Scăzută"
-    },
-    "filters": {
-      "all": "Toate lead-urile",
-      "urgentHelp": "Trebuie sunat în următoarele 15 minute.",
-      "qualifiedHelp": "Programează vizionarea în max 2 ore.",
-      "warmHelp": "Trimite material informativ în 24 ore.",
-      "nurturingHelp": "Sistemul îi trimite mesaje automate. Nu necesită acțiune."
     }
   },
   "leadDetail": {
@@ -218,7 +187,7 @@
     "rematchBanner": "<strong>Atenție:</strong> proprietatea preferată a fost actualizată — recomandările de potrivire au fost reîmprospătate. Tranzacția existentă rămâne activă, doar lista de proprietăți alternative s-a schimbat.",
     "recompute": "Reîmprospătează prioritate",
     "recomputeHelp": "Recalculează prioritatea lead-ului ținând cont de interacțiunile recente (mesaje WhatsApp deschise, click pe link-uri trimise, vizionări). Folosește când au trecut câteva zile fără update sau după ce ai discutat cu clientul.",
-    "suggestionsBlockTitle": "Sugestii pentru acest lead",
+    "suggestionsBlockTitle": "Sarcini sugerate pentru acest lead",
     "suggestionsBlockDesc": "Sistemul îți recomandă următorii pași. Apasă „+ Adaugă în sarcini\" ca să-i ai în programul tău.",
     "matchSubtitleBuyer": "Top 3 proprietăți care se potrivesc cerințelor. Apasă pe Top 1/2/3 pentru a vedea de ce este o potrivire bună.",
     "matchSubtitleTenant": "Top 3 oferte de chirie care se potrivesc cerințelor. Apasă pe Top 1/2/3 pentru a vedea de ce este o potrivire bună.",
@@ -398,7 +367,8 @@
       "new_build": "Bloc nou",
       "premium": "Premium",
       "moldovaNote": "Clasificare specifică pieței din Republica Moldova. Influențează criteriile de potrivire."
-    }
+    },
+    "classFilterLabel": "Clasă:"
   },
   "deal": {
     "moduleLabel": "Modul · Tranzacții",
@@ -1421,11 +1391,153 @@
     "alumni": "Alumni – relație post-deal",
     "fin": "Disponibilitate financiară"
   },
-  "lead": {
-    "financialReadiness": "Disponibilitate financiară",
-    "financialReadinessHelp": "Scor BR-25 [MOLDOVA-SPECIFIC]: buget confirmat vs declarat (divergență tipică 15-25%) + verificare pre-aprobare bancară (MoldIndConBank / Victoriabank / Mobiasbancă). Solicită documente justificative înainte de vizionare.",
-    "financialReadinessLow": "Neconfirmat",
-    "financialReadinessMed": "Parțial confirmat",
-    "financialReadinessHigh": "Confirmat"
+  "guide": {
+    "howToCta": "Cum fac asta?",
+    "title": "Ghid — {action}",
+    "stepsLabel": "Pași concreți",
+    "objectionsLabel": "Obiecții frecvente + răspuns",
+    "closeCta": "Am înțeles"
+  },
+  "qualification": {
+    "startCta": "Întâlnire de calificare",
+    "title": "Întâlnire de calificare — 10 pași",
+    "subtitle": "Check-list „Prima intrare în apartament\" pentru {name}",
+    "stepCounter": "Pasul {current} din {total}",
+    "back": "Înapoi",
+    "next": "Pasul următor",
+    "finish": "Încheie",
+    "motivationPlaceholder": "Motivația reală a vânzării (de ce, de cât timp)...",
+    "minPricePlaceholder": "Prețul minim acceptat (€)...",
+    "verdict": {
+      "yes": "Da — lucrăm împreună",
+      "no": "Nu — nu în aceste condiții"
+    },
+    "toastDone": "Calificare înregistrată",
+    "toastYes": "Verdict pozitiv — pasul următor: semnarea mandatului de exclusivitate.",
+    "toastNo": "Verdict negativ — lead-ul rămâne în monitorizare.",
+    "cardTitle": "Întâlnirea de calificare",
+    "cardDesc": "Ghid pas cu pas pentru întâlnirea cu vânzătorul.",
+    "cardPurpose": "Te ghidează prin cei 10 pași ai întâlnirii, notează verdictul, prețul minim și motivația reală — iar dacă vânzătorul acceptă, îți creează automat sarcina de pregătire a mandatului.",
+    "notStarted": "Neînceput",
+    "resultVerdict": "Verdict",
+    "resultMinPrice": "Preț minim acceptat",
+    "resultDate": "Realizată la",
+    "resultMotivation": "Motivația vânzării",
+    "redoCta": "Reia calificarea",
+    "mandateTaskLabel": "Pregătește mandatul de exclusivitate",
+    "cardStartCta": "Pornește cei 10 pași"
+  },
+  "needs": {
+    "title": "Profil de nevoi",
+    "desc": "Ce caută clientul, cât e bugetul real și ce e necompromisabil.",
+    "completeness": "Completat",
+    "perMonth": "/lună",
+    "budgetSection": "Buget",
+    "budgetSectionHelp": "Banii pe care clientul îi are pentru această tranzacție. În Moldova, suma spusă la telefon e tipic cu 15-25% peste cea reală.",
+    "budgetDeclared": "Buget declarat (la telefon)",
+    "budgetDeclaredHint": "Suma de bani spusă inițial de client.",
+    "budgetConfirmed": "Buget confirmat (față în față)",
+    "budgetConfirmedHint": "Suma de bani reală, verificată la întâlnire.",
+    "budgetUnconfirmed": "Buget neconfirmat încă",
+    "budgetGapWarning": "Atenție: bugetul confirmat e mult sub cel declarat. Verifică situația financiară reală înainte de a programa vizionări.",
+    "financeSection": "Pregătire financiară",
+    "bankLabel": "Pre-aprobare bancară (sumă de bani aprobată de bancă)",
+    "bank": {
+      "none": "Fără pre-aprobare",
+      "in_progress": "În curs",
+      "approved": "Aprobată"
+    },
+    "mustSellFirst": "Trebuie să vândă întâi o proprietate",
+    "mustSellFirstHelp": "Dacă da, cumpărarea depinde de o vânzare prealabilă — afectează banii disponibili și termenul.",
+    "possessionSection": "Când vrea să se mute",
+    "possessionDate": "Data dorită de mutare",
+    "criteriaSection": "Criterii",
+    "dealBreakers": "Necompromisabil",
+    "dealBreakersPlaceholder": "Adaugă criteriu + Enter",
+    "compromiseAreas": "Flexibil la",
+    "compromisePlaceholder": "Adaugă + Enter",
+    "possessionHint": "Cu cât e mai apropiată, cu atât clientul e mai urgent.",
+    "budgetConfirmedEdit": "Completează bugetul confirmat (€)",
+    "addCta": "Adaugă",
+    "dealBreakersEmpty": "Niciun criteriu încă.",
+    "compromiseEmpty": "Niciun criteriu încă.",
+    "editHint": "Toate câmpurile de mai jos sunt editabile — completează pe măsură ce afli de la client."
+  },
+  "mandate": {
+    "title": "Mandat de exclusivitate",
+    "desc": "Dreptul exclusiv de a promova și vinde această proprietate.",
+    "help": "Mandatul îți garantează exclusivitatea pe o perioadă (30/60/90 zile). Fără mandat semnat, riști să pierzi proprietatea către alt agent. La expirare apare un memento de reînnoire.",
+    "status": {
+      "none": "Nesemnat",
+      "pending": "În așteptare",
+      "signed": "Semnat",
+      "expired": "Expirat"
+    },
+    "noneHint": "Niciun mandat încă. Solicită-l vânzătorului ca să poți promova proprietatea în siguranță.",
+    "signedAt": "Semnat la",
+    "expiresAt": "Expiră la",
+    "daysLeft": "Zile rămase",
+    "daysValue": "{n} zile",
+    "expiredValue": "Expirat",
+    "requestCta": "Solicită mandat",
+    "signPick": "Marchează semnat pe:",
+    "renewPick": "Reînnoiește pe:",
+    "daysOption": "{n} zile",
+    "renewWarning": "Mandatul expiră în {n} zile — programează reînnoirea ca să nu pierzi proprietatea.",
+    "expiredWarning": "Mandatul a expirat. Reînnoiește-l urgent sau riști să pierzi relația cu vânzătorul.",
+    "toastRequested": "Mandat solicitat de la vânzător",
+    "toastSigned": "Mandat semnat",
+    "toastSignedDesc": "Valabil {days} zile. Vei primi memento înainte de expirare.",
+    "flag": "Mandat",
+    "flagHint": "Acest vânzător nu are încă mandat de exclusivitate semnat — deschide lead-ul ca să-l soliciți.",
+    "flagExpired": "Mandat expirat",
+    "flagExpiredHint": "Mandatul de exclusivitate a expirat — reînnoiește-l ca să nu pierzi proprietatea."
+  },
+  "priceDiscipline": {
+    "title": "Disciplina prețului",
+    "desc": "Prețul de listare corect vinde mai repede și la valoare mai bună.",
+    "help": "Un preț inițial supra-evaluat respinge cumpărătorii motivați și devalorizează proprietatea în timp („obiect-zăvor\"). Estimarea se bazează pe €/m² pentru clasa proprietății în Chișinău. Decizia finală a prețului rămâne a proprietarului.",
+    "flagOver": "Risc supra-preț",
+    "flagOk": "Preț în piață",
+    "listPrice": "Preț de listare",
+    "marketEstimate": "Estimare de piață",
+    "estimateBasis": "{sqm} m² × €{ppsqm}/m²",
+    "overWarning": "Prețul de listare e cu ~{pct}% peste estimarea de piață. Riști un obiect care „atârnă\" și reduceri forțate ulterior.",
+    "scriptLabel": "Cum discuți prețul cu proprietarul",
+    "script": "„Este dreptul dvs. să cereți acest preț, dar permiteți-mi să vă arăt cu ce preț s-au vândut efectiv proprietățile similare — nu cu ce preț au fost listate. Un preț corect azi vă aduce mai mulți cumpărători și un rezultat final mai bun.\"",
+    "okNote": "Prețul de listare e aliniat cu piața — promovare în condiții bune."
+  },
+  "ethics": {
+    "label": "Punct de etică",
+    "ackCta": "Am înțeles și am acționat corespunzător",
+    "acked": "Confirmat — ai marcat că ai acționat etic.",
+    "nar12": "NAR Art. 12",
+    "nar1": "NAR Art. 1",
+    "nar16": "NAR Art. 16",
+    "trigger": {
+      "misleading_advertising": "Reclama trebuie să fie adevărată și neînșelătoare. Prețul și descrierea reflectă realitatea obiectului și analiza de piață?",
+      "dual_representation": "Reprezinți ambele părți? Ai informat în scris și ai obținut consimțământul explicit al fiecăreia?",
+      "competing_offers": "Există oferte concurente. Clientul tău știe? Ești obligat să informezi corect ambele părți.",
+      "exclusive_listing_solicitation": "Acest client are deja un contract cu alt agent. Nu solicita clienți aflați sub mandat exclusiv cu un coleg."
+    }
+  },
+  "cooperation": {
+    "title": "Cooperare (rețea de parteneri)",
+    "desc": "Publică proprietatea la agenți parteneri și împarte comisionul — vinde mai repede.",
+    "help": "Cel mai eficient instrument de vânzare e cooperarea: listing-ul tău ajunge la mai mulți agenți, iar agentul partener care aduce cumpărătorul primește o cotă din comision. Necesită mandat de exclusivitate semnat (fără mandat, nu poți publica în rețea).",
+    "published": "Publicat în rețea",
+    "notPublished": "Nepublicat",
+    "mandateGate": "Publicarea în rețea necesită mandat de exclusivitate semnat. Semnează mai întâi mandatul pe lead-ul vânzătorului.",
+    "splitLabel": "Cotă comision oferită partenerului",
+    "partnerShare": "≈ €{amount} pentru partener",
+    "partnerShareLabel": "Cotă partener",
+    "openHouse": "Ziua ușilor deschise",
+    "openHouseHelp": "Un eveniment de concentrare a cererii — inviți agenți parteneri și cumpărători la o vizionare grupată.",
+    "publishCta": "Publică în rețea",
+    "withdrawCta": "Retrage din rețea",
+    "engagedNote": "{n} agenți parteneri au preluat oferta în rețea.",
+    "toastPublished": "Publicat în rețeaua de parteneri",
+    "toastPublishedDesc": "Cotă oferită: {pct}% din comision.",
+    "toastWithdrawn": "Retras din rețea"
   }
 }

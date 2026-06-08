@@ -1,11 +1,12 @@
 # INDEX — REVYX Document Catalog
-<!-- INDEX_REVYX_documents_v1.1.24.md · v1.1.24 · 2026-06 -->
+<!-- INDEX_REVYX_documents_v1.1.25.md · v1.1.25 · 2026-06 -->
 <!-- CONFIDENȚIAL · Uz Intern · © 2026 REVYX · ITPRO SYSTEM SRL -->
 
 ## Changelog
 
 | Versiune | Data | Autor | Note |
 |---|---|---|---|
+| **1.1.25** | **2026-06** | ★ Solution Architect + Senior PM + DOC | ★ **PATCH — M0.S9 AGI Layer Val 1 (schelet vizual).** NEW `ARCH_REVYX_agent-routine-capability-map_v1.0.0.md` catalogat în §4.0 (NEW sub-secțiune Arhitectură/planning) — model „Operating Loop" + mapare rutină→feature + §6 datorie tehnică D-1..D-7. Reflectă livrarea Val 1 în `apps/web-preview/` (Buyer Needs Assessment + Financial Readiness + Execution Guides + Qualification Wizard). CLAUDE.md v1.2.30 → **v1.2.31** §0a sync. Backend `apps/api/` + Master Plan **INTACTE** (Regula 8 + 18 + 21). |
 | **1.1.24** | **2026-06** | ★ Solution Architect + DOC | ★ **PATCH — INDEX self-contained + revizuire structurală (Karpathy Step 2).** Fix integritate: §4.1/§4.2 + §5-11 delegau lista completă către `INDEX_REVYX_documents_v1.1.1.md` care a fost **șters** în consolidarea Regula 18 anterioară → sub-listele erau de fapt inaccesibile. Acum **inline complet** din inventarul real de pe disc: §4.1 (18 tech-specs core Phase 0-4) + §4.2 (6 Phase 5/platform) + §5 (9 workflows) + §6 (11 runbooks) + §7 (15 audit/readiness) + §8 (4 legal) + §9 (4 cs-playbooks) + §10 (board + test-fixtures + skills + templates). + §15 board (fix delega către INDEX_v1.1.0 șters). NEW **§16 Mapă redenumiri canonice (old → current)** — rezolvă orice referință veche la fișierul curent **fără a rescrie changelog-uri** (păstrăm istoricul) + §16.1 listă docs planificate (nu-s legături frânte). Catalog acum **auto-conținut și actual**. Structural review (Step 2 directive): corpusul era deja consolidat (Regula 18: 60 fișiere șterse anterior) + intens cross-referențiat ca audit-trail → **nimic de arhivat** (toate auditurile s8-s17 sunt citate ca proveniență findings în docs active). Singura curățare: șters placeholder gol `docs/prd/.gitkeep`. NEW skill `.claude/skills/karpathy-guidelines/` (vezi §2). |
 | **1.1.23** | **2026-06** | ★ Solution Architect + Senior Compliance Auditor + DOC | ★ **PATCH — Consistency pass post-v1.4.0 (Regula 21).** Sincronizare a documentelor rămase nesincronizate după BRD v1.4.0: (a) **audit-log v1.1.1 → v1.1.2** (git mv) — NEW §4.4.10 familia `AGI/ETHICS/MLS` cu 10 events (5 AGI + 5 practici de teren); CI `audit-catalog-lint.yml` `--spec` path actualizat la v1.1.2. (b) **PLATFORM_MATRIX v1.0.0 → v1.1.0** (git mv) — NEW Modul 16 (AGI/Ethics/MLS, 12 features) + stat 119→131 + §19 cross-refs (Regula 9 compliance pentru toate feature-urile v1.4.0). (c) **GLOSSARY v1.0.0 → v1.0.1** (git mv) — NEW §14b (9 termeni NAR/APAIM/MLS/PPP/ДОД/etc.) + update intrare MLS. (d) **6 engine tech-specs** primesc note additive `### ★ Related — v1.4.0` (showing/property/offer-engine/deal-closure/match-engine/nba-engine) — adnotare in-place, fără version bump (forward cross-ref, evită cascadă). (e) **HEADER_STANDARD.md** — fix pointer checklist `BRD_v1.1.0` → `v1.4.0`. **Decizie conștientă (Regula 17):** MASTER_PLAN v1.1.2 NU e bump-uit — referențiat de 35 docs, iar conținutul său substanțial nu contrazice v1.4.0; singura derivă (cross-ref BRD §12 + tracker §0 „M1.S2") aparține unui refresh dedicat Master Plan, nu acestui sync. Backend `apps/` + Master Plan **INTACTE**. Trigger: PM directive „actualizați toate documentele după modificări majore în framework". |
 | **1.1.22** | **2026-06** | ★ Solution Architect + Senior PM + Senior BA + Senior Compliance Auditor + DOC | ★ **MINOR — Integrare practici de teren + etică profesională (NAR/APAIM).** Sursă: 7 documente de teren furnizate de client + NAR Code of Ethics (17 articole) + APAIM. Schimbări catalogate: (a) **BRD rename v1.3.0 → v1.4.0** (git mv) — BR-29..BR-31 (MLS Cooperation / Listing Price Discipline / Buyer Needs Assessment) + 2 entități noi `cooperation_offers` + `buyer_assessments` + §18.3 seed real execution guides + §18.4 mapping NAR 17 articole + APAIM + 2 checkpoint-uri noi (Art.16/Art.12, BR-28 4→6) + NEW §18.9/§18.10/§18.11 + §13.4 KPI + AC-AGI-09..13. (b) **2 TECH_SPEC noi:** `TECH_SPEC_REVYX_realtor-ethics_v1.0.0` (NAR/APAIM mapping + 6 ethics checkpoints + append-only) + `TECH_SPEC_REVYX_mls-cooperation_v1.0.0` (commission-split engine + ДОД/Open House + gate mandat). (c) **2 Workflows bump:** property-onboarding v1.0.0 → v1.1.0 (NEW §5.0 SOP preluare + 10-pași seller meeting) + buyer-profile-lifecycle v1.0.0 → v1.1.0 (NEW §4.1.1 Buyer Needs Assessment). (d) **Regula 18 cleanup:** șterse stale duplicates `INDEX_v1.1.19` + `ROADMAP_v1.0.13`. (e) Roadmap rename v1.0.15 → v1.0.16 (§4.5 NEW T-ETH/T-MLS/T-BNA). (f) CLAUDE.md bump v1.2.27 → v1.2.28 §0a sync. Backend `apps/api/` + BRD §7 formule + BR-01..BR-28 + Master Plan **INTACTE** (Regula 8 + 18 + 21). Trigger: PM directive integrare inputuri client (NAR.realtor + APAIM.md + documente operaționale RM/RU). |
@@ -151,6 +152,12 @@
 ---
 
 ## 4. Tech Specs (engines + platform)
+
+### ★ 4.0 Arhitectură / planning
+
+| Document | Esență |
+|---|---|
+| ★ `ARCH_REVYX_agent-routine-capability-map_v1.0.0.md` | Model „Operating Loop" — maparea cunoașterii de teren (BRD §17/§18) la funcționalități care descarcă agentul de rutină. Catalog Val 1-4 + §6 datorie tehnică D-1..D-7 (schelet vizual M0.S9 → structură avansată M1.S3-S6). Single source pentru inițiativa AGI demo. |
 
 ### 4.1 Core engines + platform foundation (Phase 0-4) — 18 specs
 
@@ -381,7 +388,7 @@
 | `PLATFORM_MATRIX_REVYX_web-mobile_v1.0.0.md` | **`PLATFORM_MATRIX_REVYX_web-mobile_v1.1.0.md`** |
 | `MASTER_PLAN_REVYX_execution-roadmap_v1.0.0 / v1.1.0.md` | **`MASTER_PLAN_REVYX_execution-roadmap_v1.1.2.md`** |
 | `ROADMAP_REVYX_detailed-execution_v1.0.0..v1.0.15.md` | **`ROADMAP_REVYX_detailed-execution_v1.0.16.md`** |
-| `INDEX_REVYX_documents_v1.0.0..v1.1.23.md` | **`INDEX_REVYX_documents_v1.1.24.md`** (acesta) |
+| `INDEX_REVYX_documents_v1.0.0..v1.1.24.md` | **`INDEX_REVYX_documents_v1.1.25.md`** (acesta) |
 | `TECH_SPEC_REVYX_audit-log_v1.1.0 / v1.1.1.md` | **`TECH_SPEC_REVYX_audit-log_v1.1.2.md`** |
 | `GLOSSARY_REVYX_abbreviations_v1.0.0.md` | **`GLOSSARY_REVYX_abbreviations_v1.0.1.md`** |
 | `WORKFLOW_REVYX_property-onboarding_v1.0.0.md` | **`WORKFLOW_REVYX_property-onboarding_v1.1.0.md`** |
@@ -399,5 +406,5 @@
 
 ---
 
-*docs/INDEX_REVYX_documents_v1.1.24.md · v1.1.24 · 2026-06 · CONFIDENȚIAL · Uz Intern*
+*docs/INDEX_REVYX_documents_v1.1.25.md · v1.1.25 · 2026-06 · CONFIDENȚIAL · Uz Intern*
 *REVYX — Real Estate Execution Intelligence · © 2026 REVYX · ITPRO SYSTEM SRL*

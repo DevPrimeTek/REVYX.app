@@ -12,6 +12,7 @@ import { LeadPriorityBadge } from '@/components/ui/score-badge';
 import { Badge } from '@/components/ui/badge';
 import { InfoTooltip } from '@/components/ui/info-tooltip';
 import { LegendPanel } from '@/components/ui/legend-panel';
+import { MandateFlag } from '@/components/leads/mandate-flag';
 import { useT } from '@/components/i18n/provider';
 import { leads } from '@/lib/mock';
 import type { LeadStatus } from '@/lib/mock';
@@ -255,6 +256,7 @@ function LeadsPageInner() {
                         >
                           {t(`leadType.${l.leadType}`)}
                         </Badge>
+                        <MandateFlag lead={l} />
                       </TD>
                       <TD className="text-text-secondary">{l.source}</TD>
                       <TD className="text-text-secondary text-[12px]">{l.zone}</TD>
