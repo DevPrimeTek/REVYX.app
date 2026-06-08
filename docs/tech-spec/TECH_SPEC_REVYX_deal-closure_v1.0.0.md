@@ -979,5 +979,14 @@ Vezi §15. Critical: saga atomic compensation (atomic_transition fail → revert
 
 ---
 
+### ★ Related — v1.4.0 (practici de teren)
+
+> Notă aditivă de cross-referință (BRD v1.4.0). Nu modifică saga de closure sau schema din acest spec.
+
+- **Commission split (MLS Cooperation, BR-29)** — când pe deal e setat un agent cooperant, split-ul de comision se înregistrează **append-only** la momentul tranziției `CADASTRE_REGISTERED → WON` (deal CÂȘTIGAT). Cross-ref: `TECH_SPEC_REVYX_mls-cooperation_v1.0.0.md` §6 · BR-29.
+- DEAL_CLOSURE_SAGA, document encryption și GDPR retention (acest spec) rămân neschimbate; split-ul este un pas de logging aditiv în pasul terminal al sagăi.
+
+---
+
 *docs/tech-spec/TECH_SPEC_REVYX_deal-closure_v1.0.0.md · v1.0.0 · 2026-05 · CONFIDENȚIAL · Uz Intern*
 *REVYX — Real Estate Execution Intelligence · © 2026 REVYX · ITPRO SYSTEM SRL*

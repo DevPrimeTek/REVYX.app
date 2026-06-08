@@ -817,5 +817,14 @@ Vezi §15. AC-SH-01..07 acoperite în E2E + integration.
 
 ---
 
+### ★ Related — v1.4.0 (practici de teren)
+
+> Notă aditivă de cross-referință (BRD v1.4.0). Nu modifică logica acestui spec.
+
+- **Open House (ДОД) extension** — schema `showings` primește câmpuri aditive `is_open_house` (BOOLEAN) + `invited_partner_agent_ids` (UUID[]) pentru vizionări de cooperare cu agenți parteneri. Cross-ref: `TECH_SPEC_REVYX_mls-cooperation_v1.0.0.md` §7 · BRD §18.10.
+- Logica de bază SHOWING (reminder T-24h, no-show detect, feedback → IS/LS/TS) rămâne neschimbată; Open House este un caz particular de showing cu participanți multipli.
+
+---
+
 *docs/tech-spec/TECH_SPEC_REVYX_showing_v1.0.0.md · v1.0.0 · 2026-05 · CONFIDENȚIAL · Uz Intern*
 *REVYX — Real Estate Execution Intelligence · © 2026 REVYX · ITPRO SYSTEM SRL*

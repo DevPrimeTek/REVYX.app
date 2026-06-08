@@ -683,5 +683,14 @@ Vezi §15. Gate obligatoriu: golden set recall@5 ≥ 0.85 înainte de rampa 100%
 
 ---
 
+### ★ Related — v1.4.0 (practici de teren)
+
+> Notă aditivă de cross-referință (BRD v1.4.0). Nu modifică formula DP sau re-rank-ul cu 12 criterii din acest spec.
+
+- **Buyer Needs Assessment (BR-31)** — entitatea `buyer_assessments` alimentează match-ul: `deal_breakers` ca **hard filters** (excludere candidați), iar `must_sell`, `possession_date` și `compromise_areas` ca **soft signals** (pondere în re-rank). Cross-ref: BRD §18.9 · BR-31.
+- ANN pre-filter și explainability (`match_components`) rămân neschimbate; semnalele din assessment se integrează ca extensie a criteriilor existente, gated de completeness (BR-31).
+
+---
+
 *docs/tech-spec/TECH_SPEC_REVYX_match-engine_v2.0.0.md · v2.0.0 · 2026-05 · CONFIDENȚIAL · Uz Intern*
 *REVYX — Real Estate Execution Intelligence · © 2026 REVYX · ITPRO SYSTEM SRL*

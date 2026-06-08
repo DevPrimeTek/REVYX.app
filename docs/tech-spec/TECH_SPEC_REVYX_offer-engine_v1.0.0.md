@@ -886,5 +886,14 @@ Vezi §15. T07 BRD §12 chain A→B→C→D obligatoriu E2E.
 
 ---
 
+### ★ Related — v1.4.0 (practici de teren)
+
+> Notă aditivă de cross-referință (BRD v1.4.0). Nu modifică schema OFFER sau counter chain din acest spec.
+
+- **MLS Cooperation & Partnership Selling** — OFFER (оферта) rămâne artefactul de ofertă scrisă folosit de cooperarea MLS; noua entitate `cooperation_offers` se leagă de deal prin cel mai bun OFFER acceptat al lanțului. Cross-ref: `TECH_SPEC_REVYX_mls-cooperation_v1.0.0.md` §3-§6 · BRD §18.10.
+- Counter chain, currency snapshot și manager review gate (acest spec) rămân neschimbate; cooperarea se aplică deasupra OFFER ca strat de commission-sharing (BR-29).
+
+---
+
 *docs/tech-spec/TECH_SPEC_REVYX_offer-engine_v1.0.0.md · v1.0.0 · 2026-05 · CONFIDENȚIAL · Uz Intern*
 *REVYX — Real Estate Execution Intelligence · © 2026 REVYX · ITPRO SYSTEM SRL*

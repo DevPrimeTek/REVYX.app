@@ -5,7 +5,7 @@ name: audit-catalog-lint
 #
 # Behavior:
 #   1) Parse repo for `auditLogger.record({eventType: 'X'})` literals → set of code event types.
-#   2) Parse docs/tech-spec/TECH_SPEC_REVYX_audit-log_v1.1.1.md §4.3 (Phase 0-4) + §4.4 (Phase 5)
+#   2) Parse docs/tech-spec/TECH_SPEC_REVYX_audit-log_v1.1.2.md §4.3 (Phase 0-4) + §4.4 (Phase 5)
 #      → set of catalogued event types.
 #   3) Diff:
 #        - uncatalogued (in code, not in catalog) → fail build (HIGH)
@@ -56,7 +56,7 @@ jobs:
         run: |
           mkdir -p artifacts
           node .github/scripts/audit-catalog-lint.mjs \
-            --spec docs/tech-spec/TECH_SPEC_REVYX_audit-log_v1.1.1.md \
+            --spec docs/tech-spec/TECH_SPEC_REVYX_audit-log_v1.1.2.md \
             --src 'apps/**/*.{ts,tsx,js}' \
             --src 'services/**/*.{ts,tsx,js}' \
             --src 'packages/**/*.{ts,tsx,js}' \
@@ -82,7 +82,7 @@ jobs:
               const report = JSON.parse(fs.readFileSync('artifacts/audit-catalog-report.json', 'utf8'));
               if (report.uncatalogued && report.uncatalogued.length > 0) {
                 body += `### Uncatalogued event types (${report.uncatalogued.length})\n\n`;
-                body += 'These appear in code but NOT in `TECH_SPEC_REVYX_audit-log_v1.1.1.md` §4.3 / §4.4:\n\n';
+                body += 'These appear in code but NOT in `TECH_SPEC_REVYX_audit-log_v1.1.2.md` §4.3 / §4.4:\n\n';
                 for (const e of report.uncatalogued) {
                   body += `- \`${e.eventType}\` at \`${e.file}:${e.line}\`\n`;
                 }
