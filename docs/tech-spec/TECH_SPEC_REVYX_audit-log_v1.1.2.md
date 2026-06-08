@@ -1,5 +1,5 @@
-# TECH SPEC — REVYX AUDIT_LOG (PATCH v1.1.1)
-<!-- TECH_SPEC_REVYX_audit-log_v1.1.1.md · v1.1.1 · 2026-05 -->
+# TECH SPEC — REVYX AUDIT_LOG (PATCH v1.1.2)
+<!-- TECH_SPEC_REVYX_audit-log_v1.1.2.md · v1.1.2 · 2026-06 -->
 <!-- CONFIDENȚIAL · Uz Intern · © 2026 REVYX · ITPRO SYSTEM SRL -->
 
 ## Changelog
@@ -9,8 +9,11 @@
 | 1.0.0 | 2026-05 | Senior PM + Solution Architect | Spec inițială AUDIT_LOG · APPEND-ONLY · Phase 0 |
 | 1.1.0 | 2026-05 | Senior PM + Solution Architect + Security Auditor | Closes F-04 HIGH (S9 audit) — 75 events Phase 5 catalogați, severitate, retention, alerting hook |
 | 1.1.1 | 2026-05 | Senior PM + Solution Architect + Security Auditor + Audit Lead | ★ PATCH — closes F-S10-09 LOW + F-S11-02 LOW (AUDIT_REVYX_s11-external-pass v1.0.0) · clarifying §4.4.5 `CHURN_CS_TASK_OPENED` alerting hook (remove dual-statement ambiguity) · adăugare ★ §4.4.9 familia nouă `PHASE5_*` cu 4 events oficiale (`PHASE5_STAGE_ENTRY` / `PHASE5_STAGE_EXIT_PASS` / `PHASE5_STAGE_ROLLBACK` / `PHASE5_GA_DECISION`) mutate din "propunere" §10 phase5-rollout-sequence v1.0.0 la catalog official · count 75→79 events Phase 5 |
+| **1.1.2** | **2026-06** | ★ Solution Architect + Security Auditor + Senior Compliance Auditor + DOC | ★ PATCH — sync catalog cu BRD v1.4.0 + AGI Layer (BRD §18). Adăugare ★ §4.4.10 familia nouă `AGI / ETHICS / MLS` cu **10 events** noi (5 AGI Layer v1.3.0: `AGENT_PKI_CALCULATED` / `EXECUTION_GUIDE_ACCESSED` / `ETHICS_CHECKPOINT_TRIGGERED` / `ETHICS_CHECKPOINT_ACKNOWLEDGED` / `CLIENT_ALUMNI_CREATED` · 5 practici de teren v1.4.0: `MLS_OFFER_PUBLISHED` / `MLS_OFFER_ENGAGED` / `MLS_COMMISSION_SPLIT_LOGGED` / `MLS_OFFER_WITHDRAWN` / `LISTING_OVERPRICING_FLAGGED`). Sursă: `TECH_SPEC_realtor-ethics v1.0.0` §8 + `TECH_SPEC_mls-cooperation v1.0.0` §9 + BRD §18.3/§18.6/§18.10/§18.11. Schema tabel `audit_log` neschimbată. Niciun event implementat încă în cod → orphan advisory (lint exit 0). CI `audit-catalog-lint.yml` `--spec` path actualizat la v1.1.2. |
 
 ---
+
+> **Backwards compat (v1.1.1 → v1.1.2):** Doc-only patch. Toate eventurile catalogate în v1.1.0/v1.1.1 (§4.3 + §4.4) rămân **neschimbate** ca string `event_type`. v1.1.2 **doar** adaugă §4.4.10 cu 10 events AGI/Ethics/MLS (catalog forward pentru M1.S3-M1.S6 implementation). Schema tabel `audit_log` neschimbată; nicio migrare nouă.
 
 > **Backwards compat (v1.1.0 → v1.1.1):** Doc-only patch. Toate eventurile catalogate în v1.1.0 §4.3 + §4.4 rămân **neschimbate** ca string `event_type`. v1.1.1 **doar** (a) clarifică alerting hook pentru `CHURN_CS_TASK_OPENED`; (b) adaugă §4.4.9 cu 4 events `PHASE5_*` noi pentru meta-audit Phase 5 stage transitions. Schema tabel `audit_log` neschimbată. Migrările existente (0010–0013) rămân autoritative; nicio migrare nouă.
 
@@ -28,7 +31,7 @@
 
 (Schema, constraints, catalog Phase 0–4 — neschimbate.)
 
-### 4.4 Catalog Events Phase 5 (S8 + S9) — total 79 events post-patch
+### 4.4 Catalog Events Phase 5 (S8 + S9) — total 79 events post-patch (★ +10 AGI/Ethics/MLS §4.4.10 v1.1.2 = 89)
 
 > **Scope:** Toate eventurile noi introduse de specs S8 + runbookurile S9 + 4 events `PHASE5_*` pentru meta-audit stage transitions Phase 5 rollout.
 
@@ -93,6 +96,23 @@
 | `PHASE5_GA_DECISION` | — | INFO | COMPLIANCE_84M | `{decision:'GO'\|'HOLD'\|'BLOCKED', t_plus_91_review_at, board_signoff:[vp_product,cto,ciso,dpo,audit_lead,cfo], cumulative_metrics:{}, next_review_at?}` | Slack #exec-kpi + email all-board |
 
 > **Notă mapping cu master runbook:** Stage transitions log-uite anterior `RBAC_ROLE_GRANTED` cu `metadata.reason='PHASE5_STAGE_TRANSITION'` (workaround §10 phase5-rollout-sequence v1.0.0) pot fi backfilled opțional cu `PHASE5_*` events ulterior; mandatory de la v1.1.1 deploy înainte.
+
+#### 4.4.10 ★ Family `AGI / ETHICS / MLS` (10 events) — sursă BRD §18 + practici de teren (NEW v1.1.2)
+
+> **Patch v1.1.2:** Catalog forward pentru AGI Layer (BRD §18, v1.3.0) + practici de teren (BRD §18.9/§18.10/§18.11, v1.4.0). Niciun event implementat încă în cod (M1.S3-M1.S6) → orphan advisory la lint (exit 0). Spec-uri sursă: `TECH_SPEC_realtor-ethics v1.0.0` §8 + `TECH_SPEC_mls-cooperation v1.0.0` §9.
+
+| Event | Entity | Severity | Retention | Payload `metadata` (canonical) | Alerting hook |
+|---|---|---|---|---|---|
+| `AGENT_PKI_CALCULATED` | agent | INFO | OPERATIONAL_18M | `{agent_id, pki, window_days:30, tasks_with_deadline, tasks_completed_by_deadline}` | — (batch weekly) |
+| `EXECUTION_GUIDE_ACCESSED` | task | INFO | OPERATIONAL_18M | `{agent_id, task_id, guide_id, action_type}` | — |
+| `ETHICS_CHECKPOINT_TRIGGERED` | lead/deal/property | INFO | COMPLIANCE_84M | `{checkpoint_id, trigger_context, nar_article, agent_id, ref_id}` | Slack #ethics (advisory) |
+| `ETHICS_CHECKPOINT_ACKNOWLEDGED` | lead/deal/property | LOW | COMPLIANCE_84M | `{checkpoint_id, acknowledged_by, latency_seconds}` | — |
+| `CLIENT_ALUMNI_CREATED` | deal | LOW | OPERATIONAL_18M | `{alumni_id, lead_id, deal_id, agent_id}` | — |
+| `MLS_OFFER_PUBLISHED` | property | LOW | COMPLIANCE_84M | `{offer_id, property_id, listing_agent_id, offered_split_pct, scope}` | — |
+| `MLS_OFFER_ENGAGED` | property | LOW | COMPLIANCE_84M | `{offer_id, cooperating_agent_id, cooperating_tenant_id}` | — |
+| `MLS_COMMISSION_SPLIT_LOGGED` | deal | MED | COMPLIANCE_84M | `{offer_id, deal_id, total_eur, listing_share_eur, cooperating_share_eur, offered_split_pct}` | Slack #deals |
+| `MLS_OFFER_WITHDRAWN` | property | LOW | COMPLIANCE_84M | `{offer_id, reason:'manual'\|'mandate_expired'}` | — |
+| `LISTING_OVERPRICING_FLAGGED` | property | LOW | OPERATIONAL_18M | `{property_id, list_price_eur, ai_suggested_eur, ratio}` | — |
 
 ### 4.5 ★ Catalog hygiene (CI guard) — neschimbat
 
@@ -224,5 +244,5 @@ export type AuditEventTypePhase5 =
 
 ---
 
-*docs/tech-spec/TECH_SPEC_REVYX_audit-log_v1.1.1.md · v1.1.1 · 2026-05 · CONFIDENȚIAL · Uz Intern*
+*docs/tech-spec/TECH_SPEC_REVYX_audit-log_v1.1.2.md · v1.1.2 · 2026-06 · CONFIDENȚIAL · Uz Intern*
 *REVYX — Real Estate Execution Intelligence · © 2026 REVYX · ITPRO SYSTEM SRL*

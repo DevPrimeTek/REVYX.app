@@ -699,5 +699,14 @@ Vezi §15. Edge T04 obligatoriu (LF=0.0 la 90 zile).
 
 ---
 
+### ★ Related — v1.4.0 (practici de teren)
+
+> Notă aditivă de cross-referință (BRD v1.4.0). Nu modifică formula PS/LF din acest spec.
+
+- **Listing Price Discipline (BR-30)** — PROPERTY primește câmpul calculat `overpricing_risk` (BOOLEAN), `TRUE` când `list_price > pricing_ai_suggested × 1.15`. Cross-ref: BRD §18.11 · `WORKFLOW_REVYX_property-onboarding_v1.1.0.md` Etapa 2.
+- Efect: `overpricing_risk=TRUE` **accelerează degradarea LF** (anti-overpricing) și declanșează ethics checkpoint `misleading_advertising` (Art. 12). Curba LF de bază (§6.2) rămâne neschimbată; accelerarea se aplică ca factor aditiv condiționat.
+
+---
+
 *docs/tech-spec/TECH_SPEC_REVYX_property_v1.0.0.md · v1.0.0 · 2026-05 · CONFIDENȚIAL · Uz Intern*
 *REVYX — Real Estate Execution Intelligence · © 2026 REVYX · ITPRO SYSTEM SRL*

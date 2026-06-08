@@ -726,5 +726,15 @@ Vezi §15. Edge cases obligatorii: T02 (Δt=100), T06 (NBA=2.0), DST transition.
 
 ---
 
+### ★ Related — v1.4.0 (practici de teren)
+
+> Notă aditivă de cross-referință (BRD v1.4.0). Nu modifică formula NBA sau Task Allocator (BR-04) din acest spec.
+
+- **execution_guides seeded** — `execution_guides` sunt acum populate cu scripturi reale de teren per `action_type` (cold-call vânzător, obiecții de preț, justificare comision). Cross-ref: BRD §18.3.
+- **Ethics Checkpoints (4→6)** — noile checkpoints (`exclusive_listing_solicitation` Art. 16 + `misleading_advertising` Art. 12) se pot declanșa din evenimente NBA-adiacente. Cross-ref: BRD §18.4 · `TECH_SPEC_REVYX_realtor-ethics_v1.0.0.md`.
+- Calculul `NBA = DP × UF × e^(−0.1·Δt)` și scala [0, 2.0] rămân neschimbate; ghidurile și checkpoint-urile sunt straturi aditive de execuție/etică.
+
+---
+
 *docs/tech-spec/TECH_SPEC_REVYX_nba-engine_v1.0.0.md · v1.0.0 · 2026-05 · CONFIDENȚIAL · Uz Intern*
 *REVYX — Real Estate Execution Intelligence · © 2026 REVYX · ITPRO SYSTEM SRL*

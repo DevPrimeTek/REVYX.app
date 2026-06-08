@@ -1,5 +1,5 @@
 # GLOSAR — REVYX Abrevieri, Acronime și Coduri
-<!-- GLOSSARY_REVYX_abbreviations_v1.0.0.md · v1.0.0 · 2026-05 -->
+<!-- GLOSSARY_REVYX_abbreviations_v1.0.1.md · v1.0.1 · 2026-06 -->
 <!-- CONFIDENȚIAL · Uz Intern · © 2026 REVYX · ITPRO SYSTEM SRL -->
 
 ## Changelog
@@ -7,6 +7,7 @@
 | Versiune | Data | Autor | Note |
 |---|---|---|---|
 | 1.0.0 | 2026-05 | Senior PM + DOC + Audit Lead | Initial — consolidare exhaustivă a tuturor abrevierilor, acronimelor și codurilor scurte utilizate în documentația REVYX (CLAUDE.md + BRD + MASTER_PLAN + PLATFORM_MATRIX + ROADMAP + 25 TECH_SPEC + 9 WORKFLOW + 11 RUNBOOK + audit + marketing + legal). 226 termeni unici grupați pe 14 categorii + quick A-Z lookup. Sursă: harvest sistematic via grep + cross-verificare cu BRD §15 + CLAUDE.md §12. |
+| ★ **1.0.1** | **2026-06** | Solution Architect + DOC | ★ PATCH — sync cu BRD v1.4.0 (practici de teren + etică NAR/APAIM). NEW §14b „Practici de teren + Etică" cu 9 termeni: NAR · APAIM · MLS (REVYX context) · PPP · ДОД/Open House · Mandat exclusiv · Overpricing Risk · Buyer Needs Assessment · Butterfly of Sales. Update intrare `MLS` (de la „North American future" la feature REVYX cooperare). |
 
 ---
 
@@ -460,7 +461,7 @@ Status legend:
 | **Google** | Google Ads / Maps / Calendar | Webhook lead intake + Showcase Link |
 | **OLX** | OLX Romania | Lead intake webhook + marketplace syndication (Phase 5) |
 | **IDX** | Internet Data eXchange | MLS property feed integration (Phase 5 marketplace) |
-| **MLS** | Multiple Listing Service | North American property database (future roadmap) |
+| **MLS** | Multiple Listing Service / Serviciu Vânzări Partenere | ★ v1.4.0: feature REVYX de cooperare între agenți cu împărțire comision (`cooperation_offers`, BR-29); aliniat NAR Art. 3 + APAIM. Vezi §14b + `TECH_SPEC_mls-cooperation` |
 | **SMS** | Short Message Service | Notifications alternative WhatsApp |
 | **IM** | Instant Messaging | Generic placeholder (Teams, Slack, custom) |
 | **APNS** | Apple Push Notification Service | Mobile push iOS |
@@ -649,5 +650,21 @@ Conform R-06 (INDEX update) + R-18 (Single living document):
 
 ---
 
-*GLOSSARY_REVYX_abbreviations_v1.0.0.md · v1.0.0 · 2026-05 · CONFIDENȚIAL · Uz Intern*
+## ★ 14b. Practici de teren + Etică profesională (NAR/APAIM) — v1.0.1
+
+| Termen | Sens | Notă |
+|---|---|---|
+| **NAR** | National Association of REALTORS® | Cod de Etică în 17 articole / 3 categorii (Clienți / Public / Colegi); model pentru APAIM. BRD §18.4 + `TECH_SPEC_realtor-ethics` |
+| **APAIM** | Asociația Profesională a Agenților Imobiliari din Moldova | Fondată 2017, modelată după NAR; membrii = REALTOR®; reprezentare exclusivă + cooperare + transparență |
+| **PPP** | Прямой Потенциальный Покупатель / Cumpărător Potențial Direct | Cumpărător nereprezentat, calificat de agentul listării (metodologie de teren) |
+| **ДОД / Open House** | Ziua Ușilor Deschise | Eveniment de concentrare a cererii — showing grupat + invitație agenți parteneri MLS; extensie SHOWING (`is_open_house`) |
+| **Mandat exclusiv** | Mandat de Exclusivitate | Acord care conferă agentului dreptul exclusiv de promovare/vânzare; gate pentru MLS (BR-29); §17.5 |
+| **Overpricing Risk** | Risc Supra-Preț | `list_price > pricing_ai_suggested × 1.15` (BR-30); degradează LF; trigger etic Art. 12 |
+| **Buyer Needs Assessment** | Evaluarea Nevoilor Cumpărătorului | Worksheet structurat ABR® (entitate `buyer_assessments`); BR-31; §18.9 |
+| **Butterfly of Sales** | „Бабочка продаж" / Fluturele Vânzărilor | Instrument de poziționare (Cerere–Ofertă + Agenți vs Cumpărători + preț) folosit la calificarea seller; conținut Execution Guide |
+| **Ethics Checkpoint** | Punct de Control Etic | Soft-prompt non-blocant la 6 momente de risc etic (BR-28); append-only; GDPR Art. 22 |
+
+---
+
+*GLOSSARY_REVYX_abbreviations_v1.0.1.md · v1.0.1 · 2026-06 · CONFIDENȚIAL · Uz Intern*
 *REVYX — Real Estate Execution Intelligence · © 2026 REVYX · ITPRO SYSTEM SRL*

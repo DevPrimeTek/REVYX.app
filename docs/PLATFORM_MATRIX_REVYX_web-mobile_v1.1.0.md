@@ -1,11 +1,11 @@
 # PLATFORM MATRIX — REVYX Web vs Mobile Feature Allocation
-<!-- PLATFORM_MATRIX_REVYX_web-mobile_v1.0.0.md · v1.0.0 · 2026-06 -->
+<!-- PLATFORM_MATRIX_REVYX_web-mobile_v1.1.0.md · v1.1.0 · 2026-06 -->
 <!-- CONFIDENȚIAL · Uz Intern · © 2026 REVYX · ITPRO SYSTEM SRL -->
 
 ## 0. Stage Master Plan
 
 **Acoperă:** Pre-dev (referință canonică) · M0 / M1 / M2 (toate milestones)
-**Master Plan ref:** `MASTER_PLAN_REVYX_execution-roadmap_v1.1.0.md` §1.4 (filozofie dual-platform) + §6.2 M2.S2 Web Complete + M2.S3 Mobile Companion
+**Master Plan ref:** `MASTER_PLAN_REVYX_execution-roadmap_v1.1.2.md` §1.4 (filozofie dual-platform) + §6.2 M2.S2 Web Complete + M2.S3 Mobile Companion
 **Trigger:** Audit finding 88% docs au gap-uri Web/Mobile ambiguu; 0 specs dedicate Web; pattern "Dashboard" folosit 12× fără platformă specificată.
 
 ## Changelog
@@ -13,6 +13,7 @@
 | Versiune | Data | Autor | Note |
 |---|---|---|---|
 | 1.0.0 | 2026-06 | Senior Architect + Senior PM + Senior PO + Frontend Lead + Mobile Lead | ★ INITIAL — single source of truth pentru orice feature × platform mapping. Acoperă 15 module funcționale REVYX (Auth, Lead, Property, Match, NBA, Deal, Showing, Offer, Activity, WhatsApp, Reports, Admin, Marketplace, White-Label, ML+Churn, Audit). Pentru fiecare modul: tabel feature × platform (WEB/MOBILE/BOTH) cu detaliu per RBAC role + cross-ref spec sursă + notes implementation. Definitiv: rezolvă pattern "dashboard" ambiguu identificat în audit S15-bis-3 (lead-lifecycle, churn-ga, ml-pricing-ga, offer-chain, marketplace-two-sided). |
+| ★ **1.1.0** | **2026-06** | Solution Architect + Senior PM + Frontend Lead | ★ MINOR — sync cu BRD v1.4.0 + AGI Layer. NEW **Modul 16 — AGI Layer, Ethics & MLS Cooperation** (12 features) mapând surface-urile UI noi: Ethics Checkpoints (🔁 BOTH soft-prompt) · Execution Guides (🔁 BOTH inline) · Buyer Needs Assessment (🌐 Web) · MLS Cooperation + Open House (🌐 Web primary) · Listing Price Discipline avertisment (🌐 Web) · Agent Goals / Value Proposition / Client Alumni (🌐 Web). §17 stat total 119→131. §19 cross-refs +2 tech-spec noi (realtor-ethics, mls-cooperation) + audit-log v1.1.2. Master Plan ref v1.1.0→v1.1.2. Regula 9 compliance pentru toate feature-urile v1.4.0. |
 
 ---
 
@@ -285,6 +286,29 @@ Acest document este **autoritatea finală** pentru întrebarea: *"Această func�
 
 ---
 
+## 16-bis. Modul 16 — AGI Layer, Ethics & MLS Cooperation (★ NEW v1.1.0)
+
+> **Sursă:** BRD v1.4.0 §18 (AGI Layer) + `TECH_SPEC_REVYX_realtor-ethics_v1.0.0` + `TECH_SPEC_REVYX_mls-cooperation_v1.0.0`. Mapping Regula 9 pentru toate surface-urile UI introduse de practici de teren + etică NAR/APAIM.
+
+| # | Feature | 🌐/📱/🔁 | RBAC | Notă |
+|---|---|:---:|---|---|
+| 16.1 | Ethics Checkpoint soft-prompt (modal non-blocant) | 🔁 BOTH | agent+ | Apare unde apare acțiunea cu risc etic (lead/property/deal); BR-28; backend single source |
+| 16.2 | Ethics report (ack-rate lunar) | 🌐 Web | team_lead+ | DP-05 oversight = Web |
+| 16.3 | Execution Guides inline („Cum să fac asta?") | 🔁 BOTH | agent+ | Atașat la task NBA; in-field util pe Mobile |
+| 16.4 | Buyer Needs Assessment worksheet | 🌐 Web | agent+ | Formular structurat; intake desktop (📱 view read-only post-M2) |
+| 16.5 | Financial Readiness indicator | 🔁 BOTH | agent+ | Indicator pe lead detail |
+| 16.6 | MLS Cooperation — publish/withdraw listing | 🌐 Web | agent+ | Gate mandat semnat (BR-29); gestionare desktop |
+| 16.7 | MLS Cooperation — queue „Oferte de cooperare" + engage | 🌐 Web | agent+ | Browsing parteneri; 📱 view post-M2 |
+| 16.8 | Open House / ДОД scheduling | 🔁 BOTH | agent+ | Programare Web; check-in in-field Mobile (geo-tag reuse 6.4) |
+| 16.9 | Commission split view (reconciliere) | 🌐 Web | agent+ / manager | Raport split; DP-05 |
+| 16.10 | Listing Price Discipline — avertisment supra-preț | 🌐 Web | agent+ | Card la listare + script ACM (BR-30) |
+| 16.11 | Agent Goals + Value Proposition Card | 🌐 Web | agent (own) | `/cabinet/agent` |
+| 16.12 | Client Alumni block | 🌐 Web | agent (own) | `/cabinet/agent` post-deal CÂȘTIGAT |
+
+**Distribuție Modul 16:** 🌐 Web 8 · 🔁 BOTH 4 · 📱 Mobile-only 0 · N/A 0 = **12 features**.
+
+---
+
 ## 17. Sumar statistic
 
 | Modul | Total features | 🌐 Web only | 📱 Mobile only | 🔁 BOTH | N/A backend |
@@ -304,7 +328,8 @@ Acest document este **autoritatea finală** pentru întrebarea: *"Această func�
 | 13. White-Label | 5 | 5 | 0 | 0 | 0 |
 | 14. ML+Churn | 8 | 4 | 0 | 3 | 1 |
 | 15. Audit | 8 | 5 | 0 | 1 | 2 |
-| **TOTAL** | **119** | **43 (36%)** | **4 (3%)** | **58 (49%)** | **14 (12%)** |
+| ★ 16. AGI/Ethics/MLS | 12 | 8 | 0 | 4 | 0 |
+| **TOTAL** | **131** | **51 (39%)** | **4 (3%)** | **62 (47%)** | **14 (11%)** |
 
 **Distribuție efectivă (excluzând backend N/A):**
 - 🌐 Web only: **41%**
@@ -349,7 +374,11 @@ Restul features Mobile sunt subset din Web (lead view, deal view, NBA), optimiza
 | `TECH_SPEC_REVYX_ml-pricing-ga_v1.0.4.md` | Modul 14.3+14.4 | 🟡 PATCH v1.0.3 — promote UI = Web only DP-05 explicit |
 | `TECH_SPEC_REVYX_churn-ga_v1.0.2.md` | Modul 14.6+14.7 | 🟡 PATCH v1.0.2 — CS dashboard = Web only |
 | `TECH_SPEC_REVYX_mobile-rn_v1.0.1.md` | Restul Mobile | 🟢 OK — definește subset Mobile |
-| `TECH_SPEC_REVYX_audit-log_v1.1.1.md` | Modul 15 | 🟢 OK (Web viewer implicit DP-05) |
+| `TECH_SPEC_REVYX_audit-log_v1.1.2.md` | Modul 15 + 16 | 🟢 OK (Web viewer implicit DP-05; ★ §4.4.10 AGI/Ethics/MLS events) |
+| ★ `TECH_SPEC_REVYX_realtor-ethics_v1.0.0.md` | Modul 16.1+16.2 | 🟢 OK — Ethics 🔁 BOTH soft-prompt, raport 🌐 Web |
+| ★ `TECH_SPEC_REVYX_mls-cooperation_v1.0.0.md` | Modul 16.6-16.9 | 🟢 OK — MLS 🌐 Web primary + Open House 🔁 BOTH |
+| ★ `WORKFLOW_REVYX_property-onboarding_v1.1.0.md` | Modul 3 + 16.6+16.10 | 🟢 OK — SOP preluare seller + overpricing flag |
+| ★ `WORKFLOW_REVYX_buyer-profile-lifecycle_v1.1.0.md` | Modul 12 + 16.4 | 🟢 OK — Buyer Needs Assessment 🌐 Web |
 | **NEW** `TECH_SPEC_REVYX_web-platform_vX.X.X` | TOATE Web features | 🔴 LIPSEȘTE — gating pentru M1.S5/S6 + M2.S2 |
 | **NEW** `TECH_SPEC_REVYX_ui-design-system_vX.X.X` | Component library Web+Mobile | 🔴 LIPSEȘTE — gating pentru M0.S1 |
 
@@ -371,5 +400,5 @@ Restul features Mobile sunt subset din Web (lead view, deal view, NBA), optimiza
 
 ---
 
-*docs/PLATFORM_MATRIX_REVYX_web-mobile_v1.0.0.md · v1.0.0 · 2026-06 · CONFIDENȚIAL · Uz Intern*
+*docs/PLATFORM_MATRIX_REVYX_web-mobile_v1.1.0.md · v1.1.0 · 2026-06 · CONFIDENȚIAL · Uz Intern*
 *REVYX — Real Estate Execution Intelligence · © 2026 REVYX · ITPRO SYSTEM SRL*
