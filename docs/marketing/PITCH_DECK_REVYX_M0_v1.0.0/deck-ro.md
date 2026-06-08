@@ -1,5 +1,5 @@
 # REVYX — Pitch Deck (RO)
-<!-- docs/marketing/PITCH_DECK_REVYX_M0_v1.0.0/deck-ro.md · v1.3.0 · 2026-06 -->
+<!-- docs/marketing/PITCH_DECK_REVYX_M0_v1.0.0/deck-ro.md · v1.4.0 · 2026-06 -->
 <!-- CONFIDENȚIAL · Uz Intern · © 2026 REVYX · ITPRO SYSTEM SRL -->
 
 ## 0. Stage Master Plan
@@ -16,6 +16,7 @@
 
 | Versiune | Data | Autor | Note |
 |---|---|---|---|
+| **1.4.0** | **2026-06** | ★ DESIGNER (Creative Director) + Marketing Director | ★ MINOR — Sync BRD v1.4.0 (NAR/APAIM Ethics + MLS + BNA + Listing Price Discipline). (1) Slide 05b: AGI 6 → 9 componente (★ AGI-08 Cooperare MLS · ★ AGI-09 Evaluarea nevoilor reale / BNA ABR® · ★ AGI-10 Disciplina prețului de listare). Claim final nou: „reaprinde încrederea". (2) Slide 11: BR-28 4 → 6 checkpoints etică + NAR/APAIM context. (3) Slide 13: AGI roadmap extins cu T-ETH/T-MLS/T-BNA/T-LPD. (4) Slide 14: tracțiune BRD v1.4.0 + etică + MLS + practici teren. Cross-ref BRD v1.3.0 → v1.4.0. |
 | **1.3.0** | **2026-06** | ★ DESIGNER (Creative Director) + Senior PM | ★ MINOR — Arhitectură 2-nivel: **8 Piloni de execuție + AGI Layer de dezvoltare**. Slide 05 actualizat (AGI scos din tabel, menționat ca strat separat). Slide 05b rescris complet cu vizual simplu: AGI deasupra celor 8 piloni + limbaj accesibil non-tehnic + diagrama strat transversal. |
 | **1.2.0** | **2026-06** | DESIGNER (Creative Director) + Senior PM | MINOR — Corecție număr piloni: **6 → 8 Piloni**. Slide 05 rescris cu tabel complet 8 Piloni × motor × scală × descriere (mapați 1:1 cu BRD §7 v1.3.0). |
 | **1.1.0** | **2026-06** | DESIGNER (Creative Director) + Senior PM | MINOR — Sync cu BRD v1.3.0 (AGI Layer §18) + M1.S1/M1.S2 milestones ✅. Slide 05: 5→6 Piloni (parțial); NEW Slide 05b AGI Layer; Slide 11 ✅; Slide 13 AGI roadmap; Slide 14 traction extinsă. |
@@ -135,16 +136,19 @@
         ←────────────── cele 8 motoare de decizie ──────────────────→
 ```
 
-**Ce face fiecare componentă AGI (limbaj simplu):**
+**Ce face fiecare componentă AGI (limbaj simplu) — ★ 9 componente (v1.4.0):**
 
 | Componentă | Ce vede sistemul | Ce primește agentul |
 |---|---|---|
 | 🎯 **Obiective lunare** | Ritmul actual al agentului (deals, scor, venituri) | Un target clar pentru luna în curs, afișat zilnic în dashboard |
 | 📖 **Ghiduri practice** | Acțiunea recomandată de sistem (ex: „sună acum") | Un script gata pregătit: ce să spui, cum să spui, în ce ordine |
-| ⚖️ **Puncte de etică** | Situații delicate: doi clienți pe același apartament, gap financiar ascuns | O alertă care cere confirmarea agentului înainte de a continua |
-| 🤝 **Indicatorul de încredere** | Câte promisiuni a făcut agentul față de client vs. câte a respectat | Un scor personal de credibilitate — crește la fiecare promisiune ținută |
+| ⚖️ **Etică NAR/APAIM (6 checkpoints)** | Situații delicate: reprezentare exclusivă, oferte concurente, gap financiar, publicitate incorectă | O alertă cu confirmare obligatorie — jurnal de audit permanent |
+| 🤝 **Indicatorul de încredere (PKI)** | Câte promisiuni a făcut agentul față de client vs. câte a respectat | Un scor personal de credibilitate — crește la fiecare promisiune ținută |
 | 👥 **Relația după tranzacție** | Data mutării clientului + intervalele de 12 și 24 luni | Reminder automat: „Sună-l pe Ion Popescu — s-a mutat acum un an" |
 | 💰 **Puterea reală de cumpărare** | Bugetul declarat vs. ce poate confirma banca (piața RM: diferență 15-25%) | Semnal clar din prima: „Acest client poate cumpăra realist sau nu" |
+| 🏘️ ★ **Cooperare MLS** | Proprietăți similare disponibile la agenții partenere | Ofertă de cooperare cu comision split — o tranzacție mai rapidă valorează mai mult decât așteptarea exclusivă |
+| 📋 ★ **Evaluarea nevoilor reale (BNA / ABR®)** | Preferințe declarate vs. comportament real (90% clienți RM schimbă preferințele după prima vizionare) | Worksheet structurat — 12 întrebări-cheie pentru definirea nevoii reale |
+| 📊 ★ **Disciplina prețului de listare** | Prețul cerut vs. tendința pieței locale | Alertă anti-suprapreț cu date comparative — protejează reputația agentului și accelerează vânzarea cu 30-45 zile |
 
 **Cele două niveluri ale platformei (rezumat vizual jos):**
 
@@ -156,7 +160,7 @@
 └─────────────────────────────────────────┘   └───────────────────────────────────────┘
 ```
 
-**Footer claim:** *Concurenții construiesc software de gestiune. REVYX construiește profesioniști imobiliari.*
+**Footer claim:** *Concurenții construiesc software de gestiune. REVYX reaprinde încrederea în serviciul profesional imobiliar.*
 
 > _Speaker note RO:_ "Imaginați-vă un mentor care stă lângă agent la fiecare apel, la fiecare negociere, la fiecare client. Știe exact ce a funcționat și ce nu. Îi amintește ce a promis. Îl atenționează când o situație e delicată etic. Și nu uită niciodată să ia legătura cu un client vechi care poate aduce o recomandare nouă. Acesta este stratul AGI. Nu înlocuiește judecata agentului — o îmbunătățește, pas cu pas." _(90s)_
 
@@ -270,8 +274,9 @@
 - ✅ Rate limiting pe endpoint-uri publice
 - ⬜ Privacy Policy + Cookie Policy legal review (Legea 133/2011 RM) — *consultant juridic, non-blocking M1.S2*
 
-**★ Adăugat BRD v1.3.0 — Ethics Checkpoint (BR-28):**
-- ✅ 4 situații obligatorii human-in-the-loop (dual representation · competing offers · property disclosure · financing gap) — AUDIT_LOG append-only, Art. 22 GDPR compliance.
+**★ Adăugat BRD v1.4.0 — Ethics Checkpoint (BR-28) + NAR/APAIM:**
+- ✅ **6 situații** obligatorii human-in-the-loop (dual representation · competing offers · property disclosure · financing gap · ★ exclusive listing solicitation Art.16 · ★ misleading advertising Art.12) — AUDIT_LOG append-only, Art. 22 GDPR compliance.
+- ✅ Cod NAR de etică (17 articole / 3 categorii) + APAIM (reprezentare exclusivă + cooperare + transparență) integrat nativ în REVYX. Misiune: *„a reaprinde încrederea în serviciul profesional Riѐltor"*.
 
 **Footer (3 bullets):**
 - Compliance: GDPR EU + Legea 133/2011 RM + Legea 142/2018 SaaS
@@ -320,13 +325,13 @@
    • Pitch deck ✅   • HMAC ✅   • T01-T07 ✅  • HST M1 PASS       • PKI+Alumni GA
 ```
 
-**★ AGI Layer milestones (BRD §18):**
-- M1.S3: Ethics Checkpoints (BR-28) + Financial Readiness (BR-25)
-- M1.S4: Execution Guides NBA + IS 3 sub-dimensiuni
-- M1.S5: PKI în Trust Score + Dashboard obiective agent
-- M1.S6: Alumni Lifecycle + Value Toolkit
+**★ AGI Layer milestones (BRD §18 v1.4.0):**
+- M1.S3: Ethics Checkpoints (BR-28) 6 checkpoints + Financial Readiness (BR-25)
+- M1.S4: Execution Guides NBA + IS 3 sub-dimensiuni + ★ T-ETH (NAR/APAIM integration) + ★ T-MLS (cooperation flow) + ★ T-BNA (Buyer Needs Assessment worksheet) + ★ T-LPD (Listing Price Discipline alerts)
+- M1.S5: PKI în Trust Score + Dashboard obiective agent + MLS network live
+- M1.S6: Alumni Lifecycle + Value Toolkit + Cooperation Marketplace
 
-**4 entități noi BRD v1.3.0:** `execution_guides` · `client_alumni` · `agent_goals` · `ethics_checkpoints`
+**6 entități noi BRD v1.4.0:** `execution_guides` · `client_alumni` · `agent_goals` · `ethics_checkpoints` · ★ `cooperation_offers` · ★ `buyer_assessments`
 
 **Milestone gates (footer):**
 - M0 exit: AC-M0-01..07 ☑ + HST M0 0 CRIT/HIGH ✅ **ATINS**
@@ -347,8 +352,9 @@
 - ✅ M0.S3-S8 Web Demo (26 routes · mock 100 leads / 50 proprietăți / 20 deal-uri · RO/RU/EN · rent+sale · Kanban redesign · Workspace Direction)
 - ✅ **M1.S1 Phase 0 Security Foundation** — JWT RS256 + RBAC 5 roluri + GDPR Art. 15-22 + AUDIT_LOG append-only + HMAC-SHA256 + Throttler · tests 12/12 PASS
 - ✅ **M1.S2 Phase A Foundation** — 9 entități business (LEAD/PROPERTY/DEAL/ACTIVITY/TASK/OFFER/SHOWING/AGENT/SCORING_STATE) · 9 migrations SQL + Drizzle schemas · 7 REST CRUD modules · scoring fixtures T01-T07 · tests 22/22 PASS
-- ★ **BRD v1.3.0** — AGI Layer §18 documentat complet (7 dimensiuni · BR-25..28 · 4 entități noi · KPI-uri AGI)
+- ★ **BRD v1.4.0** — AGI Layer §18 complet (7 dimensiuni + 3 extensii teren · BR-25..31 · 6 entități noi · KPI-uri AGI + Ethics + MLS + BNA + LPD)
 - ★ **Moldova §17** — 6 specificații piață documentate ([MOLDOVA-SPECIFIC] în schema BD)
+- ★ **Etică profesională NAR/APAIM** — 7 documente teren integrate + NAR 17 articole + APAIM + 2 TECH_SPEC noi (realtor-ethics + mls-cooperation) + 2 Workflows bumped (property-onboarding + buyer-profile-lifecycle)
 
 **Echipa core (placeholder TBD):**
 
@@ -430,10 +436,10 @@
 - `docs/marketing/PITCH_DECK_REVYX_M0_v1.0.0/assets/SCREENSHOT_REFS.md` — mapping slide → screenshot
 - `docs/marketing/VIDEO_SCRIPT_REVYX_M0_v1.0.0.md` — companion video walkthrough
 - `docs/marketing/SCREENSHOT_CHECKLIST_REVYX_M0_v1.0.0.md` — capture instructions
-- `docs/BRD_REVYX_v1.3.0.md` — source content piloni + BR-XX + §17 Moldova + ★ §18 AGI Layer
+- `docs/BRD_REVYX_v1.4.0.md` — source content piloni + BR-XX + §17 Moldova + §18 AGI Layer + ★ NAR/APAIM Ethics + MLS + BNA + LPD
 - `docs/brand-configs/revyx.md` — paletă + tipografie + claim canonical
 
 ---
 
-*docs/marketing/PITCH_DECK_REVYX_M0_v1.0.0/deck-ro.md · v1.1.0 · 2026-06 · CONFIDENȚIAL · Uz Intern*
+*docs/marketing/PITCH_DECK_REVYX_M0_v1.0.0/deck-ro.md · v1.4.0 · 2026-06 · CONFIDENȚIAL · Uz Intern*
 *REVYX — Real Estate Execution Intelligence · © 2026 REVYX · ITPRO SYSTEM SRL*
