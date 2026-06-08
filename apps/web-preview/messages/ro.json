@@ -170,7 +170,13 @@
     "financialReadinessHelp": "Cât de pregătit financiar e clientul să cumpere acum — în funcție de bugetul confirmat față în față și de pre-aprobarea bancară. Solicită dovada bugetului înainte de vizionare.",
     "financialReadinessLow": "Neconfirmat",
     "financialReadinessMed": "Parțial confirmat",
-    "financialReadinessHigh": "Confirmat"
+    "financialReadinessHigh": "Confirmat",
+    "priorityLabel": {
+      "hot": "Foarte mare",
+      "qualified": "Mare",
+      "warm": "Medie",
+      "cold": "Scăzută"
+    }
   },
   "leadDetail": {
     "title": "Detalii lead",
@@ -179,7 +185,7 @@
     "rematchBanner": "<strong>Atenție:</strong> proprietatea preferată a fost actualizată — recomandările de potrivire au fost reîmprospătate. Tranzacția existentă rămâne activă, doar lista de proprietăți alternative s-a schimbat.",
     "recompute": "Reîmprospătează prioritate",
     "recomputeHelp": "Recalculează prioritatea lead-ului ținând cont de interacțiunile recente (mesaje WhatsApp deschise, click pe link-uri trimise, vizionări). Folosește când au trecut câteva zile fără update sau după ce ai discutat cu clientul.",
-    "suggestionsBlockTitle": "Sugestii pentru acest lead",
+    "suggestionsBlockTitle": "Sarcini sugerate pentru acest lead",
     "suggestionsBlockDesc": "Sistemul îți recomandă următorii pași. Apasă „+ Adaugă în sarcini\" ca să-i ai în programul tău.",
     "matchSubtitleBuyer": "Top 3 proprietăți care se potrivesc cerințelor. Apasă pe Top 1/2/3 pentru a vedea de ce este o potrivire bună.",
     "matchSubtitleTenant": "Top 3 oferte de chirie care se potrivesc cerințelor. Apasă pe Top 1/2/3 pentru a vedea de ce este o potrivire bună.",
@@ -1413,7 +1419,7 @@
     "completeness": "Completat",
     "perMonth": "/lună",
     "budgetSection": "Buget",
-    "budgetSectionHelp": "Suma de bani pe care clientul o are pentru această tranzacție. În Moldova, suma declarată la telefon e tipic cu 15-25% peste suma reală disponibilă.",
+    "budgetSectionHelp": "Banii pe care clientul îi are pentru această tranzacție. În Moldova, suma spusă la telefon e tipic cu 15-25% peste cea reală.",
     "budgetDeclared": "Buget declarat (la telefon)",
     "budgetDeclaredHint": "Suma de bani spusă inițial de client.",
     "budgetConfirmed": "Buget confirmat (față în față)",
@@ -1429,12 +1435,18 @@
     },
     "mustSellFirst": "Trebuie să vândă întâi o proprietate",
     "mustSellFirstHelp": "Dacă da, cumpărarea depinde de o vânzare prealabilă — afectează banii disponibili și termenul.",
-    "possessionSection": "Intrare în posesie",
+    "possessionSection": "Când vrea să se mute",
     "possessionDate": "Data dorită de mutare",
     "criteriaSection": "Criterii",
     "dealBreakers": "Necompromisabil",
     "dealBreakersPlaceholder": "Adaugă criteriu + Enter",
     "compromiseAreas": "Flexibil la",
-    "compromisePlaceholder": "Adaugă + Enter"
+    "compromisePlaceholder": "Adaugă + Enter",
+    "possessionHint": "Cu cât e mai apropiată, cu atât clientul e mai urgent.",
+    "budgetConfirmedEdit": "Completează bugetul confirmat (€)",
+    "addCta": "Adaugă",
+    "dealBreakersEmpty": "Niciun criteriu încă.",
+    "compromiseEmpty": "Niciun criteriu încă.",
+    "editHint": "Toate câmpurile de mai jos sunt editabile — completează pe măsură ce afli de la client."
   }
 }

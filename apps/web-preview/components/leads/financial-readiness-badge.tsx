@@ -13,9 +13,9 @@ import type { Lead } from '@/lib/mock';
 type Level = 'low' | 'med' | 'high';
 
 /** §18.7 FRS — calcul simplu non-ML, dar prezentat ca 3 niveluri prietenoase. */
-function frsLevel(lead: Lead, bank: string): Level {
+function frsLevel(hasConfirmedBudget: boolean, bank: string): Level {
   let frs = 0.3;
-  if (lead.confirmedBudgetMax != null) frs += 0.25;
+  if (hasConfirmedBudget) frs += 0.25;
   if (bank === 'in_progress' || bank === 'approved') frs += 0.25;
   if (bank === 'approved') frs += 0.2;
   if (frs >= 0.8) return 'high';
@@ -32,7 +32,8 @@ export function FinancialReadinessBadge({
 }) {
   const { t } = useT();
   const assessment = useBuyerAssessment(lead.id);
-  const level = frsLevel(lead, assessment.bankPreapproval);
+  const confirmedBudget = assessment.confirmedBudget ?? lead.confirmedBudgetMax;
+  const level = frsLevel(confirmedBudget != null, assessment.bankPreapproval);
 
   const dots = level === 'high' ? '●●●' : level === 'med' ? '●●○' : '●○○';
   const color = level === 'high' ? 'text-status-green' : level === 'med' ? 'text-status-amber' : 'text-status-red';

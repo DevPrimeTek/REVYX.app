@@ -14,6 +14,8 @@ export type BankPreapproval = 'none' | 'in_progress' | 'approved';
 export interface BuyerAssessment {
   /** Pre-aprobare bancară (MoldIndConBank / Victoriabank / Mobiasbancă). */
   bankPreapproval: BankPreapproval;
+  /** Buget confirmat față-în-față (editat de agent). null = neconfirmat încă. */
+  confirmedBudget: number | null;
   /** Trebuie să-și vândă o proprietate înainte de a cumpăra? (afectează lichiditatea). */
   mustSellFirst: boolean;
   /** Data dorită de intrare în posesie / mutare (ISO YYYY-MM-DD) — driver de urgență. */
@@ -26,6 +28,7 @@ export interface BuyerAssessment {
 
 export const EMPTY_ASSESSMENT: BuyerAssessment = {
   bankPreapproval: 'none',
+  confirmedBudget: null,
   mustSellFirst: false,
   possessionDate: '',
   dealBreakers: [],
@@ -80,7 +83,7 @@ export function assessmentCompleteness(a: BuyerAssessment): number {
   let filled = 0;
   const total = 5;
   if (a.bankPreapproval !== 'none') filled += 1;
-  if (a.mustSellFirst) filled += 1; // a fost atins explicit (toggle on)
+  if (a.confirmedBudget != null) filled += 1;
   if (a.possessionDate) filled += 1;
   if (a.dealBreakers.length > 0) filled += 1;
   if (a.compromiseAreas.length > 0) filled += 1;
