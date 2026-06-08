@@ -1,5 +1,5 @@
 # BRD — REVYX Agent Operating System
-<!-- BRD_REVYX_v1.3.0.md · v1.3.0 · 2026-06 -->
+<!-- BRD_REVYX_v1.4.0.md · v1.4.0 · 2026-06 -->
 <!-- CONFIDENȚIAL · Uz Intern · © 2026 REVYX · ITPRO SYSTEM SRL -->
 
 ## Changelog
@@ -10,12 +10,15 @@
 | 1.1.0 | 2026-05 | Senior PM + Solution Architect + Product Auditor | ★ Closes F-09 MED — additive only, zero breaking change pe BR-01..BR-12 · §6.4 Pilon Retention adăugat · §4 Entitate BUYER_PROFILE adăugată ★ · §10 reorganizat cu §10.2 White-Label + §10.3 Mobile ★ |
 | 1.2.0 | 2026-06 | Senior PM + Senior BA + DBA | MINOR — §17 Specificații piață Republica Moldova [MOLDOVA-SPECIFIC]: §17.1 buget declarat vs confirmat (15-25% divergență) · §17.2 tipuri întâlnire calificare (on_site auto-SHOWING) · §17.3 pre-aprobare bancară RM · §17.4 evoluție preferințe post-vizionare 90% · §17.5 mandat exclusivitate sellers · §17.6 property_class RM enum. Zero modificare §1-§16. |
 | **1.3.0** | **2026-06** | ★ Senior PM + Solution Architect + Senior BA + Senior Product Auditor | ★ **MINOR — §18 Agent Growth Intelligence (AGI Layer).** Analiza bibliografiei profesionale (Carnegie/Hill/Beckwith/Maister/Gitomer/Fox/Lukic/Blanchard+Peale/Yamaguchi + NAR Code of Ethics) vs framework REVYX a identificat 7 gap-uri cu impact HIGH/MEDIUM. Adăugări additive — zero breaking change pe BR-01..BR-24, §7 formule scoring, §8 entități existente: (1) **§6.1 extensii BR-25..BR-28** (Financial Readiness qualifier RM / Promise Keeping Index / Client Alumni la deal CÂȘTIGAT / Ethics Checkpoint human-in-the-loop). (2) **§7 extensie IS sub-dimensions + TS rework** — IS priměşte 3 sub-dimensiuni calitative; TS primeşte `promise_keeping_index` component. (3) **§8.5 Entități AGI noi (4)**: `execution_guides` · `client_alumni` · `agent_goals` · `ethics_checkpoints`. (4) **§13 KPI noi** Agent Growth Intelligence. (5) **★ §18 Agent Growth Intelligence** — spec completă a celor 7 gap-uri AGI-01..AGI-07 cu mapping pe layer framework + faze de implementare M1.S3-M1.S6. Zero modificare §1-§17 existente (formule scoring BRD §7 + BR-01..BR-24 + entități existente + RBAC + MOLDOVA-SPECIFIC §17 INTACTE). |
+| **1.4.0** | **2026-06** | ★ Solution Architect + Senior PM + Senior BA + Senior Product Auditor + Senior Compliance Auditor | ★ **MINOR — Integrare practici de teren + etică profesională (NAR / APAIM + metodologie operațională RM/RU).** Sursă: 7 documente de teren furnizate de client (instrucțiuni preluare vânzări RO/RU, check-list prima intrare apartament, scenariu apel vânzători, Buyer Needs Assessment ABR®, metodologie profesională Riѐltor ~700 paragrafe) + NAR Code of Ethics (17 articole / 3 categorii) + APAIM (modelat după NAR; reprezentare exclusivă + cooperare + transparență). Adăugări **pur aditive** — zero breaking change pe BR-01..BR-28, formule §7, entități §8 existente, MOLDOVA-SPECIFIC §17: (1) **§6.5 extensii BR-29..BR-31** (MLS Cooperation & commission-sharing / Listing Price Discipline anti-overpricing / Buyer Needs Assessment completeness). (2) **§8.5 +2 entități AGI**: `cooperation_offers` (MLS) · `buyer_assessments` (worksheet structurat). (3) **§17.1 extensie** câmpuri buyer worksheet (must_sell / possession / deal_breakers / compromise). (4) **§18.3** seed real execution guides (scripturi cold-call seller, obiecții preț, justificare comision, meeting 10-pași). (5) **§18.4** mapping complet NAR 17 articole + APAIM ↔ REVYX + 2 checkpoint-uri noi (Art.16 exclusive-listing solicitation · Art.12 misleading advertising) → BR-28 trecut de la 4 la 6 trigger-uri. (6) **NEW §18.9 Buyer Needs Assessment** · **§18.10 AGI-08 MLS / Cooperation & Partnership Selling** · **§18.11 AGI-09 Listing Price Discipline**. (7) **§13.4 KPI noi** + **§18.8 AC-AGI-09..13**. Spec-uri tehnice noi: `TECH_SPEC_realtor-ethics v1.0.0` + `TECH_SPEC_mls-cooperation v1.0.0`. Workflows bump: property-onboarding v1.1.0 + buyer-profile-lifecycle v1.1.0. Zero modificare §1-§16 structural. |
 
 ---
 
 > **Backwards compat (v1.0.0 → v1.1.0):** Toate cerințele BR-01..BR-12, NFR-01..NFR-11, formulele scoring §7.1–7.8, edge cases T01–T07 din v1.0.0 rămân **neschimbate**. v1.1.0 doar **adaugă** un al 8-lea pilon (Retention), o entitate suplimentară (`BUYER_PROFILE`) și sub-secțiuni descriptive pentru white-label și mobile (Phase 3+). Anchor-urile §1–§16 sunt păstrate; nicio cerință v1.0.0 nu e modificată sau ștersă.
 >
 > **Backwards compat (v1.1.0 → v1.2.0):** ★ Secțiunea §17 (Specificații piață Republica Moldova) este **pur aditivă** — zero modificări la BR-01..BR-12, formule scoring §7, entități §8, RBAC §10, roadmap §11. §17 documentează specificul de piață RM cu implicații tehnice pentru câmpuri schema viitoare (declared_budget, confirmed_budget, meeting_location_type, property_class, preference_history, mandate_status) — toate planificate M1.S3+ entry. §1–§16 neschimbate structural.
+>
+> **Backwards compat (v1.3.0 → v1.4.0):** ★ Toate adăugările (BR-29..BR-31, entitățile `cooperation_offers` + `buyer_assessments`, extensiile §17.1/§18.3/§18.4, secțiunile noi §18.9/§18.10/§18.11) sunt **pur aditive**. Formulele scoring §7.1–7.8 + T01-T07 + BR-01..BR-28 + entitățile existente + RBAC §10 rămân **INTACTE**. MLS / Cooperation (§18.10) introduce o nouă logică de business (commission-sharing între agenți), implementată ca **layer transversal** peste DEAL + OFFER existente, fără a modifica schema DEAL/OFFER — doar prin FK-uri additive. Etica (NAR/APAIM §18.4) extinde Ethics Checkpoints de la 4 la 6 trigger-uri (BR-28) — soft-prompt non-blocant, GDPR Art. 22 respectat (niciun decizionalism automat).
 
 ---
 
@@ -151,7 +154,17 @@ REVYX nu este un CRM — este un sistem de operare pentru agenți care:
 | ★ **BR-25** | **Financial Readiness qualifier [MOLDOVA-SPECIFIC]:** Dacă buyer lead cu `LS ≥ 0.60` AND `bank_preapproval_status = 'none'` AND `confirmed_budget_eur IS NULL` → NBA OBLIGATORIU include task `clarify_financing` ca task cu `priority = HIGH` înainte de orice `schedule_showing`. | Maister „True Professionalism" + BRD §17.3 piața RM | RIDICAT |
 | ★ **BR-26** | **Promise Keeping Index (PKI):** `PKI = tasks_completed_by_committed_deadline / tasks_with_explicit_deadline` per agent, rolling 30 zile. PKI alimentează TS (Trust Score) cu weight ~0.15 (redistribuit din factori existenți TS). Agent cu PKI < 0.60 → NBA sugestie automată `review_commitments`. | Carnegie „How to Win Friends" + Maister „Do What You Preach" | RIDICAT |
 | ★ **BR-27** | **Client Alumni la deal CÂȘTIGAT:** La tranziția `deal.status → CÂȘTIGAT`, sistemul creează automat un `client_alumni` entry cu `status = 'past_client'`. Lead-ul asociat trece în `status = 'alumni'` (NU deleted, NU nurturing). Cron-job `alumni_touchpoint_scheduler` generează reminder-uri la: T+12 luni, T+24 luni și la modificare semnificativă preț zonă (>5%). Niciun task activ creat automat — doar reminder pentru agent. | Yamaguchi „Calea Comerțului" + Carnegie relații pe termen lung | MEDIU |
-| ★ **BR-28** | **Ethics Checkpoint — human-in-the-loop la decizii critice:** La 4 momente de risc etic identificate în fluxul agent, sistemul afișează un soft-prompt (non-blocant, informativ) cu checkbox acknowledgement logat în `ethics_checkpoints`. Nu blochează operația. Toate 4 trigger-uri enumerate în §18.4. GDPR Art. 22: niciun decizionalism automat. | NAR Code of Ethics + Blanchard „Fair Play" + Peale | MEDIU |
+| ★ **BR-28** | **Ethics Checkpoint — human-in-the-loop la decizii critice:** La **6** momente de risc etic identificate în fluxul agent (★ v1.4.0: extins de la 4 la 6 — vezi §18.4), sistemul afișează un soft-prompt (non-blocant, informativ) cu checkbox acknowledgement logat în `ethics_checkpoints`. Nu blochează operația. Toate trigger-urile enumerate în §18.4. GDPR Art. 22: niciun decizionalism automat. | NAR Code of Ethics (Art.1/12/16) + Blanchard „Fair Play" + Peale | MEDIU |
+
+#### ★ 6.5.1 Extensii practici de teren + etică profesională (v1.4.0)
+
+> **Sursă:** Documente operaționale de teren (instrucțiuni preluare vânzări, scenariu apel vânzători, check-list prima intrare apartament, Buyer Needs Assessment ABR®, metodologie profesională Riѐltor) + NAR Code of Ethics (17 articole) + APAIM (reprezentare exclusivă + cooperare + transparență). Spec completă în §18.10 (MLS), §18.11 (Listing Price Discipline), §18.9 (Buyer Assessment).
+
+| ID | Regulă | Sursă | Prioritate |
+|---|---|---|---|
+| ★ **BR-29** | **MLS / Cooperation & commission-sharing:** Un listing seller cu `mandate_status = 'signed'` poate fi publicat în rețeaua de cooperare (`cooperation_offers`) cu o cotă de comision oferită agentului partener care aduce cumpărătorul (`offered_split_pct`, tipic 50%). La închiderea unui deal provenit dintr-un partener MLS, comisionul se împarte conform `cooperation_offers.offered_split_pct` și se loghează append-only. Cooperarea este **opt-in** la nivel de listing și necesită mandat exclusiv semnat (fără mandat — fără publicare în MLS). Aliniat NAR Art. 3 (cooperare) + APAIM (cooperare între membri). | NAR Art. 3 + APAIM + metodologie МЛС | RIDICAT |
+| ★ **BR-30** | **Listing Price Discipline (anti-overpricing):** La listarea unei proprietăți, dacă `list_price_eur > pricing_ai_suggested_eur × 1.15` (preț cerut cu >15% peste sugestia ACM/AI), sistemul marchează listing-ul cu `overpricing_risk = true` și afișează agentului un avertisment informativ + script ACM (§18.11). Indicatorul alimentează **LF** (degradare accelerată — un obiect supra-preț devine „stale" mai rapid) și este vizibil în PS ca penalizare informativă. NU blochează listarea (decizia preț = a proprietarului). | Metodologie „правильная листинговая цена" + concept „stale object" | RIDICAT |
+| ★ **BR-31** | **Buyer Needs Assessment completeness:** La crearea unui buyer/tenant lead, sistemul urmărește completitudinea worksheet-ului structurat (`buyer_assessments`, §18.9). Dacă `assessment_completeness < 0.50` AND `LS ≥ 0.60` → NBA include task `complete_buyer_assessment` (priority MEDIUM) înainte de `schedule_showing`. Câmpurile cheie blocante pentru un match de calitate: `must_sell_to_purchase`, `desired_possession_date`, `deal_breakers`, mortgage status. | Buyer Needs Assessment ABR® + metodologie calificare PPP | MEDIU |
 
 ### 6.2 Cerințe Non-Funcționale
 
@@ -283,9 +296,18 @@ Entități canonice BRD: **5 originale + 4 noi v1.0.0 + 1 nouă v1.1.0 = 10 enti
 | `execution_guides` | `id UUID PK` · `action_type TEXT` (FK logic la task_type enum) · `title TEXT NOT NULL` · `script_template TEXT` (variabile `{{var}}`) · `timing_hint TEXT` · `avoid_notes TEXT` · `tenant_id UUID FK` · `created_by UUID FK → users` · `created_at TIMESTAMPTZ` | One-to-many cu task_type; agent poate accesa ghidul relevant dintr-un task activ | M1.S4 |
 | `client_alumni` | `id UUID PK` · `lead_id UUID FK → leads` · `deal_id UUID FK → deals` · `touchpoint_config JSONB` (array de {type, months_after, template_key}) · `next_touchpoint_at TIMESTAMPTZ NULL` · `last_touchpoint_sent_at TIMESTAMPTZ NULL` · `referred_lead_count INT DEFAULT 0` · `referred_by_this_alumni UUID[] DEFAULT '{}'` · `tenant_id UUID FK` · `created_at TIMESTAMPTZ` | Lead `status = 'alumni'` FK; cron `alumni_touchpoint_scheduler` writes `next_touchpoint_at` | M1.S6 |
 | `agent_goals` | `id UUID PK` · `agent_id UUID FK → users` · `period_year INT NOT NULL` · `period_month INT NOT NULL` · `target_deals INT DEFAULT 0` · `target_aps NUMERIC(3,2) DEFAULT 0` · `target_commission_eur NUMERIC(12,2) DEFAULT 0` · `actual_deals INT DEFAULT 0` · `actual_aps NUMERIC(3,2) DEFAULT 0` · `actual_commission_eur NUMERIC(12,2) DEFAULT 0` · `progress_pct NUMERIC(5,2) GENERATED ALWAYS AS (...)` · `tenant_id UUID FK` · UNIQUE(agent_id, period_year, period_month) | Agent edits own goals în `/cabinet/agent`; cron actualizează `actual_*` zilnic din deals + scoring_state | M1.S5 |
-| `ethics_checkpoints` | `id UUID PK` · `trigger_context TEXT NOT NULL` (enum: `dual_representation / competing_offers / property_disclosure / financing_gap`) · `prompt_text TEXT` (localizabil) · `is_acknowledged BOOLEAN DEFAULT false` · `acknowledged_at TIMESTAMPTZ NULL` · `acknowledged_by UUID FK → users` · `deal_id UUID FK nullable` · `lead_id UUID FK nullable` · `tenant_id UUID FK` · `created_at TIMESTAMPTZ` | Append-only (AUDIT_LOG analog); niciun UPDATE/DELETE permis pe rânduri acknowledge | M1.S3 |
+| `ethics_checkpoints` | `id UUID PK` · `trigger_context TEXT NOT NULL` (enum: `dual_representation / competing_offers / property_disclosure / financing_gap / exclusive_listing_solicitation / misleading_advertising`) ★ +2 v1.4.0 · `prompt_text TEXT` (localizabil) · `nar_article TEXT NULL` (ex: `Art.1`, `Art.12`, `Art.16`) ★ v1.4.0 · `is_acknowledged BOOLEAN DEFAULT false` · `acknowledged_at TIMESTAMPTZ NULL` · `acknowledged_by UUID FK → users` · `deal_id UUID FK nullable` · `lead_id UUID FK nullable` · `tenant_id UUID FK` · `created_at TIMESTAMPTZ` | Append-only (AUDIT_LOG analog); niciun UPDATE/DELETE permis pe rânduri acknowledge | M1.S3 |
 
-**Total entități BRD v1.3.0: 10 existente + 4 AGI = 14 entități canonice.**
+#### ★ 8.5.1 Entități practici de teren (2) — v1.4.0
+
+> **Sursă:** §18.10 (MLS / Cooperation) + §18.9 (Buyer Needs Assessment). Ambele **additive** — FK-uri spre entități existente (DEAL, OFFER, LEAD, users), fără modificare schema existentă.
+
+| Entitate | Câmpuri cheie | Relații | Stage |
+|---|---|---|---|
+| ★ `cooperation_offers` | `id UUID PK` · `property_id UUID FK → properties` · `listing_agent_id UUID FK → users` · `offered_split_pct NUMERIC(5,2) NOT NULL DEFAULT 50.00` (cota oferită agentului partener) · `scope TEXT` (enum: `intra_agency / inter_agency / public_mls`) · `status TEXT` (enum: `open / engaged / closed / withdrawn`) · `cooperating_agent_id UUID FK → users NULL` · `cooperating_tenant_id UUID FK → tenants NULL` · `deal_id UUID FK → deals NULL` (setat la matching) · `commission_split_logged_at TIMESTAMPTZ NULL` · `mandate_verified BOOLEAN DEFAULT false` (gate BR-29: necesită `mandate_status='signed'`) · `tenant_id UUID FK` · `created_at TIMESTAMPTZ` | Property cu mandat semnat → publicabil în MLS; la deal CÂȘTIGAT cu `cooperating_agent_id` setat → split logat append-only | M1.S4 |
+| ★ `buyer_assessments` | `id UUID PK` · `lead_id UUID FK → leads` (one-to-one buyer/tenant lead) · `family_size INT NULL` · `pets TEXT NULL` · `current_tenure TEXT` (enum: `own / rent`) · `must_sell_to_purchase BOOLEAN DEFAULT false` · `desired_possession_date DATE NULL` · `mortgage_status TEXT` (enum: `none / prequalified / preapproved` — aliniat §17.3) · `lender TEXT NULL` · `ideal_price_eur NUMERIC(12,2) NULL` · `ideal_monthly_payment_eur NUMERIC(10,2) NULL` · `deal_breakers JSONB DEFAULT '[]'` (criterii necompromisabile) · `compromise_areas JSONB DEFAULT '[]'` (zone de flexibilitate) · `search_history TEXT NULL` (de cât timp caută / ce a oprit cumpărarea) · `prior_agent_agreement TEXT NULL` (ce a semnat cu alt agent — gate etic Art.16) · `assessment_completeness NUMERIC(3,2) GENERATED` (ratio câmpuri completate) · `tenant_id UUID FK` · `updated_at TIMESTAMPTZ` | Lead buyer/tenant 1:1; alimentează Match Engine + FRS (§18.7) + BR-31 | M1.S3 |
+
+**Total entități BRD v1.4.0: 10 existente + 4 AGI (v1.3.0) + 2 practici de teren (v1.4.0) = 16 entități canonice.**
 
 ---
 
@@ -447,6 +469,9 @@ REVYX expune un client nativ React Native pentru iOS și Android, cu suport offl
 | **Execution Guide Usage** | % task-uri cu `action_type` care au ghid accesat / total task-uri | N/A | ≥ 40% agenți activi accesează ≥ 1 ghid/săptămână | M1.S4 |
 | **Ethics Checkpoint Ack Rate** | checkpoints acknowledge / checkpoints generated ∈ [0,1] | N/A | ≥ 95% (proxy conformitate) | M1.S3 |
 | **Agent Goal Hit Rate** | luni cu `actual_deals ≥ target_deals × 0.80` / total luni cu goal setat | N/A | ≥ 60% per agent cohort activ | M1.S5 |
+| ★ **MLS Cooperation Rate** | deals închise cu `cooperating_agent_id` setat / total deals închise ∈ [0,1] | 0 | ≥ 20% la 12 luni post-M1.S4 deploy | M1.S4 |
+| ★ **Overpricing Correction Rate** | listings cu `overpricing_risk` care ajung sub prag în ≤30 zile / total flagged | N/A | ≥ 50% (disciplină preț funcțională) | M1.S4 |
+| ★ **Buyer Assessment Completeness** | buyer leads cu `assessment_completeness ≥ 0.50` la primul showing / total | N/A | ≥ 70% | M1.S3 |
 
 ---
 
@@ -482,6 +507,14 @@ REVYX expune un client nativ React Native pentru iOS și Android, cu suport offl
 | ★ **PKI** | Promise Keeping Index | tasks_completed_by_deadline / tasks_with_deadline rolling 30d ∈ [0,1] · component TS v1.3.0 |
 | ★ **Execution Guide** | Ghid de Execuție | Template script + timing + avoid_notes per NBA action_type; accesat inline din task activ |
 | ★ **Client Alumni** | Client Trecut | Entitate post-deal CÂȘTIGAT; BR-27; cron touchpoint la T+12/24 luni |
+| ★ **MLS** | Serviciu Vânzări Partenere | Rețea de cooperare între agenți (Сервис партнерских продаж); listing exclusiv partajat cu împărțire comision; BR-29; NAR Art. 3 + APAIM |
+| ★ **NAR** | Asociația Națională a REALTORS® | Cod de Etică în 17 articole / 3 categorii (Clienți / Public / Colegi); model pentru APAIM |
+| ★ **APAIM** | Asociația Profesională a Agenților Imobiliari din Moldova | Fondată 2017, modelată după NAR; reprezentare exclusivă + cooperare + transparență |
+| ★ **PPP** | Cumpărător Potențial Direct | Прямой Потенциальный Покупатель — cumpărător nereprezentat, calificat de agentul listării |
+| ★ **Open House / ДОД** | Ziua Ușilor Deschise | Eveniment de concentrare a cererii — showing grupat + invitație agenți parteneri MLS |
+| ★ **Overpricing Risk** | Risc Supra-Preț | `list_price > AI_suggested × 1.15`; BR-30; degradează LF; trigger etic Art. 12 |
+| ★ **Buyer Needs Assessment** | Evaluarea Nevoilor Cumpărătorului | Worksheet structurat ABR®; entitate `buyer_assessments`; BR-31 |
+| ★ **Mandat exclusiv** | Mandat de Exclusivitate | Acord care conferă agentului dreptul exclusiv de promovare/vânzare; gate pentru MLS (BR-29); §17.5 |
 | ★ **Agent Goals** | Obiective Agent | Ținte lunare per agent (deals / APS / comision); vizibile în /cabinet/agent |
 | ★ **Ethics Checkpoint** | Punct de Control Etic | Soft-prompt non-blocant la 4 momente de risc etic; BR-28; append-only |
 
@@ -530,6 +563,8 @@ REVYX expune un client nativ React Native pentru iOS și Android, cu suport offl
 - `confirmed_budget_eur` alimentează **RF (Risk Factor)** în calculul DHI când e disponibil — gap mare declarat/confirmat → RF mai mare.
 - Match Engine (M1.S4) folosește `confirmed_budget_eur` când disponibil, altfel `declared_budget_eur × 0.80` ca estimare conservativă.
 - UI agent: câmp editabil `Buget confirmat` vizibil pe lead detail post-întâlnire calificare; hint de avertizare dacă `confirmed_budget < declared_budget × 0.85`.
+
+**★ Extensie v1.4.0 — Buyer Needs Assessment structurat:** Bugetul declarat/confirmat este o singură dimensiune a calificării cumpărătorului. Documentul de teren *Buyer Needs Assessment* (ABR®) adaugă câmpuri suplimentare critice pentru un match de calitate, mutate în entitatea dedicată `buyer_assessments` (§8.5.1) și detaliate în §18.9: `must_sell_to_purchase` (trebuie să vândă o proprietate înainte de a cumpăra — afectează lichiditatea și RF), `desired_possession_date` (data de intrare în posesie dorită — afectează TF/urgența), `deal_breakers` (criterii necompromisabile) + `compromise_areas` (zone de flexibilitate). Aceste câmpuri sunt complementare la `confirmed_budget_eur` + `bank_preapproval_status` (§17.3) și alimentează împreună FRS (§18.7).
 
 ---
 
@@ -679,6 +714,8 @@ Piața imobiliară din Republica Moldova (Chișinău în special) are o structur
 
 > **Sursă:** Analiza comparativă a 9 cărți de referință din practica imobiliară profesională (Carnegie/Hill/Beckwith/Maister/Gitomer/Fox/Lukic/Blanchard+Peale/Yamaguchi) și NAR Code of Ethics față de framework-ul REVYX. Analiza a identificat că REVYX excelează la **control operațional și eficiență** (ce, când, cine) dar îi lipsea un strat de **inteligență relațională și profesională** (cum, de ce, calitate pe termen lung).
 >
+> **★ Extensie v1.4.0 — practici de teren:** §18.3 (execution guides), §18.4 (etică NAR/APAIM), §18.9 (Buyer Assessment), §18.10 (MLS / Cooperation) și §18.11 (Listing Price Discipline) au fost îmbogățite cu **conținut operațional testat pe teren** din 7 documente furnizate de client (instrucțiuni preluare vânzări RO/RU · check-list prima intrare apartament · scenariu apel vânzători · Buyer Needs Assessment ABR® · metodologie profesională Riѐltor) corelat cu NAR Code of Ethics (17 articole) și APAIM (asociația profesională RM, modelată după NAR).
+>
 > **Filosofie:** Shift de la „AOS care controlează agentul" → „AOS care **dezvoltă** agentul". AGI Layer este un al 8-lea strat transversal — similar structural cu Pilon Retention (§6.4) care a extins cei 7 piloni core fără a-i modifica.
 >
 > **Garanție backwards compat:** BR-01..BR-24 INTACTE · Formule §7 INTACTE · Entități existente INTACTE · T01-T07 INTACTE.
@@ -731,6 +768,20 @@ Piața imobiliară din Republica Moldova (Chișinău în special) are o structur
 - Manager/admin poate edita ghiduri per tenant din `/admin` → personalizare per agenție.
 - AUDIT_LOG event: `EXECUTION_GUIDE_ACCESSED` (agent_id + task_id + guide_id).
 
+**★ Seed real v1.4.0 — scripturi de teren (RO/RU):** Conținutul seed nu mai este placeholder generic — provine din documentele operaționale furnizate. Catalog complet de scripturi în `TECH_SPEC_REVYX_nba-engine` §seed + `TECH_SPEC_REVYX_realtor-ethics`. Mapping per `action_type`:
+
+| `action_type` | Sursă script de teren | Conținut esențial |
+|---|---|---|
+| `first_contact` (seller) | Scenariu apel vânzători | Salut + identificare proprietate + stabilire intenție + calificare nevoi + propunere întâlnire ACM + **5 obiecții cu răspunsuri** („nu vreau agenți" / „nu sunt interesat acum" / „vând singur" / „comision prea mare" / „nu am timp") |
+| `first_contact` (buyer/PPP) | Metodologie — întrebări la primul apel | 2 variante: (a) cumpărător cu agent → referral către partener MLS; (b) cumpărător direct → calificare nevoi + propunere vizionare |
+| `schedule_showing` (seller meeting) | Check-list „Prima intrare în apartament" — 10 pași | Decision-maker → motivație reală → experiență cu agenți → formarea nevoii → diferențiere („Бабочка продаж") → întrebări-catalizator → verdict Da/Nu → vizionare ca un cumpărător → ieșire cu propunere de contract |
+| `request_documents` (seller) | Instrucțiuni preluare vânzări | Mandat exclusivitate + extras cadastral + documente proprietate + acord fotografie |
+| `draft_offer` | Metodologie — oferte scrise (оферта) | Formular ofertă scrisă cumpărător + management cerere (demand) + termeni (preț + condiții + termen) |
+| `close_deal` (price objection) | Metodologie — bloc obiecții preț | Scripturi anti-torg: „este dreptul dvs. să negociați, dar…" + justificare „cel mai bun raport preț-calitate" + concentrare pe pierderea oportunității |
+| `custom` (commission justification) | Metodologie — justificare comision | „Бабочка продаж" + comparație canale serviciu vs comision + „plătiți după ce vă satisfacem nevoia" |
+
+- Variabilele `{{owner_name}}`, `{{property_address}}`, `{{agent_name}}`, `{{acm_summary}}`, `{{commission_pct}}` se completează din context.
+
 **Faza de implementare:** M1.S4 (NBA Engine — ghidurile se ataşează la NBA output).
 
 ---
@@ -741,14 +792,16 @@ Piața imobiliară din Republica Moldova (Chișinău în special) are o structur
 
 **Gap identificat:** REVYX are conformitate internă (AUDIT_LOG, RBAC, GDPR) dar nu are instrumente de **ghidare etică proactivă** la momentele de decizie. NAR Code: profesionalismul etic nu e doar „nu faci rău" ci conduită proactivă (disclosure, conflict of interest, reprezentare corectă).
 
-**Cele 4 trigger-uri Ethics Checkpoint (BR-28):**
+**Cele 6 trigger-uri Ethics Checkpoint (BR-28) ★ extins v1.4.0 (4 → 6):**
 
-| Trigger | Context | Prompt text (RO) |
-|---|---|---|
-| `dual_representation` | Agent = reprezentantul AMBELOR părți într-un deal | „Reprezentare dublă — ai informat în scris ambele părți și ai obținut consimțământul explicit?" |
-| `competing_offers` | ≥ 2 oferte active pe aceeași proprietate | „Există oferte concurente. Clientul tău știe că există alte oferte? Ești obligat să informezi ambele părți." |
-| `property_disclosure` | Prima listare a unei proprietăți | „Ai comunicat toate defectele cunoscute ale proprietății? Disclosure obligatoriu per Cod Etic." |
-| `financing_gap` | `confirmed_budget_eur < declared_budget_eur × 0.75` (BR-25 trigger) | „Există discrepanță semnificativă buget declarat vs confirmat. Ai clarificat cu clientul realitatea financiară?" |
+| Trigger | NAR Art. | Context | Prompt text (RO) |
+|---|---|---|---|
+| `dual_representation` | Art. 1 | Agent = reprezentantul AMBELOR părți într-un deal | „Reprezentare dublă — ai informat în scris ambele părți și ai obținut consimțământul explicit?" |
+| `competing_offers` | Art. 1 | ≥ 2 oferte active pe aceeași proprietate | „Există oferte concurente. Clientul tău știe că există alte oferte? Ești obligat să informezi ambele părți." |
+| `property_disclosure` | Art. 2 | Prima listare a unei proprietăți | „Ai comunicat toate defectele cunoscute ale proprietății? Disclosure obligatoriu per Cod Etic." |
+| `financing_gap` | Art. 1 | `confirmed_budget_eur < declared_budget_eur × 0.75` (BR-25 trigger) | „Există discrepanță semnificativă buget declarat vs confirmat. Ai clarificat cu clientul realitatea financiară?" |
+| ★ `exclusive_listing_solicitation` | Art. 16 | Un buyer/seller lead are `prior_agent_agreement` setat (a semnat deja cu alt agent — `buyer_assessments` §8.5.1) | „Acest client are deja un contract cu alt agent. NAR Art. 16: nu solicita clienți aflați sub un acord exclusiv cu un alt agent. Ai verificat statusul acelui contract?" |
+| ★ `misleading_advertising` | Art. 12 | Listare cu `overpricing_risk = true` (BR-30) SAU descriere proprietate fără fotografii reale / cu date neconfirmate | „NAR Art. 12: reclama trebuie să fie adevărată și neînșelătoare. Prețul / descrierea reflectă realitatea obiectului și analiza de piață?" |
 
 **Implementare:**
 
@@ -757,7 +810,26 @@ Piața imobiliară din Republica Moldova (Chișinău în special) are o structur
 - Neacknowledgement NU blochează operația — dar rămâne în `ethics_checkpoints` cu `is_acknowledged = false` (vizibil manager în raport lunar).
 - AUDIT_LOG event: `ETHICS_CHECKPOINT_TRIGGERED` (severity INFO) + `ETHICS_CHECKPOINT_ACKNOWLEDGED` (severity LOW).
 
-**Faza de implementare:** M1.S3 (simplitate implementare — trigger-uri clare, fără scoring complex).
+**★ Mapping NAR Code of Ethics (17 articole) + APAIM ↔ REVYX (v1.4.0):**
+
+> APAIM (Asociația Profesională a Agenților Imobiliari din Moldova, fondată 2017) este **modelată după NAR** — membrii obțin statut REALTOR® și adoptă Codul de Etică NAR. Valori centrale APAIM: **reprezentare exclusivă** (mandat) · **cooperare între agenți membri** · **loialitate totală față de client** · **transparență completă**. Mapping complet în `TECH_SPEC_REVYX_realtor-ethics_v1.0.0`.
+
+| Categorie NAR | Articole | Mecanism REVYX care îl operaționalizează |
+|---|---|---|
+| **Datorii față de Clienți** | Art. 1 (interesul clientului) | BR-01 Lead Firewall · Ethics `dual_representation` + `financing_gap` · fiduciary loyalty în mandat exclusiv (§18.10) |
+| | Art. 2 (fără denaturare / ascundere defecte) | Ethics `property_disclosure` · BR-30 Listing Price Discipline (§18.11) |
+| | Art. 3 (**cooperare** între agenți) | ★ MLS / Cooperation `cooperation_offers` (§18.10) — commission-sharing |
+| | Art. 4-5 (disclosure interes personal) | Ethics `dual_representation` |
+| | Art. 6-9 (transparență financiară, documentare scrisă) | OFFER chain scrisă (оферта) · raportare scrisă periodică către proprietar (§18.10) |
+| **Datorii față de Public** | Art. 10 (non-discriminare) | RBAC + GDPR · marketplace PII-masked |
+| | Art. 11 (competență în limita profesiei) | Execution Guides (§18.3) — agentul nu improvizează |
+| | Art. 12 (**reclamă neînșelătoare**) | ★ Ethics `misleading_advertising` (nou v1.4.0) · BR-30 |
+| | Art. 13-14 (legalitate + cooperare la investigații) | AUDIT_LOG append-only · `ethics_checkpoints` append-only |
+| **Datorii față de Colegi** | Art. 15 (fără afirmații false despre colegi) | — (cultural; tracking via AUDIT_LOG la nevoie) |
+| | Art. 16 (**nu solicita clienți sub mandat exclusiv altul**) | ★ Ethics `exclusive_listing_solicitation` (nou v1.4.0) · câmp `prior_agent_agreement` (§8.5.1) |
+| | Art. 17 (arbitraj dispute) | escalation §6 · manager override |
+
+**Faza de implementare:** M1.S3 (cele 4 trigger-uri originale) + M1.S4 (★ cele 2 noi — depind de `buyer_assessments` + `overpricing_risk`).
 
 ---
 
@@ -825,20 +897,86 @@ Piața imobiliară din Republica Moldova (Chișinău în special) are o structur
 
 ---
 
+### ★ §18.9 AGI-extension — Buyer Needs Assessment (v1.4.0)
+
+**Sursă de teren:** *Buyer Needs Assessment Worksheet* (ABR® Designation Course, EN + RU) + metodologie calificare PPP (Прямой Потенциальный Покупатель).
+
+**Gap identificat:** Calificarea cumpărătorului în REVYX se baza pe buget + preferințe libere. Lipsea un worksheet **structurat** care captează dimensiunile decisive pentru un match de calitate și pentru protejarea timpului agentului: dependența de o vânzare prealabilă, data dorită de intrare în posesie, criteriile necompromisabile (deal-breakers) vs zonele de flexibilitate, și relația cu agenți anteriori (relevant etic — Art. 16).
+
+**Implementare:**
+
+- Entitate `buyer_assessments` (§8.5.1), one-to-one cu buyer/tenant lead.
+- `assessment_completeness` = ratio câmpuri completate (GENERATED) ∈ [0,1]; BR-31 generează `complete_buyer_assessment` task când < 0.50 AND LS ≥ 0.60.
+- Câmpurile alimentează: **Match Engine** (must_sell, possession_date, deal_breakers ca filtre hard; compromise_areas ca soft) + **FRS** §18.7 (mortgage_status + must_sell) + **Ethics** `exclusive_listing_solicitation` (prior_agent_agreement).
+- UI buyer lead detail (M1.S3+): panou „Profil de nevoi" cu secțiuni — Financiar (buget + mortgage + must_sell), Posesie (possession_date), Criterii (deal_breakers / compromise_areas), Istoric căutare.
+- Cross-ref §17.1 (buget RM) + §17.3 (pre-aprobare bancară) + §17.4 (evoluție preferințe post-vizionare — `deal_breakers` se pot rafina după showing).
+
+**Faza de implementare:** M1.S3 (în același sprint cu LEAD schema + §17 câmpuri).
+
+---
+
+### ★ §18.10 AGI-08 — MLS / Cooperation & Partnership Selling (v1.4.0)
+
+**Sursă de teren:** Metodologie profesională Riѐltor (Сервис партнерских продаж / МЛС) + NAR Art. 3 (cooperare) + APAIM (cooperare între membri) + Instrucțiuni preluare vânzări (transmiterea obiectului către coleg din alt sector).
+
+**Gap identificat:** REVYX trata agentul ca operator izolat. Practica profesională matură (și NAR/APAIM) demonstrează că **cel mai eficient instrument de vânzare este cooperarea** — listing-ul exclusiv se publică într-o rețea de parteneri, iar agentul listării **împarte comisionul** cu agentul partener care aduce cumpărătorul. Beneficii: concentrare a cererii, vânzare mai rapidă, preț maxim. Concept-cheie din metodologie: „banii curg de la cumpărător → la proprietar → la toți cei care participă la vânzare".
+
+**Implementare:**
+
+- Entitate `cooperation_offers` (§8.5.1) — layer transversal peste PROPERTY + DEAL + OFFER existente (zero modificare schema lor).
+- **Gate BR-29:** publicarea în MLS necesită `mandate_status = 'signed'` pe LEAD-ul seller (`mandate_verified = true`). Fără mandat exclusiv → fără MLS.
+- `scope` ∈ {`intra_agency` (alt agent aceeași agenție) / `inter_agency` (alt tenant partener) / `public_mls` (rețea deschisă)}.
+- `offered_split_pct` (default 50%) = cota din comision oferită agentului partener. La `deal.status → CÂȘTIGAT` cu `cooperating_agent_id` setat → split logat append-only (`commission_split_logged_at`) + AUDIT_LOG event `MLS_COMMISSION_SPLIT_LOGGED`.
+- **Ziua Ușilor Deschise (ДОД / Open House):** un eveniment de concentrare a cererii — invitație către agenți parteneri + showing grupat. Modelat ca `showing` cu `is_open_house = true` (extensie SHOWING — vezi TECH_SPEC).
+- **Raportare scrisă periodică** către proprietar (obligație din mandat) — cadență săptămânală, alimentează PKI (§7.9 / BR-26).
+- UI: tab „Cooperare (MLS)" pe property detail (listing agent) — publish/withdraw + listă parteneri angajați; queue „Oferte de cooperare" pentru agentul partener.
+- AUDIT_LOG events: `MLS_OFFER_PUBLISHED` · `MLS_OFFER_ENGAGED` · `MLS_COMMISSION_SPLIT_LOGGED` · `MLS_OFFER_WITHDRAWN`.
+- RBAC: orice agent poate publica/angaja; managerul vede toate `cooperation_offers` ale echipei; split-ul inter-agency necesită acord la nivel tenant (config admin).
+
+**Spec tehnică completă:** `TECH_SPEC_REVYX_mls-cooperation_v1.0.0`.
+
+**Faza de implementare:** M1.S4 (depinde de OFFER chain + DEAL pipeline + mandat §17.5 M1.S3).
+
+---
+
+### ★ §18.11 AGI-09 — Listing Price Discipline (v1.4.0)
+
+**Sursă de teren:** Metodologie profesională Riѐltor — „правильная листинговая цена" (prețul de listare corect, nu „хотелка" proprietarului) + concept „obiect-zăvor / stale object" (obiecte supra-preț care „atârnă" pe piață).
+
+**Gap identificat:** REVYX are PS (Property Score) + LF (Listing Freshness) + pricing AI, dar nu avea un mecanism explicit care să **disciplineze prețul de listare** și să avertizeze agentul când proprietarul cere un preț nerealist. Metodologia demonstrează: un preț inițial supra-evaluat respinge cumpărătorii motivați, devalorizează obiectul în timp, și forțează reduceri ulterioare în criză de timp. Prețul corect ≠ aspirația proprietarului; se bazează pe prețuri de tranzacții reale, nu pe „хотелки".
+
+**Implementare:**
+
+- `overpricing_risk BOOLEAN` (computed pe PROPERTY): `true` când `list_price_eur > pricing_ai_suggested_eur × 1.15` (BR-30).
+- Impact **LF**: un obiect cu `overpricing_risk = true` primește o degradare accelerată a freshness-ului (factor configurabil per tenant) — modelează fenomenul „stale object" mai rapid.
+- Impact **PS**: penalizare informativă vizibilă agentului (NU blochează listarea — decizia preț rămâne a proprietarului, Art. 2 disclosure).
+- Ethics link: `overpricing_risk = true` → trigger `misleading_advertising` (Art. 12).
+- UI: la listare, dacă peste prag → card avertisment „Risc supra-preț" + script ACM (§18.3 `close_deal` price-objection) + comparativ vânzări reale vs listate (cele 2 liste „vândute / nevândute" din metodologie).
+- AUDIT_LOG event: `LISTING_OVERPRICING_FLAGGED`.
+
+**Faza de implementare:** M1.S4 (depinde de pricing AI hooks + LF cron din property-onboarding).
+
+---
+
 ### §18.8 Acceptance Criteria AGI
 
 | ID | Criteriu |
 |---|---|
 | ★ AC-AGI-01 | PKI calculat săptămânal pentru fiecare agent cu ≥ 3 task-uri cu deadline în ultimele 30 zile |
 | ★ AC-AGI-02 | La deal.status → CÂȘTIGAT: `client_alumni` creat în ≤5 secunde + lead.status → 'alumni' + AUDIT_LOG event |
-| ★ AC-AGI-03 | `ethics_checkpoint` generat la fiecare din cele 4 trigger-uri (BR-28) + AUDIT_LOG event |
+| ★ AC-AGI-03 | `ethics_checkpoint` generat la fiecare din cele **6** trigger-uri (BR-28) + AUDIT_LOG event |
 | ★ AC-AGI-04 | Neacknowledgement ethics checkpoint NU blochează operația — soft-prompt non-modal |
 | ★ AC-AGI-05 | FRS calculat la fiecare PATCH pe LEAD pentru câmpurile §17.1/§17.3 |
 | ★ AC-AGI-06 | BR-25: `clarify_financing` task creat automat când FRS < 0.30 AND LS ≥ 0.60 AND no existing `clarify_financing` ACTIVE task |
 | ★ AC-AGI-07 | Execution guide accesibil inline din task — fără navigare la pagină separată |
 | ★ AC-AGI-08 | Agent goals: `actual_*` câmpuri actualizate zilnic prin cron (nu la fiecare operație — batch) |
+| ★ AC-AGI-09 | BR-29: publicare `cooperation_offers` permisă DOAR cu `mandate_status='signed'` (`mandate_verified=true`); altfel respinsă cu mesaj clar |
+| ★ AC-AGI-10 | La deal CÂȘTIGAT cu `cooperating_agent_id` setat: split comision logat append-only + `MLS_COMMISSION_SPLIT_LOGGED` în ≤5 secunde |
+| ★ AC-AGI-11 | BR-30: `overpricing_risk` recalculat la fiecare modificare `list_price_eur` SAU refresh sugestie pricing AI; flag → LF degradare accelerată + trigger `misleading_advertising` |
+| ★ AC-AGI-12 | BR-31: `complete_buyer_assessment` task creat când `assessment_completeness < 0.50` AND LS ≥ 0.60 AND no existing ACTIVE such task |
+| ★ AC-AGI-13 | Ethics `exclusive_listing_solicitation` generat când `buyer_assessments.prior_agent_agreement IS NOT NULL` la prima asignare agent |
 
 ---
 
-*BRD_REVYX_v1.3.0.md · v1.3.0 · 2026-06 · CONFIDENȚIAL · Uz Intern*
+*BRD_REVYX_v1.4.0.md · v1.4.0 · 2026-06 · CONFIDENȚIAL · Uz Intern*
 *REVYX — Real Estate Execution Intelligence · © 2026 REVYX · ITPRO SYSTEM SRL*

@@ -1,5 +1,5 @@
 # WORKFLOW — REVYX Property Onboarding
-<!-- WORKFLOW_REVYX_property-onboarding_v1.0.0.md · v1.0.0 · 2026-05 -->
+<!-- WORKFLOW_REVYX_property-onboarding_v1.1.0.md · v1.1.0 · 2026-06 -->
 <!-- CONFIDENȚIAL · Uz Intern · © 2026 REVYX · ITPRO SYSTEM SRL -->
 
 ## Changelog
@@ -7,6 +7,7 @@
 | Versiune | Data | Autor | Note |
 |---|---|---|---|
 | 1.0.0 | 2026-05 | Senior PM + Solution Architect | Workflow inițial — INTAKE → VALIDATION → PRICING → SHOWCASE_PUBLISH → MONITORING |
+| ★ **1.1.0** | **2026-06** | Solution Architect + Senior BA + Senior PM | ★ MINOR — Codificare SOP de teren preluare vânzări (Elite Realty) + check-list „Prima intrare în apartament" (10 pași) + scenariu apel vânzători. NEW §5.0 (Pre-INTAKE: Preluarea în lucru) cu: surse listing · contactare proprietar (script + 5 obiecții) · pregătire ACM · întâlnirea de calificare seller 10 pași · fotografie · canale de promovare · reguli interne colaborare + bannere. Etapa 2 VALIDATION extinsă cu gate mandat MLS (BR-29) + flag supra-preț (BR-30, `overpricing_risk`). Aliniat BRD v1.4.0 §18.3/§18.10/§18.11 + MOLDOVA-SPECIFIC §17.5 (mandat). Zero modificare etape PRICING/SHOWCASE/MONITORING existente. |
 
 ---
 
@@ -96,6 +97,78 @@ flowchart TD
 
 ## 5. Etape detaliate
 
+### ★ Etapa 5.0 — PRE-INTAKE: Preluarea în lucru (SOP de teren)
+
+> **Sursă:** Documente operaționale Elite Realty — „Instrucțiuni pentru preluarea corectă a unei proprietăți în lucru (vânzări)" (RO/RU) + check-list „Prima intrare în apartament" (RU) + „Scenariu apel — vânzători" (RU). Această etapă precede crearea DRAFT-ului în sistem (Etapa 1) și descrie procesul uman de teren care produce un seller lead calificat + mandat semnat.
+
+**Actor:** 🤝 Agent Imobiliar (cu suport Office Manager + Team Leader)
+
+#### 5.0.1 Identificarea proprietăților disponibile (surse)
+
+| Sursă | Detaliu |
+|---|---|
+| Site-uri de anunțuri | 999.md · Makler.md |
+| Rețele sociale | Grupuri Facebook · anunțuri private |
+| Marketing offline | Pliante în cutiile poștale |
+| Recomandări | Rude · prieteni · clienți existenți |
+| Companie | Obiecte alocate de Office Manager sau colegii din alte sectoare |
+
+#### 5.0.2 Contactarea proprietarului (apel)
+
+1. Caută pe 999.md / Makler.md apartamente în vânzare.
+2. Sună proprietarul → obține: locația exactă · metrajul · prețul · starea imobilului.
+3. Întreabă dacă colaborează deja cu o agenție (gate etic Art. 16).
+4. Prezintă-te ca agent + explică beneficiile colaborării.
+5. Stabilește o întâlnire pentru evaluare.
+6. Verifică în companie dacă imobilul nu este deja în lucru.
+
+> **Script + obiecții:** scenariul complet de apel (salut → stabilire intenție → calificare nevoi → propunere întâlnire) + **5 obiecții cu răspunsuri** („nu vreau agenți" / „nu sunt interesat acum" / „vând singur" / „comision prea mare" / „nu am timp") sunt seed în `execution_guides` (`action_type=first_contact` seller — BRD §18.3).
+
+#### 5.0.3 Pregătire pentru întâlnire (documente + materiale)
+
+- Cărți de vizită · scurtă Analiză Comparativă de Piață (ACM/ACM) · contract de colaborare și prestări servicii · extras cadastral (solicitat de la Office Manager cu adresa exactă).
+- La vizionarea imobilului: instrucțiuni Prima intrare în apartament + explicarea avantajelor colaborării.
+
+#### 5.0.4 Întâlnirea de calificare seller — check-list „Prima intrare în apartament" (10 pași)
+
+| # | Pas | Esență |
+|---|---|---|
+| 1 | Unde ne putem așeza + cine ia decizia | Identificarea decision-maker-ului · date exacte apartament |
+| 2 | Motivația reală | De ce vinde? De cât timp? Cine a mai văzut? Au fost oferte? |
+| 3 | Experiență cu agenți | Așteptări de la agent |
+| 4 | Formarea nevoii | Ce anume are nevoie de la agent |
+| 5 | Diferențierea | Grafic Cerere–Ofertă · plan marketing activ · comparație Agenți vs Cumpărători · poziționare preț · „Butterfly of Sales" (Бабочка продаж) |
+| 6 | Întrebări-catalizator | Preț minim acceptat? Cum a ajuns la concluzie? Ce se întâmplă dacă nu primește banii la termen? |
+| 7 | Verdict (Da / Nu) | Da → „suntem o echipă!" · Nu → „nu vă pot ajuta" |
+| 8 | Reputație profesională | Profesionalismul = cunoaștere impecabilă a pieței |
+| 9 | Inspecția ca un cumpărător | Vizitarea apartamentului din perspectiva cumpărătorului |
+| 10 | La ieșire | „Voi vinde la cel mai bun preț!" · pregătesc ACM + plan marketing · programare semnare mandat la oficiu |
+
+> **Tip locație întâlnire:** `meeting_location_type` (BRD §17.2) — office / public_place / on_site. La `on_site`, calificarea și prima vizionare se suprapun.
+
+#### 5.0.5 Fotografie + promovare
+
+- Calitatea pozelor: apartament curat și amenajat înainte de poză; fotograf profesionist (date la Office Manager).
+- Fațada imobilului + interior + panorama (obligatoriu pentru disclosure real, Art. 12 — anti-`misleading_advertising`).
+- După semnarea contractului: proprietatea trecută **în lucru** + postată în CRM → Office Manager distribuie pe site-uri de specializare (site companie, 999.md, casaHUB).
+- Canale promovare: CRM (distribuit pe site-uri) · CRM „găsește client" · rețele sociale (Facebook, TikTok) · banner/Oracal la proprietate · flayere/anunțuri în scară + blocuri vecine · OPEN HOUSE (ДОД) · grupuri Telegram cu colegi · apeluri directe către clienți existenți.
+
+#### 5.0.6 Reguli interne de colaborare
+
+- **Transmiterea unui obiect în lucru către un coleg din alt sector:** introdu clientul în CRM (client vânzător) · informează Office Managerul · include adresa, numele și telefonul proprietarului, colegul care preia.
+- **Coordonare obligatorie cu Directorul Companiei** pentru: orice ofertă de la altă agenție · colaborare cu agenți individuali sau din alte companii · obiecte ne-publicate dar prezentate clienților.
+- **Corectitudinea prețurilor:** dacă pe alt site același imobil e listat cu 1000€ mai puțin → poate fi preluat de alt agent.
+
+#### 5.0.7 Reguli pentru bannere
+
+- Obține permisiunea proprietarului / administratorului imobilului.
+- Apartament cu vizibilitate bună → comandă banner mare; anunță Office Managerul prin email cu dimensiunile.
+- Dacă banner-ul este demontat în mai puțin de 3 săptămâni → agentul suportă costurile.
+
+> **Cooperare (MLS):** după semnarea mandatului exclusiv (`mandate_status='signed'`), listing-ul devine eligibil pentru publicare în rețeaua de cooperare (`cooperation_offers`, BR-29) — vezi `TECH_SPEC_REVYX_mls-cooperation`.
+
+---
+
 ### Etapa 1 — INTAKE (creare DRAFT)
 
 **Trigger:** Agent crează property prin UI (`POST /api/v1/properties`) sau import bulk
@@ -130,13 +203,15 @@ flowchart TD
   - `price_amount >= 0`
   - `condition_grade ∈ enum`
   - `transaction_type ∈ ('sale','rent')`
-- Verificare mandat (manual — agent confirmă bifa „Mandat semnat" + upload PDF la S3 cu link în `features.mandate_pdf_ref`)
+- Verificare mandat (manual — agent confirmă bifa „Mandat semnat" + upload PDF la S3 cu link în `features.mandate_pdf_ref`). ★ Mandatul semnat (`mandate_status='signed'`) este **gate pentru cooperare MLS** (BR-29) — fără mandat, listing-ul NU poate fi publicat în `cooperation_offers`.
 - Verificare adresă geocodat: dacă lipsă `geo_lat/lng` → reverse geocode din `address_line`
 - Detecție duplicate: query pe `(city, address_line, area_sqm)` cu fuzzy >85% → flag duplicate
+- ★ **Listing Price Discipline (BR-30):** la setarea prețului, dacă `list_price_eur > pricing_ai_suggested_eur × 1.15` → `overpricing_risk = true` + card avertisment „Risc supra-preț" + script ACM (anti-„хотелка") + comparativ vânzări reale vs listate. NU blochează listarea (decizia preț = a proprietarului, Art. 2). Flag-ul → degradare LF accelerată (Etapa 5 MONITORING) + trigger etic `misleading_advertising` (Art. 12).
 
 **AUDIT_LOG events:**
 - `PROPERTY_VALIDATION_FAILED` (dacă fail) cu detalii câmpuri
 - `PROPERTY_DUPLICATE_DETECTED` (dacă fuzzy match)
+- ★ `LISTING_OVERPRICING_FLAGGED` (dacă `overpricing_risk=true`)
 
 **Score impact:** niciuna directă (precondiție pentru Etapa 3)
 
@@ -402,7 +477,7 @@ Validare AC din BRD §12 + spec edge cases:
 
 | Element | Detaliu |
 |---|---|
-| Document | WORKFLOW_REVYX_property-onboarding_v1.0.0.md |
+| Document | WORKFLOW_REVYX_property-onboarding_v1.1.0.md |
 | Tip schimbare | NEW |
 | Aria afectată | Pilon 02 (Supply) · entitate PROPERTY · scoring PS/LF · showcase publishing |
 | Origine | BRD §5 Pilon 02 · §7.2 PS · §6.1 BR-08 · §12 edge T04 + AC-SL-* |
@@ -500,5 +575,5 @@ Vezi §13. Edge T04 (LF=0.0 la 90 zile) obligatoriu E2E.
 
 ---
 
-*docs/workflow/WORKFLOW_REVYX_property-onboarding_v1.0.0.md · v1.0.0 · 2026-05 · CONFIDENȚIAL · Uz Intern*
+*docs/workflow/WORKFLOW_REVYX_property-onboarding_v1.1.0.md · v1.1.0 · 2026-06 · CONFIDENȚIAL · Uz Intern*
 *REVYX — Real Estate Execution Intelligence · © 2026 REVYX · ITPRO SYSTEM SRL*

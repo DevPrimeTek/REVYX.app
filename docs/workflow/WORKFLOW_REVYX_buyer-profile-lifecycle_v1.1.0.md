@@ -1,5 +1,5 @@
 # WORKFLOW — BUYER PROFILE LIFECYCLE
-<!-- WORKFLOW_REVYX_buyer-profile-lifecycle_v1.0.0.md · v1.0.0 · 2026-05 -->
+<!-- WORKFLOW_REVYX_buyer-profile-lifecycle_v1.1.0.md · v1.1.0 · 2026-06 -->
 <!-- CONFIDENȚIAL · Uz Intern · © 2026 REVYX · ITPRO SYSTEM SRL -->
 
 ## Changelog
@@ -7,6 +7,7 @@
 | Versiune | Data | Autor | Note |
 |---|---|---|---|
 | 1.0.0 | 2026-05 | Senior PM + Solution Architect + DPO | ★ Workflow inițial S9 — buyer profile end-to-end · lead conversion → consent dual → tier select → publish → search → contact request → unmask → deal kickoff · swimlanes + decision points · referință `marketplace-two-sided` v1.0.1 |
+| ★ **1.1.0** | **2026-06** | Solution Architect + Senior BA + Senior PM | ★ MINOR — Integrare *Buyer Needs Assessment Worksheet* (ABR®, EN/RU) + calificare PPP (Прямой Потенциальный Покупатель) din metodologia de teren. NEW §4.1.1 (Buyer Needs Assessment) cu entitatea `buyer_assessments` (BRD §8.5.1) + completeness gate BR-31 + scripturi calificare PPP la primul apel (2 variante). Aliniat BRD v1.4.0 §18.9 + §17.1 + ethic Art. 16 (`prior_agent_agreement`). Zero modificare steps existente 4.2-4.9. |
 
 ---
 
@@ -86,6 +87,29 @@ EXPIRED ──republish─> ACTIVE (new cycle)
 | 2 | Buyer | UI form: city, type, budget, urgency, features | Schema validation client-side | — |
 | 3 | Backend | `POST /buyer-profiles` | Max 2 active per lead (anti-spam) | `BUYER_PROFILE_CREATED` |
 | 4 | Backend | status=DRAFT, alias=`BUY-XXXX` | `idx_bp_lead` UNIQUE check | — |
+
+### ★ 4.1.1 Buyer Needs Assessment (worksheet structurat)
+
+> **Sursă:** *Buyer Needs Assessment Worksheet* (ABR® Designation Course, EN + RU) + metodologie calificare PPP. Entitate `buyer_assessments` (BRD §8.5.1), one-to-one cu buyer/tenant lead. Worksheet-ul completează preferințele libere cu dimensiunile decisive pentru un match de calitate.
+
+**Câmpuri worksheet (din documentul de teren):**
+
+| Grup | Câmpuri |
+|---|---|
+| Financiar | `current_tenure` (own/rent) · `must_sell_to_purchase` · `mortgage_status` (none/prequalified/preapproved) · `lender` · `ideal_price_eur` · `ideal_monthly_payment_eur` |
+| Posesie | `desired_possession_date` |
+| Familie | `family_size` · `pets` |
+| Criterii | `deal_breakers[]` (necompromisabile) · `compromise_areas[]` (flexibilitate) |
+| Istoric | `search_history` (de cât timp caută · ce a oprit cumpărarea) · `prior_agent_agreement` (ce a semnat cu alt agent) |
+
+**Reguli:**
+- `assessment_completeness` (GENERATED ∈ [0,1]) — BR-31: dacă `< 0.50` AND `LS ≥ 0.60` → NBA task `complete_buyer_assessment` (priority MEDIUM) înainte de `schedule_showing`.
+- Câmpurile alimentează: Match Engine (`must_sell`, `possession_date`, `deal_breakers` = filtre hard; `compromise_areas` = soft) · FRS (BRD §18.7) · Ethics `exclusive_listing_solicitation` (`prior_agent_agreement` → Art. 16).
+- Cross-ref §17.1 (buget RM declarat/confirmat) + §17.3 (pre-aprobare bancară) + §17.4 (preferințele se rafinează post-vizionare).
+
+**Calificare PPP la primul apel (script seed `execution_guides`, `first_contact` buyer):**
+- Varianta A — cumpărător are agent: referral către partener (MLS) + programare ДОД/showing.
+- Varianta B — cumpărător direct (nereprezentat): calificare nevoi (buget, zonă, termen, decision-maker) + propunere vizionare; întrebări „la ce mergi / de la ce pleci?".
 
 ### 4.2 Consent dual
 
@@ -193,5 +217,5 @@ Când agent + buyer parcurg pași spre tranzacție: lead-ul existent (`buyer_pro
 
 ---
 
-*docs/workflow/WORKFLOW_REVYX_buyer-profile-lifecycle_v1.0.0.md · v1.0.0 · 2026-05 · CONFIDENȚIAL · Uz Intern*
+*docs/workflow/WORKFLOW_REVYX_buyer-profile-lifecycle_v1.1.0.md · v1.1.0 · 2026-06 · CONFIDENȚIAL · Uz Intern*
 *REVYX — Real Estate Execution Intelligence · © 2026 REVYX · ITPRO SYSTEM SRL*
