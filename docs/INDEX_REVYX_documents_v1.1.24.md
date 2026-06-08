@@ -1,11 +1,12 @@
 # INDEX — REVYX Document Catalog
-<!-- INDEX_REVYX_documents_v1.1.23.md · v1.1.23 · 2026-06 -->
+<!-- INDEX_REVYX_documents_v1.1.24.md · v1.1.24 · 2026-06 -->
 <!-- CONFIDENȚIAL · Uz Intern · © 2026 REVYX · ITPRO SYSTEM SRL -->
 
 ## Changelog
 
 | Versiune | Data | Autor | Note |
 |---|---|---|---|
+| **1.1.24** | **2026-06** | ★ Solution Architect + DOC | ★ **PATCH — INDEX self-contained + revizuire structurală (Karpathy Step 2).** Fix integritate: §4.1/§4.2 + §5-11 delegau lista completă către `INDEX_REVYX_documents_v1.1.1.md` care a fost **șters** în consolidarea Regula 18 anterioară → sub-listele erau de fapt inaccesibile. Acum **inline complet** din inventarul real de pe disc: §4.1 (18 tech-specs core Phase 0-4) + §4.2 (6 Phase 5/platform) + §5 (9 workflows) + §6 (11 runbooks) + §7 (15 audit/readiness) + §8 (4 legal) + §9 (4 cs-playbooks) + §10 (board + test-fixtures + skills + templates). Catalog acum **auto-conținut și actual**. Structural review (Step 2 directive): corpusul era deja consolidat (Regula 18: 60 fișiere șterse anterior) + intens cross-referențiat ca audit-trail → **nimic de arhivat** (toate auditurile s8-s17 sunt citate ca proveniență findings în docs active). Singura curățare: șters placeholder gol `docs/prd/.gitkeep`. NEW skill `.claude/skills/karpathy-guidelines/` (vezi §2). |
 | **1.1.23** | **2026-06** | ★ Solution Architect + Senior Compliance Auditor + DOC | ★ **PATCH — Consistency pass post-v1.4.0 (Regula 21).** Sincronizare a documentelor rămase nesincronizate după BRD v1.4.0: (a) **audit-log v1.1.1 → v1.1.2** (git mv) — NEW §4.4.10 familia `AGI/ETHICS/MLS` cu 10 events (5 AGI + 5 practici de teren); CI `audit-catalog-lint.yml` `--spec` path actualizat la v1.1.2. (b) **PLATFORM_MATRIX v1.0.0 → v1.1.0** (git mv) — NEW Modul 16 (AGI/Ethics/MLS, 12 features) + stat 119→131 + §19 cross-refs (Regula 9 compliance pentru toate feature-urile v1.4.0). (c) **GLOSSARY v1.0.0 → v1.0.1** (git mv) — NEW §14b (9 termeni NAR/APAIM/MLS/PPP/ДОД/etc.) + update intrare MLS. (d) **6 engine tech-specs** primesc note additive `### ★ Related — v1.4.0` (showing/property/offer-engine/deal-closure/match-engine/nba-engine) — adnotare in-place, fără version bump (forward cross-ref, evită cascadă). (e) **HEADER_STANDARD.md** — fix pointer checklist `BRD_v1.1.0` → `v1.4.0`. **Decizie conștientă (Regula 17):** MASTER_PLAN v1.1.2 NU e bump-uit — referențiat de 35 docs, iar conținutul său substanțial nu contrazice v1.4.0; singura derivă (cross-ref BRD §12 + tracker §0 „M1.S2") aparține unui refresh dedicat Master Plan, nu acestui sync. Backend `apps/` + Master Plan **INTACTE**. Trigger: PM directive „actualizați toate documentele după modificări majore în framework". |
 | **1.1.22** | **2026-06** | ★ Solution Architect + Senior PM + Senior BA + Senior Compliance Auditor + DOC | ★ **MINOR — Integrare practici de teren + etică profesională (NAR/APAIM).** Sursă: 7 documente de teren furnizate de client + NAR Code of Ethics (17 articole) + APAIM. Schimbări catalogate: (a) **BRD rename v1.3.0 → v1.4.0** (git mv) — BR-29..BR-31 (MLS Cooperation / Listing Price Discipline / Buyer Needs Assessment) + 2 entități noi `cooperation_offers` + `buyer_assessments` + §18.3 seed real execution guides + §18.4 mapping NAR 17 articole + APAIM + 2 checkpoint-uri noi (Art.16/Art.12, BR-28 4→6) + NEW §18.9/§18.10/§18.11 + §13.4 KPI + AC-AGI-09..13. (b) **2 TECH_SPEC noi:** `TECH_SPEC_REVYX_realtor-ethics_v1.0.0` (NAR/APAIM mapping + 6 ethics checkpoints + append-only) + `TECH_SPEC_REVYX_mls-cooperation_v1.0.0` (commission-split engine + ДОД/Open House + gate mandat). (c) **2 Workflows bump:** property-onboarding v1.0.0 → v1.1.0 (NEW §5.0 SOP preluare + 10-pași seller meeting) + buyer-profile-lifecycle v1.0.0 → v1.1.0 (NEW §4.1.1 Buyer Needs Assessment). (d) **Regula 18 cleanup:** șterse stale duplicates `INDEX_v1.1.19` + `ROADMAP_v1.0.13`. (e) Roadmap rename v1.0.15 → v1.0.16 (§4.5 NEW T-ETH/T-MLS/T-BNA). (f) CLAUDE.md bump v1.2.27 → v1.2.28 §0a sync. Backend `apps/api/` + BRD §7 formule + BR-01..BR-28 + Master Plan **INTACTE** (Regula 8 + 18 + 21). Trigger: PM directive integrare inputuri client (NAR.realtor + APAIM.md + documente operaționale RM/RU). |
 | **1.1.21** | **2026-06** | ★ Senior PM + Solution Architect + Senior BA + Senior Product Auditor + DOC | ★ **MINOR — AGI Layer (Agent Growth Intelligence) documentat complet.** Schimbări catalogate: (a) BRD rename **v1.2.0 → v1.3.0** (git mv) cu ★ §18 Agent Growth Intelligence — 7 gap-uri identificate din analiza bibliografică profesională (Carnegie/Hill/Beckwith/Maister/Gitomer/Fox/Lukic/Blanchard+Peale/Yamaguchi + NAR Code of Ethics): §18.1 Relationship Intelligence (IS sub-dimensions: follow_through_rate + response_consistency + client_satisfaction_signal opțional; TS + PKI component 0.15 weight) · §18.2 Agent Self-Development (agent_goals entity, target lunar/trimestrial, UI /cabinet/agent tab) · §18.3 NBA Execution Guides (execution_guides entity, seed 9 ghiduri default, inline UI fără navigare) · §18.4 Ethics Checkpoints (BR-28, 4 trigger-uri: dual_representation/competing_offers/property_disclosure/financing_gap, append-only, soft-prompt non-blocant) · §18.5 Value Communication Toolkit (value_proposition_card JSONB pe users, Showcase extins tab) · §18.6 Client Alumni Lifecycle (BR-27, cron touchpoints T+12/24 luni + market events, referred_lead_count tracking) · §18.7 Financial Readiness Score RM [MOLDOVA-SPECIFIC] (BR-25, FRS formula simplă, NBA `clarify_financing` blocker). Plus §6.5 BR-25..BR-28 + §7.9 IS/TS extensii + §8.5 4 entități noi (execution_guides/client_alumni/agent_goals/ethics_checkpoints) + §12 AC-AGI-01..08 + §13.4 KPI AGI (5 metrici) + §15 glosar +6 termeni. (b) Roadmap rename **v1.0.14 → v1.0.15** cu §4.4 AGI Layer NEW — 10 task-uri T-AGI-01..10 spanuite M1.S3-M1.S6 cu dependențe explicite + hats + effort estimate. (c) CLAUDE.md bump **v1.2.26 → v1.2.27** §0a sync + changelog row. Backend `apps/api/` + BRD §7 formule + BR-01..BR-24 + scoring fixtures + Master Plan **INTACTE** (Regula 8 + Regula 18 + Regula 21). Trigger: analiza PM a bibliografiei profesionale recomandate vs framework REVYX. |
@@ -49,7 +50,8 @@
 
 | Document | Descriere |
 |---|---|
-| ★ `CLAUDE.md` v1.2.27 | Agent Operating System cheat-sheet pentru Claude Code. §0a Status Execuție actualizat cu AGI Layer entry. Changelog row v1.2.27 AGI Layer adăugat. |
+| ★ `CLAUDE.md` v1.2.30 | Agent Operating System cheat-sheet pentru Claude Code. ★ NEW §0z Principii fundamentale (Karpathy Guidelines) la top — bază pentru proiecte. §0a Status Execuție + Regulile §10b 1-21. |
+| ★ `.claude/skills/karpathy-guidelines/SKILL.md` | NEW — skill de execuție fundamental (sursă MIT `multica-ai/andrej-karpathy-skills`): 4 principii (Think Before Coding · Simplicity First · Surgical Changes · Goal-Driven Execution). Referențiat din CLAUDE.md §0z. Tracked via excepție `.gitignore` (`.claude/skills/`). |
 | `CLAUDE.md` v1.2.26 [HISTORY-partial] | Anterior activ. §0a Moldova market specifics + Regula 21 + M0.S8.2-M0.S8.4 entries. SUPERSEDED de v1.2.27 §0a sync. | §0a Status Execuție LIVE actualizat M0.S2 ✅ CLOSED → ★ **deploy pipeline online (Vercel app + CI gate)** → M0.S3 next. Regulile 1-9 active (incl. Regula 9 Platform Matrix compliance). |
 | `docs/brand-configs/revyx.md` v1.0.0 | Brand system canonical: paletă (navy + gold), font (Bebas Neue + Montserrat + JetBrains Mono), componente UI, ton voce. Citit de toate skill-urile la generare document. **Lege pentru orice UI** (CLAUDE.md §1). Open question OD-01 ridicat M0.S1: AC-M0-02 menționează "Inter" — în spec ui-design-system §10 listed as pending PM resolution. Owner: Senior Designer + PM. |
 | ★ `docs/GLOSSARY_REVYX_abbreviations_v1.0.1.md` | ★ v1.0.1 (+§14b 9 termeni NAR/APAIM/MLS/PPP/ДОД/Overpricing/Buyer Assessment/Butterfly) — **Glosar consolidat exhaustiv** al tuturor abrevierilor, acronimelor și codurilor scurte folosite în documentația REVYX. 226 termeni unici grupați pe 14 categorii: scoruri/metrici AOS (LS/PS/IS/DP/NBA/TS/APS/DHI/LF/TF/UF/RF + Churn Score + Prevention Rate), Business Rules (BR-01..24), NFR-01..11, Reguli operaționale Claude R-01..R-19, Acceptance Criteria (AC-M0/M1/M2/BUYER/CHURN/DC/DHI/ESC/LF/LS/SH/SL/WL), Findings (F-S20-XX + F-M0S5-XX), Open Decisions (OD-01..03 + OD-i18n-01 + OD-M0.S4-01..04 + OD-legal-01..05 + OD-cookie-01..03 + OD-mkt-01..08), milestones M0/M1/M2 + sub-stages, document prefixes (BRD/PRD/TECH_SPEC/WORKFLOW/RUNBOOK/HST/INDEX/MASTER_PLAN/ROADMAP/DPIA/SCC), roluri (AOS/PM/DBA/QA/DPO/CTO/CFO/CISO/CMO/DS/CS/CNPDCP), tech stack (JWT/RS256/HMAC/RBAC/RLS/NestJS/Fastify/PostgreSQL/pgvector/HNSW/Redis/BullMQ/Drizzle), canale (WhatsApp/Meta/Google/OLX/IDX/MLS/SMS/OAuth/SSO/MFA/OT), Phase 5 (BUYER_PROFILE/Marketplace/Churn Score/White-Label/leadType R-19), GDPR articles 5/6/15/17/18/20/22/32/35 + RM Legea 133/2011 + 142/2018, geo+currency+TZ (RM/UTC+2/EUR/MDL/USD). §16 quick lookup A-Z. §17 surse + procedură update (R-06+R-18 compliant). Cross-ref BRD §15 + CLAUDE.md §4/§12. Owner: Senior PM + DOC + Audit Lead. |
@@ -150,13 +152,39 @@
 
 ## 4. Tech Specs (engines + platform)
 
-### 4.1 Phase 0-4 (lead/property/deal core)
+### 4.1 Core engines + platform foundation (Phase 0-4) — 18 specs
 
-> Neschimbat față de v1.1.1. Vezi `INDEX_REVYX_documents_v1.1.1.md` §4.1 pentru lista completă (17 specs).
+| Document | Esență |
+|---|---|
+| `TECH_SPEC_REVYX_phase0-security_v1.0.0.md` | Phase 0 Security Foundation — JWT RS256 + RBAC + AUDIT_LOG + GDPR + HMAC webhook |
+| `TECH_SPEC_REVYX_lead-scoring_v1.0.0.md` | Lead Scoring Engine (LS) |
+| `TECH_SPEC_REVYX_property_v1.0.0.md` | Property Engine (PS) + ★ §v1.4.0 `overpricing_risk` note |
+| `TECH_SPEC_REVYX_interaction-strength_v1.0.0.md` | Interaction Strength Engine (IS) |
+| `TECH_SPEC_REVYX_dhi-engine_v1.0.0.md` | Deal Health Index Engine (DHI) |
+| `TECH_SPEC_REVYX_nba-engine_v1.0.0.md` | Next Best Action Engine (NBA) + ★ execution_guides + ethics note |
+| `TECH_SPEC_REVYX_aps-engine_v1.0.0.md` | Agent Performance Score Engine (APS) |
+| `TECH_SPEC_REVYX_match-engine_v2.0.0.md` | Match Engine (Phase 2 · pgvector ANN) + ★ buyer_assessments note |
+| `TECH_SPEC_REVYX_offer-engine_v1.0.0.md` | Offer Engine (OFFER chain T07) + ★ MLS cooperation note |
+| `TECH_SPEC_REVYX_deal-closure_v1.0.0.md` | Deal Closure Engine (path WON) + ★ commission split note |
+| `TECH_SPEC_REVYX_showing_v1.0.0.md` | Showing entity + ★ Open House (ДОД) extension note |
+| `TECH_SPEC_REVYX_showcase-links_v1.0.0.md` | Property Showcase Links `/p/:token` |
+| `TECH_SPEC_REVYX_pricing-ai_v1.0.0.md` | Pricing AI Engine (hooks) |
+| `TECH_SPEC_REVYX_webhook-intake_v1.0.0.md` | Webhook Intake (Meta/Google/OLX HMAC) |
+| `TECH_SPEC_REVYX_audit-log_v1.1.2.md` | AUDIT_LOG append-only catalog (89 events incl. §4.4.10 AGI/Ethics/MLS) |
+| `TECH_SPEC_REVYX_concurrency-hardening_v1.0.0.md` | Concurrency hardening (optimistic locking) |
+| `TECH_SPEC_REVYX_tenancy-roles-extension_v1.1.0.md` | Tenancy roles extension (custom roles Phase 5) |
+| `TECH_SPEC_REVYX_pii-field-registry_v1.0.0.md` | PII Field Registry per entitate |
 
-### 4.2 Phase 5 (S8/S9/S10/S11/S12/...)
+### 4.2 Phase 5 (post-GA · platform) — 6 specs
 
-> Neschimbat față de v1.1.1. Vezi `INDEX_REVYX_documents_v1.1.1.md` §4.2 (18 specs).
+| Document | Esență |
+|---|---|
+| `TECH_SPEC_REVYX_marketplace-two-sided_v1.0.1.md` | Marketplace two-sided (BUYER_PROFILE) |
+| `TECH_SPEC_REVYX_white-label_v1.0.0.md` | White-Label (branding + subdomain routing, Enterprise) |
+| `TECH_SPEC_REVYX_ml-pricing-ga_v1.0.4.md` | ML Pricing GA (bias sample gate) |
+| `TECH_SPEC_REVYX_churn-ga_v1.0.2.md` | Churn GA (Pilon Retention) |
+| `TECH_SPEC_REVYX_mobile-rn_v1.0.1.md` | Mobile RN (push deep-link) |
+| `TECH_SPEC_REVYX_iso27001-track_v1.0.0.md` | ISO 27001:2022 certification track |
 
 ### ★ 4.4 Practici de teren + Etică (NEW v1.1.22, M1.S3/M1.S4)
 
@@ -175,7 +203,73 @@
 
 ## 5-11. Workflows, Runbooks, Audit + Readiness, CS Playbooks, Legal, Test fixtures, Skills
 
-> Neschimbat față de v1.1.1, cu excepția §6 Runbooks (★ +1 v1.1.4) și ★ §5 Workflows (v1.1.22 — vezi mai jos). Vezi `INDEX_REVYX_documents_v1.1.1.md` §5-§11 + §15.
+> Inventar complet inline (auto-conținut din v1.1.24 — anterior delega către `INDEX_v1.1.1` care a fost șters). Detaliile incrementale recente sunt în sub-secțiunile marcate ★.
+
+### 5. Workflows (9) — `docs/workflow/`
+
+| Document | Esență |
+|---|---|
+| `WORKFLOW_REVYX_lead-lifecycle_v1.0.1.md` | Lead lifecycle (intake → firewall → assign → nurturing) |
+| `WORKFLOW_REVYX_property-onboarding_v1.1.0.md` | Property onboarding + ★ §5.0 SOP preluare seller + 10-pași meeting |
+| `WORKFLOW_REVYX_buyer-profile-lifecycle_v1.1.0.md` | Buyer profile + ★ §4.1.1 Buyer Needs Assessment |
+| `WORKFLOW_REVYX_offer-chain_v1.0.1.md` | Offer chain (оферта T07) |
+| `WORKFLOW_REVYX_showing-flow_v1.0.0.md` | Showing flow (schedule → check-in → feedback) |
+| `WORKFLOW_REVYX_deal-closure_v1.0.0.md` | Deal closure (path WON → CADASTRE_REGISTERED) |
+| `WORKFLOW_REVYX_escalation_v1.0.0.md` | Escalation protocol BR-03 (3 niveluri) |
+| `WORKFLOW_REVYX_tenant-lifecycle_v1.0.0.md` | Tenant lifecycle (provisioning → active → suspend) |
+| `WORKFLOW_REVYX_white-label-onboarding_v1.0.0.md` | White-label onboarding (Enterprise) |
+
+### 6. Runbooks (11) — `docs/runbook/`
+
+| Document | Esență |
+|---|---|
+| `RUNBOOK_REVYX_demo-deploy_v1.0.2.md` | Demo deploy Vercel + DNS custom domain |
+| `RUNBOOK_REVYX_dkim-rotation_v1.0.0.md` | DKIM rotation (selector `rvxYYYYMMDD`) |
+| `RUNBOOK_REVYX_dr-test_v1.0.0.md` | Disaster recovery test (RPO/RTO) |
+| `RUNBOOK_REVYX_incident-response_v1.0.0.md` | Incident response (INC_* events) |
+| `RUNBOOK_REVYX_partition-maintenance_v1.0.1.md` | Partition maintenance (lunar) |
+| `RUNBOOK_REVYX_phase5-rollout-sequence_v1.0.0.md` | Phase 5 rollout master gate (5 stages) |
+| `RUNBOOK_REVYX_stage1-mobile-launch_v1.0.0.md` | Phase 5 Stage 1 — Mobile TestFlight |
+| `RUNBOOK_REVYX_stage2-marketplace-launch_v1.0.0.md` | Phase 5 Stage 2 — Marketplace pilot |
+| `RUNBOOK_REVYX_stage3-ml-pricing-launch_v1.0.0.md` | Phase 5 Stage 3 — ML Pricing CANARY |
+| `RUNBOOK_REVYX_stage4-churn-launch_v1.0.0.md` | Phase 5 Stage 4 — Churn CS pilot dry-run |
+| `RUNBOOK_REVYX_stage5-white-label-launch_v1.0.0.md` | Phase 5 Stage 5 — White-Label first Enterprise tenant |
+
+### 7. Audit + Readiness (15) — `docs/audit/`
+
+| Document | Esență |
+|---|---|
+| `HST_REVYX_pre-dev_v1.0.0.md` + `_findings-backlog_v1.0.0.md` | Hard Stress Test #2 pre-development gate + backlog |
+| `HST_REVYX_m0_v1.0.0.md` + `_findings-backlog_v1.0.0.md` | Hard Stress Test M0 EXIT GATE + backlog |
+| `CHECKLIST_pre-hst2_v1.0.0.md` | Checklist pre-HST #2 (S20 mandatory gate) |
+| `READINESS_REVYX_phase5_v1.1.0.md` | Phase 5 readiness sign-off matrix + GA close |
+| `AUDIT_REVYX_s8..s17-external-pass_v1.0.0.md` (9) | Audit trail extern Phase 5 (S8/S10-S17) — citate ca proveniență findings în docs active |
+
+### 8. Legal (4) — `docs/legal/`
+
+| Document | Esență |
+|---|---|
+| `PRIVACY_POLICY_REVYX_v0.1.0.md` | Privacy Policy (DRAFT — legal review pending) |
+| `COOKIE_POLICY_REVYX_v0.1.0.md` | Cookie Policy (DRAFT — legal review pending) |
+| `DPIA_REVYX_phase5_v1.0.1.md` | Data Protection Impact Assessment Phase 5 |
+| `SCC_VENDORS_phase5_v1.0.2.md` | Standard Contractual Clauses register (vendori) |
+
+### 9. CS Playbooks (4) — `docs/cs-playbooks/`
+
+| Document | Esență |
+|---|---|
+| `CHURN_CRITICAL_v1.1.0.md` / `CHURN_HIGH_v1.1.0.md` / `CHURN_MEDIUM_v1.1.0.md` | Playbook-uri churn CS (P1/P2/P3 SLA) RO+RU+EN |
+| `CHECKLIST_pre-pilot_v1.0.0.md` | Checklist pre-pilot Stage 4 dry-run |
+
+### 10. Board · Test fixtures · Skills · Templates
+
+| Document | Esență |
+|---|---|
+| `docs/board/RAPORT_FINAL_BOARD_phase5-ga_v1.0.0.md` | Raport final board — Phase 5 GA close |
+| `docs/test-fixtures/PII_REDACTION_FIXTURES_v1.0.0.md` | Lib spec `@revyx/test-fixtures-pii` |
+| `docs/skills/{DOC_MASTER, SKILL_BRD, SKILL_PRD, SKILL_TECH_SPEC, SKILL_WORKFLOW}.md` | Skill-uri generare documentație |
+| `docs/templates/{HEADER_STANDARD, IMPACT_ASSESSMENT}.md` | Template-uri header + impact assessment |
+| ★ `.claude/skills/karpathy-guidelines/SKILL.md` | NEW — skill execuție fundamental (vezi §2 + CLAUDE.md §0z) |
 
 ### ★ 5.x Workflows actualizate (v1.1.22)
 
@@ -190,6 +284,7 @@
 |---|---|
 | `docs/INDEX_REVYX_documents_v1.1.19.md` | Stale duplicate — superseded de v1.1.22 (consolidation). |
 | `docs/ROADMAP_REVYX_detailed-execution_v1.0.13.md` | Stale duplicate — superseded de v1.0.16 (consolidation). |
+| ★ `docs/prd/.gitkeep` (v1.1.24) | Placeholder gol pentru folder PRD neutilizat — eliminat la revizuirea structurală Step 2. |
 
 ### 6.x Deploy & CI/CD (★ UPDATED v1.1.5 — M0.S3 promote)
 
@@ -274,5 +369,5 @@
 
 ---
 
-*docs/INDEX_REVYX_documents_v1.1.23.md · v1.1.23 · 2026-06 · CONFIDENȚIAL · Uz Intern*
+*docs/INDEX_REVYX_documents_v1.1.24.md · v1.1.24 · 2026-06 · CONFIDENȚIAL · Uz Intern*
 *REVYX — Real Estate Execution Intelligence · © 2026 REVYX · ITPRO SYSTEM SRL*
