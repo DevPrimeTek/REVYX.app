@@ -16,6 +16,7 @@ import { useT } from '@/components/i18n/provider';
 import { agents, deals } from '@/lib/mock';
 import { AgentRankBadge } from '@/components/agents/rank-badge';
 import { WorkspaceDirectionSelector } from '@/components/cabinet/workspace-direction-selector';
+import { useAgentGrowth, CATALOG, getActualValue, formatObjectiveValue } from '@/lib/agent-growth-store';
 import { cn } from '@/lib/utils';
 
 type Tab = 'summary' | 'growth' | 'history' | 'preferences' | 'documents';
@@ -35,6 +36,7 @@ export default function CabinetAgentPage() {
   const { toast } = useToast();
   const [tab, setTab] = useState<Tab>('summary');
   const me = agents[0];
+  const growth = useAgentGrowth(me.id);
   const myDealsClosed = deals.filter((d) => d.agentId === me.id && d.stage === 'won');
 
   // Mock-only enrichment fields. M1.S5 will source these from apps/api/users (extended schema).
@@ -150,76 +152,130 @@ export default function CabinetAgentPage() {
         </nav>
 
         {tab === 'summary' && (
-          <section className="grid grid-cols-1 lg:grid-cols-3 gap-sp3">
-            <Card className="lg:col-span-2">
+          <section className="flex flex-col gap-sp3">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-sp3">
+              <Card className="lg:col-span-2">
+                <CardHeader>
+                  <CardTitle>{t('cabinet.agent.personalTitle')}</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <dl className="grid grid-cols-1 md:grid-cols-2 gap-sp3 text-[13px]">
+                    <div>
+                      <dt className="text-text-muted text-[12px]">{t('cabinet.agent.fullName')}</dt>
+                      <dd className="text-text-h">{me.name}</dd>
+                    </div>
+                    <div>
+                      <dt className="text-text-muted text-[12px]">{t('cabinet.agent.email')}</dt>
+                      <dd className="text-text-h">a.caraman@revyx.demo</dd>
+                    </div>
+                    <div>
+                      <dt className="text-text-muted text-[12px]">{t('cabinet.agent.phone')}</dt>
+                      <dd className="text-text-h">+373 68 123 456</dd>
+                    </div>
+                    <div>
+                      <dt className="text-text-muted text-[12px]">{t('cabinet.agent.languagesLabel')}</dt>
+                      <dd className="text-text-h">RO · RU · EN</dd>
+                    </div>
+                    <div>
+                      <dt className="text-text-muted text-[12px]">{t('cabinet.agent.agentSinceLabel')}</dt>
+                      <dd className="text-text-h">2024-05-15</dd>
+                    </div>
+                  </dl>
+                </CardContent>
+              </Card>
+
+              <Card variant="elevated" accentTop>
+                <CardHeader>
+                  <div className="flex items-center gap-sp1">
+                    <CardTitle className="text-[16px]">{t('cabinet.agent.performanceTitle')}</CardTitle>
+                    <InfoTooltip
+                      label={t('cabinet.agent.performanceTitle')}
+                      body={t('cabinet.agent.performanceHelp')}
+                    />
+                  </div>
+                </CardHeader>
+                <CardContent className="flex flex-col gap-sp2">
+                  <MetricPill
+                    label={t('dashboard.blocks.perfApsLabel')}
+                    display={priorityDots(me.aps)}
+                    tone={priorityTone(me.aps)}
+                  />
+                  <MetricPill
+                    label={t('dashboard.blocks.perfTrustLabel')}
+                    display={priorityDots(me.trust)}
+                    tone={priorityTone(me.trust)}
+                  />
+                  {/* ★ AGI Layer — PKI (Promise Keeping Index) BRD §18.1 */}
+                  <MetricPill
+                    label={t('cabinet.agent.pkiLabel')}
+                    display={priorityDots(0.82)}
+                    tone={priorityTone(0.82)}
+                  />
+                  <MetricPill
+                    label={t('dashboard.blocks.perfClosedLabel')}
+                    display={String(me.closedDeals30d)}
+                    tone={me.closedDeals30d >= 5 ? 'positive' : 'neutral'}
+                  />
+                  <MetricPill
+                    label={t('dashboard.blocks.perfSlotsLabel')}
+                    display={`${me.activeTasks} / 3`}
+                    tone={me.activeTasks >= 3 ? 'warning' : 'positive'}
+                  />
+                </CardContent>
+              </Card>
+            </div>
+
+            {/* ★ AGI §18.2 — Progresul meu lunar: primele 2 obiective din store */}
+            <Card>
               <CardHeader>
-                <CardTitle>{t('cabinet.agent.personalTitle')}</CardTitle>
+                <div className="flex items-start justify-between gap-sp2">
+                  <div className="flex items-center gap-sp1">
+                    <CardTitle className="text-[16px]">{t('cabinet.agent.goalsTitle')}</CardTitle>
+                    <InfoTooltip label={t('cabinet.agent.goalsTitle')} body={t('cabinet.agent.goalsHelp')} />
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => setTab('growth')}
+                    className="text-[12px] text-gold hover:text-gold-dark cursor-pointer flex-shrink-0"
+                  >
+                    {t('cabinet.agent.goalsEditCta')}
+                  </button>
+                </div>
+                <CardDescription className="text-[11px]">{t('cabinet.agent.goalsDesc')}</CardDescription>
               </CardHeader>
               <CardContent>
-                <dl className="grid grid-cols-1 md:grid-cols-2 gap-sp3 text-[13px]">
-                  <div>
-                    <dt className="text-text-muted text-[12px]">{t('cabinet.agent.fullName')}</dt>
-                    <dd className="text-text-h">{me.name}</dd>
-                  </div>
-                  <div>
-                    <dt className="text-text-muted text-[12px]">{t('cabinet.agent.email')}</dt>
-                    <dd className="text-text-h">a.caraman@revyx.demo</dd>
-                  </div>
-                  <div>
-                    <dt className="text-text-muted text-[12px]">{t('cabinet.agent.phone')}</dt>
-                    <dd className="text-text-h">+373 68 123 456</dd>
-                  </div>
-                  <div>
-                    <dt className="text-text-muted text-[12px]">{t('cabinet.agent.languagesLabel')}</dt>
-                    <dd className="text-text-h">RO · RU · EN</dd>
-                  </div>
-                  <div>
-                    <dt className="text-text-muted text-[12px]">{t('cabinet.agent.agentSinceLabel')}</dt>
-                    <dd className="text-text-h">2024-05-15</dd>
-                  </div>
-                </dl>
+                <div className="flex flex-col gap-sp3">
+                  {growth.objectives.slice(0, 2).map((obj) => {
+                    const item = CATALOG.find((c) => c.id === obj.id);
+                    if (!item) return null;
+                    const actual = getActualValue(obj.id, me);
+                    const pct = obj.target > 0 ? Math.min(100, Math.round((actual / obj.target) * 100)) : 0;
+                    const done = actual >= obj.target;
+                    const behind = actual < obj.target * 0.6;
+                    const barColor = done ? 'bg-status-green' : behind ? 'bg-status-amber' : 'bg-gold';
+                    return (
+                      <div key={obj.id} className="flex flex-col gap-sp1">
+                        <div className="flex items-center justify-between text-[12px]">
+                          <span className="text-text-secondary">{t(`growth.catalog.${item.id}`)}</span>
+                          <span className="font-mono text-gold">
+                            {formatObjectiveValue(actual, item.unit)} / {formatObjectiveValue(obj.target, item.unit)}
+                          </span>
+                        </div>
+                        <div className="h-1.5 rounded-full bg-navy-hover overflow-hidden">
+                          <div className={`h-full rounded-full ${barColor} transition-all duration-500`} style={{ width: `${pct}%` }} />
+                        </div>
+                      </div>
+                    );
+                  })}
+                  {growth.objectives.length === 0 && (
+                    <p className="text-[12px] text-text-muted">{t('growth.addObjectiveCta')}</p>
+                  )}
+                </div>
               </CardContent>
             </Card>
 
-            <Card variant="elevated" accentTop>
-              <CardHeader>
-                <div className="flex items-center gap-sp1">
-                  <CardTitle className="text-[16px]">{t('cabinet.agent.performanceTitle')}</CardTitle>
-                  <InfoTooltip
-                    label={t('cabinet.agent.performanceTitle')}
-                    body={t('cabinet.agent.performanceHelp')}
-                  />
-                </div>
-              </CardHeader>
-              <CardContent className="flex flex-col gap-sp2">
-                <MetricPill
-                  label={t('dashboard.blocks.perfApsLabel')}
-                  display={priorityDots(me.aps)}
-                  tone={priorityTone(me.aps)}
-                />
-                <MetricPill
-                  label={t('dashboard.blocks.perfTrustLabel')}
-                  display={priorityDots(me.trust)}
-                  tone={priorityTone(me.trust)}
-                />
-                {/* ★ AGI Layer — PKI (Promise Keeping Index) BRD §18.1 */}
-                <MetricPill
-                  label={t('cabinet.agent.pkiLabel')}
-                  display={priorityDots(0.82)}
-                  tone={priorityTone(0.82)}
-                />
-                <MetricPill
-                  label={t('dashboard.blocks.perfClosedLabel')}
-                  display={String(me.closedDeals30d)}
-                  tone={me.closedDeals30d >= 5 ? 'positive' : 'neutral'}
-                />
-                <MetricPill
-                  label={t('dashboard.blocks.perfSlotsLabel')}
-                  display={`${me.activeTasks} / 3`}
-                  tone={me.activeTasks >= 3 ? 'warning' : 'positive'}
-                />
-              </CardContent>
-            </Card>
+            {/* Direcția de lucru — doar pe tabul Sumar */}
+            <WorkspaceDirectionSelector scope="agent" />
           </section>
         )}
 
@@ -312,63 +368,6 @@ export default function CabinetAgentPage() {
           </Card>
         )}
 
-        {/* ★ AGI Layer — Obiective lunare (agent_goals entity BRD §18.2) */}
-        <Card>
-          <CardHeader>
-            <div className="flex items-center gap-sp1">
-              <CardTitle className="text-[16px]">{t('cabinet.agent.goalsTitle')}</CardTitle>
-              <InfoTooltip label={t('cabinet.agent.goalsTitle')} body={t('cabinet.agent.goalsHelp')} />
-            </div>
-            <CardDescription className="text-[11px]">{t('cabinet.agent.goalsDesc')}</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-sp3">
-              {/* Tranzacții */}
-              <div className="flex flex-col gap-sp1">
-                <div className="flex items-center justify-between text-[12px]">
-                  <span className="text-text-secondary">{t('cabinet.agent.goalDeals')}</span>
-                  <span className="font-mono text-gold">{me.closedDeals30d} / 5</span>
-                </div>
-                <div className="h-1.5 rounded-full bg-navy-hover overflow-hidden">
-                  <div
-                    className="h-full rounded-full bg-gold transition-all duration-500"
-                    style={{ width: `${Math.min(100, (me.closedDeals30d / 5) * 100)}%` }}
-                  />
-                </div>
-              </div>
-              {/* APS target */}
-              <div className="flex flex-col gap-sp1">
-                <div className="flex items-center justify-between text-[12px]">
-                  <span className="text-text-secondary">{t('cabinet.agent.goalAps')}</span>
-                  <span className="font-mono text-gold">{priorityDots(me.aps)} / ●●●</span>
-                </div>
-                <div className="h-1.5 rounded-full bg-navy-hover overflow-hidden">
-                  <div
-                    className="h-full rounded-full bg-gold transition-all duration-500"
-                    style={{ width: `${Math.min(100, me.aps * 100)}%` }}
-                  />
-                </div>
-              </div>
-              {/* Comision estimat */}
-              <div className="flex flex-col gap-sp1">
-                <div className="flex items-center justify-between text-[12px]">
-                  <span className="text-text-secondary">{t('cabinet.agent.goalCommission')}</span>
-                  <span className="font-mono text-gold">
-                    €{(me.closedDeals30d * 1200).toLocaleString('ro-MD')} / €6.000
-                  </span>
-                </div>
-                <div className="h-1.5 rounded-full bg-navy-hover overflow-hidden">
-                  <div
-                    className="h-full rounded-full bg-gold transition-all duration-500"
-                    style={{ width: `${Math.min(100, (me.closedDeals30d * 1200 / 6000) * 100)}%` }}
-                  />
-                </div>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-
-        <WorkspaceDirectionSelector scope="agent" />
       </main>
     </>
   );

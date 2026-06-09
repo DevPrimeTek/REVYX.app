@@ -168,11 +168,44 @@
     "showingsDesc": "Cele organizate pentru această proprietate (toți potențialii cumpărători)."
   },
   "lead": {
+    "module": "Modul · Lead-uri",
+    "queueTitle": "Lead-urile în lucru",
+    "queueSubtitle": "Clienții care te așteaptă. Cei mai urgenti apar primii — concentrează-te pe ei.",
+    "typeFilterLabel": "Filtrare după tip",
+    "slaCaption": "Răspunde rapid la cei „Urgenti\" ca să nu ratezi oportunitatea.",
+    "countTemplate": "{count} lead-uri",
+    "tableHeader": {
+      "client": "Client",
+      "priority": "Prioritate",
+      "sla": "Termen",
+      "status": "Status"
+    },
+    "tableHelp": {
+      "client": "Clientul, tipul de tranzacție și semnalele active. Click pe nume pentru fișa completă.",
+      "priority": "Cât de probabil devine lead-ul o tranzacție. Calculat automat — nu trebuie să calculezi nimic.",
+      "sla": "Timpul maxim recomandat pentru a lua legătura. Urgent = 15 min · Calificat = 2 ore · Cald = 24 ore.",
+      "status": "Etapa curentă: Urgent (sună acum) · Calificat (programează vizionare) · Cald (menține legătura) · Monitorizare automată (sistemul se ocupă)."
+    },
+    "status": {
+      "HOT": "Urgent",
+      "qualified": "Calificat",
+      "warm": "Cald",
+      "nurturing": "Monitorizare automată"
+    },
+    "filters": {
+      "all": "Toate lead-urile",
+      "urgentHelp": "Sună în maxim 15 minute.",
+      "qualifiedHelp": "Programează vizionare în maxim 2 ore.",
+      "warmHelp": "Trimite materiale în maxim 24 ore.",
+      "nurturingHelp": "Sistemul trimite mesaje automate. Nu e nevoie de intervenție."
+    },
     "financialReadiness": "Disponibilitate financiară",
     "financialReadinessHelp": "Cât de pregătit financiar e clientul să cumpere acum — în funcție de bugetul confirmat față în față și de pre-aprobarea bancară. Solicită dovada bugetului înainte de vizionare.",
     "financialReadinessLow": "Neconfirmat",
     "financialReadinessMed": "Parțial confirmat",
     "financialReadinessHigh": "Confirmat",
+    "frsAction": "Solicită confirmarea bugetului și pre-aprobarea bancară înainte de vizionare.",
+    "frsActionMed": "Pre-aprobarea bancară în progres. Solicită documentele de buget înainte de vizionare.",
     "priorityLabel": {
       "hot": "Foarte mare",
       "qualified": "Mare",
@@ -552,9 +585,10 @@
       "calendarSyncHelp": "Conectează Google Calendar pentru a vedea conflictele de programări automat.",
       "savePreferences": "Salvează preferințele",
       "pkiLabel": "Promisiuni respectate (PKI)",
-      "goalsTitle": "Obiective lunare",
-      "goalsHelp": "Urmărești progresul față de țintele lunare: tranzacții, scor performanță și comision estimat. BRD §18.2 — agent_goals.",
-      "goalsDesc": "Luna curentă · actualizat automat",
+      "goalsTitle": "Progresul meu lunar",
+      "goalsHelp": "Progresul față de obiectivele selectate de tine pentru luna curentă. Editează obiectivele din tab-ul Creșterea mea.",
+      "goalsDesc": "Luna curentă · primele 2 obiective urmărite",
+      "goalsEditCta": "Editează obiective →",
       "goalDeals": "Tranzacții",
       "goalAps": "Scor performanță",
       "goalCommission": "Comision estimat"
@@ -1551,6 +1585,41 @@
   "growth": {
     "editCta": "Editează",
     "addCta": "Adaugă",
+    "addObjectiveCta": "+ Adaugă obiectiv",
+    "addObjectiveTitle": "Alege obiectiv de urmărit",
+    "removeObjective": "Elimină",
+    "editTarget": "Editează țintă",
+    "targetLabel": "Țintă lunară",
+    "goalsEditCta": "Editează obiective",
+    "skeletonNote": "Valorile reale se sincronizează automat cu activitatea ta la lansarea completă.",
+    "unit": {
+      "count": "/ lună",
+      "eur": "€ / lună",
+      "hours": "ore / lună",
+      "pct": "% țintă"
+    },
+    "catalog": {
+      "closedDeals": "Tranzacții închise",
+      "closedDealsDesc": "Numărul de tranzacții finalizate cu succes în luna curentă.",
+      "commission": "Comision realizat",
+      "commissionDesc": "Comisionul total acumulat din tranzacțiile lunii.",
+      "showings": "Vizionări programate",
+      "showingsDesc": "Vizionări organizate cu potențiali cumpărători sau chiriași.",
+      "newLeads": "Lead-uri noi prospectate",
+      "newLeadsDesc": "Lead-uri noi identificate și adăugate în sistem.",
+      "mandates": "Mandate semnate",
+      "mandatesDesc": "Mandate de exclusivitate semnate cu vânzători sau proprietari.",
+      "referrals": "Recomandări primite",
+      "referralsDesc": "Lead-uri care au venit prin recomandarea clienților anteriori.",
+      "reviews": "Recenzii de la clienți",
+      "reviewsDesc": "Recenzii pozitive primite de la clienți cu tranzacții finalizate.",
+      "training": "Ore de formare profesională",
+      "trainingDesc": "Ore de training, cursuri sau certificări în domeniu.",
+      "partnerCollabs": "Colaborări cu parteneri",
+      "partnerCollabsDesc": "Tranzacții realizate în cooperare cu agenți sau agenții partenere.",
+      "correctPrice": "Proprietăți listate la preț corect",
+      "correctPriceDesc": "Procentul de proprietăți listate sub pragul de supra-preț (+15% față de estimare)."
+    },
     "goals": {
       "title": "Obiectivele mele",
       "desc": "Țintele tale lunare și progresul real.",

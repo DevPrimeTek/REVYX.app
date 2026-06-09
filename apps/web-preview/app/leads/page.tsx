@@ -225,7 +225,7 @@ function LeadsPageInner() {
               <Table>
                 <THead>
                   <TR>
-                    {(['id', 'name', 'source', 'zone', 'sla', 'priority', 'status'] as const).map((col) => (
+                    {(['client', 'priority', 'sla', 'status'] as const).map((col) => (
                       <TH key={col}>
                         <span className="inline-flex items-center gap-sp1">
                           {t(`lead.tableHeader.${col}`)}
@@ -241,27 +241,25 @@ function LeadsPageInner() {
                 <TBody>
                   {filtered.map((l) => (
                     <TR key={l.id}>
-                      <TD className="font-mono text-text-secondary">{l.id}</TD>
                       <TD>
-                        <Link
-                          href={`/leads/${l.id}`}
-                          className="text-text-h hover:text-gold underline-offset-4 hover:underline"
-                        >
-                          {l.name}
-                        </Link>
-                        <Badge
-                          variant={leadTypeBadgeVariant(l.leadType)}
-                          size="xs"
-                          className="ml-sp2"
-                        >
-                          {t(`leadType.${l.leadType}`)}
-                        </Badge>
-                        <MandateFlag lead={l} />
+                        <div className="flex flex-col gap-0.5 min-w-0">
+                          <div className="flex items-center gap-sp1 flex-wrap">
+                            <Link
+                              href={`/leads/${l.id}`}
+                              className="text-text-h hover:text-gold underline-offset-4 hover:underline font-medium"
+                            >
+                              {l.name}
+                            </Link>
+                            <Badge variant={leadTypeBadgeVariant(l.leadType)} size="xs">
+                              {t(`leadType.${l.leadType}`)}
+                            </Badge>
+                            <MandateFlag lead={l} />
+                          </div>
+                          <span className="font-mono text-[10px] text-text-muted">{l.id}</span>
+                        </div>
                       </TD>
-                      <TD className="text-text-secondary">{l.source}</TD>
-                      <TD className="text-text-secondary text-[12px]">{l.zone}</TD>
-                      <TD className="font-mono text-[12px]">{l.sla}</TD>
                       <TD><LeadPriorityBadge ls={l.ls} t={t} size="xs" /></TD>
+                      <TD className="font-mono text-[12px] text-text-secondary whitespace-nowrap">{l.sla}</TD>
                       <TD>
                         {l.status === 'nurturing' ? (
                           <span className="text-text-muted text-[12px]">{t('lead.status.nurturing')}</span>

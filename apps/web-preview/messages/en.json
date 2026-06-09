@@ -136,24 +136,24 @@
     "slaCaption": "Reply quickly to 'Urgent' ones so you don't miss the opportunity.",
     "countTemplate": "{count} leads",
     "tableHeader": {
-      "id": "Code",
-      "name": "Client name",
-      "source": "Origin",
-      "sla": "Reply by",
+      "client": "Client",
       "priority": "Priority",
-      "status": "State",
-      "zone": "Preferred area",
-      "actions": ""
+      "sla": "Reply by",
+      "status": "Status"
     },
     "tableHelp": {
-      "id": "Internal lead code. Use it for quick identification in notes or emails.",
-      "name": "Full name declared by the client at first contact. Click the name to open the lead card.",
-      "source": "Channel that brought the client to us (Meta Ads, OLX, Google, referral, website).",
-      "sla": "Maximum recommended time to make contact. Urgent = 15 min, Qualified = 2 h, Warm = 24 h.",
-      "priority": "How likely the lead becomes a deal. The system computes this automatically — you don't need to calculate anything.",
-      "status": "Current stage: Urgent (call now), Qualified (schedule a viewing), Warm (nurture), Auto follow-up (system handles it).",
-      "zone": "District / city preferred by the client."
+      "client": "Client, transaction type and active signals. Click name to open the lead card.",
+      "priority": "How likely the lead becomes a deal. Computed automatically — no manual work needed.",
+      "sla": "Maximum recommended time to make contact. Urgent = 15 min · Qualified = 2 h · Warm = 24 h.",
+      "status": "Current stage: Urgent (call now) · Qualified (schedule viewing) · Warm (nurture) · Auto follow-up (system handles it)."
     },
+    "financialReadiness": "Financial readiness",
+    "financialReadinessHelp": "[MOLDOVA-SPECIFIC]: confirmed vs declared budget + bank pre-approval status. Request documents before showing.",
+    "financialReadinessLow": "Unconfirmed",
+    "financialReadinessMed": "Partially confirmed",
+    "financialReadinessHigh": "Confirmed",
+    "frsAction": "Request budget confirmation and bank pre-approval before scheduling a viewing.",
+    "frsActionMed": "Bank pre-approval in progress. Request budget documents before the viewing.",
     "status": {
       "HOT": "Urgent",
       "qualified": "Qualified",
@@ -973,12 +973,5 @@
     "value": "Value toolkit",
     "alumni": "Alumni – post-deal relationship",
     "fin": "Financial readiness"
-  },
-  "lead": {
-    "financialReadiness": "Financial readiness",
-    "financialReadinessHelp": "BR-25 [MOLDOVA-SPECIFIC]: confirmed vs declared budget (typical 15-25% gap) + bank pre-approval check (MoldIndConBank / Victoriabank / Mobiasbancă). Request supporting documents before showing.",
-    "financialReadinessLow": "Unconfirmed",
-    "financialReadinessMed": "Partially confirmed",
-    "financialReadinessHigh": "Confirmed"
   }
 }
