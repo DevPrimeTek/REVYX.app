@@ -16,6 +16,8 @@ import { ShowingModal } from '@/components/showings/showing-modal';
 import { PropertyBenefitsPanel } from '@/components/properties/benefits-panel';
 import { PriceDisciplinePanel } from '@/components/properties/price-discipline-panel';
 import { CooperationPanel } from '@/components/properties/cooperation-panel';
+import { PropertyEditModal } from '@/components/properties/property-edit-modal';
+import { usePropertyEdits, applyEdits } from '@/lib/property-edits-store';
 
 type Params = { params: { id: string } };
 
@@ -41,9 +43,12 @@ function GalleryPlaceholder({ index, kind }: { index: number; kind: string }) {
 
 export default function PropertyDetailPage({ params }: Params) {
   const { t } = useT();
-  const property = useMemo(() => properties.find((p) => p.id === params.id) ?? null, [params.id]);
+  const baseProperty = useMemo(() => properties.find((p) => p.id === params.id) ?? null, [params.id]);
+  const edits = usePropertyEdits(params.id);
+  const property = baseProperty ? applyEdits(baseProperty, edits) : null;
   const [activePhoto, setActivePhoto] = useState(0);
   const [showingOpen, setShowingOpen] = useState(false);
+  const [editOpen, setEditOpen] = useState(false);
   const sampleLead = Array.from(leadsById.values()).find((l) => l.agentId === agents[0].id) ?? Array.from(leadsById.values())[0];
 
   if (!property) {
@@ -139,8 +144,11 @@ export default function PropertyDetailPage({ params }: Params) {
             <PropertyBenefitsPanel property={property} />
 
             <Card>
-              <CardHeader>
+              <CardHeader className="flex flex-row items-center justify-between gap-sp2">
                 <CardTitle>{t('property.detail.specsTitle')}</CardTitle>
+                <Button variant="secondary" size="sm" onClick={() => setEditOpen(true)}>
+                  {t('property.edit.cta')}
+                </Button>
               </CardHeader>
               <CardContent>
                 <dl className="grid grid-cols-1 md:grid-cols-2 gap-sp3 text-[13px]">
@@ -321,6 +329,8 @@ export default function PropertyDetailPage({ params }: Params) {
         propertyId={property.id}
         agentId={agents[0].id}
       />
+
+      <PropertyEditModal open={editOpen} onClose={() => setEditOpen(false)} property={property} />
     </>
   );
 }

@@ -5,6 +5,7 @@
 import { useState } from 'react';
 import { SiteNav } from '@/components/site-nav';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { AgentGoalsPanel, ValuePropositionPanel, AlumniPanel } from '@/components/cabinet/growth-panels';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
@@ -17,7 +18,7 @@ import { AgentRankBadge } from '@/components/agents/rank-badge';
 import { WorkspaceDirectionSelector } from '@/components/cabinet/workspace-direction-selector';
 import { cn } from '@/lib/utils';
 
-type Tab = 'summary' | 'history' | 'preferences' | 'documents';
+type Tab = 'summary' | 'growth' | 'history' | 'preferences' | 'documents';
 
 function initials(name: string): string {
   return name
@@ -129,7 +130,7 @@ export default function CabinetAgentPage() {
           aria-label={t('cabinet.agent.title')}
           className="flex items-center gap-1 rounded-md border border-border p-1 bg-navy-deep self-start flex-wrap"
         >
-          {(['summary', 'history', 'preferences', 'documents'] as Tab[]).map((k) => (
+          {(['summary', 'growth', 'history', 'preferences', 'documents'] as Tab[]).map((k) => (
             <button
               key={k}
               role="tab"
@@ -219,6 +220,17 @@ export default function CabinetAgentPage() {
                 />
               </CardContent>
             </Card>
+          </section>
+        )}
+
+        {/* ★ Val 4 AGI §18.2/§18.5/§18.6 — dezvoltarea agentului */}
+        {tab === 'growth' && (
+          <section className="grid grid-cols-1 lg:grid-cols-2 gap-sp3">
+            <AgentGoalsPanel agent={me} />
+            <ValuePropositionPanel agent={me} />
+            <div className="lg:col-span-2">
+              <AlumniPanel agent={me} />
+            </div>
           </section>
         )}
 

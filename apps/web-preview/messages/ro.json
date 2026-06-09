@@ -368,7 +368,14 @@
       "premium": "Premium",
       "moldovaNote": "Clasificare specifică pieței din Republica Moldova. Influențează criteriile de potrivire."
     },
-    "classFilterLabel": "Clasă:"
+    "classFilterLabel": "Clasă:",
+    "edit": {
+      "cta": "Editează",
+      "title": "Editează caracteristicile",
+      "desc": "Actualizează detaliile proprietății. Modificările se reflectă imediat în pagină.",
+      "commissionHint": "Procent din prețul de vânzare (standard RM: 2–3%).",
+      "toastSaved": "Caracteristici actualizate"
+    }
   },
   "deal": {
     "moduleLabel": "Modul · Tranzacții",
@@ -525,7 +532,8 @@
         "summary": "Sumar",
         "history": "Istoric tranzacții",
         "preferences": "Preferințe",
-        "documents": "Documente"
+        "documents": "Documente",
+        "growth": "Creșterea mea"
       },
       "personalTitle": "Date personale",
       "fullName": "Nume complet",
@@ -1539,5 +1547,37 @@
     "toastPublished": "Publicat în rețeaua de parteneri",
     "toastPublishedDesc": "Cotă oferită: {pct}% din comision.",
     "toastWithdrawn": "Retras din rețea"
+  },
+  "growth": {
+    "editCta": "Editează",
+    "addCta": "Adaugă",
+    "goals": {
+      "title": "Obiectivele mele",
+      "desc": "Țintele tale lunare și progresul real.",
+      "targetDeals": "Țintă tranzacții (lunar)",
+      "targetCommission": "Țintă comision (€ lunar)",
+      "dealsProgress": "Tranzacții închise",
+      "commissionProgress": "Comision realizat",
+      "behindHint": "Ești sub 60% din țintă — concentrează-te pe lead-urile calde ca să recuperezi.",
+      "toastSaved": "Obiective actualizate"
+    },
+    "value": {
+      "title": "Propunerea mea de valoare",
+      "desc": "De ce să lucreze clientul cu tine — apare pe linkul public al proprietății.",
+      "placeholder": "Adaugă un motiv + Enter",
+      "toastSaved": "Propunere actualizată",
+      "avgDays": "Zile medii până la vânzare",
+      "daysUnit": "zile",
+      "acceptance": "Oferte acceptate",
+      "satisfaction": "Satisfacție clienți"
+    },
+    "alumni": {
+      "title": "Clienții anteriori",
+      "desc": "Relația continuă după tranzacție — sursa principală de recomandări.",
+      "total": "Clienți anteriori",
+      "referrals": "Recomandări aduse",
+      "returnRate": "Rată recomandare",
+      "referredBadge": "A recomandat"
+    }
   }
 }

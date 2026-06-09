@@ -54,8 +54,9 @@ Legendă status: ✅ schelet vizual livrat · ◐ planificat structură avansat�
 | MLS / Cooperation + Open House | Listing-ul ajunge la parteneri, split comision (gate BR-29) | §18.10 | 3 | ✅ |
 | Feedback post-vizionare (5 dim) | Preferințele se calibrează singure | §17.4 | 3 | ✅ (există) |
 | property_class RM filtrare | Match realist soviet/post/new/premium | §17.6 | 3 | ✅ |
-| Client Alumni Lifecycle | 70% business din referrals — cultivat automat | §18.6 | 4 | ○ |
-| Agent Goals + Value Proposition | Progres vs țintă + demonstrare valoare | §18.2/§18.5 | 4 | ○ |
+| Client Alumni Lifecycle | 70% business din referrals — cultivat automat | §18.6 | 4 | ✅ |
+| Agent Goals + Value Proposition | Progres vs țintă + demonstrare valoare | §18.2/§18.5 | 4 | ✅ |
+| Editare caracteristici proprietate | Agentul actualizează specs din pagina proprietății | — | 3.1 | ✅ |
 
 ---
 
@@ -64,7 +65,9 @@ Legendă status: ✅ schelet vizual livrat · ◐ planificat structură avansat�
 1. **Val 1 — Calificarea ghidată** ✅ (livrat schelet) — etapa cu cea mai mare pierdere de timp; alimentează tot.
 2. **Val 2 — Apărarea agentului** ✅ (livrat schelet) — mandat (`mandate-store` + `MandatePanel`) + disciplină preț (`PriceDisciplinePanel`, estimare €/m² per clasă RM) + ethics checkpoint reutilizabil (`EthicsCheckpoint`, Art.12 la supra-preț).
 3. **Val 3 — Amplificarea** ✅ (livrat schelet) — cooperare MLS (`cooperation-store` + `CooperationPanel`, gate BR-29 pe mandat semnat + split comision + Open House) + filtru `property_class` RM pe `/properties`. Feedback post-vizionare + preference timeline existau deja.
-4. **Val 4 — Termen lung** — M1.S5-S6.
+4. **Val 4 — Termen lung** ✅ (livrat schelet) — obiective lunare (`AgentGoalsPanel`, target vs realizat) + propunere de valoare (`ValuePropositionPanel`, bullet-uri + statistici) + alumni post-deal (`AlumniPanel`, recomandări), tab nou „Creșterea mea" în `/cabinet/agent`.
+
+**Toate cele 4 valuri livrate ca schelet vizual.** Următorul pas major = întoarcerea la structura avansată (§6 D-1..D-7): entități reale + scoring service + wire backend (M1.S3-S6).
 
 ---
 
