@@ -83,25 +83,13 @@
     "developing": "Developing"
   },
   "preferences": {
-    "title": "Client preferences",
-    "desc": "What the client is looking for. The system filters matches based on these.",
-    "titleRent": "Tenant preferences",
-    "descRent": "What the client wants for renting — area, period, furniture, conditions. Used to filter rental offers.",
-    "editCta": "Edit preferences",
-    "savedToast": "Preferences saved.",
-    "urgencyLabel": "Urgency",
-    "urgency": {
-      "low": "Not in a hurry",
-      "medium": "Actively looking",
-      "high": "Wants it quickly"
-    },
-    "featuresLabel": "Desired features",
-    "featuresEmpty": "No specific preferences saved.",
-    "floorLabel": "Preferred floor",
-    "floorHint": "E.g. \"floor 3-7\" or \"not ground floor\". Used only when filtering matches.",
-    "noteLabel": "Key note",
-    "notePlaceholder": "E.g. wants a big balcony; husband works from home.",
-    "noteHint": "One line the agent wants to always see."
+    "confirmedBudget": "Confirmed Budget (in-person)",
+    "confirmedBudgetVerified": "Verified",
+    "confirmedBudgetUnconfirmed": "Unconfirmed",
+    "confirmedBudgetMoldovaNote": "Moldova-specific: declared budget often differs from actual confirmed in-person budget.",
+    "budgetMaxLabel": "Max Budget (€)",
+    "zoneLabel": "Preferred Zone",
+    "roomsLabel": "Rooms"
   },
   "benefits": {
     "title": "Property benefits",
@@ -136,24 +124,24 @@
     "slaCaption": "Reply quickly to 'Urgent' ones so you don't miss the opportunity.",
     "countTemplate": "{count} leads",
     "tableHeader": {
-      "id": "Code",
-      "name": "Client name",
-      "source": "Origin",
-      "sla": "Reply by",
+      "client": "Client",
       "priority": "Priority",
-      "status": "State",
-      "zone": "Preferred area",
-      "actions": ""
+      "sla": "Reply by",
+      "status": "Status"
     },
     "tableHelp": {
-      "id": "Internal lead code. Use it for quick identification in notes or emails.",
-      "name": "Full name declared by the client at first contact. Click the name to open the lead card.",
-      "source": "Channel that brought the client to us (Meta Ads, OLX, Google, referral, website).",
-      "sla": "Maximum recommended time to make contact. Urgent = 15 min, Qualified = 2 h, Warm = 24 h.",
-      "priority": "How likely the lead becomes a deal. The system computes this automatically — you don't need to calculate anything.",
-      "status": "Current stage: Urgent (call now), Qualified (schedule a viewing), Warm (nurture), Auto follow-up (system handles it).",
-      "zone": "District / city preferred by the client."
+      "client": "Client, transaction type and active signals. Click name to open the lead card.",
+      "priority": "How likely the lead becomes a deal. Computed automatically — no manual work needed.",
+      "sla": "Maximum recommended time to make contact. Urgent = 15 min · Qualified = 2 h · Warm = 24 h.",
+      "status": "Current stage: Urgent (call now) · Qualified (schedule viewing) · Warm (nurture) · Auto follow-up (system handles it)."
     },
+    "financialReadiness": "Financial readiness",
+    "financialReadinessHelp": "[MOLDOVA-SPECIFIC]: confirmed vs declared budget + bank pre-approval status. Request documents before showing.",
+    "financialReadinessLow": "Unconfirmed",
+    "financialReadinessMed": "Partially confirmed",
+    "financialReadinessHigh": "Confirmed",
+    "frsAction": "Request budget confirmation and bank pre-approval before scheduling a viewing.",
+    "frsActionMed": "Bank pre-approval in progress. Request budget documents before the viewing.",
     "status": {
       "HOT": "Urgent",
       "qualified": "Qualified",
@@ -518,7 +506,8 @@
         "summary": "Summary",
         "history": "Deal history",
         "preferences": "Preferences",
-        "documents": "Documents"
+        "documents": "Documents",
+        "partners": "Partners"
       },
       "personalTitle": "Personal data",
       "fullName": "Full name",
@@ -565,7 +554,11 @@
       "kpiVolume": "Total volume (€)",
       "kpiAvgClose": "Avg. close time",
       "kpiAvgCloseValue": "38 days",
-      "kpiActiveLeads": "Active leads"
+      "kpiActiveLeads": "Active leads",
+      "tabs": {
+        "overview": "Overview",
+        "partners": "Partners"
+      }
     },
     "group": {
       "moduleLabel": "Group cabinet",
@@ -916,15 +909,6 @@
       "introBody": "A group bundles several agents under a common manager (e.g. 'Centru-Botanica Team'). You see the colleagues you work with day-to-day, the internal leaderboard and your share of group results."
     }
   },
-  "preferences": {
-    "confirmedBudget": "Confirmed Budget (in-person)",
-    "confirmedBudgetVerified": "Verified",
-    "confirmedBudgetUnconfirmed": "Unconfirmed",
-    "confirmedBudgetMoldovaNote": "Moldova-specific: declared budget often differs from actual confirmed in-person budget.",
-    "budgetMaxLabel": "Max Budget (€)",
-    "zoneLabel": "Preferred Zone",
-    "roomsLabel": "Rooms"
-  },
   "legend": {
     "title": "Legend",
     "leadStatus": "Lead Status",
@@ -974,11 +958,53 @@
     "alumni": "Alumni – post-deal relationship",
     "fin": "Financial readiness"
   },
-  "lead": {
-    "financialReadiness": "Financial readiness",
-    "financialReadinessHelp": "BR-25 [MOLDOVA-SPECIFIC]: confirmed vs declared budget (typical 15-25% gap) + bank pre-approval check (MoldIndConBank / Victoriabank / Mobiasbancă). Request supporting documents before showing.",
-    "financialReadinessLow": "Unconfirmed",
-    "financialReadinessMed": "Partially confirmed",
-    "financialReadinessHigh": "Confirmed"
+  "cooperation": {
+    "partnersLabel": "Selected partners",
+    "managePartners": "Manage partners",
+    "noPartners": "No partners in the registry. Add them in the cabinet before publishing.",
+    "selectPartnerHint": "Select at least one partner to publish the offer."
+  },
+  "partners": {
+    "title": "Partner cooperation",
+    "help": "The agencies and agents you cooperate with. An exclusive listing is published to these partners with commission sharing. Who owns the list depends on the account type (BR-32).",
+    "descAgency": "The agency partner list — shared by the whole team. Only the manager or team lead manages it.",
+    "descIndividual": "Your personal partner network — you manage it yourself.",
+    "addCta": "+ Add partner",
+    "readOnly": "Read only",
+    "governanceNote": "Only the agency manager or team lead can change the partner list. You can use it when publishing properties.",
+    "empty": "No partners yet.",
+    "remove": "Remove",
+    "fieldName": "Company or person name",
+    "fieldContact": "Contact person",
+    "fieldPhone": "Phone",
+    "fieldEmail": "Email",
+    "fieldKind": "Type",
+    "fieldScope": "Scope",
+    "fieldSplit": "Offered commission",
+    "splitShort": "{pct}% partner",
+    "toastAdded": "Partner added",
+    "toastRemoved": "Partner removed",
+    "demoSwitcher": "Demo — account type and role",
+    "accountType": "Account type",
+    "role": "Role",
+    "type": {
+      "agency": "Agency",
+      "individual": "Individual"
+    },
+    "roleName": {
+      "agent": "Agent",
+      "senior_agent": "Senior agent",
+      "team_lead": "Team lead",
+      "manager": "Manager",
+      "admin": "Admin"
+    },
+    "kind": {
+      "agency": "Agency",
+      "individual": "Agent"
+    },
+    "scope": {
+      "inter_agency": "Inter-agency",
+      "public_mls": "Open network"
+    }
   }
 }

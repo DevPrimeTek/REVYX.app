@@ -15,9 +15,11 @@ export interface CooperationState {
   splitPct: number;
   /** Eveniment de concentrare a cererii — Ziua Ușilor Deschise (ДОД). */
   openHouse: boolean;
+  /** BR-32: partenerii din registry către care se trimite oferta de cooperare. */
+  partnerIds: string[];
 }
 
-export const EMPTY_COOPERATION: CooperationState = { published: false, splitPct: 50, openHouse: false };
+export const EMPTY_COOPERATION: CooperationState = { published: false, splitPct: 50, openHouse: false, partnerIds: [] };
 
 type Store = Record<string, CooperationState>;
 type Listener = () => void;
