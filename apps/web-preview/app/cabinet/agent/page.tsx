@@ -17,9 +17,12 @@ import { agents, deals } from '@/lib/mock';
 import { AgentRankBadge } from '@/components/agents/rank-badge';
 import { WorkspaceDirectionSelector } from '@/components/cabinet/workspace-direction-selector';
 import { useAgentGrowth, CATALOG, getActualValue, formatObjectiveValue } from '@/lib/agent-growth-store';
+import { PartnersPanel } from '@/components/cabinet/partners-panel';
+import { AccountSwitcher } from '@/components/cabinet/account-switcher';
+import { useAccount } from '@/lib/account-store';
 import { cn } from '@/lib/utils';
 
-type Tab = 'summary' | 'growth' | 'history' | 'preferences' | 'documents';
+type Tab = 'summary' | 'growth' | 'partners' | 'history' | 'preferences' | 'documents';
 
 function initials(name: string): string {
   return name
@@ -37,6 +40,9 @@ export default function CabinetAgentPage() {
   const [tab, setTab] = useState<Tab>('summary');
   const me = agents[0];
   const growth = useAgentGrowth(me.id);
+  const account = useAccount();
+  // BR-32: tabul Parteneri pe cabinetul agentului apare DOAR pentru conturile individuale.
+  const showPartnersTab = account.type === 'individual';
   const myDealsClosed = deals.filter((d) => d.agentId === me.id && d.stage === 'won');
 
   // Mock-only enrichment fields. M1.S5 will source these from apps/api/users (extended schema).
@@ -132,7 +138,7 @@ export default function CabinetAgentPage() {
           aria-label={t('cabinet.agent.title')}
           className="flex items-center gap-1 rounded-md border border-border p-1 bg-navy-deep self-start flex-wrap"
         >
-          {(['summary', 'growth', 'history', 'preferences', 'documents'] as Tab[]).map((k) => (
+          {(['summary', 'growth', ...(showPartnersTab ? ['partners' as Tab] : []), 'history', 'preferences', 'documents'] as Tab[]).map((k) => (
             <button
               key={k}
               role="tab"
@@ -276,7 +282,15 @@ export default function CabinetAgentPage() {
 
             {/* Direcția de lucru — doar pe tabul Sumar */}
             <WorkspaceDirectionSelector scope="agent" />
+
+            {/* Comutator demo tip cont (agency/individual) — controlează vizibilitatea tabului Parteneri */}
+            <AccountSwitcher />
           </section>
+        )}
+
+        {/* ★ BR-32 — Parteneri (doar cont individual; la agency lista e pe /cabinet/agency) */}
+        {tab === 'partners' && showPartnersTab && (
+          <PartnersPanel />
         )}
 
         {/* ★ Val 4 AGI §18.2/§18.5/§18.6 — dezvoltarea agentului */}

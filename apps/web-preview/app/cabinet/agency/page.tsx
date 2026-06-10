@@ -3,6 +3,7 @@
 // M0.S6 · /cabinet/agency · agency-level cabinet (team + KPIs).
 
 import Link from 'next/link';
+import { useState } from 'react';
 import { SiteNav } from '@/components/site-nav';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -10,9 +11,15 @@ import { InfoTooltip } from '@/components/ui/info-tooltip';
 import { useT } from '@/components/i18n/provider';
 import { agents, deals } from '@/lib/mock';
 import { WorkspaceDirectionSelector } from '@/components/cabinet/workspace-direction-selector';
+import { PartnersPanel } from '@/components/cabinet/partners-panel';
+import { AccountSwitcher } from '@/components/cabinet/account-switcher';
+import { cn } from '@/lib/utils';
+
+type Tab = 'overview' | 'partners';
 
 export default function CabinetAgencyPage() {
   const { t } = useT();
+  const [tab, setTab] = useState<Tab>('overview');
   const activeAgents = agents.filter((a) => a.activeTasks > 0 || a.closedDeals30d > 0);
   const closed30 = deals.filter((d) => d.stage === 'won').length;
   const volume30 = deals.filter((d) => d.stage === 'won').reduce((s, d) => s + d.commissionEur * 100, 0);
@@ -35,6 +42,37 @@ export default function CabinetAgencyPage() {
           <p className="text-[13px] text-text-secondary mt-sp1">{t('cabinet.agency.subtitle')}</p>
         </header>
 
+        <nav
+          role="tablist"
+          aria-label={t('cabinet.agency.title')}
+          className="flex items-center gap-1 rounded-md border border-border p-1 bg-navy-deep self-start flex-wrap"
+        >
+          {(['overview', 'partners'] as Tab[]).map((k) => (
+            <button
+              key={k}
+              role="tab"
+              type="button"
+              aria-selected={tab === k}
+              onClick={() => setTab(k)}
+              className={cn(
+                'px-sp3 py-1 text-[12px] rounded transition-colors duration-fast',
+                tab === k ? 'bg-gold/10 text-gold' : 'text-text-secondary hover:bg-navy-hover hover:text-text-h',
+              )}
+            >
+              {t(`cabinet.agency.tabs.${k}`)}
+            </button>
+          ))}
+        </nav>
+
+        {tab === 'partners' && (
+          <section className="flex flex-col gap-sp4">
+            <AccountSwitcher />
+            <PartnersPanel />
+          </section>
+        )}
+
+        {tab === 'overview' && (
+        <>
         <Card>
           <CardHeader>
             <CardTitle className="text-[16px]">{t('cabinetExtras.agency.introTitle')}</CardTitle>
@@ -143,6 +181,8 @@ export default function CabinetAgencyPage() {
         </Card>
 
         <WorkspaceDirectionSelector scope="agency" />
+        </>
+        )}
       </main>
     </>
   );

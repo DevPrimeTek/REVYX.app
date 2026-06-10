@@ -566,7 +566,8 @@
         "history": "Istoric tranzacții",
         "preferences": "Preferințe",
         "documents": "Documente",
-        "growth": "Creșterea mea"
+        "growth": "Creșterea mea",
+        "partners": "Parteneri"
       },
       "personalTitle": "Date personale",
       "fullName": "Nume complet",
@@ -614,7 +615,11 @@
       "kpiVolume": "Volum total (€)",
       "kpiAvgClose": "Timp mediu închidere",
       "kpiAvgCloseValue": "38 zile",
-      "kpiActiveLeads": "Lead-uri active"
+      "kpiActiveLeads": "Lead-uri active",
+      "tabs": {
+        "overview": "Prezentare",
+        "partners": "Parteneri"
+      }
     },
     "group": {
       "moduleLabel": "Cabinet grup",
@@ -1580,7 +1585,11 @@
     "engagedNote": "{n} agenți parteneri au preluat oferta în rețea.",
     "toastPublished": "Publicat în rețeaua de parteneri",
     "toastPublishedDesc": "Cotă oferită: {pct}% din comision.",
-    "toastWithdrawn": "Retras din rețea"
+    "toastWithdrawn": "Retras din rețea",
+    "partnersLabel": "Parteneri selectați",
+    "managePartners": "Gestionează partenerii",
+    "noPartners": "Nu există parteneri în registru. Adaugă-i din cabinet înainte de a publica.",
+    "selectPartnerHint": "Selectează cel puțin un partener pentru a publica oferta."
   },
   "growth": {
     "editCta": "Editează",
@@ -1647,6 +1656,49 @@
       "referrals": "Recomandări aduse",
       "returnRate": "Rată recomandare",
       "referredBadge": "A recomandat"
+    }
+  },
+  "partners": {
+    "title": "Cooperare cu parteneri",
+    "help": "Lista de agenții și agenți cu care cooperezi. Listing-ul exclusiv se publică către acești parteneri, cu împărțirea comisionului. Cine deține lista depinde de tipul contului (BR-32).",
+    "descAgency": "Lista partenerilor agenției — partajată de toată echipa. O administrează doar managerul sau team lead-ul.",
+    "descIndividual": "Rețeaua ta personală de parteneri — o administrezi singur.",
+    "addCta": "+ Adaugă partener",
+    "readOnly": "Doar citire",
+    "governanceNote": "Doar managerul sau team lead-ul agenției pot modifica lista de parteneri. Tu o poți folosi la publicarea proprietăților.",
+    "empty": "Niciun partener încă.",
+    "remove": "Elimină",
+    "fieldName": "Nume firmă sau persoană",
+    "fieldContact": "Persoană de contact",
+    "fieldPhone": "Telefon",
+    "fieldEmail": "Email",
+    "fieldKind": "Tip",
+    "fieldScope": "Acoperire",
+    "fieldSplit": "Comision oferit",
+    "splitShort": "{pct}% partener",
+    "toastAdded": "Partener adăugat",
+    "toastRemoved": "Partener eliminat",
+    "demoSwitcher": "Demo — tip cont și rol",
+    "accountType": "Tip cont",
+    "role": "Rol",
+    "type": {
+      "agency": "Agenție",
+      "individual": "Individual"
+    },
+    "roleName": {
+      "agent": "Agent",
+      "senior_agent": "Agent senior",
+      "team_lead": "Team lead",
+      "manager": "Manager",
+      "admin": "Admin"
+    },
+    "kind": {
+      "agency": "Agenție",
+      "individual": "Agent"
+    },
+    "scope": {
+      "inter_agency": "Inter-agenție",
+      "public_mls": "Rețea deschisă"
     }
   }
 }

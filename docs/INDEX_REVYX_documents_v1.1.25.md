@@ -146,8 +146,8 @@
 |---|---|
 | `docs/BRD_REVYX_v1.1.0.md` [HISTORY] | Business Requirements Document v1.0 — piloni, formule scoring, RBAC 5 roluri, T01-T07. SUPERSEDED de v1.2.0. |
 | `docs/BRD_REVYX_v1.2.0.md` [HISTORY] | BRD MINOR — §17 Moldova market specifics [MOLDOVA-SPECIFIC]: buget declared/confirmed + tipuri întâlnire + pre-aprobare bancară + preferințe post-vizionare 90% + mandat exclusivitate + property_class RM. SUPERSEDED de v1.3.0. |
-| `docs/BRD_REVYX_v1.3.0.md` [HISTORY] | MINOR — §18 Agent Growth Intelligence (AGI Layer) NEW: 7 gap-uri bibliografie profesională (§18.1-18.7) + §6.5 BR-25..28 + §7.9 IS/TS + §8.5 4 entități + AC-AGI-01..08 + §13.4 KPI. SUPERSEDED de v1.4.0. |
-| ★ `docs/BRD_REVYX_v1.4.0.md` | ★ **MINOR — Practici de teren + etică profesională (NAR/APAIM).** §6.5.1 BR-29 (MLS Cooperation & commission-sharing) + BR-30 (Listing Price Discipline anti-overpricing) + BR-31 (Buyer Needs Assessment completeness) · §8.5.1 entități noi `cooperation_offers` + `buyer_assessments` (total 16) · §17.1 extensie câmpuri buyer worksheet · §18.3 seed real execution guides (cold-call seller + 5 obiecții + 10-pași meeting + price objection + commission justification) · §18.4 mapping complet NAR 17 articole + APAIM ↔ REVYX + 2 ethics checkpoint-uri noi (`exclusive_listing_solicitation` Art.16 + `misleading_advertising` Art.12; BR-28 4→6) · NEW §18.9 Buyer Needs Assessment · §18.10 AGI-08 MLS/Cooperation · §18.11 AGI-09 Listing Price Discipline · §13.4 +3 KPI · §18.8 AC-AGI-09..13. Versiunea **activă**. Owner: Solution Architect + Senior PM + Senior BA + Senior Compliance Auditor. |
+| `docs/BRD_REVYX_v1.3.0.md` [HISTORY] | MINOR — §18 Agent Growth Intelligence (AGI Layer) NEW: 7 gap-uri bibliografie profesională (§18.1-18.7) + §6.5 BR-25..28 + §7.9 IS/TS + §8.5 4 entități + AC-AGI-01..08 + §13.4 KPI. SUPERSEDED de v1.5.0. |
+| ★ `docs/BRD_REVYX_v1.5.0.md` | ★ **MINOR (v1.5.0) — BR-32 Partner Registry Governance** (registry parteneri cooperare cu guvernanță pe `account_type`: agency → editabil doar team_lead/manager/admin, agenții read-only; individual → owner editează; `resolve_partners(account)`; §6.5 BR-32 + notă §18.10). **Plus v1.4.0 — Practici de teren + etică (NAR/APAIM):** §6.5 BR-29 (MLS Cooperation) + BR-30 (Listing Price Discipline) + BR-31 (Buyer Needs Assessment) · §8.5.1 entități `cooperation_offers` + `buyer_assessments` · §18.4 mapping NAR 17 articole + APAIM + ethics checkpoints (BR-28 4→6) · NEW §18.9/§18.10/§18.11. Versiunea **activă**. Owner: Solution Architect + Senior PM + Senior BA. |
 
 ---
 
@@ -384,7 +384,7 @@
 
 | Referință veche (oriunde citată) | Fișier curent pe disc |
 |---|---|
-| `BRD_REVYX_v1.0.0 / v1.1.0 / v1.2.0 / v1.3.0.md` | **`BRD_REVYX_v1.4.0.md`** |
+| `BRD_REVYX_v1.0.0 / v1.1.0 / v1.2.0 / v1.3.0.md` | **`BRD_REVYX_v1.5.0.md`** |
 | `PLATFORM_MATRIX_REVYX_web-mobile_v1.0.0.md` | **`PLATFORM_MATRIX_REVYX_web-mobile_v1.1.0.md`** |
 | `MASTER_PLAN_REVYX_execution-roadmap_v1.0.0 / v1.1.0.md` | **`MASTER_PLAN_REVYX_execution-roadmap_v1.1.2.md`** |
 | `ROADMAP_REVYX_detailed-execution_v1.0.0..v1.0.15.md` | **`ROADMAP_REVYX_detailed-execution_v1.0.16.md`** |

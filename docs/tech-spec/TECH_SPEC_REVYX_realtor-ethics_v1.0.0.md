@@ -8,7 +8,7 @@
 
 **Master Plan ref:** `MASTER_PLAN_REVYX_execution-roadmap_v1.1.2.md` §5.2 (M1.S3/M1.S4).
 **Roadmap ref:** `ROADMAP_REVYX_detailed-execution_v1.0.15.md` §4.4 AGI Layer (T-AGI-04 + T-ETH-XX).
-**BRD ref:** `BRD_REVYX_v1.4.0.md` §6.5 (BR-28), §8.5 (`ethics_checkpoints`), §18.4 (AGI-04 + mapping NAR/APAIM).
+**BRD ref:** `BRD_REVYX_v1.5.0.md` §6.5 (BR-28), §8.5 (`ethics_checkpoints`), §18.4 (AGI-04 + mapping NAR/APAIM).
 **Audit-log ref:** `TECH_SPEC_REVYX_audit-log_v1.1.1.md` §6 append-only enforcement.
 
 ## 0.1 Platform Matrix

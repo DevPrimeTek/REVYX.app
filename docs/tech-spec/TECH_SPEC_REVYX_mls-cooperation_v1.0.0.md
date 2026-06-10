@@ -8,7 +8,7 @@
 
 **Master Plan ref:** `MASTER_PLAN_REVYX_execution-roadmap_v1.1.2.md` §5.2 (M1.S4).
 **Roadmap ref:** `ROADMAP_REVYX_detailed-execution_v1.0.15.md` §4.4 AGI Layer (T-AGI-08 / T-MLS-XX).
-**BRD ref:** `BRD_REVYX_v1.4.0.md` §6.5.1 (BR-29), §8.5.1 (`cooperation_offers`), §18.10 (AGI-08).
+**BRD ref:** `BRD_REVYX_v1.5.0.md` §6.5.1 (BR-29), §8.5.1 (`cooperation_offers`), §18.10 (AGI-08).
 **Conexe:** `TECH_SPEC_REVYX_offer-engine_v1.0.0.md` (OFFER chain) · `TECH_SPEC_REVYX_deal-closure_v1.0.0.md` (DEAL) · `TECH_SPEC_REVYX_showing_v1.0.0.md` (Open House extension) · `WORKFLOW_REVYX_property-onboarding_v1.1.0.md` (mandat).
 
 ## 0.1 Platform Matrix
