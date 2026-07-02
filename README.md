@@ -52,7 +52,7 @@ REVYX.app/
 └── docs/
     ├── MASTER_PLAN_REVYX_execution-roadmap_v1.1.2.md   ← backbone M0/M1/M2
     ├── PLATFORM_MATRIX_REVYX_web-mobile_v1.1.0.md      ← feature×platform map
-    ├── ROADMAP_REVYX_detailed-execution_v1.0.16.md     ← atomic tasks T-XXX
+    ├── ROADMAP_REVYX_detailed-execution_v1.0.17.md     ← atomic tasks T-XXX
     ├── BRD_REVYX_v1.5.0.md                             ← cerințe business + formule
     ├── INDEX_REVYX_documents_v1.1.24.md                ← catalog toate documentele
     ├── brand-configs/revyx.md                          ← brand system complet
@@ -141,7 +141,7 @@ REVYX.app/
 | [`BRD_REVYX_v1.5.0.md`](./docs/BRD_REVYX_v1.5.0.md) | v1.5.0 | Cerințe business + formule scoring + BR-01..32 |
 | [`MASTER_PLAN`](./docs/MASTER_PLAN_REVYX_execution-roadmap_v1.1.2.md) | v1.1.2 | Milestones M0/M1/M2 + acceptance criteria |
 | [`PLATFORM_MATRIX`](./docs/PLATFORM_MATRIX_REVYX_web-mobile_v1.1.0.md) | v1.1.0 | Feature × platform map (131 features) |
-| [`ROADMAP`](./docs/ROADMAP_REVYX_detailed-execution_v1.0.16.md) | v1.0.16 | Atomic tasks T-XXX (~308 total) |
+| [`ROADMAP`](./docs/ROADMAP_REVYX_detailed-execution_v1.0.17.md) | v1.0.17 | Atomic tasks T-XXX (~308 total) |
 | [`INDEX`](./docs/INDEX_REVYX_documents_v1.1.24.md) | v1.1.24 | Catalog complet toate documentele |
 | [`TECH_SPEC phase0-security`](./docs/tech-spec/TECH_SPEC_REVYX_phase0-security_v1.0.0.md) | v1.0.0 | JWT + RBAC + GDPR + AUDIT_LOG + HMAC |
 | [`TECH_SPEC audit-log`](./docs/tech-spec/TECH_SPEC_REVYX_audit-log_v1.1.2.md) | v1.1.2 | AUDIT_LOG append-only + catalog events |

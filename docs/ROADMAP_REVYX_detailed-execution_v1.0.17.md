@@ -1,11 +1,13 @@
 # DETAILED ROADMAP — REVYX Execution Tasks Decomposition
-<!-- ROADMAP_REVYX_detailed-execution_v1.0.16.md · v1.0.16 · 2026-06 -->
+<!-- ROADMAP_REVYX_detailed-execution_v1.0.17.md · v1.0.17 · 2026-07 -->
 <!-- CONFIDENȚIAL · Uz Intern · © 2026 REVYX · ITPRO SYSTEM SRL -->
 
 ## 0. Stage Master Plan
 
 **Acoperă:** Pre-dev → M0 → M1 → M2 (toate sub-stages)
 **Master Plan ref:** `MASTER_PLAN_REVYX_execution-roadmap_v1.1.2.md` §4-§6
+**★ Trigger v1.0.17:** ★ **P0 — Fundația de convergență (pre-M1.S3).** Software Architect + BACKEND DEV + FRONTEND WEB DEV + DEVOPS. Execuția planului P0 din `docs/audit/ARCH_REVIEW_REVYX_full-stack_v1.0.0.md` §5 — refactor PUR, zero schimbare de comportament UI/API. Livrabile: (1) **T-P0-01** npm workspaces monorepo (root `package.json` + single root lockfile; CI api-ci + web-preview-ci install la root; Vercel Root Directory `apps/web-preview` NEATINS — Regula 10). (2) **T-P0-02** NEW `packages/core` (`@revyx/core`) — enums domeniu partajate (LeadStatus/LeadType/TransactionIntent/LeadSide/ListingType/DealStage/TaskType/TaskStatus) + helpers transaction-intent; demo consumă via workspace dep + `transpilePackages`; `lib/mock/types.ts` + `lib/mock/tasks.ts` + `lib/transaction-intent.ts` devin re-exporturi (toate importurile existente valide). (3) **T-P0-03** split `apps/api/src/scoring/engine.ts` (implementare producție) vs `fixtures.ts` (doar tabele T01..T07); spec asertează engine-ul — 22/22 PASS. (4) **T-P0-04** NEW `.github/scripts/check-i18n.mjs` în web-preview-ci — FAIL pe chei JSON duplicate + raport paritate RO↔RU/EN ca WARNING până la M1.S5 (D-6). Decizii PM: pachet = @revyx/core · demo freeze = PARȚIAL (excepții doar cu aprobare PM explicită per caz) · i18n = duplicate fail + paritate warning. Tests: typecheck/lint/build PASS ambele apps · api 22/22 · build 26 routes (listă identică) · dev smoke 7/7 200 + content probe POZITIV. CLAUDE.md v1.2.32 → **v1.2.33** · INDEX v1.1.26 → **v1.1.27**. Backend business logic + BRD + Master Plan **INTACTE** (Regula 8 + 18 + 21).
+
 **★ Trigger v1.0.16:** ★ **Practici de teren + etică profesională (NAR/APAIM).** Solution Architect + Senior PM + Senior BA + Senior Compliance Auditor. Integrare a 7 documente operaționale furnizate de client (instrucțiuni preluare vânzări RO/RU, check-list prima intrare apartament, scenariu apel vânzători, Buyer Needs Assessment ABR®, metodologie profesională Riѐltor) + NAR Code of Ethics (17 articole) + APAIM. Livrabile: (1) **BRD v1.3.0 → v1.4.0** (git mv) — BR-29..31 (MLS Cooperation / Listing Price Discipline / Buyer Needs Assessment) + entități `cooperation_offers` + `buyer_assessments` + §18.3 seed real execution guides + §18.4 mapping NAR/APAIM + 2 ethics checkpoints noi (BR-28 4→6) + §18.9/§18.10/§18.11 + §13.4 KPI + AC-AGI-09..13. (2) **2 TECH_SPEC noi:** `realtor-ethics v1.0.0` + `mls-cooperation v1.0.0`. (3) **2 Workflows bump:** property-onboarding v1.1.0 + buyer-profile-lifecycle v1.1.0. (4) **§4.5 NEW** — task-uri T-ETH-01..02 + T-MLS-01..04 + T-BNA-01 + T-LPD-01. (5) **Regula 18 cleanup:** șterse stale `INDEX_v1.1.19` + `ROADMAP_v1.0.13`. (6) INDEX v1.1.21 → v1.1.22 · CLAUDE.md v1.2.27 → v1.2.28. Backend `apps/api/` + BRD §7 formule + BR-01..BR-28 + Master Plan **INTACTE** (Regula 8 + 18 + 21). Backwards compat full cu v1.0.15.
 
 **★ Trigger v1.0.15:** ★ **AGI Layer — Agent Growth Intelligence (BRD §18 NEW).** Senior PM + Solution Architect + Senior BA + Senior Product Auditor. Analiza comparativă a 9 cărți de referință din practica imobiliară profesională (Carnegie/Hill/Beckwith/Maister/Gitomer/Fox/Lukic/Blanchard+Peale/Yamaguchi) + NAR Code of Ethics față de framework REVYX a identificat **7 gap-uri** cu impact HIGH/MEDIUM. Shift conceptual: „AOS care controlează agentul" → „AOS care **dezvoltă** agentul". AGI Layer este al 8-lea strat transversal (analog structural cu Pilon Retention §6.4). Livrabile: (1) **BRD v1.2.0 → v1.3.0** (git mv) cu ★ §18 Agent Growth Intelligence complet: §18.1 Relationship Intelligence (IS sub-dimensions + PKI) · §18.2 Agent Self-Development (agent_goals entity) · §18.3 NBA Execution Guides (execution_guides entity + seed 9 ghiduri) · §18.4 Ethics Checkpoints (BR-28, 4 trigger-uri, append-only) · §18.5 Value Communication Toolkit (value_proposition_card JSONB + Showcase extins) · §18.6 Client Alumni Lifecycle (BR-27, cron touchpoints T+12/24 luni) · §18.7 Financial Readiness Score RM [MOLDOVA-SPECIFIC] (BR-25, FRS calcul simplu). Plus: §6.5 NEW cu BR-25..BR-28 · §7.9 IS sub-dimensions + TS rework · §8.5 4 entități noi (execution_guides / client_alumni / agent_goals / ethics_checkpoints) · §13.4 KPI AGI (5 metrici noi) · §15 glosar +6 termeni AGI · §12 AC-AGI-01..08. (2) **Roadmap v1.0.14 → v1.0.15** (git mv) cu §4.4 AGI Layer NEW — 10 task-uri T-AGI-01..10 spanuite M1.S3-M1.S6 cu dependențe explicite + hats + effort estimate. (3) **INDEX v1.1.20 → v1.1.21** (git mv) — entry actualizat. (4) **CLAUDE.md v1.2.26 → v1.2.27** — §0a sync + changelog row. Backend `apps/api/` + BRD §7 formule + BR-01..BR-24 + Master Plan **INTACTE** (Regula 8 + Regula 18 + Regula 21). Backwards compat full cu v1.0.14.
@@ -34,6 +36,7 @@
 
 | Versiune | Data | Autor | Note |
 |---|---|---|---|
+| **1.0.17** | **2026-07** | ★ Software Architect (P) + BACKEND DEV + FRONTEND WEB DEV + DEVOPS + DOC | ★ **PATCH — P0 Fundația de convergență ✅ CLOSED (§4.6 NEW, T-P0-01..04 ☑).** Monorepo npm workspaces + `@revyx/core` shared package + scoring engine/fixtures split + CI i18n integrity gate. Refactor pur — zero schimbare comportament; build 26 routes identic; api 22/22 PASS. Cf. ARCH_REVIEW_REVYX_full-stack_v1.0.0 §5 P0 (F-ARCH-01/02/03/06). Demo freeze PARȚIAL activ (excepții cu aprobare PM). Backwards compat full cu v1.0.16. |
 | 1.0.0 | 2026-06 | Senior Architect + Senior PM + Senior PO | INITIAL — descompune Master Plan v1.1.0 sub-stages în atomic tasks (T-XXX). |
 | 1.0.1 | 2026-05 | DESIGNER (Creative Director) + Senior Architect + Frontend Lead + Senior PM + DOC | PATCH — direct-to-code shift M0.S1 + M0.S3 scope rebalance. §3.1 reformulat din wireframe Figma → page stub React; §3.3 T-M0.S3-01..03 marked PARTIAL inherited. NU breaking pentru AC-M0-01..07. |
 | 1.0.2 | 2026-05 | FRONTEND WEB DEV + DESIGNER (Creative Director) + ARCHITECT + Senior PM + DOC | PATCH — M0.S2 ✅ CLOSED Clickable Prototype. §3.2 M0.S2 T-M0.S2-01..05 marcaje ☑. Output: 3 pages noi în `apps/web-preview/app/`, `<ToastProvider/>` global, button focus rings/active states. 13/13 routes prerendered. |
@@ -576,6 +579,21 @@ Route (app)                    Size     First Load JS
 
 ---
 
+### ★ 4.6 — P0 Fundația de convergență (pre-M1.S3) [T-P0-XX] ★ CLOSED v1.0.17
+
+> **Sursă:** `docs/audit/ARCH_REVIEW_REVYX_full-stack_v1.0.0.md` §5 (findings F-ARCH-01/02/03/06). Refactor PUR — zero schimbare de comportament. Decizii PM: pachet `@revyx/core` · demo freeze PARȚIAL (excepții cu aprobare PM per caz) · i18n duplicate=fail / paritate=warning până M1.S5.
+
+| Task | Status | Titlu | Hats | Effort | Dep | Detaliu |
+|---|---|---|---|---|---|---|
+| ★ **T-P0-01** | ☑ | **Monorepo npm workspaces + single root lockfile** | DEVOPS | S | — | Root `package.json` cu `workspaces: [apps/*, packages/*]` + engines node>=22; șters lockfile orfan root + lockfile-uri per-app; CI api-ci + web-preview-ci install la root (`cache-dependency-path: package-lock.json`) + trigger `packages/**`. Vercel Root Directory `apps/web-preview` NEATINS (Regula 10); gate = preview deploy GREEN pe PR. F-ARCH-02. |
+| ★ **T-P0-02** | ☑ | **`packages/core` (@revyx/core) — enums + intent helpers partajate** | BACKEND DEV + FRONTEND WEB DEV | M | T-P0-01 ✅ | Enums: LeadStatus/LeadType/TransactionIntent/LeadSide/ListingType/DealStage/TaskType/TaskStatus (aliniate nominal la coloanele Drizzle) + helpers `transactionIntent/leadSide/isDemandSide/isSupplySide/isListingMatchForLead/leadTypeI18nKey/intentI18nKey`. Demo: workspace dep + `transpilePackages: ['@revyx/core']`; `lib/mock/types.ts` + `lib/mock/tasks.ts` + `lib/transaction-intent.ts` = re-exporturi (importuri existente intacte). apps/api adoptă la M1.S3. F-ARCH-01. |
+| ★ **T-P0-03** | ☑ | **Split scoring engine vs fixtures** | BACKEND DEV | S | — | `apps/api/src/scoring/engine.ts` NEW (compute LS/PS/LF/DP/NBA/DHI + apsForAgent + urgencyFactor — mutate din fixtures.ts, valori identice); `fixtures.ts` păstrează DOAR ScoringFixture + tabelele T01..T07 + OfferChainStep; `fixtures.spec.ts` asertează engine-ul contra tabelelor. 22/22 PASS. Engine-urile M1.S3 se construiesc pe engine.ts. F-ARCH-03. |
+| ★ **T-P0-04** | ☑ | **CI i18n integrity gate** | DEVOPS + DOC | S | T-P0-01 ✅ | NEW `.github/scripts/check-i18n.mjs`: (a) scanner raw text → FAIL la chei duplicate în același scope obiect din `messages/*.json` (clasa de bug care a ascuns traduceri en/ru); (b) raport paritate chei vs `ro.json` — WARNING până la M1.S5 (D-6: EN 606 / RU 556 chei lipsă la data P0), apoi fail. Step în web-preview-ci post-install. F-ARCH-06. |
+
+**Follow-up (deferred, cf. ARCH_REVIEW §5):** P1 (M1.S3) — engines consumă `engine.ts` + reguli pure mutate în `@revyx/core/domain` (F-ARCH-05) · P2 (M1.S4/S5) — wire-up store swap + factory `createLocalStore` (F-ARCH-04) + OpenAPI din Zod (F-ARCH-08) + Playwright smoke (F-ARCH-07) + paritate i18n fail (D-6).
+
+---
+
 ## 5. M2 — FULL RELEASE GA Detailed
 
 > Neschimbat față de v1.0.0. Note: T-M2.S3-05 (NativeWind + design system tokens shared cu Web) beneficiază de `design/tokens.json` ca single source of truth (DP-06 brand consistency).
@@ -627,5 +645,5 @@ Route (app)                    Size     First Load JS
 
 ---
 
-*docs/ROADMAP_REVYX_detailed-execution_v1.0.16.md · v1.0.16 · 2026-06 · CONFIDENȚIAL · Uz Intern*
+*docs/ROADMAP_REVYX_detailed-execution_v1.0.17.md · v1.0.17 · 2026-07 · CONFIDENȚIAL · Uz Intern*
 *REVYX — Real Estate Execution Intelligence · © 2026 REVYX · ITPRO SYSTEM SRL*

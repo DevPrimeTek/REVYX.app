@@ -1,11 +1,12 @@
 # INDEX — REVYX Document Catalog
-<!-- INDEX_REVYX_documents_v1.1.26.md · v1.1.26 · 2026-07 -->
+<!-- INDEX_REVYX_documents_v1.1.27.md · v1.1.27 · 2026-07 -->
 <!-- CONFIDENȚIAL · Uz Intern · © 2026 REVYX · ITPRO SYSTEM SRL -->
 
 ## Changelog
 
 | Versiune | Data | Autor | Note |
 |---|---|---|---|
+| **1.1.27** | **2026-07** | ★ Software Architect + DEVOPS + DOC | ★ **PATCH — P0 Fundația de convergență ✅ CLOSED (execuție ARCH_REVIEW §5 P0).** Schimbări catalogate: (a) **Monorepo npm workspaces** — root `package.json` NEW (workspaces apps/* + packages/*) + single root lockfile (șterse lockfile orfan root + per-app); CI api-ci + web-preview-ci install la root. (b) NEW DIR **`packages/core/` (@revyx/core)** — enums domeniu partajate (LeadStatus/LeadType/TransactionIntent/LeadSide/ListingType/DealStage/TaskType/TaskStatus) + helpers transaction-intent; demo consumă via workspace dep + transpilePackages; lib/mock/types+tasks + lib/transaction-intent devin re-exporturi. (c) **apps/api/src/scoring/engine.ts NEW** — split producție vs fixtures (F-ARCH-03); fixtures.ts doar tabele T01..T07; 22/22 PASS. (d) NEW **`.github/scripts/check-i18n.mjs`** — FAIL chei duplicate + raport paritate RO↔RU/EN warning (D-6), step în web-preview-ci. (e) Roadmap rename v1.0.16 → **v1.0.17** (§4.6 NEW T-P0-01..04 ☑) · CLAUDE.md bump v1.2.32 → **v1.2.33** · README refs sync. Decizii PM: @revyx/core · demo freeze PARȚIAL (excepții cu aprobare PM) · i18n duplicate=fail/paritate=warning. Refactor pur — comportament UI/API neschimbat (build 26 routes identic). Regula 8 + 18 + 21 ✓. |
 | **1.1.26** | **2026-07** | ★ Software Architect + Senior PM + DOC | ★ **PATCH — Architecture Review full-stack la cerere PM.** NEW `docs/audit/ARCH_REVIEW_REVYX_full-stack_v1.0.0.md` catalogat în §2f — review arhitectural complet (apps/api + apps/web-preview + docs + CI) la checkpoint între M0.S9 și M1.S3 (Regula 3, trigger 5). Findings F-ARCH-01..10 (0 CRIT · 2 HIGH · 5 MED · 3 LOW) + plan de îmbunătățire fazat P0-P3 (P0 „Fundația de convergență" ≈ 1 sesiune pre-M1.S3: npm workspaces + `packages/shared` + split scoring engine/fixtures + CI i18n lint). Raport doc-only — backend `apps/api/` + demo `apps/web-preview/` + Master Plan **INTACTE**. |
 | 1.1.25 | 2026-06 | ★ Solution Architect + Senior PM + DOC | ★ **PATCH — M0.S9 AGI Layer Val 1 (schelet vizual).** NEW `ARCH_REVYX_agent-routine-capability-map_v1.0.0.md` catalogat în §4.0 (NEW sub-secțiune Arhitectură/planning) — model „Operating Loop" + mapare rutină→feature + §6 datorie tehnică D-1..D-7. Reflectă livrarea Val 1 în `apps/web-preview/` (Buyer Needs Assessment + Financial Readiness + Execution Guides + Qualification Wizard). CLAUDE.md v1.2.30 → **v1.2.31** §0a sync. Backend `apps/api/` + Master Plan **INTACTE** (Regula 8 + 18 + 21). |
 | **1.1.24** | **2026-06** | ★ Solution Architect + DOC | ★ **PATCH — INDEX self-contained + revizuire structurală (Karpathy Step 2).** Fix integritate: §4.1/§4.2 + §5-11 delegau lista completă către `INDEX_REVYX_documents_v1.1.1.md` care a fost **șters** în consolidarea Regula 18 anterioară → sub-listele erau de fapt inaccesibile. Acum **inline complet** din inventarul real de pe disc: §4.1 (18 tech-specs core Phase 0-4) + §4.2 (6 Phase 5/platform) + §5 (9 workflows) + §6 (11 runbooks) + §7 (15 audit/readiness) + §8 (4 legal) + §9 (4 cs-playbooks) + §10 (board + test-fixtures + skills + templates). + §15 board (fix delega către INDEX_v1.1.0 șters). NEW **§16 Mapă redenumiri canonice (old → current)** — rezolvă orice referință veche la fișierul curent **fără a rescrie changelog-uri** (păstrăm istoricul) + §16.1 listă docs planificate (nu-s legături frânte). Catalog acum **auto-conținut și actual**. Structural review (Step 2 directive): corpusul era deja consolidat (Regula 18: 60 fișiere șterse anterior) + intens cross-referențiat ca audit-trail → **nimic de arhivat** (toate auditurile s8-s17 sunt citate ca proveniență findings în docs active). Singura curățare: șters placeholder gol `docs/prd/.gitkeep`. NEW skill `.claude/skills/karpathy-guidelines/` (vezi §2). |
@@ -394,8 +395,8 @@
 | `BRD_REVYX_v1.0.0 / v1.1.0 / v1.2.0 / v1.3.0.md` | **`BRD_REVYX_v1.5.0.md`** |
 | `PLATFORM_MATRIX_REVYX_web-mobile_v1.0.0.md` | **`PLATFORM_MATRIX_REVYX_web-mobile_v1.1.0.md`** |
 | `MASTER_PLAN_REVYX_execution-roadmap_v1.0.0 / v1.1.0.md` | **`MASTER_PLAN_REVYX_execution-roadmap_v1.1.2.md`** |
-| `ROADMAP_REVYX_detailed-execution_v1.0.0..v1.0.15.md` | **`ROADMAP_REVYX_detailed-execution_v1.0.16.md`** |
-| `INDEX_REVYX_documents_v1.0.0..v1.1.25.md` | **`INDEX_REVYX_documents_v1.1.26.md`** (acesta) |
+| `ROADMAP_REVYX_detailed-execution_v1.0.0..v1.0.16.md` | **`ROADMAP_REVYX_detailed-execution_v1.0.17.md`** |
+| `INDEX_REVYX_documents_v1.0.0..v1.1.26.md` | **`INDEX_REVYX_documents_v1.1.27.md`** (acesta) |
 | `TECH_SPEC_REVYX_audit-log_v1.1.0 / v1.1.1.md` | **`TECH_SPEC_REVYX_audit-log_v1.1.2.md`** |
 | `GLOSSARY_REVYX_abbreviations_v1.0.0.md` | **`GLOSSARY_REVYX_abbreviations_v1.0.1.md`** |
 | `WORKFLOW_REVYX_property-onboarding_v1.0.0.md` | **`WORKFLOW_REVYX_property-onboarding_v1.1.0.md`** |
@@ -413,5 +414,5 @@
 
 ---
 
-*docs/INDEX_REVYX_documents_v1.1.26.md · v1.1.26 · 2026-07 · CONFIDENȚIAL · Uz Intern*
+*docs/INDEX_REVYX_documents_v1.1.27.md · v1.1.27 · 2026-07 · CONFIDENȚIAL · Uz Intern*
 *REVYX — Real Estate Execution Intelligence · © 2026 REVYX · ITPRO SYSTEM SRL*

@@ -101,7 +101,7 @@ Analiză statică a întregului repo la 2026-07: structură monorepo, backend Ne
 | Senior QA / Test Architect | ✅ APPROVED cu note (F-ARCH-06/07) |
 | Senior PM | ⏳ pending — decizie P0 ca sesiune dedicată vs. absorbit în M1.S3 entry |
 
-**Cross-refs:** `CLAUDE.md` §0a + Regulile 8/17/18/20/21 · `ARCH_REVYX_agent-routine-capability-map_v1.0.0.md` §6 (D-1..D-7) · `ROADMAP_REVYX_detailed-execution_v1.0.16.md` §4 · `BRD_REVYX_v1.5.0.md` §7/§12.
+**Cross-refs:** `CLAUDE.md` §0a + Regulile 8/17/18/20/21 · `ARCH_REVYX_agent-routine-capability-map_v1.0.0.md` §6 (D-1..D-7) · `ROADMAP_REVYX_detailed-execution_v1.0.17.md` §4 · `BRD_REVYX_v1.5.0.md` §7/§12.
 
 ---
 
