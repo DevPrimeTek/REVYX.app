@@ -64,13 +64,22 @@ CREATE INDEX IF NOT EXISTS idx_showings_noshow_scan
   WHERE status IN ('SCHEDULED','REMINDED') AND attended IS NULL;
 
 -- Calendar conflict guard (only if btree_gist is available).
+-- `timestamptz + interval` is only STABLE in PostgreSQL (day/month components are
+-- timezone-dependent), so it cannot appear directly in an index expression. Adding a
+-- pure minutes interval to an absolute instant IS timezone-independent, so this
+-- wrapper is safe to declare IMMUTABLE.
+CREATE OR REPLACE FUNCTION showing_slot_range(start_at TIMESTAMPTZ)
+RETURNS tstzrange
+LANGUAGE sql IMMUTABLE PARALLEL SAFE
+AS $fn$ SELECT tstzrange(start_at, start_at + INTERVAL '60 minutes') $fn$;
+
 DO $$ BEGIN
   IF EXISTS (SELECT 1 FROM pg_extension WHERE extname = 'btree_gist') THEN
     BEGIN
       ALTER TABLE showings ADD CONSTRAINT showings_agent_no_overlap
         EXCLUDE USING gist (
           agent_id WITH =,
-          tstzrange(scheduled_at, scheduled_at + INTERVAL '60 minutes') WITH &&
+          showing_slot_range(scheduled_at) WITH &&
         )
         WHERE (status IN ('SCHEDULED','REMINDED'));
     EXCEPTION WHEN duplicate_object THEN NULL;
