@@ -5,7 +5,10 @@ name: web-preview-ci
 # stable. Package upgraded in-place to @revyx/web@0.2.0 (semantic promote without
 # directory rename) per Runbook v1.0.2 §1 deploy-stability rule.
 #
-# Gates PR merges on typecheck + production build success.
+# P0 (convergence foundation): repo is an npm-workspaces monorepo — install runs at
+# the repo root (single root package-lock.json); packages/* changes also trigger.
+#
+# Gates PR merges on typecheck + production build success + i18n integrity.
 # Vercel deployment runs separately via the Vercel GitHub App
 # (Root Directory = apps/web-preview, see docs/runbook/RUNBOOK_REVYX_demo-deploy_v1.0.2.md).
 
@@ -13,14 +16,21 @@ on:
   pull_request:
     paths:
       - 'apps/web-preview/**'
+      - 'packages/**'
       - 'design/tokens.json'
+      - 'package.json'
+      - 'package-lock.json'
       - '.github/workflows/web-preview-ci.yml'
+      - '.github/scripts/check-i18n.mjs'
   push:
     branches:
       - main
     paths:
       - 'apps/web-preview/**'
+      - 'packages/**'
       - 'design/tokens.json'
+      - 'package.json'
+      - 'package-lock.json'
 
 permissions:
   contents: read
@@ -30,9 +40,6 @@ jobs:
     name: Typecheck + Build
     runs-on: ubuntu-latest
     timeout-minutes: 10
-    defaults:
-      run:
-        working-directory: apps/web-preview
 
     steps:
       - name: Checkout
@@ -45,15 +52,20 @@ jobs:
         with:
           node-version: '22'
           cache: 'npm'
-          cache-dependency-path: apps/web-preview/package-lock.json
+          cache-dependency-path: package-lock.json
 
-      - name: Install dependencies
+      - name: Install dependencies (workspace root)
         run: npm ci --no-audit --no-fund
+
+      - name: i18n integrity (duplicate keys fail · RO↔RU/EN parity warns)
+        run: node .github/scripts/check-i18n.mjs apps/web-preview/messages
 
       - name: Typecheck
         run: npm run typecheck
+        working-directory: apps/web-preview
 
       - name: Build
         run: npm run build
+        working-directory: apps/web-preview
         env:
           NEXT_TELEMETRY_DISABLED: '1'
