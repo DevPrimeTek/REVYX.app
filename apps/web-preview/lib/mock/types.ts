@@ -18,18 +18,13 @@ export type PreferenceSnapshot = {
   features: string[];
   changeNote: string;   // de ce s-a schimbat (ex: "După vizionare S-3001 — buget redus")
 };
-export type LeadStatus = 'HOT' | 'qualified' | 'warm' | 'nurturing';
-/** Regula 19 + Regula 20: 4 enum flat + helper transactionIntent() derivat (lib/transaction-intent.ts). */
-export type LeadType = 'buyer' | 'seller' | 'tenant' | 'landlord';
-/** Regula 20: helper derivat — sale (buyer/seller) sau rent (tenant/landlord). Calibration_profile pe scoring. */
-export type TransactionIntent = 'sale' | 'rent';
-/** Regula 20: latura logică — demand (buyer/tenant) sau supply (seller/landlord). */
-export type LeadSide = 'demand' | 'supply';
+// P0-2 (ARCH_REVIEW F-ARCH-01): enums de domeniu partajate trăiesc în @revyx/core;
+// re-exportate aici ca importurile existente din '@/lib/mock' să rămână valide.
+import type { LeadStatus, LeadType, TransactionIntent, LeadSide, ListingType, DealStage } from '@revyx/core';
+export type { LeadStatus, LeadType, TransactionIntent, LeadSide, ListingType, DealStage } from '@revyx/core';
+
 export type LeadUrgency = 'low' | 'medium' | 'high';
-export type DealStage = 'discovery' | 'qualified' | 'offer' | 'negotiation' | 'closing' | 'won';
 export type PropertyKind = 'apartment' | 'house' | 'land' | 'commercial';
-/** Regula 20: ce listare are proprietatea — vânzare, închiriere sau ambele. */
-export type ListingType = 'sale' | 'rent' | 'both';
 
 export type Agent = {
   id: string;

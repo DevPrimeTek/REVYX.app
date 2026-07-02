@@ -1,0 +1,10 @@
+{
+  "name": "@revyx/core",
+  "version": "0.1.0",
+  "private": true,
+  "description": "REVYX shared domain core — enums + pure helpers consumed by apps/web-preview (and apps/api from M1.S3). TS source is consumed directly via Next.js transpilePackages.",
+  "license": "UNLICENSED",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "sideEffects": false
+}

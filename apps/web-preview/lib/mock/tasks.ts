@@ -7,18 +7,9 @@ import { agents } from './agents';
 import { leadsById } from './leads';
 import { propertiesById } from './properties';
 
-export type TaskType =
-  | 'first_contact'
-  | 'follow_up'
-  | 'schedule_showing'
-  | 'send_property'
-  | 'request_documents'
-  | 'draft_offer'
-  | 'close_deal'
-  | 'review_no_show'
-  | 'custom';
-
-export type TaskStatus = 'PENDING' | 'ACTIVE' | 'COMPLETED' | 'SNOOZED' | 'CANCELLED';
+// P0-2 (ARCH_REVIEW F-ARCH-01): TaskType/TaskStatus partajate din @revyx/core.
+import type { TaskType, TaskStatus } from '@revyx/core';
+export type { TaskType, TaskStatus } from '@revyx/core';
 
 export interface AgentTask {
   id: string;

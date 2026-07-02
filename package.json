@@ -1,0 +1,14 @@
+{
+  "name": "revyx",
+  "version": "0.1.0",
+  "private": true,
+  "description": "REVYX — Agent Operating System (AOS). npm workspaces monorepo: apps/* + packages/*.",
+  "license": "UNLICENSED",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "engines": {
+    "node": ">=22"
+  }
+}

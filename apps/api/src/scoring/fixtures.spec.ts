@@ -1,5 +1,13 @@
 import { describe, expect, it } from 'vitest';
 import {
+  apsForAgent,
+  computeDhi,
+  computeLeadScore,
+  computeListingFreshness,
+  computeNba,
+  computePropertyScore,
+} from './engine';
+import {
   T01_lead_new_initial,
   T02_nba_inactive_100_days,
   T03_dhi_tf_zero,
@@ -7,12 +15,6 @@ import {
   T05_aps_new_agent,
   T06_nba_max,
   T07_offer_chain,
-  apsForAgent,
-  computeDhi,
-  computeLeadScore,
-  computeListingFreshness,
-  computeNba,
-  computePropertyScore,
 } from './fixtures';
 
 describe('Scoring fixtures T01..T07 (BRD §12)', () => {
