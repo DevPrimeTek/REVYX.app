@@ -43,9 +43,11 @@ export function buildSeedClosureStates(): ClosureState[] {
         financingBank: 'Maib',
         notaryName: 'Notar public Veronica Roșca',
         notaryScheduledAt: iso(-14),
-        notaryActNumber: 'NA-2026-04217',
+        // Numere unice per deal (consistent cu lib/mock/notary-acts.ts) — fix audit UX:
+        // anterior toate deal-urile won afișau identic NA-2026-04217 / CR-9384-2026.
+        notaryActNumber: `NA-2026-${4000 + Number(deal.id.slice(-3))}`,
         notarizedAt: iso(-14),
-        cadastreRegNumber: 'CR-9384-2026',
+        cadastreRegNumber: `CR-${9000 + Number(deal.id.slice(-3))}-2026`,
         cadastreRegisteredAt: iso(-7),
         npsScore: deal.id.endsWith('15') ? 9 : deal.id.endsWith('16') ? 7 : null,
         npsComment: deal.id.endsWith('15')

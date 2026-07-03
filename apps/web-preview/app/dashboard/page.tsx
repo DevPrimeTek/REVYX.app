@@ -65,7 +65,6 @@ export default function DashboardPage() {
         <section className="grid grid-cols-1 lg:grid-cols-3 gap-sp3">
           <Card variant="elevated" accentTop>
             <CardHeader>
-              <p className="label-mono text-text-secondary">A</p>
               <div className="flex items-center gap-sp1">
                 <CardTitle className="text-[16px]">{t('dashboard.blocks.urgentTitle')}</CardTitle>
                 <InfoTooltip
@@ -85,9 +84,6 @@ export default function DashboardPage() {
                 <p className="text-[48px] font-display text-gold leading-none hover:underline underline-offset-4">
                   {hotCount}
                 </p>
-                <p className="text-[12px] text-text-secondary mt-sp1">
-                  {t('dashboard.blocks.urgentDesc')}
-                </p>
               </Link>
               {hotLeads.slice(0, 3).map((lead) => (
                 <Link
@@ -106,7 +102,6 @@ export default function DashboardPage() {
 
           <Card variant="elevated" accentTop>
             <CardHeader>
-              <p className="label-mono text-text-secondary">B</p>
               <div className="flex items-center gap-sp1">
                 <CardTitle className="text-[16px]">{t('dashboard.blocks.perfTitle')}</CardTitle>
                 <InfoTooltip
@@ -151,7 +146,6 @@ export default function DashboardPage() {
           {/* Quick decisions — promoted into the top row per PM feedback */}
           <Card variant="elevated" accentTop>
             <CardHeader>
-              <p className="label-mono text-text-secondary">C</p>
               <CardTitle className="text-[16px]">{t('dashboard.decisions.title')}</CardTitle>
               <CardDescription>{t('dashboard.decisions.desc')}</CardDescription>
             </CardHeader>
