@@ -12,6 +12,10 @@ function iso(days: number, hour = 10): string {
   return d.toISOString();
 }
 
+// Poo­luri de vânzători + ore programare → acte distincte chiar dacă două deal-uri
+// nimeresc aceeași proprietate (coincidență RNG în seed-ul deals). Fix audit UX.
+const SELLER_POOL = ['Serghei Munteanu', 'Familia Cernei', 'Andrei Rusu', 'Maria Ceban', 'Ion Postolachi'];
+
 export function buildSeedNotaryActs(): NotaryAct[] {
   const out: NotaryAct[] = [];
   for (const deal of deals) {
@@ -23,18 +27,20 @@ export function buildSeedNotaryActs(): NotaryAct[] {
     // lease agreement (vezi lib/mock/lease-agreements.ts) — workflow simplificat fără notar.
     if (lead.leadType === 'tenant' || lead.leadType === 'landlord') continue;
 
+    const n = Number(deal.id.slice(-3));
+    const seller = SELLER_POOL[n % SELLER_POOL.length];
     if (deal.stage === 'closing') {
       out.push({
         id: `NA-${deal.id.replace('D-', '')}`,
         dealId: deal.id,
         notaryName: 'Notar public Doina Bordea',
-        scheduledAt: iso(4, 11),
+        scheduledAt: iso(2 + (n % 6), 9 + (n % 7)),
         signedAt: null,
         actNumber: null,
         cadastreRegNumber: null,
         status: 'SCHEDULED',
         buyerName: lead.name,
-        sellerName: 'Serghei Munteanu',
+        sellerName: seller,
         propertyAddr: prop.addr,
         amountEur: prop.priceEur,
       });
@@ -43,13 +49,13 @@ export function buildSeedNotaryActs(): NotaryAct[] {
         id: `NA-${deal.id.replace('D-', '')}`,
         dealId: deal.id,
         notaryName: 'Notar public Veronica Roșca',
-        scheduledAt: iso(-14, 11),
-        signedAt: iso(-14, 14),
-        actNumber: `NA-2026-${4000 + Number(deal.id.slice(-3))}`,
-        cadastreRegNumber: `CR-${9000 + Number(deal.id.slice(-3))}-2026`,
+        scheduledAt: iso(-30 + (n % 20), 9 + (n % 7)),
+        signedAt: iso(-28 + (n % 18), 14),
+        actNumber: `NA-2026-${4000 + n}`,
+        cadastreRegNumber: `CR-${9000 + n}-2026`,
         status: 'REGISTERED',
         buyerName: lead.name,
-        sellerName: 'Familia Cernei',
+        sellerName: seller,
         propertyAddr: prop.addr,
         amountEur: prop.priceEur,
       });

@@ -132,18 +132,19 @@ function DealCard({
 
       <div className="h-px bg-border mx-2" />
 
-      {/* ── Zona 3 — money: Cost (linia 1) + Comision (linia 2) ── */}
-      <div className="px-2 py-1.5 flex flex-col gap-0.5">
-        <div className="flex items-baseline justify-between gap-sp2 min-w-0">
-          <span className="text-[11px] text-text-muted flex-shrink-0">{t('deal.costLabel')}</span>
-          <span className="text-[13px] text-text-h font-mono font-semibold whitespace-nowrap truncate">
+      {/* ── Zona 3 — money: Cost + Comision stivuite VERTICAL (label deasupra, valoare pe
+          rând propriu la lățime completă) → suma nu se mai truchează la 6 coloane. Fix audit UX. ── */}
+      <div className="px-2 py-1.5 flex flex-col gap-1.5 min-w-0">
+        <div className="min-w-0">
+          <span className="block text-[10px] text-text-muted leading-none mb-0.5">{t('deal.costLabel')}</span>
+          <span className="block text-[13px] text-text-h font-mono font-semibold truncate">
             €{((isRent ? property?.monthlyRentEur : property?.priceEur) ?? 0).toLocaleString('ro-MD')}
             {isRent && <span className="text-text-muted text-[10px] font-sans"> {t('deal.perMonth')}</span>}
           </span>
         </div>
-        <div className="flex items-baseline justify-between gap-sp2 min-w-0">
-          <span className="text-[11px] text-text-muted flex-shrink-0">{t('deal.commissionLabel')}</span>
-          <span className="text-[12px] text-gold font-mono whitespace-nowrap truncate">
+        <div className="min-w-0">
+          <span className="block text-[10px] text-text-muted leading-none mb-0.5">{t('deal.commissionLabel')}</span>
+          <span className="block text-[12px] text-gold font-mono truncate">
             {property?.commissionPct ?? (isRent ? 100 : 2.5)}% · €{deal.commissionEur.toLocaleString('ro-MD')}
           </span>
         </div>
@@ -151,12 +152,10 @@ function DealCard({
 
       <div className="h-px bg-border mx-2" />
 
-      {/* ── Zona 4 — agent: label stânga + nume bold dreapta (pattern Zone 3) ── */}
+      {/* ── Zona 4 — agent: label deasupra + nume bold pe rând propriu (pattern Zone 3) ── */}
       <div className="px-2 py-1.5 min-w-0">
-        <div className="flex items-baseline justify-between gap-sp2 min-w-0">
-          <span className="text-[11px] text-text-muted flex-shrink-0">{t('deal.agentLabel')}</span>
-          <span className="text-[12px] text-text-h font-semibold whitespace-nowrap truncate">{agent?.name ?? deal.agentId}</span>
-        </div>
+        <span className="block text-[10px] text-text-muted leading-none mb-0.5">{t('deal.agentLabel')}</span>
+        <span className="block text-[12px] text-text-h font-semibold truncate">{agent?.name ?? deal.agentId}</span>
       </div>
 
       {/* ── Zona 5 — tip tranzacție + buton detalii (un singur rând, fără wrap) ── */}
@@ -164,9 +163,9 @@ function DealCard({
         <>
           <div className="h-px bg-border mx-2" />
           <div className="px-2 py-1.5 flex items-center justify-between gap-x-sp2 min-w-0">
-            <span className="inline-flex items-center gap-1.5 text-[12px] text-text-h font-medium min-w-0">
+            <span className="inline-flex items-center gap-1.5 text-[12px] text-text-h font-medium flex-shrink-0">
               <span className={`w-2 h-2 rounded-full flex-shrink-0 ${isRent ? 'bg-status-green' : 'bg-status-blue'}`} aria-hidden />
-              <span className="truncate">{t(`deal.intentShort.${intent}`)}</span>
+              <span className="whitespace-nowrap">{t(`deal.intentShort.${intent}`)}</span>
             </span>
             <a
               href={`/deals/${deal.id}`}

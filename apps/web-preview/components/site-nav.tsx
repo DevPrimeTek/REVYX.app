@@ -23,17 +23,16 @@ const cabinetLinks = [
   { href: '/cabinet/group', key: 'cabinetGroup' },
 ] as const;
 
+// Audit UX fix: Manager + Admin mutate în „Mai mult" ca bara să încapă pe laptop-uri
+// 1280/1366 (anterior 10 iteme inline → overflow orizontal 143px la 1280).
 const toolsLinks = [
+  { href: '/manager', key: 'manager' },
+  { href: '/admin', key: 'admin' },
   { href: '/marketplace', key: 'marketplace' },
   { href: '/notary', key: 'notary' },
   { href: '/client', key: 'clientPortal' },
   { href: '/intake', key: 'intake' },
   { href: '/tutorial', key: 'tutorial' },
-] as const;
-
-const overflowLinks = [
-  { href: '/manager', key: 'manager' },
-  { href: '/admin', key: 'admin' },
 ] as const;
 
 const localeLabels: Record<Locale, string> = { ro: 'RO', ru: 'RU', en: 'EN' };
@@ -78,7 +77,7 @@ export function SiteNav({ active }: { active?: string }) {
     >
       <Link href="/dashboard" className="flex items-center gap-sp2">
         <span className="font-display text-[22px] tracking-wide text-gold">REVYX</span>
-        <span className="label-mono hidden md:inline">{t('nav.brandTagline')}</span>
+        <span className="label-mono hidden 2xl:inline whitespace-nowrap">{t('nav.brandTagline')}</span>
       </Link>
       <ul className="hidden lg:flex items-center gap-sp1">
         {primaryLinks.map((l) => (
@@ -86,7 +85,7 @@ export function SiteNav({ active }: { active?: string }) {
             <Link
               href={l.href}
               className={cn(
-                'inline-flex h-9 items-center px-sp3 rounded-md text-[13px] transition-colors duration-fast',
+                'inline-flex h-9 items-center whitespace-nowrap shrink-0 px-sp2 rounded-md text-[13px] transition-colors duration-fast',
                 active === l.href
                   ? 'bg-navy-hover text-text-h'
                   : 'text-text-secondary hover:bg-navy-hover hover:text-text-h'
@@ -105,7 +104,7 @@ export function SiteNav({ active }: { active?: string }) {
             aria-expanded={cabinetOpen}
             onClick={() => setCabinetOpen((o) => !o)}
             className={cn(
-              'inline-flex h-9 items-center gap-1 px-sp3 rounded-md text-[13px] transition-colors duration-fast',
+              'inline-flex h-9 items-center gap-1 whitespace-nowrap shrink-0 px-sp2 rounded-md text-[13px] transition-colors duration-fast',
               cabinetActive
                 ? 'bg-navy-hover text-text-h'
                 : 'text-text-secondary hover:bg-navy-hover hover:text-text-h'
@@ -148,7 +147,7 @@ export function SiteNav({ active }: { active?: string }) {
             aria-expanded={toolsOpen}
             onClick={() => setToolsOpen((o) => !o)}
             className={cn(
-              'inline-flex h-9 items-center gap-1 px-sp3 rounded-md text-[13px] transition-colors duration-fast',
+              'inline-flex h-9 items-center gap-1 whitespace-nowrap shrink-0 px-sp2 rounded-md text-[13px] transition-colors duration-fast',
               toolsActive
                 ? 'bg-navy-hover text-text-h'
                 : 'text-text-secondary hover:bg-navy-hover hover:text-text-h'
@@ -183,21 +182,6 @@ export function SiteNav({ active }: { active?: string }) {
           )}
         </li>
 
-        {overflowLinks.map((l) => (
-          <li key={l.href}>
-            <Link
-              href={l.href}
-              className={cn(
-                'inline-flex h-9 items-center px-sp3 rounded-md text-[13px] transition-colors duration-fast',
-                active === l.href
-                  ? 'bg-navy-hover text-text-h'
-                  : 'text-text-secondary hover:bg-navy-hover hover:text-text-h'
-              )}
-            >
-              {t(`nav.${l.key}`)}
-            </Link>
-          </li>
-        ))}
       </ul>
       <div className="flex items-center gap-sp2">
         <span className="badge-mono text-text-muted hidden md:inline">{t('common.demoBadge')}</span>
