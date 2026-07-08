@@ -2,7 +2,8 @@ import { Nav } from '@/components/sections/nav';
 import { Hero } from '@/components/sections/hero';
 import { Problem } from '@/components/sections/problem';
 import { What } from '@/components/sections/what';
-import { Benefits } from '@/components/sections/benefits';
+import { AiTrust } from '@/components/sections/ai-trust';
+import { Pillars } from '@/components/sections/pillars';
 import { How } from '@/components/sections/how';
 import { Demo } from '@/components/sections/demo';
 import { Bonus } from '@/components/sections/bonus';
@@ -17,7 +18,8 @@ export default function Page() {
         <Hero />
         <Problem />
         <What />
-        <Benefits />
+        <AiTrust />
+        <Pillars />
         <How />
         <Demo />
         <Bonus />
