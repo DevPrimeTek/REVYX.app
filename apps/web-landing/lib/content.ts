@@ -6,7 +6,7 @@
 
 export type Locale = 'ro' | 'ru';
 
-export interface Benefit {
+export interface PillarBlock {
   title: string;
   body: string;
 }
@@ -30,7 +30,8 @@ export interface Copy {
   };
   problem: { eyebrow: string; title: string; items: string[] };
   what: { eyebrow: string; title: string; body: string; notCrm: string };
-  benefits: { eyebrow: string; title: string; items: Benefit[] };
+  ai: { eyebrow: string; title: string; body: string; points: string[] };
+  pillars: { eyebrow: string; title: string; blocks: PillarBlock[]; note: string };
   how: { eyebrow: string; title: string; steps: Step[] };
   demo: { eyebrow: string; title: string; body: string; cta: string; note: string };
   bonus: {
@@ -69,20 +70,20 @@ export interface Copy {
 const ro: Copy = {
   nav: {
     demo: 'Demo',
-    benefits: 'Beneficii',
+    benefits: 'Cum te ajută',
     bonus: 'Bonus',
     feedback: 'Participă',
     cta: 'Încearcă demo',
   },
   hero: {
     badge: 'Instrument de lucru pentru agentul imobiliar',
-    title1: 'Nu un CRM.',
-    title2: 'Sistemul tău de execuție zilnică.',
+    title1: 'Puntea ta peste haos și rutină,',
+    title2: 'spre tranzacție finisată și client fericit.',
     subtitle:
-      'REVYX îți spune pe cine să suni acum, ce proprietate se potrivește fiecărui client și în ce stadiu e fiecare tranzacție — ca să nu mai pierzi nicio afacere din lipsă de timp sau de ordine.',
+      'REVYX trece cu tine prin tot fluxul de lucru — de la primul contact până la tranzacția încheiată — și elimină haosul și rutina de pe drum. Rămân doar oamenii și deciziile care contează.',
     ctaDemo: 'Încearcă demo-ul live',
     ctaFeedback: 'Participă la dezvoltare',
-    trust: 'Construit pentru piața din Republica Moldova · Vânzare și chirie',
+    trust: 'De la primul contact până la vânzare efectuată — un singur flux, un singur instrument.',
   },
   problem: {
     eyebrow: 'Problema',
@@ -96,39 +97,33 @@ const ro: Copy = {
   what: {
     eyebrow: 'Ce este REVYX',
     title: 'Un Agent Operating System, nu încă o agendă',
-    body: 'REVYX este sistemul care organizează munca ta zilnică de la primul contact cu clientul până la semnarea la notar. Preia rutina, îți dă ordinea de priorități și te lasă să faci ce contează: să vorbești cu oamenii și să închizi afaceri.',
-    notCrm:
-      'Un CRM stochează contacte. REVYX îți spune ce să faci cu ele — pas cu pas.',
+    body: 'REVYX este sistemul care trece cu tine prin tot fluxul de lucru — de la primul contact cu clientul până la semnarea la notar. Preia rutina, îți dă ordinea de priorități și te lasă să faci ce contează: să vorbești cu oamenii și să închizi afaceri.',
+    notCrm: 'Un CRM stochează contacte. REVYX îți spune ce să faci cu ele — pas cu pas.',
   },
-  benefits: {
-    eyebrow: 'Beneficii',
-    title: 'Ce câștigi concret',
-    items: [
+  ai: {
+    eyebrow: 'Rolul tehnologiei',
+    title: 'Tehnologia care te pune în față, nu care te înlocuiește',
+    body: 'REVYX nu vorbește niciodată în locul tău. Lucrează în spatele tău — strânge informația, așază prioritățile, îți pregătește pasul următor. Tu intri la fiecare discuție pregătit și la timp. Clientul simte un agent mai bun; tu ai mai mult timp pentru oameni și mai puțină rutină.',
+    points: ['Deciziile rămân ale tale', 'Relația cu clientul rămâne a ta', 'AI-ul preia rutina, nu rolul tău'],
+  },
+  pillars: {
+    eyebrow: 'Cum te ajută, în fiecare zi',
+    title: 'Trei lucruri simple, mereu în fundal',
+    blocks: [
       {
-        title: 'Nu mai pierzi lead-uri',
-        body: 'Fiecare cerere nouă e prioritizată automat și primești alertă înainte să se răcească. Sistemul îți amintește să răspunzi la timp.',
+        title: 'Știi cu cine să vorbești',
+        body: 'Clienții tăi vin ordonați, cei urgenți în față — nu mai cauți prin zeci de conversații ca să afli cine așteaptă un răspuns.',
       },
       {
-        title: 'Îți spune ce să faci acum',
-        body: 'În loc de o listă lungă și confuză, vezi următorii pași recomandați pentru fiecare client — sună, programează vizionare, cere documente.',
+        title: 'Știi ce să faci',
+        body: 'Pasul următor e mereu clar: sună, programează o vizionare, cere acte, pregătește oferta. Fără liste lungi și confuze.',
       },
       {
-        title: 'Potriviri client ↔ proprietate',
-        body: 'Pentru fiecare cumpărător primești top proprietăți care se potrivesc cu adevărat, iar pentru fiecare proprietate — clienții compatibili.',
-      },
-      {
-        title: 'Tranzacții clare, de la A la Z',
-        body: 'Un flux vizual al fiecărei afaceri: în ce stadiu e, cine urmează, ce risc apare și ce comision aduce.',
-      },
-      {
-        title: 'Vânzare și chirie, împreună',
-        body: 'REVYX acoperă și vânzările, și închirierile — cu comisioane, documente și pași diferiți, dar în același loc.',
-      },
-      {
-        title: 'Cabinet pentru tine și echipă',
-        body: 'Agent, agenție sau grup — fiecare are cabinetul lui: performanță, istoric, clienți și obiective de creștere.',
+        title: 'Vezi cât ai crescut',
+        body: 'Tranzacții închise, încrederea clienților, obiectivele tale — totul la un loc, ca să știi exact unde ești și unde poți mai mult.',
       },
     ],
+    note: 'Nu trebuie să înțelegi tehnologia. Ea lucrează singură în fundal — tu primești un singur lucru, simplu: ce ai de făcut azi.',
   },
   how: {
     eyebrow: 'Cum funcționează',
@@ -208,20 +203,20 @@ const ro: Copy = {
 const ru: Copy = {
   nav: {
     demo: 'Демо',
-    benefits: 'Преимущества',
+    benefits: 'Как помогает',
     bonus: 'Бонус',
     feedback: 'Участвовать',
     cta: 'Открыть демо',
   },
   hero: {
     badge: 'Рабочий инструмент для агента по недвижимости',
-    title1: 'Не CRM.',
-    title2: 'Ваша система ежедневной работы.',
+    title1: 'Ваш мост через хаос и рутину,',
+    title2: 'к завершённой сделке и довольному клиенту.',
     subtitle:
-      'REVYX подсказывает, кому позвонить сейчас, какой объект подходит каждому клиенту и на каком этапе каждая сделка — чтобы вы не теряли сделки из-за нехватки времени или порядка.',
+      'REVYX проходит с вами через весь рабочий процесс — от первого контакта до завершения сделки — и убирает с пути хаос и рутину. Остаются только люди и решения, которые действительно важны.',
     ctaDemo: 'Открыть живое демо',
     ctaFeedback: 'Участвовать в разработке',
-    trust: 'Создано для рынка Республики Молдова · Продажа и аренда',
+    trust: 'От первого контакта до завершённой продажи — единый поток, единый инструмент.',
   },
   problem: {
     eyebrow: 'Проблема',
@@ -235,38 +230,33 @@ const ru: Copy = {
   what: {
     eyebrow: 'Что такое REVYX',
     title: 'Operating System для агента, а не ещё один ежедневник',
-    body: 'REVYX организует вашу ежедневную работу от первого контакта с клиентом до подписания у нотариуса. Берёт на себя рутину, задаёт приоритеты и оставляет вам главное: общаться с людьми и закрывать сделки.',
+    body: 'REVYX — это система, которая проходит с вами через весь рабочий процесс — от первого контакта с клиентом до подписания у нотариуса. Берёт на себя рутину, задаёт приоритеты и оставляет вам главное: общаться с людьми и закрывать сделки.',
     notCrm: 'CRM хранит контакты. REVYX говорит, что с ними делать — шаг за шагом.',
   },
-  benefits: {
-    eyebrow: 'Преимущества',
-    title: 'Что вы получаете конкретно',
-    items: [
+  ai: {
+    eyebrow: 'Роль технологии',
+    title: 'Технология, которая выводит вас вперёд, а не заменяет вас',
+    body: 'REVYX никогда не говорит с клиентом вместо вас. Она работает за вашей спиной — собирает информацию, расставляет приоритеты, готовит следующий шаг. Вы приходите на каждую встречу подготовленным и вовремя. Клиент чувствует более внимательного агента; у вас — больше времени для людей и меньше рутины.',
+    points: ['Решения остаются за вами', 'Отношения с клиентом остаются вашими', 'ИИ берёт на себя рутину, а не вашу роль'],
+  },
+  pillars: {
+    eyebrow: 'Как это помогает вам, каждый день',
+    title: 'Три простые вещи, всегда на фоне',
+    blocks: [
       {
-        title: 'Больше не теряете заявки',
-        body: 'Каждая новая заявка автоматически получает приоритет, а вы — напоминание, пока она не остыла.',
+        title: 'Вы знаете, с кем говорить',
+        body: 'Ваши клиенты приходят упорядоченными, срочные — впереди. Не нужно искать в десятках переписок, кто ждёт ответа.',
       },
       {
-        title: 'Система подсказывает действие',
-        body: 'Вместо длинного запутанного списка — рекомендованные следующие шаги по каждому клиенту: позвонить, назначить показ, запросить документы.',
+        title: 'Вы знаете, что делать',
+        body: 'Следующий шаг всегда ясен: позвонить, назначить показ, запросить документы, подготовить предложение. Без длинных запутанных списков.',
       },
       {
-        title: 'Совпадения клиент ↔ объект',
-        body: 'Для каждого покупателя — топ действительно подходящих объектов, для каждого объекта — совместимые клиенты.',
-      },
-      {
-        title: 'Понятные сделки от А до Я',
-        body: 'Наглядный поток каждой сделки: этап, следующий шаг, риск и комиссия.',
-      },
-      {
-        title: 'Продажа и аренда вместе',
-        body: 'REVYX охватывает и продажи, и аренду — с разными комиссиями, документами и шагами, но в одном месте.',
-      },
-      {
-        title: 'Кабинет для вас и команды',
-        body: 'Агент, агентство или группа — у каждого свой кабинет: результаты, история, клиенты и цели роста.',
+        title: 'Вы видите, насколько выросли',
+        body: 'Закрытые сделки, доверие клиентов, ваши цели — всё в одном месте, чтобы точно знать, где вы сейчас и где можете больше.',
       },
     ],
+    note: 'Вам не нужно разбираться в технологии. Она работает сама на фоне — вы получаете одну простую вещь: что делать сегодня.',
   },
   how: {
     eyebrow: 'Как это работает',

@@ -14,7 +14,7 @@ export function Nav() {
           <Logo />
         </a>
         <div className="hidden items-center gap-sp4 md:flex">
-          <a href="#benefits" className="text-sm text-text-secondary hover:text-text-h">
+          <a href="#pillars" className="text-sm text-text-secondary hover:text-text-h">
             {t.nav.benefits}
           </a>
           <a href="#bonus" className="text-sm text-text-secondary hover:text-text-h">
