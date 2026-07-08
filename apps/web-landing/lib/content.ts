@@ -6,7 +6,7 @@
 
 export type Locale = 'ro' | 'ru';
 
-export interface PillarBlock {
+export interface TitleBody {
   title: string;
   body: string;
 }
@@ -15,6 +15,12 @@ export interface Step {
   n: string;
   title: string;
   body: string;
+}
+
+export interface RatingItem {
+  key: string;
+  label: string;
+  hint: string;
 }
 
 export interface Copy {
@@ -28,10 +34,10 @@ export interface Copy {
     ctaFeedback: string;
     trust: string;
   };
-  problem: { eyebrow: string; title: string; items: string[] };
+  problem: { eyebrow: string; title: string; intro: string; items: TitleBody[] };
   what: { eyebrow: string; title: string; body: string; notCrm: string };
   ai: { eyebrow: string; title: string; body: string; points: string[] };
-  pillars: { eyebrow: string; title: string; blocks: PillarBlock[]; note: string };
+  pillars: { eyebrow: string; title: string; items: TitleBody[]; note: string };
   how: { eyebrow: string; title: string; steps: Step[] };
   demo: { eyebrow: string; title: string; body: string; cta: string; note: string };
   bonus: {
@@ -49,13 +55,22 @@ export interface Copy {
     email: string;
     role: string;
     roleOptions: string[];
+    market: string;
+    marketOptions: string[];
     city: string;
     volume: string;
     volumeOptions: string[];
+    ratingsTitle: string;
+    ratings: RatingItem[];
     pain: string;
     painPlaceholder: string;
-    wish: string;
-    wishPlaceholder: string;
+    blockers: string;
+    blockersPlaceholder: string;
+    aiConcern: string;
+    aiConcernPlaceholder: string;
+    paymentBand: string;
+    paymentBandOptions: string[];
+    recommend: string;
     consent: string;
     pilot: string;
     submit: string;
@@ -87,17 +102,40 @@ const ro: Copy = {
   },
   problem: {
     eyebrow: 'Problema',
-    title: 'Munca bună se pierde în haos, nu din lipsă de clienți',
+    title: 'Nu lipsa clienților te încetinește — lipsa instrumentului potrivit',
+    intro:
+      'Agenții buni pierd afaceri nu pentru că muncesc puțin, ci pentru că nimic din ce fac zilnic nu e conectat într-un singur loc.',
     items: [
-      'Lead-uri care se răcesc pentru că nu ai apucat să răspunzi la timp.',
-      'Nu mai știi ce proprietate se potrivea cu ce client — totul e în cap sau în zeci de conversații.',
-      'Tranzacțiile stau pe loc și nu vezi clar ce urmează, cine întârzie și ce risc apare.',
+      {
+        title: 'Lipsa unui instrument pentru gestiunea clienților',
+        body: 'Clienții, discuțiile și preferințele lor stau împrăștiate în telefon, WhatsApp și notițe — nu într-un singur loc, ordonat și accesibil oricând ai nevoie.',
+      },
+      {
+        title: 'Lipsa analizei automate a lead-urilor',
+        body: 'Nu ai un sistem care să-ți spună care lead chiar merită timpul tău acum și care se răcește dacă nu răspunzi imediat.',
+      },
+      {
+        title: 'Lucrul echipei, neconsolidat',
+        body: 'Agenți, agenție și grup lucrează fiecare separat, fără o imagine comună asupra clienților, proprietăților și rezultatelor.',
+      },
+      {
+        title: 'Gestiunea proprietăților, împrăștiată',
+        body: 'Anunțuri, poze, prețuri și stadiul fiecărei proprietăți stau în locuri diferite, greu de urmărit și de actualizat la zi.',
+      },
+      {
+        title: 'Vânzare și închiriere, tratate separat',
+        body: 'Deși fac parte din aceeași muncă zilnică, cele două cer instrumente și fluxuri diferite, greu de ținut simultan sub control.',
+      },
+      {
+        title: 'Tranzacția, greu de urmărit',
+        body: 'Nu vezi mereu clar în ce stadiu e o afacere, cine are următorul pas și ce risc apare pe drum, până e prea târziu.',
+      },
     ],
   },
   what: {
     eyebrow: 'Ce este REVYX',
-    title: 'Un Agent Operating System, nu încă o agendă',
-    body: 'REVYX este sistemul care trece cu tine prin tot fluxul de lucru — de la primul contact cu clientul până la semnarea la notar. Preia rutina, îți dă ordinea de priorități și te lasă să faci ce contează: să vorbești cu oamenii și să închizi afaceri.',
+    title: 'Sistemul care lucrează în locul tău, pentru munca ta zilnică',
+    body: 'REVYX este un Agent Operating System — un sistem format din 8 module care lucrează împreună și trec cu tine prin tot fluxul de lucru: de la primul contact cu clientul până la semnarea la notar. Fiecare modul rezolvă o parte reală din munca ta de zi cu zi, ca tu să te ocupi de oameni, nu de organizare.',
     notCrm: 'Un CRM stochează contacte. REVYX îți spune ce să faci cu ele — pas cu pas.',
   },
   ai: {
@@ -107,23 +145,43 @@ const ro: Copy = {
     points: ['Deciziile rămân ale tale', 'Relația cu clientul rămâne a ta', 'AI-ul preia rutina, nu rolul tău'],
   },
   pillars: {
-    eyebrow: 'Cum te ajută, în fiecare zi',
-    title: 'Trei lucruri simple, mereu în fundal',
-    blocks: [
+    eyebrow: 'Cele 8 module',
+    title: 'Cum lucrează sistemul, pas cu pas',
+    items: [
       {
-        title: 'Știi cu cine să vorbești',
-        body: 'Clienții tăi vin ordonați, cei urgenți în față — nu mai cauți prin zeci de conversații ca să afli cine așteaptă un răspuns.',
+        title: 'Prioritizarea clienților',
+        body: 'Fiecare client nou primește automat un rang de prioritate, ca să știi cu cine vorbești primul și să nu mai pierzi pe cei pregătiți să cumpere sau să închirieze acum.',
       },
       {
-        title: 'Știi ce să faci',
-        body: 'Pasul următor e mereu clar: sună, programează o vizionare, cere acte, pregătește oferta. Fără liste lungi și confuze.',
+        title: 'Calitatea ofertei',
+        body: 'Sistemul urmărește ce anunțuri sunt proaspete și complete, ca proprietățile tale să rămână vizibile și atractive, nu îngropate în portofoliu.',
       },
       {
-        title: 'Vezi cât ai crescut',
-        body: 'Tranzacții închise, încrederea clienților, obiectivele tale — totul la un loc, ca să știi exact unde ești și unde poți mai mult.',
+        title: 'Potrivirea client ↔ proprietate',
+        body: 'Pentru fiecare client primești automat proprietățile care se potrivesc cu adevărat, iar pentru fiecare proprietate — clienții compatibili.',
+      },
+      {
+        title: 'Pasul următor',
+        body: 'Nu mai ghicești ce ai de făcut: sistemul îți spune exact acțiunea următoare pentru fiecare client — sună, programează, cere acte.',
+      },
+      {
+        title: 'Șansa de închidere',
+        body: 'Vezi cât de aproape e o afacere de a se închide, ca să știi unde să-ți concentrezi timpul chiar acum.',
+      },
+      {
+        title: 'Sănătatea tranzacției',
+        body: 'Fiecare tranzacție e urmărită pas cu pas; dacă ceva riscă să întârzie sau să cadă, afli din timp, nu la final.',
+      },
+      {
+        title: 'Performanța ta și a echipei',
+        body: 'Rezultatele tale și ale echipei — tranzacții, comisioane, creștere — sunt urmărite clar, într-un singur loc.',
+      },
+      {
+        title: 'Încrederea clientului',
+        body: 'Sistemul urmărește dacă îți ții promisiunile față de client, pentru relații care aduc recomandări și clienți noi.',
       },
     ],
-    note: 'Nu trebuie să înțelegi tehnologia. Ea lucrează singură în fundal — tu primești un singur lucru, simplu: ce ai de făcut azi.',
+    note: 'Nu trebuie să înțelegi tehnologia din spate. Cele 8 module lucrează împreună, în fundal — tu primești un singur lucru, simplu: ce ai de făcut azi.',
   },
   how: {
     eyebrow: 'Cum funcționează',
@@ -166,7 +224,7 @@ const ro: Copy = {
   },
   feedback: {
     eyebrow: 'Participă',
-    title: 'Spune-ne cum lucrezi — durează 2 minute',
+    title: 'Spune-ne cum lucrezi — durează 3-4 minute',
     body: 'Răspunsurile tale ne arată ce să construim mai întâi. Lasă-ne un email valid ca să-ți rezervăm anul gratuit.',
     name: 'Nume (opțional)',
     email: 'Email',
@@ -177,13 +235,28 @@ const ro: Copy = {
       'Manager de rețea',
       'Altul',
     ],
+    market: 'Pe ce piață lucrezi?',
+    marketOptions: ['Vânzare', 'Chirie', 'Ambele'],
     city: 'Orașul / zona în care lucrezi',
     volume: 'Câți clienți noi ai într-o lună, în medie?',
     volumeOptions: ['Sub 10', '10–30', '30–60', 'Peste 60'],
+    ratingsTitle: 'Cât de valoroase ți s-au părut aceste capabilități în demo? (1 = deloc, 5 = foarte mult)',
+    ratings: [
+      { key: 'leads', label: 'Filtrarea lead-urilor', hint: 'doar contactele bune ajung la tine' },
+      { key: 'nba', label: 'Recomandarea pasului următor', hint: 'ce ai de făcut acum, per client' },
+      { key: 'match', label: 'Potrivirea client ↔ proprietate', hint: 'top proprietăți per client, clienți per proprietate' },
+      { key: 'deals', label: 'Vizibilitatea tranzacțiilor', hint: 'stadiu, risc, cine urmează' },
+      { key: 'daily', label: 'Aș folosi REVYX zilnic', hint: 'pe fluxul meu real de lucru' },
+    ],
     pain: 'Care e cea mai mare bătaie de cap în munca ta zilnică?',
     painPlaceholder: 'Ex: pierd lead-uri pentru că nu răspund la timp...',
-    wish: 'Ce te-ar face să folosești REVYX în fiecare zi?',
-    wishPlaceholder: 'Ex: să văd clar ce am de făcut dimineața...',
+    blockers: 'Ce te-ar opri să folosești REVYX în fiecare zi?',
+    blockersPlaceholder: 'Ex: nu are integrare cu portalul X, nu văd comisionul clar...',
+    aiConcern: 'Ce te îngrijorează la o platformă ghidată de AI?',
+    aiConcernPlaceholder: 'Ex: mă tem că pierd controlul deciziei, că clientul simte o mașină...',
+    paymentBand: 'Cât ai fi dispus să plătești lunar pentru un instrument ca acesta? (opțional, ne ajută să stabilim prețul corect)',
+    paymentBandOptions: ['Sub 20€', '20–50€', '50–100€', 'Peste 100€', 'Prefer să nu spun'],
+    recommend: 'Aș recomanda demo-ul unui alt agent.',
     consent: 'Sunt de acord ca REVYX să-mi păstreze datele pentru a mă contacta despre platformă și bonusul de un an.',
     pilot: 'Vreau să fiu contactat pentru a testa platforma în pilot.',
     submit: 'Trimite și rezervă anul gratuit',
@@ -220,17 +293,40 @@ const ru: Copy = {
   },
   problem: {
     eyebrow: 'Проблема',
-    title: 'Хорошая работа теряется в хаосе, а не из-за нехватки клиентов',
+    title: 'Вас тормозит не нехватка клиентов — а отсутствие подходящего инструмента',
+    intro:
+      'Хорошие агенты теряют сделки не потому, что мало работают, а потому, что ничего из того, что они делают ежедневно, не связано в одном месте.',
     items: [
-      'Заявки остывают, потому что вы не успели вовремя ответить.',
-      'Уже не помните, какой объект подходил какому клиенту — всё в голове или в десятках переписок.',
-      'Сделки стоят на месте, и не видно, что дальше, кто задерживает и где риск.',
+      {
+        title: 'Нет инструмента для управления клиентами',
+        body: 'Клиенты, переписки и их предпочтения разбросаны по телефону, WhatsApp и заметкам — а не собраны в одном упорядоченном и доступном месте.',
+      },
+      {
+        title: 'Нет автоматического анализа заявок',
+        body: 'У вас нет системы, которая скажет, какая заявка действительно заслуживает вашего времени сейчас, а какая остынет, если не ответить сразу.',
+      },
+      {
+        title: 'Работа команды не объединена',
+        body: 'Агенты, агентство и группа работают порознь, без общей картины по клиентам, объектам и результатам.',
+      },
+      {
+        title: 'Управление объектами разрознено',
+        body: 'Объявления, фото, цены и статус каждого объекта хранятся в разных местах — сложно отслеживать и обновлять вовремя.',
+      },
+      {
+        title: 'Продажа и аренда обрабатываются отдельно',
+        body: 'Хотя это часть одной и той же ежедневной работы, для них нужны разные инструменты и процессы, которые сложно контролировать одновременно.',
+      },
+      {
+        title: 'Сделку сложно отслеживать',
+        body: 'Не всегда понятно, на каком этапе сделка, за кем следующий шаг и какой риск возникает на пути — пока не станет слишком поздно.',
+      },
     ],
   },
   what: {
     eyebrow: 'Что такое REVYX',
-    title: 'Operating System для агента, а не ещё один ежедневник',
-    body: 'REVYX — это система, которая проходит с вами через весь рабочий процесс — от первого контакта с клиентом до подписания у нотариуса. Берёт на себя рутину, задаёт приоритеты и оставляет вам главное: общаться с людьми и закрывать сделки.',
+    title: 'Система, которая работает за вас, для вашей ежедневной работы',
+    body: 'REVYX — это Agent Operating System: система из 8 модулей, которые работают вместе и проходят с вами через весь рабочий процесс — от первого контакта с клиентом до подписания у нотариуса. Каждый модуль решает реальную часть вашей повседневной работы, чтобы вы занимались людьми, а не организацией.',
     notCrm: 'CRM хранит контакты. REVYX говорит, что с ними делать — шаг за шагом.',
   },
   ai: {
@@ -240,23 +336,43 @@ const ru: Copy = {
     points: ['Решения остаются за вами', 'Отношения с клиентом остаются вашими', 'ИИ берёт на себя рутину, а не вашу роль'],
   },
   pillars: {
-    eyebrow: 'Как это помогает вам, каждый день',
-    title: 'Три простые вещи, всегда на фоне',
-    blocks: [
+    eyebrow: 'Восемь модулей',
+    title: 'Как работает система, шаг за шагом',
+    items: [
       {
-        title: 'Вы знаете, с кем говорить',
-        body: 'Ваши клиенты приходят упорядоченными, срочные — впереди. Не нужно искать в десятках переписок, кто ждёт ответа.',
+        title: 'Приоритет клиентов',
+        body: 'Каждый новый клиент автоматически получает уровень приоритета — вы знаете, с кем говорить первым, и не теряете тех, кто уже готов купить или снять сейчас.',
       },
       {
-        title: 'Вы знаете, что делать',
-        body: 'Следующий шаг всегда ясен: позвонить, назначить показ, запросить документы, подготовить предложение. Без длинных запутанных списков.',
+        title: 'Качество предложения',
+        body: 'Система следит за тем, какие объявления свежие и полные, чтобы ваши объекты оставались на виду, а не терялись в портфеле.',
       },
       {
-        title: 'Вы видите, насколько выросли',
-        body: 'Закрытые сделки, доверие клиентов, ваши цели — всё в одном месте, чтобы точно знать, где вы сейчас и где можете больше.',
+        title: 'Совпадение клиент ↔ объект',
+        body: 'Для каждого клиента вы автоматически получаете подходящие объекты, а для каждого объекта — совместимых клиентов.',
+      },
+      {
+        title: 'Следующий шаг',
+        body: 'Не нужно гадать, что делать: система точно говорит, каким будет следующее действие для каждого клиента — позвонить, назначить показ, запросить документы.',
+      },
+      {
+        title: 'Шанс на закрытие',
+        body: 'Вы видите, насколько сделка близка к закрытию, чтобы точно знать, куда направить своё время прямо сейчас.',
+      },
+      {
+        title: 'Здоровье сделки',
+        body: 'Каждая сделка отслеживается шаг за шагом; если что-то рискует задержаться или сорваться, вы узнаёте заранее, а не в конце.',
+      },
+      {
+        title: 'Ваши результаты и результаты команды',
+        body: 'Ваши показатели и показатели команды — сделки, комиссии, рост — видны ясно, в одном месте.',
+      },
+      {
+        title: 'Доверие клиента',
+        body: 'Система отслеживает, держите ли вы обещания перед клиентом — для отношений, которые приносят рекомендации и новых клиентов.',
       },
     ],
-    note: 'Вам не нужно разбираться в технологии. Она работает сама на фоне — вы получаете одну простую вещь: что делать сегодня.',
+    note: 'Вам не нужно разбираться в технологии за этим. Восемь модулей работают вместе, на фоне — вы получаете одну простую вещь: что делать сегодня.',
   },
   how: {
     eyebrow: 'Как это работает',
@@ -299,19 +415,34 @@ const ru: Copy = {
   },
   feedback: {
     eyebrow: 'Участвовать',
-    title: 'Расскажите, как вы работаете — 2 минуты',
+    title: 'Расскажите, как вы работаете — 3-4 минуты',
     body: 'Ваши ответы показывают, что строить в первую очередь. Оставьте действующий email, чтобы мы забронировали ваш бесплатный год.',
     name: 'Имя (необязательно)',
     email: 'Email',
     role: 'Ваша роль?',
     roleOptions: ['Независимый агент', 'Брокер / владелец агентства', 'Менеджер сети', 'Другое'],
+    market: 'На каком рынке вы работаете?',
+    marketOptions: ['Продажа', 'Аренда', 'Оба варианта'],
     city: 'Город / район, где вы работаете',
     volume: 'Сколько новых клиентов у вас в среднем за месяц?',
     volumeOptions: ['Меньше 10', '10–30', '30–60', 'Больше 60'],
+    ratingsTitle: 'Насколько ценными показались вам эти возможности в демо? (1 = совсем нет, 5 = очень)',
+    ratings: [
+      { key: 'leads', label: 'Фильтрация заявок', hint: 'только хорошие контакты доходят до вас' },
+      { key: 'nba', label: 'Рекомендация следующего шага', hint: 'что делать сейчас, по каждому клиенту' },
+      { key: 'match', label: 'Совпадение клиент ↔ объект', hint: 'топ объектов на клиента, клиентов на объект' },
+      { key: 'deals', label: 'Видимость сделок', hint: 'этап, риск, кто следующий' },
+      { key: 'daily', label: 'Я бы пользовался REVYX ежедневно', hint: 'в своей реальной работе' },
+    ],
     pain: 'Что доставляет больше всего хлопот в вашей ежедневной работе?',
     painPlaceholder: 'Напр.: теряю заявки, потому что не отвечаю вовремя...',
-    wish: 'Что заставило бы вас пользоваться REVYX каждый день?',
-    wishPlaceholder: 'Напр.: чётко видеть, что делать с утра...',
+    blockers: 'Что помешало бы вам пользоваться REVYX каждый день?',
+    blockersPlaceholder: 'Напр.: нет интеграции с порталом X, не вижу комиссию явно...',
+    aiConcern: 'Что вас беспокоит в платформе, управляемой ИИ?',
+    aiConcernPlaceholder: 'Напр.: боюсь потерять контроль над решением, что клиент почувствует машину...',
+    paymentBand: 'Сколько вы были бы готовы платить в месяц за такой инструмент? (необязательно, поможет установить верную цену)',
+    paymentBandOptions: ['Меньше 20€', '20–50€', '50–100€', 'Больше 100€', 'Предпочитаю не говорить'],
+    recommend: 'Я бы порекомендовал демо другому агенту.',
     consent: 'Согласен, чтобы REVYX хранил мои данные для связи о платформе и бонусе на год.',
     pilot: 'Хочу, чтобы со мной связались для тестирования платформы в пилоте.',
     submit: 'Отправить и забронировать бесплатный год',
