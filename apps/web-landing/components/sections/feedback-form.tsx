@@ -35,10 +35,19 @@ export function FeedbackForm() {
           name: data.get('name') || null,
           email,
           role: data.get('role') || null,
+          market: data.get('market') || null,
           city: data.get('city') || null,
           volume: data.get('volume') || null,
+          ratingLeads: data.get('rating_leads') || null,
+          ratingNba: data.get('rating_nba') || null,
+          ratingMatch: data.get('rating_match') || null,
+          ratingDeals: data.get('rating_deals') || null,
+          ratingDaily: data.get('rating_daily') || null,
           pain: data.get('pain') || null,
-          wish: data.get('wish') || null,
+          blockers: data.get('blockers') || null,
+          aiConcern: data.get('ai_concern') || null,
+          paymentBand: data.get('payment_band') || null,
+          recommend: data.get('recommend') === 'on',
           consent,
           pilot: data.get('pilot') === 'on',
           locale,
@@ -114,27 +123,70 @@ export function FeedbackForm() {
               </select>
             </div>
             <div>
+              <label className="field-label" htmlFor="market">
+                {f.market}
+              </label>
+              <select id="market" name="market" className="field" defaultValue="">
+                <option value="" disabled>
+                  —
+                </option>
+                {f.marketOptions.map((o) => (
+                  <option key={o} value={o}>
+                    {o}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
+
+          <div className="grid gap-sp3 sm:grid-cols-2">
+            <div>
               <label className="field-label" htmlFor="city">
                 {f.city}
               </label>
               <input id="city" name="city" className="field" />
             </div>
+            <div>
+              <label className="field-label" htmlFor="volume">
+                {f.volume}
+              </label>
+              <select id="volume" name="volume" className="field" defaultValue="">
+                <option value="" disabled>
+                  —
+                </option>
+                {f.volumeOptions.map((o) => (
+                  <option key={o} value={o}>
+                    {o}
+                  </option>
+                ))}
+              </select>
+            </div>
           </div>
 
-          <div>
-            <label className="field-label" htmlFor="volume">
-              {f.volume}
-            </label>
-            <select id="volume" name="volume" className="field" defaultValue="">
-              <option value="" disabled>
-                —
-              </option>
-              {f.volumeOptions.map((o) => (
-                <option key={o} value={o}>
-                  {o}
-                </option>
+          <div className="mt-sp2 border-t border-border pt-sp3">
+            <p className="field-label">{f.ratingsTitle}</p>
+            <div className="mt-sp2 grid gap-sp3">
+              {f.ratings.map((r) => (
+                <div key={r.key} className="flex flex-wrap items-center justify-between gap-sp2">
+                  <span className="text-sm text-text-primary">
+                    {r.label} <span className="text-text-muted">— {r.hint}</span>
+                  </span>
+                  <div className="flex items-center gap-sp2" role="radiogroup" aria-label={r.label}>
+                    {[1, 2, 3, 4, 5].map((n) => (
+                      <label key={n} className="flex flex-col items-center gap-0.5 text-xs text-text-muted">
+                        <input
+                          type="radio"
+                          name={`rating_${r.key}`}
+                          value={n}
+                          className="accent-gold"
+                        />
+                        {n}
+                      </label>
+                    ))}
+                  </div>
+                </div>
               ))}
-            </select>
+            </div>
           </div>
 
           <div>
@@ -145,12 +197,51 @@ export function FeedbackForm() {
           </div>
 
           <div>
-            <label className="field-label" htmlFor="wish">
-              {f.wish}
+            <label className="field-label" htmlFor="blockers">
+              {f.blockers}
             </label>
-            <textarea id="wish" name="wish" rows={2} className="field" placeholder={f.wishPlaceholder} />
+            <textarea
+              id="blockers"
+              name="blockers"
+              rows={2}
+              className="field"
+              placeholder={f.blockersPlaceholder}
+            />
           </div>
 
+          <div>
+            <label className="field-label" htmlFor="ai_concern">
+              {f.aiConcern}
+            </label>
+            <textarea
+              id="ai_concern"
+              name="ai_concern"
+              rows={2}
+              className="field"
+              placeholder={f.aiConcernPlaceholder}
+            />
+          </div>
+
+          <div>
+            <label className="field-label" htmlFor="payment_band">
+              {f.paymentBand}
+            </label>
+            <select id="payment_band" name="payment_band" className="field" defaultValue="">
+              <option value="" disabled>
+                —
+              </option>
+              {f.paymentBandOptions.map((o) => (
+                <option key={o} value={o}>
+                  {o}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <label className="flex items-start gap-sp2 text-sm text-text-secondary">
+            <input type="checkbox" name="recommend" className="mt-1 accent-gold" />
+            <span>{f.recommend}</span>
+          </label>
           <label className="flex items-start gap-sp2 text-sm text-text-secondary">
             <input type="checkbox" name="consent" required className="mt-1 accent-gold" />
             <span>{f.consent} *</span>

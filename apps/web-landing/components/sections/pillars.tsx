@@ -1,9 +1,18 @@
 'use client';
 
-import { Compass, ListChecks, TrendingUp } from 'lucide-react';
+import {
+  UserCheck,
+  Building2,
+  Compass,
+  ListChecks,
+  Handshake,
+  Activity,
+  TrendingUp,
+  ShieldCheck,
+} from 'lucide-react';
 import { useI18n } from '@/lib/i18n';
 
-const ICONS = [Compass, ListChecks, TrendingUp];
+const ICONS = [UserCheck, Building2, Compass, ListChecks, Handshake, Activity, TrendingUp, ShieldCheck];
 
 export function Pillars() {
   const { t } = useI18n();
@@ -12,16 +21,16 @@ export function Pillars() {
       <div className="container-x py-sp10">
         <p className="eyebrow">{t.pillars.eyebrow}</p>
         <h2 className="mt-sp2 text-[clamp(28px,4vw,44px)] leading-tight">{t.pillars.title}</h2>
-        <div className="mt-sp5 grid gap-sp3 md:grid-cols-3">
-          {t.pillars.blocks.map((block, i) => {
+        <div className="mt-sp5 grid gap-sp3 sm:grid-cols-2 lg:grid-cols-4">
+          {t.pillars.items.map((item, i) => {
             const Icon = ICONS[i % ICONS.length];
             return (
-              <div key={i} className="card">
-                <span className="inline-flex h-12 w-12 items-center justify-center rounded-md bg-navy-hover text-gold">
-                  <Icon size={22} />
+              <div key={i} className="card-hover">
+                <span className="inline-flex h-10 w-10 items-center justify-center rounded-md bg-navy-hover text-gold">
+                  <Icon size={20} />
                 </span>
-                <h3 className="mt-sp3 font-body text-xl font-bold text-text-h">{block.title}</h3>
-                <p className="mt-sp1 text-sm leading-relaxed text-text-secondary">{block.body}</p>
+                <h3 className="mt-sp2 font-body text-lg font-bold text-text-h">{item.title}</h3>
+                <p className="mt-1 text-sm leading-relaxed text-text-secondary">{item.body}</p>
               </div>
             );
           })}
