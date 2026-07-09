@@ -55,8 +55,8 @@
   h1,
   h2,
   h3 {
-    @apply font-display tracking-wide text-text-h;
-    font-weight: 400;
+    @apply text-text-h;
+    font-weight: 700;
   }
 
   ::selection {
