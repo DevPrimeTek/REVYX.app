@@ -1,11 +1,12 @@
 # DOC_MASTER — Orchestrator Documentație REVYX
-<!-- docs/skills/DOC_MASTER.md · v1.0.0 · 2026-05 -->
+<!-- docs/skills/DOC_MASTER.md · v1.0.1 · 2026-07 -->
 <!-- CONFIDENȚIAL · Uz Intern · © 2026 REVYX · ITPRO SYSTEM SRL -->
 
 ## Changelog
 
 | Versiune | Data | Autor | Note |
 |---|---|---|---|
+| 1.0.1 | 2026-07 | Senior Architect | ★ PATCH — fix cross-ref mort: input BRD actualizat `v1.1.0` → `v1.5.0` (§1 + §3.1), cf. Regula 18 §6 (revizie documentație) |
 | 1.0.0 | 2026-05 | Senior PM | Definiție inițială orchestrator |
 
 ---
@@ -18,7 +19,7 @@
 | **Tip** | Orchestrator skill |
 | **Rol** | Coordonează toate sub-skillurile de documentație REVYX |
 | **Inputuri obligatorii** | `docs/brand-configs/revyx.md` · `docs/templates/HEADER_STANDARD.md` |
-| **Inputuri context** | `docs/BRD_REVYX_v1.1.0.md` · documente versiune anterioară |
+| **Inputuri context** | ★ `docs/BRD_REVYX_v1.5.0.md` (versiunea BRD curentă) · documente versiune anterioară |
 
 ---
 
@@ -48,7 +49,7 @@ DOC_MASTER
 1. **Citește brand-config** (`docs/brand-configs/revyx.md`) — paletă, ton, structură header
 2. **Citește template-ul header** (`docs/templates/HEADER_STANDARD.md`)
 3. **Citește versiunea anterioară** dacă există (pentru changelog & ★ marking)
-4. **Citește BRD-ul curent** (`docs/BRD_REVYX_v1.1.0.md`) — sursa de adevăr business
+4. **Citește BRD-ul curent** (★ `docs/BRD_REVYX_v1.5.0.md`) — sursa de adevăr business
 5. Apelează sub-skillul potrivit cu contextul agregat
 6. Validează output-ul cu checklist-ul din `HEADER_STANDARD.md` §7
 
@@ -113,5 +114,5 @@ Niciun document nu poate introduce cerințe noi care nu sunt în BRD. Dacă apar
 
 ---
 
-*docs/skills/DOC_MASTER.md · v1.0.0 · 2026-05 · CONFIDENȚIAL · Uz Intern*
+*docs/skills/DOC_MASTER.md · v1.0.1 · 2026-07 · CONFIDENȚIAL · Uz Intern*
 *REVYX — Real Estate Execution Intelligence · © 2026 REVYX · ITPRO SYSTEM SRL*
