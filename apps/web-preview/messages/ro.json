@@ -1700,5 +1700,41 @@
       "inter_agency": "Inter-agenție",
       "public_mls": "Rețea deschisă"
     }
+  },
+  "feedback": {
+    "buttonLabel": "Feedback",
+    "modalTitle": "Spune-ne ce crezi",
+    "modalSubtitle": "Explorezi un demo REVYX. Părerea ta ne ajută să-l facem mai bun.",
+    "point1": "Durează ~2 minute — poți răspunde și anonim.",
+    "point2": "Ne interesează ce te-ar face să-l folosești zi de zi.",
+    "point3": "Orice ecran neclar sau care lipsește — spune-ne direct.",
+    "openForm": "Deschide chestionarul",
+    "cta": "Lasă feedback",
+    "later": "Mai târziu",
+    "nudgeTitle": "Ai explorat câteva ecrane 👀",
+    "nudgeBody": "Spune-ne în 2 minute ce ți-a plăcut și ce lipsește.",
+    "dismiss": "Închide"
+  },
+  "welcome": {
+    "title": "Bine ai venit în demo-ul REVYX",
+    "subtitle": "2 minute de explorat, pe cont propriu. Iată traseul recomandat:",
+    "step1": {
+      "title": "Calificarea unui lead",
+      "body": "Intră în Lead-uri → deschide un lead. Vezi cum sistemul îți spune ce să faci acum."
+    },
+    "step2": {
+      "title": "Potrivirea cu proprietăți",
+      "body": "Pe un lead cumpărător vezi Top-3 proprietăți potrivite, cu motivul potrivirii."
+    },
+    "step3": {
+      "title": "Fluxul tranzacțiilor",
+      "body": "Deschide Tranzacții → trage cardurile între etape (kanban)."
+    },
+    "step4": {
+      "title": "Cabinetul agentului",
+      "body": "Vezi Cabinet → performanță, obiective, istoric — fără foi de calcul."
+    },
+    "langNote": "Poți schimba limba (RO / RU / EN) din colțul din dreapta sus.",
+    "start": "Începe explorarea"
   }
 }
