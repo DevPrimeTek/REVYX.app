@@ -1006,5 +1006,41 @@
       "inter_agency": "Inter-agency",
       "public_mls": "Open network"
     }
+  },
+  "feedback": {
+    "buttonLabel": "Feedback",
+    "modalTitle": "Tell us what you think",
+    "modalSubtitle": "You're exploring a REVYX demo. Your input helps us make it better.",
+    "point1": "Takes ~2 minutes — you can answer anonymously.",
+    "point2": "We want to know what would make you use it every day.",
+    "point3": "Any screen that's unclear or missing — tell us directly.",
+    "openForm": "Open the form",
+    "cta": "Leave feedback",
+    "later": "Later",
+    "nudgeTitle": "You've explored a few screens 👀",
+    "nudgeBody": "Take 2 minutes to tell us what you liked and what's missing.",
+    "dismiss": "Close"
+  },
+  "welcome": {
+    "title": "Welcome to the REVYX demo",
+    "subtitle": "2 minutes to explore on your own. Here's the suggested path:",
+    "step1": {
+      "title": "Qualify a lead",
+      "body": "Open Leads → pick a lead. See how the system tells you what to do now."
+    },
+    "step2": {
+      "title": "Match with properties",
+      "body": "On a buyer lead you'll see the Top-3 matching properties, with the reason."
+    },
+    "step3": {
+      "title": "Deal flow",
+      "body": "Open Deals → drag cards between stages (kanban)."
+    },
+    "step4": {
+      "title": "Agent cabinet",
+      "body": "Open Cabinet → performance, goals, history — no spreadsheets."
+    },
+    "langNote": "You can switch language (RO / RU / EN) from the top-right corner.",
+    "start": "Start exploring"
   }
 }
