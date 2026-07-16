@@ -14,21 +14,21 @@ Maximum de testeri + maximum de feedback, cu **minimum de timp al fondatorului**
 | # | Acțiune | Timp | Referință |
 |---|---|---|---|
 | 1 | Confirmă link-ul public al demo-ului (Vercel) | 2 min | — |
-| 2 | Creează formularul Tally + lipește întrebările | 10 min | `FEEDBACK_FORM_TALLY.md` §1-§2 |
-| 3 | Setează `NEXT_PUBLIC_TALLY_FEEDBACK_URL` în Vercel + redeploy | 5 min | `FEEDBACK_FORM_TALLY.md` §1 pct.5 |
+| 2 | Creează proiect Supabase + rulează SQL tabel `feedback` | 8 min | `FEEDBACK_DB_SETUP.md` §1-§2 |
+| 3 | Setează `SUPABASE_URL` + `SUPABASE_SERVICE_ROLE_KEY` în Vercel + redeploy | 5 min | `FEEDBACK_DB_SETUP.md` §1 pct.4-5 |
 | 4 | Verifică: buton „Feedback" din demo deschide formularul | 2 min | — |
 | 5 | (dacă nu există) creează pagina LinkedIn + Telegram + FB REVYX | 10 min | opțional; poate lipsi la start |
 
-> Conturile de social/WhatsApp și Tally necesită credențialele fondatorului — de aceea sunt singurele lui sarcini. Nu pot fi automatizate din exterior.
+> Conturile de social/WhatsApp și Supabase necesită credențialele fondatorului — de aceea sunt singurele lui sarcini. Nu pot fi automatizate din exterior.
 
 ---
 
 ## 2. Ce face Directorul Marketing (Claude) — continuu
 
-- Produce/actualizează tot conținutul promo (`PROMO_CONTENT_PACK.md`) + formularul (`FEEDBACK_FORM_TALLY.md`).
+- Produce/actualizează tot conținutul promo (`PROMO_CONTENT_PACK.md`) + formularul nativ + schema DB (`FEEDBACK_DB_SETUP.md`).
 - Menține mecanismul de feedback din demo (widget + ghid + nudge) — deja în cod.
 - La cerere, generează liste de prospecți (cross-ref `MARKET_VALIDATION_KIT/PROSPECTING_KIT.md`) + mesaje personalizate.
-- Sintetizează răspunsurile Tally → priorități (`MARKET_VALIDATION_KIT/SUCCESS_CRITERIA.md`).
+- Sintetizează răspunsurile din Supabase → priorități (`MARKET_VALIDATION_KIT/SUCCESS_CRITERIA.md`).
 
 ---
 
@@ -54,7 +54,7 @@ Regula de aur: **întotdeauna trimite link-ul + ceri feedback**. Nu programa ape
 |---|---|---|---|
 | Luni | 10-15 mesaje noi de prospectare (WhatsApp/DM) | Fondator lipește | 20 min |
 | Miercuri | 1 postare refresh (grup FB permis / Telegram / IG) | Fondator lipește | 10 min |
-| Vineri | Sinteză răspunsuri Tally + update SUCCESS_CRITERIA + praguri | Director Marketing | — |
+| Vineri | Sinteză răspunsuri Supabase + update SUCCESS_CRITERIA + praguri | Director Marketing | — |
 | Vineri | Follow-up la cei fără răspuns din săptămână | Fondator lipește | 15 min |
 
 **Total timp fondator: ~45 min/săptămână.** Restul e pe Directorul Marketing.
@@ -71,8 +71,8 @@ Regula de aur: **întotdeauna trimite link-ul + ceri feedback**. Nu programa ape
 ---
 
 ## 6. Măsurare (fără unelte plătite)
-- **Vizite demo:** Vercel Analytics (free) sau numărul de răspunsuri Tally ca proxy.
-- **Feedback:** Tally Responses (count + medii Î3/Î4/Î7).
+- **Vizite demo:** Vercel Analytics (free) sau numărul de rânduri din tabelul `feedback` ca proxy.
+- **Feedback:** tabelul Supabase `feedback` (count + medii clarity/utility/pilot_intent).
 - **Contacte:** Î8 completat (listă de re-contactare la lansare).
 - Prag de decizie: dacă Î4 (utilitate) media < 3/5 după 10 răspunsuri → ecranele confuze se refac înainte de a scala promovarea.
 
@@ -80,7 +80,7 @@ Regula de aur: **întotdeauna trimite link-ul + ceri feedback**. Nu programa ape
 
 ## 7. Limite oneste (ce NU pot face autonom)
 - Nu pot posta pe conturile de social/WhatsApp ale fondatorului (nu am acces la credențiale) — de aceea lipirea rămâne la fondator (2 min/canal, conținut gata scris).
-- Nu pot crea contul Tally în numele lui (necesită email-ul lui).
+- Nu pot crea contul Supabase în numele lui (necesită email-ul lui).
 - Tot ce ține de **producție de conținut, mecanism, sinteză** — le fac eu integral.
 
 ---

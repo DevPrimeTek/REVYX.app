@@ -1,29 +1,24 @@
 'use client';
 
 // Demo promotion · Global feedback widget.
-// Rendat o singură dată în AppProviders → apare pe toate cele 20 ecrane fără să atingem fiecare pagină.
-//  1) Buton plutitor mereu vizibil (jos-dreapta) → deschide modal cu link către formularul Tally.
-//  2) Nudge automat după ce testerul a explorat ≥ NUDGE_AFTER_PAGES ecrane distincte
-//     (ca feedback-ul să nu poată fi ratat), o singură dată per browser.
+// Rendat o singură dată în AppProviders → apare pe toate ecranele fără să atingem fiecare pagină.
+//  1) Buton plutitor mereu vizibil (jos-dreapta) → deschide formularul NATIV de feedback.
+//  2) Nudge automat după ce testerul a explorat ≥ NUDGE_AFTER_PAGES ecrane distincte.
 // Regula 12: elementele sunt interactive (buton/link) → hover permis.
 
 import { usePathname } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
-import { Modal } from '@/components/ui/modal';
 import { Button } from '@/components/ui/button';
 import { useT } from '@/components/i18n/provider';
-import { TALLY_FEEDBACK_URL, NUDGE_AFTER_PAGES } from '@/lib/feedback-config';
-import {
-  useFeedbackFlags,
-  markFeedbackOpened,
-  dismissNudge,
-} from '@/lib/feedback-store';
+import { NUDGE_AFTER_PAGES } from '@/lib/feedback-config';
+import { useFeedbackFlags, markFeedbackOpened, dismissNudge } from '@/lib/feedback-store';
+import { FeedbackForm } from '@/components/feedback/feedback-form';
 
 export function FeedbackWidget() {
   const { t } = useT();
   const pathname = usePathname();
   const flags = useFeedbackFlags();
-  const [modalOpen, setModalOpen] = useState(false);
+  const [formOpen, setFormOpen] = useState(false);
   const [nudgeVisible, setNudgeVisible] = useState(false);
   const visited = useRef<Set<string>>(new Set());
 
@@ -38,10 +33,7 @@ export function FeedbackWidget() {
   function openForm() {
     markFeedbackOpened();
     setNudgeVisible(false);
-    setModalOpen(false);
-    if (typeof window !== 'undefined') {
-      window.open(TALLY_FEEDBACK_URL, '_blank', 'noopener,noreferrer');
-    }
+    setFormOpen(true);
   }
 
   function closeNudge() {
@@ -78,7 +70,7 @@ export function FeedbackWidget() {
 
       {/* Buton plutitor persistent */}
       <button
-        onClick={() => setModalOpen(true)}
+        onClick={openForm}
         className="fixed bottom-4 right-4 z-40 inline-flex items-center gap-sp1 h-12 px-sp3 rounded-full bg-gold text-navy-deep font-body font-semibold text-[14px] shadow-gold hover:bg-gold-light transition-all duration-fast ease-standard focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-light focus-visible:ring-offset-2 focus-visible:ring-offset-navy-deep"
         aria-label={t('feedback.buttonLabel')}
       >
@@ -86,27 +78,7 @@ export function FeedbackWidget() {
         <span className="hidden sm:inline">{t('feedback.buttonLabel')}</span>
       </button>
 
-      <Modal
-        open={modalOpen}
-        onClose={() => setModalOpen(false)}
-        title={t('feedback.modalTitle')}
-        description={t('feedback.modalSubtitle')}
-        size="sm"
-      >
-        <div className="flex flex-col gap-sp3">
-          <ul className="flex flex-col gap-sp1 text-[13px] text-text-secondary">
-            <li>• {t('feedback.point1')}</li>
-            <li>• {t('feedback.point2')}</li>
-            <li>• {t('feedback.point3')}</li>
-          </ul>
-          <div className="flex flex-col gap-sp2 sm:flex-row sm:justify-end">
-            <Button variant="ghost" onClick={() => setModalOpen(false)}>
-              {t('feedback.later')}
-            </Button>
-            <Button onClick={openForm}>{t('feedback.openForm')}</Button>
-          </div>
-        </div>
-      </Modal>
+      <FeedbackForm open={formOpen} onClose={() => setFormOpen(false)} onSubmitted={markFeedbackOpened} />
     </>
   );
 }

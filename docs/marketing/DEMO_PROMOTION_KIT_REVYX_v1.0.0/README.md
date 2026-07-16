@@ -1,5 +1,5 @@
 # KIT PROMOVARE DEMO — REVYX (Index)
-<!-- docs/marketing/DEMO_PROMOTION_KIT_REVYX_v1.0.0/README.md · v1.0.0 · 2026-07 -->
+<!-- docs/marketing/DEMO_PROMOTION_KIT_REVYX_v1.0.0/README.md · v1.1.0 · 2026-07 -->
 <!-- CONFIDENȚIAL · Uz Intern · © 2026 REVYX · ITPRO SYSTEM SRL -->
 
 ## 0. Stage Master Plan
@@ -13,6 +13,7 @@
 | Versiune | Data | Autor | Note |
 |---|---|---|---|
 | 1.0.0 | 2026-07 | Director Marketing + FRONTEND WEB DEV + DOC | ★ INITIAL — kit de promovare a demo-ului cu colectare de feedback **self-service**: mecanism de feedback integrat în demo (buton global + nudge automat + ghid de bun-venit) + formular Tally gata de lipit + pachet de conținut promo RO/RU copy-paste + plan de execuție cu implicare minimă a fondatorului. |
+| 1.1.0 | 2026-07 | Director Marketing + FRONTEND WEB DEV + DOC | ★ Înlocuit formularul Tally cu **formular nativ în stilul demo-ului** + stocare în **Supabase (Postgres)** prin ruta API `/api/feedback`. `FEEDBACK_FORM_TALLY.md` → `FEEDBACK_DB_SETUP.md`. |
 
 ---
 
@@ -26,7 +27,7 @@ Diferența față de kit-ul de validare (VAL-01, interviuri 1:1 conduse de o per
 
 Fondatorul **nu** participă la apeluri, demo-uri live, onboarding sau discuții 1:1 cu agențiile. Rolul lui este redus la:
 - (opțional) aprobarea conținutului promo înainte de publicare;
-- setarea unică a conturilor pe care doar el le poate crea (Tally, rețele sociale) — pași de ~5 min descriși în `EXECUTION_PLAN.md`.
+- setarea unică a conturilor pe care doar el le poate crea (Supabase, rețele sociale) — pași de ~10 min descriși în `EXECUTION_PLAN.md` + `FEEDBACK_DB_SETUP.md`.
 
 Tot restul — conținut, mecanism de feedback, sinteză răspunsuri — e produs de Directorul Marketing (Claude).
 
@@ -35,7 +36,7 @@ Tot restul — conținut, mecanism de feedback, sinteză răspunsuri — e produ
 | # | Fișier | Ce este | Cine îl folosește |
 |---|---|---|---|
 | 1 | `README.md` | Acest index + principiul de operare | Referință |
-| 2 | `FEEDBACK_FORM_TALLY.md` | Formularul de feedback gata de lipit în Tally + pașii de setare + legarea la demo (env var Vercel) | Fondator (setup 5 min), apoi automat |
+| 2 | `FEEDBACK_DB_SETUP.md` | Formularul nativ (întrebări) + setup bazei de date Supabase (SQL tabel + env var Vercel) + cum vezi/exporți răspunsurile | Fondator (setup ~10 min), apoi automat |
 | 3 | `PROMO_CONTENT_PACK.md` | Tot conținutul de promovare, copy-paste RO/RU: WhatsApp, grupuri Facebook, Telegram, LinkedIn, follow-up | Fondator lipește pe canale (2 min/canal) |
 | 4 | `EXECUTION_PLAN.md` | Secvența de lansare + checklist setup unic + cadență săptămânală + cum ajunge feedback-ul la sinteză | Director Marketing (owner) |
 
@@ -43,20 +44,21 @@ Tot restul — conținut, mecanism de feedback, sinteză răspunsuri — e produ
 
 ```
 [setup unic ~30 min, fondator]
-   Creează formular Tally (FEEDBACK_FORM_TALLY §2) → setează NEXT_PUBLIC_TALLY_FEEDBACK_URL în Vercel
+   Creează proiect Supabase + rulează SQL tabel (FEEDBACK_DB_SETUP §1-§2)
+   → setează SUPABASE_URL + SUPABASE_SERVICE_ROLE_KEY în Vercel → redeploy
    Confirmă link public demo (Vercel)
    │
 [promovare, fondator lipește ~2 min/canal]
    PROMO_CONTENT_PACK → WhatsApp + 2-3 grupuri FB + Telegram + LinkedIn company page
    │
 [testerul, singur, fără apel]
-   Deschide link → Ghid bun-venit 2 min → explorează 26 ecrane → buton/nudge feedback → Tally
+   Deschide link → Ghid bun-venit 2 min → explorează 26 ecrane → buton/nudge feedback → formular nativ
    │
 [colectare automată]
-   Răspunsurile Tally → tabel (Tally responses / export)
+   Formular nativ → ruta /api/feedback → tabelul Supabase `feedback`
    │
 [sinteză, Director Marketing]
-   Citește răspunsurile → praguri din VAL-01 SUCCESS_CRITERIA §1 → re-prioritizează M1.S4-S6
+   Citește răspunsurile (Supabase Table Editor / export CSV) → praguri VAL-01 SUCCESS_CRITERIA §1 → re-prioritizează M1.S4-S6
 ```
 
 ## 5. Mecanismul de feedback din demo (deja implementat în cod)
@@ -65,8 +67,10 @@ Integrat global în `apps/web-preview/` (o singură dată, apare pe toate cele 2
 - **Ghid de bun-venit** (prima vizită) — 4 pași de auto-explorare, RO/RU/EN. `components/feedback/welcome-guide.tsx`.
 - **Buton feedback plutitor** — mereu vizibil jos-dreapta. `components/feedback/feedback-widget.tsx`.
 - **Nudge automat** — apare după ce testerul a văzut ≥ 4 ecrane distincte, o singură dată. Idem.
-- **Stocare** — `lib/feedback-store.ts` (localStorage, nu insistă după ce a dat feedback / a închis).
-- **Config** — `lib/feedback-config.ts` (URL Tally din env var).
+- **Formular nativ** — în stilul demo-ului (Modal + rating 1-5 + textarea), RO/RU/EN. `components/feedback/feedback-form.tsx`.
+- **Rută API + bază de date** — `app/api/feedback/route.ts` scrie în Supabase (Postgres); validare `lib/feedback-payload.ts`.
+- **Stare locală** — `lib/feedback-store.ts` (localStorage, nu insistă după ce a dat feedback / a închis).
+- **Config** — `lib/feedback-config.ts` (opțiuni rol + scală rating + prag nudge).
 
 ## 6. Reguli de conținut respectate
 - Fără promisiuni de features inexistente — doar demo (26 ecrane) + roadmap aprobat.
@@ -81,5 +85,5 @@ Integrat global în `apps/web-preview/` (o singură dată, apare pe toate cele 2
 
 ---
 
-*docs/marketing/DEMO_PROMOTION_KIT_REVYX_v1.0.0/README.md · v1.0.0 · 2026-07 · CONFIDENȚIAL · Uz Intern*
+*docs/marketing/DEMO_PROMOTION_KIT_REVYX_v1.0.0/README.md · v1.1.0 · 2026-07 · CONFIDENȚIAL · Uz Intern*
 *REVYX — Real Estate Execution Intelligence · © 2026 REVYX · ITPRO SYSTEM SRL*
