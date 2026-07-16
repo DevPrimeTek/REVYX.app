@@ -1,5 +1,5 @@
 # CLAUDE.md — REVYX Agent Operating System
-<!-- CLAUDE.md · v1.2.37 · 2026-07 -->
+<!-- CLAUDE.md · v1.2.38 · 2026-07 -->
 <!-- CONFIDENȚIAL · Uz Intern · © 2026 REVYX · ITPRO SYSTEM SRL -->
 
 > Acest fișier este citit de Claude Code la **fiecare sesiune** din acest repo.
@@ -137,7 +137,7 @@ Marcaj modificări în text: `★` = element nou sau actualizat față de versiu
 
 | Layer | Tehnologie | Note |
 |---|---|---|
-| Auth | Supabase Auth **sau** Auth0 | JWT RS256 · access 15min · refresh 7 zile + rotație |
+| Auth | ★ **DECIS M1.S1:** AuthService propriu în `apps/api/` (NestJS + jose + Argon2id) — înlocuiește opțiunea inițială Supabase Auth / Auth0 | JWT RS256 · access 15min · refresh 7 zile + rotație + replay detection · BR-12 single session · cf. `TECH_SPEC_REVYX_phase0-security_v1.0.0` |
 | Authorization | RBAC 5 roluri | agent → senior_agent → team_lead → manager → admin (aditiv) |
 | Database | PostgreSQL + pgvector | pgvector HNSW activat în Phase 3 |
 | Cache | Redis | Score cache cu invalidare la modificare entitate |
@@ -177,17 +177,17 @@ Marcaj modificări în text: `★` = element nou sau actualizat față de versiu
 
 ---
 
-## 6. Phase 0 — Security Foundation ⛔ BLOCANT
+## 6. Phase 0 — Security Foundation ★ ✅ COMPLETE (M1.S1)
 
-**Niciun cod de aplicație nu poate fi scris fără completarea Phase 0.**
+**Gate-ul „niciun cod de aplicație fără completarea Phase 0" a fost ridicat la închiderea M1.S1** (vezi §0a row „Phase 0 Security checklist"). Checklist-ul rămâne ca referință de acoperire:
 
 Checklist:
-- [ ] JWT RS256 + RBAC 5 roluri
-- [ ] GDPR câmpuri pe LEAD + consent management
-- [ ] AUDIT_LOG + middleware logging WRITE
-- [ ] Webhook HMAC-SHA256 verification
-- [ ] Rate limiting endpoint-uri publice
-- [ ] Privacy Policy + Cookie Policy legal review
+- [x] JWT RS256 + RBAC 5 roluri
+- [x] GDPR câmpuri pe LEAD + consent management (Art. 15/17/18/20 endpoints)
+- [x] AUDIT_LOG + middleware logging WRITE (append-only: trigger BD + REVOKE rol app)
+- [x] Webhook HMAC-SHA256 verification
+- [x] Rate limiting endpoint-uri publice (Throttler NFR-05/06)
+- [x] Privacy Policy + Cookie Policy — drafts v0.1.0 livrate; review juridic extern pending (OD-legal-01..05 + OD-cookie-01..03; non-blocking dev, blocking doar publicarea publică v1.0.0)
 
 ---
 
