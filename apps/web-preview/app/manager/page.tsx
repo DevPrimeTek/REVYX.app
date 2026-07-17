@@ -173,7 +173,7 @@ export default function ManagerPage() {
         </Card>
 
         <Card>
-          <CardHeader className="flex flex-row items-start justify-between gap-sp2">
+          <CardHeader className="flex flex-col gap-sp2 sm:flex-row sm:items-start sm:justify-between">
             <div>
               <CardTitle>{t('manager.escalationsTitle')}</CardTitle>
               <CardDescription>{t('manager.escalationsSubtitle')}</CardDescription>

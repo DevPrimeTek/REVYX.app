@@ -138,7 +138,7 @@ export default function EscalationsPage() {
               {t('escalations.subtitle')}
             </p>
           </div>
-          <div className="flex items-center gap-sp2">
+          <div className="flex items-center gap-sp2 flex-wrap">
             <Badge variant="info" size="sm">{t('escalations.activeBadge', { count: String(items.length) })}</Badge>
             <Button onClick={openReassign} disabled={selected.size === 0}>
               {t('escalations.bulkReassign', { count: String(selected.size) })}

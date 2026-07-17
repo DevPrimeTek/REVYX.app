@@ -61,7 +61,7 @@ export function BuyerPreferencesPanel({ lead }: { lead: Lead }) {
 
   return (
     <Card>
-      <CardHeader className="flex flex-row items-start justify-between gap-sp2">
+      <CardHeader className="flex flex-col gap-sp2 sm:flex-row sm:items-start sm:justify-between">
         <div>
           <CardTitle>{t(isRent ? 'preferences.titleRent' : 'preferences.title')}</CardTitle>
           <CardDescription>{t(isRent ? 'preferences.descRent' : 'preferences.desc')}</CardDescription>

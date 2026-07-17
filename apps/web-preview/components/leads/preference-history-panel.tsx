@@ -57,7 +57,7 @@ export function PreferenceHistoryPanel({
 
   return (
     <Card>
-      <CardHeader className="flex flex-row items-start justify-between gap-sp2">
+      <CardHeader className="flex flex-col gap-sp2 sm:flex-row sm:items-start sm:justify-between">
         <div>
           <CardTitle className="flex items-center gap-sp2">
             {t('leadDetail.preferenceHistory')}

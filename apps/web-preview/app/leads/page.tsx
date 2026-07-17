@@ -129,7 +129,7 @@ function LeadsPageInner() {
                   </button>
                   {/* Grup Vânzare: buyer + seller (ascuns când direcția workspace e rent) */}
                   {isIntentVisible(direction, 'sale') && (
-                  <div className="inline-flex items-center gap-sp1 rounded-md border border-border-light p-1 bg-navy-deep">
+                  <div className="inline-flex flex-wrap items-center gap-sp1 rounded-md border border-border-light p-1 bg-navy-deep">
                     <span className="label-mono text-[10px] text-text-muted px-sp1 select-none">
                       {t('transactionIntent.sale')}
                     </span>
@@ -154,7 +154,7 @@ function LeadsPageInner() {
                   )}
                   {/* Grup Închiriere: tenant + landlord (ascuns când direcția workspace e sale) */}
                   {isIntentVisible(direction, 'rent') && (
-                  <div className="inline-flex items-center gap-sp1 rounded-md border border-border-light p-1 bg-navy-deep">
+                  <div className="inline-flex flex-wrap items-center gap-sp1 rounded-md border border-border-light p-1 bg-navy-deep">
                     <span className="label-mono text-[10px] text-text-muted px-sp1 select-none">
                       {t('transactionIntent.rent')}
                     </span>
@@ -181,7 +181,7 @@ function LeadsPageInner() {
                 <div
                   role="tablist"
                   aria-label={t('common.filter')}
-                  className="flex items-center gap-1 rounded-md border border-border-light p-1 bg-navy-deep"
+                  className="flex flex-wrap items-center gap-1 rounded-md border border-border-light p-1 bg-navy-deep"
                 >
                   {filters.map((f) => {
                     const isAll = f === 'all';

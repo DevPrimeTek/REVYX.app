@@ -28,7 +28,9 @@
     "marketplace": "Marketplace",
     "notary": "Notary",
     "clientPortal": "Client portal",
-    "intake": "New lead intake"
+    "intake": "New lead intake",
+    "menu": "Menu",
+    "closeMenu": "Close menu"
   },
   "common": {
     "open": "Open",

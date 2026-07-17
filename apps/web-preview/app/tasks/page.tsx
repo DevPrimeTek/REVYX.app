@@ -45,7 +45,7 @@ export default function TasksPage() {
               <div
                 role="tablist"
                 aria-label={t('common.filter')}
-                className="flex items-center gap-1 rounded-md border border-border-light p-1 bg-navy-deep"
+                className="flex flex-wrap items-center gap-1 rounded-md border border-border-light p-1 bg-navy-deep"
               >
                 {FILTERS.map((f) => (
                   <button

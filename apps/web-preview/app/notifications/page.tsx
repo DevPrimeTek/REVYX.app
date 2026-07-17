@@ -91,7 +91,7 @@ export default function NotificationsPage() {
                       }
                     >
                       <div className="flex items-start justify-between gap-sp2">
-                        <div className="flex flex-col gap-sp1">
+                        <div className="flex flex-col gap-sp1 min-w-0 flex-1">
                           <div className="flex items-center gap-sp2">
                             <Badge variant={meta.variant} size="xs">{meta.label}</Badge>
                             <span className="text-[13px] text-text-h font-semibold">{n.title}</span>

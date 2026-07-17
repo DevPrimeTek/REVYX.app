@@ -53,7 +53,7 @@ export default function DashboardPage() {
                 : t('dashboard.subtitleNoUrgent')}
             </p>
           </div>
-          <div className="flex items-center gap-sp2">
+          <div className="flex items-center gap-sp2 flex-wrap">
             <AgentRankBadge agent={me} size="sm" />
             <Link href="/leads">
               <Button>{t('dashboard.openQueue')}</Button>
@@ -178,7 +178,7 @@ export default function DashboardPage() {
 
         {/* Row 2: Programul de azi (real, interactive) */}
         <Card>
-          <CardHeader className="flex flex-row items-start justify-between gap-sp2">
+          <CardHeader className="flex flex-col gap-sp2 sm:flex-row sm:items-start sm:justify-between">
             <div>
               <div className="flex items-center gap-sp1">
                 <CardTitle className="text-[16px]">
@@ -191,7 +191,7 @@ export default function DashboardPage() {
               </div>
               <CardDescription>{t('dashboard.blocks.tasksTodayDesc')}</CardDescription>
             </div>
-            <div className="flex items-center gap-sp2">
+            <div className="flex items-center gap-sp2 flex-wrap">
               <Button size="sm" variant="secondary" onClick={() => setTaskModalOpen(true)}>
                 {t('task.addCta')}
               </Button>

@@ -303,7 +303,7 @@ export default function NewPropertyPage() {
                     if (e.key === 'Enter') { e.preventDefault(); addBenefit(); }
                   }}
                   placeholder={t('benefits.addPlaceholder')}
-                  className="flex-1"
+                  className="flex-1 min-w-0"
                 />
                 <Button type="button" size="sm" variant="secondary" onClick={addBenefit}>
                   {t('common.add')}
