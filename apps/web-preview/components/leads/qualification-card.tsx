@@ -22,7 +22,7 @@ export function QualificationCard({ lead }: { lead: Lead }) {
 
   return (
     <Card variant="elevated" accentTop>
-      <CardHeader className="flex flex-row items-start justify-between gap-sp3">
+      <CardHeader className="flex flex-col gap-sp3 sm:flex-row sm:items-start sm:justify-between">
         <div>
           <CardTitle>{t('qualification.cardTitle')}</CardTitle>
           <CardDescription>{t('qualification.cardDesc')}</CardDescription>

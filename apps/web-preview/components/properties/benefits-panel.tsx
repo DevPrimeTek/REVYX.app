@@ -47,7 +47,7 @@ export function PropertyBenefitsPanel({ property }: { property: Property }) {
 
   return (
     <Card>
-      <CardHeader className="flex flex-row items-start justify-between gap-sp2">
+      <CardHeader className="flex flex-col gap-sp2 sm:flex-row sm:items-start sm:justify-between">
         <div>
           <CardTitle>{t('benefits.title')}</CardTitle>
           <CardDescription>{t('benefits.desc')}</CardDescription>
@@ -106,7 +106,7 @@ export function PropertyBenefitsPanel({ property }: { property: Property }) {
                 value={newItem}
                 onChange={(e) => setNewItem(e.target.value)}
                 placeholder={t('benefits.addPlaceholder')}
-                className="flex-1"
+                className="flex-1 min-w-0"
               />
               <Button type="submit" size="sm">
                 + {t('common.add')}

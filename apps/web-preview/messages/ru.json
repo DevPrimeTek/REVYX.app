@@ -28,7 +28,9 @@
     "marketplace": "Маркетплейс",
     "notary": "Нотариус",
     "clientPortal": "Портал клиента",
-    "intake": "Новый лид"
+    "intake": "Новый лид",
+    "menu": "Меню",
+    "closeMenu": "Закрыть меню"
   },
   "common": {
     "open": "Открыть",

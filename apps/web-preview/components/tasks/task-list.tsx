@@ -133,7 +133,7 @@ export function TaskList({
           <li
             key={task.id}
             className={
-              'border rounded-md px-sp3 py-sp2 flex items-start gap-sp3 transition-colors duration-fast ' +
+              'border rounded-md px-sp3 py-sp2 flex flex-wrap items-start gap-x-sp3 gap-y-sp2 transition-colors duration-fast ' +
               (done ? 'border-border bg-navy-deep/60 opacity-75' : 'border-border bg-navy-card')
             }
           >
@@ -178,7 +178,7 @@ export function TaskList({
               </div>
             </div>
             {!done && (
-              <div className="flex items-center gap-sp1 flex-shrink-0">
+              <div className="flex items-center gap-sp1 flex-shrink-0 ml-auto">
                 {task.status !== 'ACTIVE' && (
                   <button
                     type="button"

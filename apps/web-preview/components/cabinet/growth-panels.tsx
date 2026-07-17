@@ -68,7 +68,7 @@ export function AgentGoalsPanel({ agent }: { agent: Agent }) {
 
   return (
     <Card>
-      <CardHeader className="flex flex-row items-start justify-between gap-sp2">
+      <CardHeader className="flex flex-col gap-sp2 sm:flex-row sm:items-start sm:justify-between">
         <div>
           <CardTitle>{t('growth.goals.title')}</CardTitle>
           <CardDescription>{t('growth.goals.desc')}</CardDescription>

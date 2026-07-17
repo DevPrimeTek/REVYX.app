@@ -43,7 +43,7 @@ export default function SettingsPage() {
         </header>
 
         <div className="grid grid-cols-1 lg:grid-cols-[220px_1fr] gap-sp4">
-          <nav aria-label={t('settings.sectionsAria')} className="flex lg:flex-col gap-1">
+          <nav aria-label={t('settings.sectionsAria')} className="flex flex-wrap lg:flex-col gap-1">
             {sections.map((s) => (
               <button
                 key={s}

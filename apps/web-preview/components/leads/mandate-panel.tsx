@@ -40,7 +40,7 @@ export function MandatePanel({ lead }: { lead: Lead }) {
 
   return (
     <Card>
-      <CardHeader className="flex flex-row items-start justify-between gap-sp2">
+      <CardHeader className="flex flex-col gap-sp2 sm:flex-row sm:items-start sm:justify-between">
         <div>
           <div className="flex items-center gap-sp1">
             <CardTitle>{t('mandate.title')}</CardTitle>

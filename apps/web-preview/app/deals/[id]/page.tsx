@@ -83,7 +83,7 @@ export default function DealDetailPage({ params }: Params) {
               </span>
             </div>
           </div>
-          <div className="flex items-center gap-sp2">
+          <div className="flex items-center gap-sp2 flex-wrap">
             <Button variant="secondary" onClick={() => setShowOpen(true)}>
               {t('showing.addCta')}
             </Button>

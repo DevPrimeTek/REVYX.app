@@ -28,7 +28,9 @@
     "marketplace": "Marketplace",
     "notary": "Cabinet notar",
     "clientPortal": "Portal client",
-    "intake": "Intake nou lead"
+    "intake": "Intake nou lead",
+    "menu": "Meniu",
+    "closeMenu": "Închide meniul"
   },
   "common": {
     "open": "Deschide",
